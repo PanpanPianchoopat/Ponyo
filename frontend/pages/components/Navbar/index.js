@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyledNav, Logo, MenuItem } from "./styled";
+import { StyledNav, Logo, MenuItem, StyledImage, Menu } from "./styled";
 import Image from "next/image";
 
 const Navbar = () => {
@@ -8,17 +8,22 @@ const Navbar = () => {
   return (
     <StyledNav>
       <Logo>
-        <Image src="/assets/Logo.svg" width="45px" height="45px" />
+        <StyledImage src="/assets/Logo.svg" layout="fill" />
       </Logo>
-      <MenuItem onClick={() => setSelcted("list")} active={selected === "list"}>
-        Search Restaurant
-      </MenuItem>
-      <MenuItem
-        onClick={() => setSelcted("trend")}
-        active={selected === "trend"}
-      >
-        Discover Trending
-      </MenuItem>
+      <Menu>
+        <MenuItem
+          onClick={() => setSelcted("list")}
+          active={selected === "list"}
+        >
+          Search Restaurant
+        </MenuItem>
+        <MenuItem
+          onClick={() => setSelcted("trend")}
+          active={selected === "trend"}
+        >
+          Discover Trending
+        </MenuItem>
+      </Menu>
     </StyledNav>
   );
 };
