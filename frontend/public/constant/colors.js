@@ -1,0 +1,6 @@
+export default {
+  PRIMARY_DARK: "#2E3840",
+  PRIMARY_RED: "#EE2744",
+  PRIMARY_YELLOW: "#F6BE0F",
+  PRIMARY_BLUE: "#02858F",
+};
