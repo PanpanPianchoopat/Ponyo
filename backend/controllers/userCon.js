@@ -4,10 +4,6 @@ import User from "../models/userModel.js";
 
 const router = express.Router();
 
-export const test = async (req, res) => {
-  res.status(409).json({ Message: "test" });
-};
-
 export const register = async (req, res) => {
   const { username, email, password, dateOfBirth, gender, imageFile } =
     req.body;
