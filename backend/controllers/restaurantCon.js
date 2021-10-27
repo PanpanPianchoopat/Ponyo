@@ -42,6 +42,48 @@ export const getAllRestaurant = async (req, res) => {
 
     res.status(200).json(Restaurants);
   } catch (error) {
-    res.status(404).json({ message: error.message });
+    res.status(404).json({ Error: error.message });
+  }
+};
+
+export const getResByName = async (req, res) => {
+  const { name } = req.body;
+
+  try {
+    const Restaurants = await Restaurant.find({
+      name: { $regex: name, $options: "i" },
+    });
+
+    res.status(200).json(Restaurants);
+  } catch (error) {
+    res.status(404).json({ Error: error.message });
+  }
+};
+
+export const getResByPostCode = async (req, res) => {
+  const { postCode } = req.body;
+
+  try {
+    const Restaurants = await Restaurant.find({
+      "location.postCode": postCode,
+    });
+
+    res.status(200).json(Restaurants);
+  } catch (error) {
+    res.status(404).json({ Error: error.message });
+  }
+};
+
+export const getResByProvince = async (req, res) => {
+  const { province } = req.body;
+
+  try {
+    const Restaurants = await Restaurant.find({
+      "location.province": { $regex: province, $options: "i" },
+    });
+
+    res.status(200).json(Restaurants);
+  } catch (error) {
+    res.status(404).json({ Error: error.message });
   }
 };
