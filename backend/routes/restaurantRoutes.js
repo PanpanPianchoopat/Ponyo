@@ -4,7 +4,7 @@ import {
   getAllRestaurant,
   getResByName,
   getResByPostCode,
-  getResByProvince,
+  getResByProvince
 } from "../controllers/restaurantCon.js";
 
 const router = express.Router();
