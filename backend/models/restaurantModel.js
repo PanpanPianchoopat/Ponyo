@@ -15,8 +15,11 @@ const restaurantSchema = mongoose.Schema({
     min: { type: Number, required: true },
     max: { type: Number, required: true },
   },
-  OpenHours: { type: Array, required: true },
-  holiday: { type: Array },
+  openDays: { type: Array, required: true },
+  openHours: {
+    openTime: { type: Number, required: true },
+    closeTime: { type: Number, required: true },
+  },
   imageFile: { type: String, required: true },
 });
 
