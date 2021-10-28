@@ -4,11 +4,11 @@ import Restaurant from "../models/restaurantModel.js";
 const router = express.router;
 
 const dayStatus = (weekDay) => {
-  const status = [0, 0, 0, 0, 0, 0, 0];
+  const status = [1, 1, 1, 1, 1, 1, 1];
   let i = 0;
   while (i < weekDay.length) {
     const day = weekDay[i];
-    status[day] = 1;
+    status[day] = 0;
     i++;
   }
   return status;
@@ -25,29 +25,24 @@ export const addRestaurant = async (req, res) => {
     type,
     description,
     address,
-    postCode,
-    province,
     ggLink,
     phone,
     min,
     max,
     weekDay,
-    startHour,
-    startMin,
-    endHour,
-    endMin,
-    imageFile,
+    openHour,
+    image,
   } = req.body;
 
   const status = dayStatus(weekDay);
-  const openTime = convertToMin(startHour, startMin);
-  const closeTime = convertToMin(endHour, endMin);
+  const openTime = convertToMin(openHour[0], openHour[1]);
+  const closeTime = convertToMin(openHour[2], openHour[3]);
 
   const newRestaurant = new Restaurant({
     name,
     type,
     description,
-    location: { address, postCode, province, ggLink },
+    location: { address, ggLink },
     phone,
     priceRange: { min, max },
     openHours: {
@@ -84,7 +79,7 @@ export const addRestaurant = async (req, res) => {
         status: status[6],
       },
     ],
-    imageFile,
+    image,
   });
 
   try {
@@ -113,100 +108,92 @@ const findPriceRange = (priceRange) => {
   } else if (priceRange == 2) {
     range[0] = 500;
     range[1] = 1000;
-  } else if (priceRange == 2) {
+  } else if (priceRange == 3) {
     range[0] = 1000;
     range[1] = 5000;
-  } else {
+  } else if (priceRange == 4) {
     range[0] = 5000;
     range[1] = 10000;
   }
   return range;
 };
 
+const searchRestaurant = async (key, search, range, type) => {
+  console.log(range);
+  console.log(type);
+
+  if (!type && range[0] == 0 && range[1] == 0) {
+    const Restaurants = await Restaurant.find({
+      [key]: { $regex: search, $options: "i" },
+    });
+    return Restaurants;
+  } else if (!type) {
+    const Restaurants = await Restaurant.find({
+      [key]: { $regex: search, $options: "i" },
+      $or: [
+        {
+          $and: [
+            { "priceRange.min": { $gte: range[0] } },
+            { "priceRange.min": { $lte: range[1] } },
+          ],
+        },
+        {
+          $and: [
+            { "priceRange.max": { $gte: range[0] } },
+            { "priceRange.max": { $lte: range[1] } },
+          ],
+        },
+      ],
+    });
+
+    return Restaurants;
+  } else if (range[0] == 0 && range[1] == 0) {
+    const Restaurants = await Restaurant.find({
+      [key]: { $regex: search, $options: "i" },
+      type: type,
+    });
+    return Restaurants;
+  } else {
+    const Restaurants = await Restaurant.find({
+      [key]: { $regex: search, $options: "i" },
+      $or: [
+        {
+          $and: [
+            { "priceRange.min": { $gte: range[0] } },
+            { "priceRange.min": { $lte: range[1] } },
+          ],
+        },
+        {
+          $and: [
+            { "priceRange.max": { $gte: range[0] } },
+            { "priceRange.max": { $lte: range[1] } },
+          ],
+        },
+      ],
+      type: type,
+    });
+    return Restaurants;
+  }
+};
+
 export const getResByName = async (req, res) => {
   const { name, priceRange, type } = req.body;
   const range = findPriceRange(priceRange);
-
+  const key = "name";
   try {
-    const Restaurants = await Restaurant.find({
-      name: { $regex: name, $options: "i" },
-      $or: [
-        {
-          $and: [
-            { "priceRange.min": { $gte: range[0] } },
-            { "priceRange.min": { $lte: range[1] } },
-          ],
-        },
-        {
-          $and: [
-            { "priceRange.max": { $gte: range[0] } },
-            { "priceRange.max": { $lte: range[1] } },
-          ],
-        },
-      ],
-      type: type,
-    });
-
+    const Restaurants = await searchRestaurant(key, name, range, type);
     res.status(200).json(Restaurants);
   } catch (error) {
     res.status(404).json({ Error: error.message });
   }
 };
 
-export const getResByPostCode = async (req, res) => {
-  const { postCode, priceRange, type } = req.body;
+export const getResByAddress = async (req, res) => {
+  const { address, priceRange, type } = req.body;
   const range = findPriceRange(priceRange);
-
+  const key = "address";
   try {
-    const Restaurants = await Restaurant.find({
-      "location.postCode": postCode,
-      $or: [
-        {
-          $and: [
-            { "priceRange.min": { $gte: range[0] } },
-            { "priceRange.min": { $lte: range[1] } },
-          ],
-        },
-        {
-          $and: [
-            { "priceRange.max": { $gte: range[0] } },
-            { "priceRange.max": { $lte: range[1] } },
-          ],
-        },
-      ],
-      type: type,
-    });
-
-    res.status(200).json(Restaurants);
-  } catch (error) {
-    res.status(404).json({ Error: error.message });
-  }
-};
-
-export const getResByProvince = async (req, res) => {
-  const { province, priceRange, type } = req.body;
-  const range = findPriceRange(priceRange);
-
-  try {
-    const Restaurants = await Restaurant.find({
-      "location.province": { $regex: province, $options: "i" },
-      $or: [
-        {
-          $and: [
-            { "priceRange.min": { $gte: range[0] } },
-            { "priceRange.min": { $lte: range[1] } },
-          ],
-        },
-        {
-          $and: [
-            { "priceRange.max": { $gte: range[0] } },
-            { "priceRange.max": { $lte: range[1] } },
-          ],
-        },
-      ],
-      type: type,
-    });
-
+    const Restaurants = await searchRestaurant(key, address, range, type);
     res.status(200).json(Restaurants);
   } catch (error) {
     res.status(404).json({ Error: error.message });
