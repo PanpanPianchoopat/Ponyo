@@ -1,53 +1,32 @@
-import React, { useState } from "react";
-import { Form, Input, Select, TimePicker, Upload, Modal, Button } from "antd";
-import { REST_TYPE } from "./constant";
-import { PlusOutlined } from "@ant-design/icons";
-
-function getBase64(img, callback) {
-  const reader = new FileReader();
-  reader.addEventListener("load", () => callback(reader.result));
-  reader.readAsDataURL(img);
-}
-
-function beforeUpload(file) {
-  const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
-  if (!isJpgOrPng) {
-    message.error("You can only upload JPG/PNG file!");
-  }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    message.error("Image must smaller than 2MB!");
-  }
-  return isJpgOrPng && isLt2M;
-}
+import React, { useState, useEffect } from "react";
+import {
+  Form,
+  Input,
+  Select,
+  TimePicker,
+  Button,
+  Upload,
+  Checkbox,
+} from "antd";
+import { REST_TYPE, MAX_IMAGE, DAYS_OF_WEEK } from "./constant";
+import { UploadOutlined } from "@ant-design/icons";
 
 const AddRestaurant = () => {
   const [form] = Form.useForm();
-  const [load, setLoad] = useState(false);
-  const { loading, imageUrl } = load;
+  const imageFiles = [];
 
-  // const state = {
-  //   loading: false,
-  // };
+  const onFinish = (values) => {
+    console.log("Success:", values);
+    //console.log("startTime:", values.openHour[0].format("HH:mm"));
+    // const startHour = values.openHour[0].format("HH");
+    // const startMin = values.openHour[0].format("mm");
+    // console.log(startHour, startMin);
+    //console.log("endTime:", values.openHour[1].format("HH:mm"));
+    //console.log("Image", values.photos.fileList[0].thumbUrl);
+  };
 
-  // const { loading, imageUrl } = state;
-
-  const handleChange = (info) => {
-    if (info.file.status === "uploading") {
-      // this.setState({ loading: true });
-      setLoad(true);
-      return;
-    }
-    if (info.file.status === "done") {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj, (imageUrl) =>
-        // this.setState({
-        //   imageUrl,
-        //   loading: false,
-        // })
-        setLoad(false)
-      );
-    }
+  const onFinishFailed = (error) => {
+    console.log("Failed:", error);
   };
 
   const onReset = () => {
@@ -55,65 +34,81 @@ const AddRestaurant = () => {
   };
 
   return (
-    <Form form={form}>
-      <Form.Item name="name" label="rest name" rules={[{ required: true }]}>
-        <Input />
+    <Form form={form} onFinish={onFinish} onFinishFailed={onFinishFailed}>
+      <Form.Item>
+        <Form.Item
+          name="name"
+          label="rest name"
+          style={{ display: "inline-block", width: "calc(50%)" }}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name="type"
+          label="type"
+          style={{ display: "inline-block", width: "calc(50%)" }}
+        >
+          <Select>
+            {REST_TYPE.map((type) => {
+              return <Select.Option key={type}>{type}</Select.Option>;
+            })}
+          </Select>
+        </Form.Item>
       </Form.Item>
-      <Form.Item name="type" label="type" rules={[{ required: true }]}>
-        <Select>
-          {REST_TYPE.map((type) => {
-            return <Select.Option>{type}</Select.Option>;
-          })}
-        </Select>
-      </Form.Item>
-      <Form.Item
-        name="description"
-        label="description"
-        rules={[{ required: true }]}
-      >
+      <Form.Item name="description" label="description">
         <Input.TextArea />
       </Form.Item>
-      <Form.Item name="address" label="address" rules={[{ required: true }]}>
+      <Form.Item name="address" label="address">
         <Input.TextArea />
       </Form.Item>
-      <Form.Item name="location" label="location (link)">
+      <Form.Item name="link" label="location (link)">
         <Input />
       </Form.Item>
       <Form.Item name="phone" label="phone number">
         <Input />
       </Form.Item>
-      <Form.Item name="range" label="price range">
-        <Form.Item style={{ display: "inline-block" }}>
+      <Form.Item label="price range">
+        <Form.Item name="minPrice" style={{ display: "inline-block" }}>
           <Input placeholder="from" />
         </Form.Item>
-        <Form.Item style={{ display: "inline-block" }}>
+        <Form.Item name="maxPrice" style={{ display: "inline-block" }}>
           <Input placeholder="to" />
         </Form.Item>
       </Form.Item>
-      <Form.Item name="open" label="opening time">
-        <TimePicker.RangePicker />
+      <Form.Item name="openHour" label="service hour">
+        <TimePicker.RangePicker minuteStep={5} format={"HH:mm"} />
       </Form.Item>
-      <Form.Item name="holiday" label="holiday">
+      <Form.Item name="closingDay" label="closed on">
+        <Checkbox.Group>
+          {DAYS_OF_WEEK.map((day) => {
+            return (
+              <Checkbox key={day} value={day}>
+                {day}s
+              </Checkbox>
+            );
+          })}
+        </Checkbox.Group>
+      </Form.Item>
+      <Form.Item name="holiday" label="special holiday">
         <Input />
       </Form.Item>
-      <Form.Item name="picture" label="pictures (optional)">
+      <Form.Item name="photos" label="pictures (optional)">
         <Upload
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-          listType="picture-card"
-          beforeUpload={beforeUpload}
-          onChange={handleChange}
+          fileList={imageFiles}
+          beforeUpload={() => false}
+          listType="picture"
+          maxCount={MAX_IMAGE}
+          multiple
         >
-          {imageUrl ? (
-            <img src={imageUrl} alt="avatar" style={{ width: "100%" }} />
-          ) : (
-            <div>
-              <PlusOutlined />
-            </div>
-          )}
+          <Button icon={<UploadOutlined />}>Upload (Max: {MAX_IMAGE})</Button>
         </Upload>
       </Form.Item>
       <Form.Item>
-        <Button type="primary" style={{ marginRight: "20px" }}>
+        <Button
+          type="primary"
+          style={{ marginRight: "20px" }}
+          htmlType="submit"
+        >
           Submit
         </Button>
         <Button onClick={onReset}>Reset</Button>
