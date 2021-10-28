@@ -4,6 +4,8 @@ import mongoose from "mongoose";
 import cors from "cors";
 
 import userRoutes from "./routes/userRoutes.js";
+import RestaurantRoutes from "./routes/restaurantRoutes.js";
+import ReviewRoutes from "./routes/reviewRoutes.js";
 
 const app = express();
 app.use(express.json());
@@ -13,6 +15,8 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
 app.use("/user", userRoutes);
+app.use("/restaurant", RestaurantRoutes);
+app.use("/review", ReviewRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello to Ponyo API");
