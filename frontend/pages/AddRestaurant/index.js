@@ -13,7 +13,6 @@ import { UploadOutlined } from "@ant-design/icons";
 
 const AddRestaurant = () => {
   const [form] = Form.useForm();
-  const imageFiles = [];
 
   const onFinish = (values) => {
     console.log("Success:", values);
