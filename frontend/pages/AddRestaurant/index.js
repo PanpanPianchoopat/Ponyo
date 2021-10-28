@@ -94,7 +94,6 @@ const AddRestaurant = () => {
       </Form.Item>
       <Form.Item name="photos" label="pictures (optional)">
         <Upload
-          fileList={imageFiles}
           beforeUpload={() => false}
           listType="picture"
           maxCount={MAX_IMAGE}
