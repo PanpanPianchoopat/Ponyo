@@ -20,7 +20,7 @@ const restaurantSchema = mongoose.Schema({
     openTime: { type: Number, required: true },
     closeTime: { type: Number, required: true },
   },
-  imageFile: { type: String, required: true },
+  imageFile: { type: Array, required: true },
 });
 
 const Restaurant = mongoose.model("Restaurant", restaurantSchema);
