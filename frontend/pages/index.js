@@ -19,9 +19,6 @@ export default function Home() {
       <main className={styles.main}>
         {/* <AddRestaurant /> */}
         <div style={{ display: "flex" }}>
-          {/* <RestCard liked={true} saved={false} />
-          <RestCard liked={false} saved={true} />
-          <RestCard liked={false} saved={false} /> */}
           {SAMPLE_DATA.map((item) => (
             <RestCard detail={item} liked={item.liked} saved={item.saved} />
           ))}

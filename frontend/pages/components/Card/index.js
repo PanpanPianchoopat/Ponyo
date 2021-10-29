@@ -76,12 +76,12 @@ const RestCard = (props) => {
           icon={faMapMarkerAlt}
           style={{
             height: "14px",
-            marginTop: "3px",
+            marginBottom: "2px",
             paddingRight: "5px",
           }}
           color={colors.PRIMARY_RED}
         />
-        <text>{props.detail.location}</text>
+        {props.detail.location}
       </Location>
     </RestaurantCard>
   );

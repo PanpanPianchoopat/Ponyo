@@ -1,6 +1,6 @@
 export const SAMPLE_DATA = [
   {
-    name: "Name1",
+    name: "Burger",
     description: "Scrumtious",
     price: "100-200",
     location: "Yummy Tummy",
@@ -12,7 +12,7 @@ export const SAMPLE_DATA = [
     saved: false,
   },
   {
-    name: "Name2",
+    name: "Grimm",
     description: "Food fron hell",
     price: "10-20",
     location: "Hell",
@@ -23,7 +23,7 @@ export const SAMPLE_DATA = [
     saved: false,
   },
   {
-    name: "Name3",
+    name: "Chef Choice",
     description: "Kid Mai Ork",
     price: "123-456",
     location: "Random",
