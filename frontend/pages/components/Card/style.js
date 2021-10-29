@@ -7,6 +7,11 @@ import {
   StarFilled,
 } from "@ant-design/icons";
 import COLORS from "../../../public/constant/colors";
+import {
+  BsFillBookmarkFill,
+  BsBookmark,
+  BsFillGeoAltFill,
+} from "react-icons/bs";
 
 export const RestaurantCard = styled(Card)`
   outline: none;
@@ -87,16 +92,20 @@ export const Location = styled.div`
   align-items: center;
 `;
 
-export const ActiveHeartButton = styled(HeartFilled)`
-  svg {
-    color: ${COLORS.PRIMARY_RED};
-    font-size: 20px;
-  }
+export const PinIcon = styled(BsFillGeoAltFill)`
+  margin-right: 5px;
 `;
 
 export const HeartButton = styled(HeartOutlined)`
   svg {
     color: ${COLORS.LIGHT_GREY};
+    font-size: 20px;
+  }
+`;
+
+export const ActiveHeartButton = styled(HeartFilled)`
+  svg {
+    color: ${COLORS.PRIMARY_RED};
     font-size: 20px;
   }
 `;
@@ -109,4 +118,14 @@ export const CommentButton = styled(CommentOutlined)`
       color: ${COLORS.PRIMARY_BLUE};
     }
   }
+`;
+
+export const BookmarkButton = styled(BsBookmark)`
+  font-size: 20px;
+  color: ${COLORS.LIGHT_GREY};
+`;
+
+export const ActiveBookmark = styled(BsFillBookmarkFill)`
+  font-size: 20px;
+  color: ${COLORS.PRIMARY_BLUE};
 `;

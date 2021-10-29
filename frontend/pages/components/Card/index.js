@@ -14,14 +14,10 @@ import {
   CoverContainer,
   Star,
   Status,
+  BookmarkButton,
+  ActiveBookmark,
+  PinIcon,
 } from "./style";
-import { Card } from "antd";
-import { faBookmark, faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
-import { faBookmark as farBookMark } from "@fortawesome/free-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import colors from "../../../public/constant/colors";
-
-const { Meta } = Card;
 
 const RestCard = (props) => {
   const [isLiked, setIsLiked] = useState(props.liked);
@@ -32,18 +28,9 @@ const RestCard = (props) => {
   );
   const [isSaved, setIsSaved] = useState(props.saved);
   const saveButton = isSaved ? (
-    <FontAwesomeIcon
-      icon={faBookmark}
-      style={{ height: "20px" }}
-      color={colors.PRIMARY_BLUE}
-      onClick={() => setIsSaved(!isSaved)}
-    />
+    <ActiveBookmark onClick={() => setIsSaved(!isSaved)} />
   ) : (
-    <FontAwesomeIcon
-      icon={farBookMark}
-      style={{ height: "20px" }}
-      onClick={() => setIsSaved(!isSaved)}
-    />
+    <BookmarkButton onClick={() => setIsSaved(!isSaved)} />
   );
 
   return (
@@ -72,15 +59,7 @@ const RestCard = (props) => {
       </Line>
 
       <Location>
-        <FontAwesomeIcon
-          icon={faMapMarkerAlt}
-          style={{
-            height: "14px",
-            marginBottom: "2px",
-            paddingRight: "5px",
-          }}
-          color={colors.PRIMARY_RED}
-        />
+        <PinIcon />
         {props.detail.location}
       </Location>
     </RestaurantCard>
