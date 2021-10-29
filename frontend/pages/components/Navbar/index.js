@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { StyledNav, Logo, MenuItem, StyledImage, Menu } from "./styled";
-import Image from "next/image";
 
 const Navbar = () => {
   const [selected, setSelcted] = useState("list");
