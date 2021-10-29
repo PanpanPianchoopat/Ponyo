@@ -17,12 +17,12 @@ export default function Home() {
 
       <Navbar />
       <main className={styles.main}>
-        {/* <AddRestaurant /> */}
-        <div style={{ display: "flex" }}>
+        <AddRestaurant />
+        {/* <div style={{ display: "flex" }}>
           {SAMPLE_DATA.map((item) => (
             <RestCard detail={item} liked={item.liked} saved={item.saved} />
           ))}
-        </div>
+        </div> */}
       </main>
     </div>
   );
