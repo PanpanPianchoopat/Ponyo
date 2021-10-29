@@ -56,37 +56,36 @@ export const addRestaurant = async (req, res) => {
     openDays: [
       {
         weekDay: days[0],
-        status: status[0],
+        dayStatus: status[0],
       },
       {
         weekDay: days[1],
-        status: status[1],
+        dayStatus: status[1],
       },
       {
         weekDay: days[2],
-        status: status[2],
+        dayStatus: status[2],
       },
       {
         weekDay: days[3],
-        status: status[3],
+        dayStatus: status[3],
       },
       {
         weekDay: days[4],
-        status: status[4],
+        dayStatus: status[4],
       },
       {
         weekDay: days[5],
-        status: status[5],
+        dayStatus: status[5],
       },
       {
         weekDay: days[6],
-        status: status[6],
+        dayStatus: status[6],
       },
     ],
     image,
   });
 
-  console.log(image);
   try {
     await newRestaurant.save();
     res.status(201).json(newRestaurant);
@@ -123,16 +122,16 @@ const findPriceRange = (priceRange) => {
   return range;
 };
 
-const findStatus = async (statusRes, key, search, range, type) => {
+const searchWithStatus = async (resStatus, key, search, range, type) => {
   const now = new Date(),
     days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"],
     weekDay = days[now.getDay()],
     hour = now.getHours(),
     minutes = now.getMinutes();
-  console.log("statusRes" + statusRes);
+
   const currentMin = convertToMin(hour, minutes);
   //tag
-  if (statusRes == 2) {
+  if (resStatus == 2) {
     const resOpen = await Restaurant.find({
       [key]: { $regex: search, $options: "i" },
       openDays: { weekDay: weekDay, status: 1 },
@@ -147,9 +146,9 @@ const findStatus = async (statusRes, key, search, range, type) => {
       return 1;
     }
   }
-  //search open
-  else if (statusRes == 1) {
-    //no type and no price
+  //Search Open Restaurants
+  else if (resStatus == 1) {
+    //No Search Type and No Search Price (Open)
     if (!type && range[0] == 0 && range[1] == 0) {
       const resOpen = await Restaurant.find({
         [key]: { $regex: search, $options: "i" },
@@ -161,11 +160,11 @@ const findStatus = async (statusRes, key, search, range, type) => {
       });
       return resOpen;
     }
-    //no type
+    //No Search Type (Open)
     else if (!type) {
       const resOpen = await Restaurant.find({
         [key]: { $regex: search, $options: "i" },
-        $unionWith: [
+        $or: [
           {
             $and: [
               { "priceRange.min": { $gte: range[0] } },
@@ -187,7 +186,7 @@ const findStatus = async (statusRes, key, search, range, type) => {
       });
       return resOpen;
     }
-    //no price
+    //No Search Price (Open)
     else if (range[0] == 0 && range[1] == 0) {
       const resOpen = await Restaurant.find({
         [key]: { $regex: search, $options: "i" },
@@ -202,7 +201,7 @@ const findStatus = async (statusRes, key, search, range, type) => {
     } else {
       const resOpen = await Restaurant.find({
         [key]: { $regex: search, $options: "i" },
-        $unionWith: [
+        $or: [
           {
             $and: [
               { "priceRange.min": { $gte: range[0] } },
@@ -226,12 +225,11 @@ const findStatus = async (statusRes, key, search, range, type) => {
       return resOpen;
     }
   }
-  //search close
+  //Search Close Restaurants
   else {
-    console.log("range" + range);
-    //no type and no price
+    //no type and no price (close)
     if (!type && range[0] == 0 && range[1] == 0) {
-      const resOpen = await Restaurant.find({
+      const resClose = await Restaurant.find({
         [key]: { $regex: search, $options: "i" },
         $or: [
           { openDays: { weekDay: weekDay, status: 0 } },
@@ -243,76 +241,48 @@ const findStatus = async (statusRes, key, search, range, type) => {
           },
         ],
       });
-      return resOpen;
+      return resClose;
     }
-    //no type
+    //no search type (close)
     else if (!type) {
-      console.log("Testtestka");
-      const resOpen = await Restaurant.find({
-        [key]: { $regex: search, $options: "i" },
-        $or: [
-          {
-            $and: [
-              { "priceRange.min": { $gte: range[0] } },
-              { "priceRange.min": { $lte: range[1] } },
-            ],
-          },
-          {
-            $and: [
-              { "priceRange.min": { $gte: range[0] } },
-              { "priceRange.min": { $lte: range[1] } },
-            ],
-          },
-        ],
-        $or: [
-          { openDays: { weekDay: weekDay, status: 0 } },
-          {
-            $or: [
-              { "openHours.openTime": { $gte: currentMin } },
-              { "openHours.closeTime": { $lte: currentMin } },
-            ],
-          },
-        ],
-      });
-      return resOpen;
-    }
-    //no price
-    else if (range[0] == 0 && range[1] == 0) {
-      const resOpen = await Restaurant.find({
-        [key]: { $regex: search, $options: "i" },
-        type: type,
-        $or: [
-          { openDays: { weekDay: weekDay, status: 0 } },
-          {
-            $or: [
-              { "openHours.openTime": { $gte: currentMin } },
-              { "openHours.closeTime": { $lte: currentMin } },
-            ],
-          },
-        ],
-      });
-      return resOpen;
-    } else {
-      const resOpen = await Restaurant.find({
+      const resClose = await Restaurant.find({
         [key]: { $regex: search, $options: "i" },
         $and: [
-          { "priceRange.min": { $gte: range[0] } },
-          { "priceRange.min": { $lte: range[1] } },
+          {
+            $or: [
+              { openDays: { weekDay: weekDay, status: 0 } },
+              {
+                $or: [
+                  { "openHours.openTime": { $gte: currentMin } },
+                  { "openHours.closeTime": { $lte: currentMin } },
+                ],
+              },
+            ],
+          },
+          {
+            $or: [
+              {
+                $and: [
+                  { "priceRange.min": { $gte: range[0] } },
+                  { "priceRange.min": { $lte: range[1] } },
+                ],
+              },
+              {
+                $and: [
+                  { "priceRange.max": { $gte: range[0] } },
+                  { "priceRange.max": { $lte: range[1] } },
+                ],
+              },
+            ],
+          },
         ],
-        // $unionWith: [
-        //   {
-        //     $and: [
-        //       { "priceRange.min": { $gte: range[0] } },
-        //       { "priceRange.min": { $lte: range[1] } },
-        //     ],
-        //   },
-        //   {
-        //     $and: [
-        //       { "priceRange.max": { $gte: range[0] } },
-        //       { "priceRange.max": { $lte: range[1] } },
-        //     ],
-        //   },
-        // ],
+      });
+      return resClose;
+    }
+    //no search price (close)
+    else if (range[0] == 0 && range[1] == 0) {
+      const resClose = await Restaurant.find({
+        [key]: { $regex: search, $options: "i" },
         type: type,
         $or: [
           { openDays: { weekDay: weekDay, status: 0 } },
@@ -324,24 +294,62 @@ const findStatus = async (statusRes, key, search, range, type) => {
           },
         ],
       });
-      return resOpen;
+      return resClose;
+    } else {
+      const resClose = await Restaurant.find({
+        [key]: { $regex: search, $options: "i" },
+        type: type,
+        $and: [
+          {
+            $or: [
+              { openDays: { weekDay: weekDay, status: 0 } },
+              {
+                $or: [
+                  { "openHours.openTime": { $gte: currentMin } },
+                  { "openHours.closeTime": { $lte: currentMin } },
+                ],
+              },
+            ],
+          },
+          {
+            $or: [
+              {
+                $and: [
+                  { "priceRange.min": { $gte: range[0] } },
+                  { "priceRange.min": { $lte: range[1] } },
+                ],
+              },
+              {
+                $and: [
+                  { "priceRange.max": { $gte: range[0] } },
+                  { "priceRange.max": { $lte: range[1] } },
+                ],
+              },
+            ],
+          },
+        ],
+      });
+      return resClose;
     }
   }
 };
 
-const searchRestaurant = async (key, search, range, type, status) => {
-  //All
-  if (status == 2) {
+const searchRestaurant = async (key, search, range, type, resStatus) => {
+
+  //All (Open & Close)
+  if (resStatus == 2) {
+    // NO Search Type & Price
     if (!type && range[0] == 0 && range[1] == 0) {
       const Restaurants = await Restaurant.find({
         [key]: { $regex: search, $options: "i" },
       });
       return Restaurants;
-    } else if (!type) {
-      console.log(range);
+    }
+    // NO Search Type
+    else if (!type) {
       const Restaurants = await Restaurant.find({
         [key]: { $regex: search, $options: "i" },
-        $unionWith: [
+        $or: [
           {
             $and: [
               { "priceRange.min": { $gte: range[0] } },
@@ -357,16 +365,20 @@ const searchRestaurant = async (key, search, range, type, status) => {
         ],
       });
       return Restaurants;
-    } else if (range[0] == 0 && range[1] == 0) {
+    }
+    // NO Search Price Range
+    else if (range[0] == 0 && range[1] == 0) {
       const Restaurants = await Restaurant.find({
         [key]: { $regex: search, $options: "i" },
         type: type,
       });
       return Restaurants;
-    } else {
+    }
+    // Search with Everything
+    else {
       const Restaurants = await Restaurant.find({
         [key]: { $regex: search, $options: "i" },
-        $unionWith: [
+        $or: [
           {
             $and: [
               { "priceRange.min": { $gte: range[0] } },
@@ -385,41 +397,29 @@ const searchRestaurant = async (key, search, range, type, status) => {
       return Restaurants;
     }
   }
-  // open
-  else if (status == 1) {
-    const Restaurants = await findStatus(1, key, search, range, type);
+  // Open Restaurant
+  else if (resStatus == 1) {
+    const Restaurants = await searchWithStatus(1, key, search, range, type);
     return Restaurants;
   }
-  //close
+  // Close Restaurant
   else {
-    const Restaurants = await findStatus(0, key, search, range, type);
+    const Restaurants = await searchWithStatus(0, key, search, range, type);
     return Restaurants;
   }
 };
 
 export const getResByName = async (req, res) => {
-  const { name, priceRange, type, status } = req.body;
+  const { name, priceRange, type, resStatus } = req.body;
   const range = findPriceRange(priceRange);
   const key = "name";
   try {
-    const Restaurants = await searchRestaurant(key, name, range, type, status);
-    res.status(200).json(Restaurants);
-  } catch (error) {
-    res.status(404).json({ Error: error.message });
-  }
-};
-
-export const getResByAddress = async (req, res) => {
-  const { address, priceRange, type, status } = req.body;
-  const range = findPriceRange(priceRange);
-  const key = "address";
-  try {
     const Restaurants = await searchRestaurant(
       key,
-      address,
+      name,
       range,
       type,
-      status
+      resStatus
     );
     res.status(200).json(Restaurants);
   } catch (error) {
@@ -427,7 +427,27 @@ export const getResByAddress = async (req, res) => {
   }
 };
 
-export const getResStatus = async (req, res) => {
+export const getResByAddress = async (req, res) => {
+  const { address, priceRange, type, resStatus } = req.body;
+  const range = findPriceRange(priceRange);
+  const key = "location.address";
+
+
+  try {
+    const Restaurants = await searchRestaurant(
+      key,
+      address,
+      range,
+      type,
+      resStatus
+    );
+    res.status(200).json(Restaurants);
+  } catch (error) {
+    res.status(404).json({ Error: error.message });
+  }
+};
+
+export const getTagStatus = async (req, res) => {
   const { name } = req.params;
 
   try {
