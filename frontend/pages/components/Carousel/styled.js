@@ -3,19 +3,21 @@ import { Swiper } from "swiper/react";
 import COLORS from "../../../public/constant/colors";
 import BREAKPOINTS from "../../../public/constant/breakpoints";
 
+export const CarouselContainer = styled.div`
+  width: 100%;
+  background: ${COLORS.PRIMARY_DARK};
+`;
+
 export const Slider = styled(Swiper)`
   width: 80%;
   height: 700px;
   .swiper-button-prev,
   .swiper-button-next {
-    color: #4c403f;
-    background: rgb(246, 190, 15, 0.5);
-    border-radius: 50px;
-    padding: 35px;
+    color: ${COLORS.LIGHT_GREY};
   }
   .swiper-button-prev:hover,
   .swiper-button-next:hover {
-    background: rgb(246, 190, 15, 1);
+    color: white;
   }
   .swiper-pagination-bullet-active {
     opacity: 1;
@@ -27,11 +29,6 @@ export const Slider = styled(Swiper)`
   }
   @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
     height: 250px;
-    .swiper-button-prev,
-    .swiper-button-next {
-      color: ${COLORS.PRIMARY_YELLOW};
-      background: none;
-    }
   }
   @media (max-width: ${BREAKPOINTS.IPHONE_11}) {
     width: 100%;

@@ -9,14 +9,14 @@ import SwiperCore, {
   EffectFade,
   Autoplay,
 } from "swiper";
-import { Slider, SlideContent, SlideImage } from "./styled";
+import { Slider, SlideContent, SlideImage, CarouselContainer } from "./styled";
 import { SwiperSlide } from "swiper/react";
 
 SwiperCore.use([Navigation, Pagination, EffectFade, Autoplay]);
 
 const Carousel = (props) => {
   return (
-    <>
+    <CarouselContainer>
       <Slider
         navigation={true}
         pagination={{ clickable: true }}
@@ -32,7 +32,7 @@ const Carousel = (props) => {
           </SwiperSlide>
         ))}
       </Slider>
-    </>
+    </CarouselContainer>
   );
 };
 
