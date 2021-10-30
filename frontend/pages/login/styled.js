@@ -15,9 +15,6 @@ export const ContainerLeft = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-end;
-  padding-right: 15px;
-  font-size: 18px;
-  letter-spacing: 2px;
 `;
 
 export const ContainerRight = styled.div`
@@ -30,15 +27,56 @@ export const ContainerRight = styled.div`
 `;
 
 export const Header = styled.div`
-    font-weight: bold;
-    font-size: 72px;
-    color: ${COLORS.PRIMARY_RED};
-    letter-spacing: 15px;
-    margin-bottom: 40px
+  font-weight: bold;
+  font-size: 72px;
+  color: ${COLORS.PRIMARY_RED};
+  letter-spacing: 15px;
+  margin-bottom: 40px;
+`;
+
+export const Description = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+`;
+
+export const Path = styled.a`
+  margin-left: 10px;
+`;
+
+export const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  font-size: 18px;
+  letter-spacing: 2px;
+  margin-right: 20px;
+  height: 20%;
+`;
+
+export const BoldContent = styled.b`
+  color: ${COLORS.PRIMARY_YELLOW};
+  font-size: 22px;
+  letter-spacing: 10px;
+`;
+
+export const Logo = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 40%;
+`;
+
+export const Wave = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  width: 100%;
+  height: 40%;
 `;
 
 export const StyledImage = styled(Image)`
   object-fit: contain;
-  width: 20px;
-  height: 20px;
+  position: relative;
 `;

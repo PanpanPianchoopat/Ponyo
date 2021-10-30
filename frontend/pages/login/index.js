@@ -1,10 +1,24 @@
 import React from "react";
 import COLORS from "../../public/constant/colors";
-import { Form, Input, Button, Checkbox } from "antd";
+import { Form, Input } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import {Container, ContainerLeft, ContainerRight, Header, StyledImage,} from "./styled";
+import Button from "../components/Button";
+import Link from "next/link";
+import {
+  Container,
+  ContainerLeft,
+  ContainerRight,
+  Header,
+  Description,
+  Path,
+  Content,
+  BoldContent,
+  Logo,
+  Wave,
+  StyledImage,
+} from "./styled";
 
-const Login = () => {
+const login = () => {
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
   };
@@ -12,20 +26,19 @@ const Login = () => {
   return (
     <Container>
       <ContainerLeft>
-          {/* <StyledImage src="/assets/Logo.svg" layout = "fill"/> */}
-        <p>I love you as much as</p>
-        <p>
-          <b
-            style={{
-              color: COLORS.PRIMARY_YELLOW,
-              fontSize: "22px",
-              letterSpacing: "10px",
-            }}
-          >
-            PONYO
-          </b>
-          loves HAM
-        </p>
+        <Logo>
+          <StyledImage src="/assets/Logo.svg" width={150} height={150} />
+        </Logo>
+        <Content>
+          <p>I love you as much as</p>
+          <p>
+            <BoldContent>PONYO</BoldContent>
+            loves HAM
+          </p>
+        </Content>
+        <Wave>
+          <StyledImage src="/assets/Logo.svg" width={200} height={200} />
+        </Wave>
       </ContainerLeft>
       <ContainerRight>
         <Header>Sign in</Header>
@@ -69,26 +82,15 @@ const Login = () => {
             />
           </Form.Item>
           <Form.Item>
-            <Button
-              type="primary"
-              htmlType="submit"
-              className="login-form-button"
-              style={{ width: "350px", height: "40px", background: "#EE2744" }}
-            >
+            <Button variant="red" size="large">
               Log in
             </Button>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                marginTop: "20px",
-              }}
-            >
-              First time here?{" "}
-              <a style={{ marginLeft: "10px" }} href="">
-                Sign up!
-              </a>
-            </div>
+            <Description>
+              First time here?
+              <Link href="/">
+                <Path>Sign up!</Path>
+              </Link>
+            </Description>
           </Form.Item>
         </Form>
       </ContainerRight>
@@ -96,4 +98,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default login;
