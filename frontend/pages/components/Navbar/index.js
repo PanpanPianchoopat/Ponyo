@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { StyledNav, Logo, MenuItem, StyledImage, Menu } from "./styled";
+import MenuButton from "./components/MenuButton";
 
 const Navbar = () => {
   const [selected, setSelcted] = useState("list");
@@ -22,6 +23,7 @@ const Navbar = () => {
         >
           Discover Trending
         </MenuItem>
+        <MenuButton />
       </Menu>
     </StyledNav>
   );
