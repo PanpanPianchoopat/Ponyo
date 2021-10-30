@@ -5,6 +5,8 @@ import Navbar from "./components/Navbar";
 import AddRestaurant from "./AddRestaurant";
 import RestCard from "./components/Card";
 import { SAMPLE_DATA } from "./components/Card/constant";
+import Carousel from "./components/Carousel";
+import { SAMPLE_IMAGE } from "./components/Carousel/constant";
 
 export default function Home() {
   return (
@@ -17,6 +19,7 @@ export default function Home() {
 
       <Navbar />
       <main className={styles.main}>
+        {/* <Carousel slides={SAMPLE_IMAGE} /> */}
         <AddRestaurant />
         {/* <div style={{ display: "flex" }}>
           {SAMPLE_DATA.map((item) => (
