@@ -28,6 +28,7 @@ export const StyledButton = styled.button.attrs((props) => {
   return { bgColor, borderType, borderStyle, textColor };
 })`
   height: 35px;
+  width: fit-content;
   background: ${(props) => props.bgColor};
   border: ${(props) => props.borderType};
   padding: 0 2.5vw;
