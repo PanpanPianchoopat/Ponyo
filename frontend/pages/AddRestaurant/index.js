@@ -33,12 +33,7 @@ const AddRestaurant = () => {
   };
 
   return (
-    <Form
-      form={form}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      style={{ marginTop: "80px" }}
-    >
+    <Form form={form} onFinish={onFinish} onFinishFailed={onFinishFailed}>
       <Form.Item>
         <Form.Item
           name="name"
