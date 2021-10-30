@@ -17,7 +17,7 @@ export const RestaurantCard = styled(Card)`
   outline: none;
   width: 300px;
   height: 350px;
-  margin: 20px 20px;
+  margin: 20px;
 `;
 
 export const CoverContainer = styled.div`

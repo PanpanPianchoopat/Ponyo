@@ -5,6 +5,7 @@ import BREAKPOINTS from "../../../public/constant/breakpoints";
 export const StyledButton = styled.button.attrs((props) => {
   const customColor = props.customColor;
   const customStyle = props.customStyle;
+  const customSize = props.customSize === "large" ? "30vw" : "fit-content";
   const bgColor =
     customColor === "yellow"
       ? COLORS.PRIMARY_YELLOW
@@ -25,9 +26,10 @@ export const StyledButton = styled.button.attrs((props) => {
       ? "#4C403E"
       : "white";
 
-  return { bgColor, borderType, borderStyle, textColor };
+  return { bgColor, borderType, borderStyle, textColor, customSize };
 })`
   height: 35px;
+  width: ${(props) => props.customSize};
   background: ${(props) => props.bgColor};
   border: ${(props) => props.borderType};
   padding: 0 2.5vw;
