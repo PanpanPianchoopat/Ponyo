@@ -5,8 +5,8 @@ const reviewSchema = mongoose.Schema({
   reviewer: { type: String, required: true },
   date: { type: Date, required: true },
   reviewText: { type: String },
-  star: { type: Number },
-  image: { type: String },
+  star: { type: Number, required: true },
+  image: { type: Array},
   like: { type: Number },
 });
 
