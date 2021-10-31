@@ -4,6 +4,7 @@ import {
   getAllRestaurant,
   getResByName,
   getResByAddress,
+  getResByType,
   getTagStatus,
 } from "../controllers/restaurantCon.js";
 
@@ -13,6 +14,7 @@ router.post("/", addRestaurant);
 router.get("/", getAllRestaurant);
 router.get("/name", getResByName);
 router.get("/address", getResByAddress);
+router.get("/:type", getResByType);
 router.get("/status/:name", getTagStatus);
 
 export default router;

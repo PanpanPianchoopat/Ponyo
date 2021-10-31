@@ -335,7 +335,6 @@ const searchWithStatus = async (resStatus, key, search, range, type) => {
 };
 
 const searchRestaurant = async (key, search, range, type, resStatus) => {
-
   //All (Open & Close)
   if (resStatus == 2) {
     // NO Search Type & Price
@@ -432,7 +431,6 @@ export const getResByAddress = async (req, res) => {
   const range = findPriceRange(priceRange);
   const key = "location.address";
 
-
   try {
     const Restaurants = await searchRestaurant(
       key,
@@ -441,6 +439,19 @@ export const getResByAddress = async (req, res) => {
       type,
       resStatus
     );
+    res.status(200).json(Restaurants);
+  } catch (error) {
+    res.status(404).json({ Error: error.message });
+  }
+};
+
+export const getResByType = async (req, res) => {
+  const { type } = req.params;
+
+  try {
+    const Restaurants = await Restaurant.find({
+      type: type,
+    });
     res.status(200).json(Restaurants);
   } catch (error) {
     res.status(404).json({ Error: error.message });
