@@ -63,3 +63,16 @@ export const getReviewByComment = async (req, res) => {
     res.status(404).json({ Error: error.message });
   }
 };
+
+export const getReviewByPhoto = async (req, res) => {
+  const { rest_id } = req.params;
+  try {
+    const Reviews = await Review.find({
+      rest_id: rest_id,
+      image: { $exists: true, $ne: [] },
+    });
+    res.status(200).json(Reviews);
+  } catch (error) {
+    res.status(404).json({ Error: error.message });
+  }
+};
