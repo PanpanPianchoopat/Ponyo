@@ -8,7 +8,6 @@ export const addReview = async (req, res) => {
   const {rest_id} = req.params;
   const{
     reviewer,
-    date,
     reviewText,
     star,
     image,
@@ -17,7 +16,7 @@ export const addReview = async (req, res) => {
   const newReview = new Review({
     rest_id,
     reviewer,
-    date,
+    date: new Date(),
     reviewText,
     star,
     image,
