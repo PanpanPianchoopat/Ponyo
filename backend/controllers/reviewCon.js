@@ -124,7 +124,7 @@ export const calRate = async (req, res) => {
       total: { $sum: "$star" },
     });
 
-    res.status(200).json(Reviews);
+    res.status(200).json(totalStar);
   } catch (error) {
     res.status(404).json({ Error: error.message });
   }
