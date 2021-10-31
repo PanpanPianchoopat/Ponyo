@@ -1,7 +1,12 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
+import Navbar from "./components/Navbar";
 import AddRestaurant from "./AddRestaurant";
+import RestCard from "./components/Card";
+import { SAMPLE_DATA } from "./components/Card/constant";
+import Carousel from "./components/Carousel";
+import { SAMPLE_IMAGE } from "./components/Carousel/constant";
 
 export default function Home() {
   return (
@@ -12,22 +17,16 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      <Navbar />
       <main className={styles.main}>
+        {/* <Carousel slides={SAMPLE_IMAGE} /> */}
         <AddRestaurant />
+        {/* <div style={{ display: "flex" }}>
+          {SAMPLE_DATA.map((item) => (
+            <RestCard detail={item} liked={item.liked} saved={item.saved} />
+          ))}
+        </div> */}
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{" "}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
     </div>
   );
 }
