@@ -10,18 +10,62 @@ import {
 } from "antd";
 import { REST_TYPE, MAX_IMAGE, DAYS_OF_WEEK } from "./constant";
 import { UploadOutlined } from "@ant-design/icons";
+import RestaurantAPI from "../api/restaurantAPI.js";
 
 const AddRestaurant = () => {
   const [form] = Form.useForm();
 
+  const convertTime = (openHour) => {
+    const openTime = [0, 0, 0, 0];
+    openTime[0] = parseInt(openHour[0].format("HH"));
+    openTime[1] = parseInt(openHour[0].format("mm"));
+    openTime[2] = parseInt(openHour[1].format("HH"));
+    openTime[3] = parseInt(openHour[1].format("mm"));
+
+    return openTime;
+  };
+
+  const photoArray = (fileList) => {
+    var i = 0;
+    const photo = [];
+    while (i < fileList.length) {
+      photo[i] = fileList[i].thumbUrl;
+      i++;
+    }
+    return photo;
+  };
+
   const onFinish = (values) => {
-    console.log("Success:", values);
-    //console.log("startTime:", values.openHour[0].format("HH:mm"));
-    // const startHour = values.openHour[0].format("HH");
-    // const startMin = values.openHour[0].format("mm");
-    // console.log(startHour, startMin);
-    //console.log("endTime:", values.openHour[1].format("HH:mm"));
-    //console.log("Image", values.photos.fileList[0].thumbUrl);
+    const openTime = convertTime(values.openHour);
+    const photo = photoArray(values.photos.fileList);
+
+    console.log("s", values.closingDay);
+    if (values.closingDay == undefined) {
+      values.closingDay = []
+    }
+    const data = {
+      name: values.name,
+      type: values.type,
+      description: values.description,
+      address: values.address,
+      ggLink: values.link,
+      phone: values.phone,
+      min: values.minPrice,
+      max: values.maxPrice,
+      closingDay: values.closingDay,
+      openHour: openTime,
+      image: photo,
+    };
+
+    console.log("front", data);
+
+    RestaurantAPI.addRestaurant(data)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   const onFinishFailed = (error) => {
