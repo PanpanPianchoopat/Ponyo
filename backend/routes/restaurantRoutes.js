@@ -3,9 +3,8 @@ import {
   addRestaurant,
   getAllRestaurant,
   getResByName,
-  getResByPostCode,
-  getResByProvince,
-  getResStatus,
+  getResByAddress,
+  getTagStatus,
 } from "../controllers/restaurantCon.js";
 
 const router = express.Router();
@@ -13,8 +12,7 @@ const router = express.Router();
 router.post("/", addRestaurant);
 router.get("/", getAllRestaurant);
 router.get("/name", getResByName);
-router.get("/code", getResByPostCode);
-router.get("/province", getResByProvince);
-router.get("/status/:name", getResStatus);
+router.get("/address", getResByAddress);
+router.get("/status/:name", getTagStatus);
 
 export default router;
