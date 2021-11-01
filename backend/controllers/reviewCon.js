@@ -116,15 +116,20 @@ export const getAmount = async (req, res) => {
 export const calRate = async (req, res) => {
   const { rest_id } = req.params;
   try {
-    const Reviews = await Review.find({
-      rest_id: rest_id,
-    });
-
-    const totalStar = await Reviews.aggregate({
-      total: { $sum: "$star" },
-    });
-
-    res.status(200).json(totalStar);
+    const avgStar = await Review.aggregate([
+      {
+        $match: {
+          rest_id: rest_id,
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          avg: { $avg: "$star" },
+        },
+      },
+    ]);
+    return avgStar;
   } catch (error) {
     res.status(404).json({ Error: error.message });
   }
