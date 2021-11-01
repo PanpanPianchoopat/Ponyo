@@ -17,10 +17,8 @@ export const addReview = async (req, res) => {
     image,
     like: 0,
   });
-
   try {
     await newReview.save();
-    res.send("Add Review API");
     res.status(201).json(newReview);
   } catch (error) {
     res.status(404).json({ Error: error.message });
@@ -28,17 +26,25 @@ export const addReview = async (req, res) => {
 };
 
 export const editReview = async (req, res) => {
-  const { rest_id, reviewer } = req.params;
+  const { id, reviewer } = req.params;
   const { reviewText, star, image } = req.body;
+  const date = new Date();
 
-  if (!mongoose.Types.ObjectId.isValid(rest_id))
-    return res.status(404).send(`No review with id: ${rest_id}`);
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send(`No review with id: ${id}`);
 
-  const updatedReview = { reviewText, star, image, reviewer, _id: rest_id };
+  const updatedReview = {
+    reviewText,
+    star,
+    image,
+    reviewer,
+    date,
+    _id: id,
+  };
 
-  await Review.findByIdAndUpdate(rest_id, updatedReview, { new: true });
+  await Review.findByIdAndUpdate(id, updatedReview, { new: true });
 
-  res.json(rest_id);
+  res.json(id);
 };
 
 export const deleteReview = async (req, res) => {
@@ -54,7 +60,6 @@ export const deleteReview = async (req, res) => {
 
 export const getAllReview = async (req, res) => {
   const { rest_id, username } = req.params;
-  console.log("username", username);
   try {
     const Reviews = await Review.aggregate([
       {
@@ -64,6 +69,12 @@ export const getAllReview = async (req, res) => {
       },
       {
         $project: {
+          reviewer: 1,
+          date: 1,
+          reviewText: 1,
+          star: 1,
+          image: 1,
+          like: 1,
           editDelete: {
             $cond: {
               if: { $strcasecmp: ["$reviewer", username] },
@@ -149,6 +160,15 @@ export const getAmount = async (req, res) => {
       }).count();
       res.status(200).json(amountStar);
       return amountStar;
+    }
+    //Find number of photo
+    else {
+      const amountPhoto = await Review.find({
+        rest_id: rest_id,
+        image: { $exists: true, $ne: [] },
+      }).count();
+      res.status(200).json(amountPhoto);
+      return amountPhoto;
     }
   } catch (error) {
     res.status(404).json({ Error: error.message });
