@@ -90,7 +90,7 @@ const login = () => {
             </Button>
             <Description>
               First time here?
-              <Link href="/">
+              <Link href="/register">
                 <Path>Sign up!</Path>
               </Link>
             </Description>
