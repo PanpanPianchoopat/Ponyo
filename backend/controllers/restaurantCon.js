@@ -104,6 +104,17 @@ export const getAllRestaurant = async (req, res) => {
   }
 };
 
+export const getRestaurantByID = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const Restaurants = await Restaurant.findById(id);
+
+    res.status(200).json(Restaurants);
+  } catch (error) {
+    res.status(404).json({ Error: error.message });
+  }
+};
+
 const findPriceRange = (priceRange) => {
   const range = [0, 0];
   if (priceRange == 1) {

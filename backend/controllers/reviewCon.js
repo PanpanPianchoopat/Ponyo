@@ -1,11 +1,12 @@
 import express from "express";
+import mongoose from "mongoose";
 import Review from "../models/reviewModel.js";
 
 const router = express.router;
 
 export const addReview = async (req, res) => {
-  const { rest_id } = req.params;
-  const { reviewer, reviewText, star, image } = req.body;
+  const { rest_id, reviewer } = req.params;
+  const { reviewText, star, image } = req.body;
 
   const newReview = new Review({
     rest_id,
@@ -26,12 +27,53 @@ export const addReview = async (req, res) => {
   }
 };
 
-export const getAllReview = async (req, res) => {
+export const editReview = async (req, res) => {
+  const { rest_id, reviewer } = req.params;
+  const { reviewText, star, image } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(rest_id))
+    return res.status(404).send(`No review with id: ${rest_id}`);
+
+  const updatedReview = { reviewText, star, image, reviewer, _id: rest_id };
+
+  await Review.findByIdAndUpdate(rest_id, updatedReview, { new: true });
+
+  res.json(rest_id);
+};
+
+export const deleteReview = async (req, res) => {
   const { rest_id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(rest_id))
+    return res.status(404).send(`No post with id: ${rest_id}`);
+
+  await Review.findByIdAndRemove(rest_id);
+
+  res.json({ message: "Review deleted successfully." });
+};
+
+export const getAllReview = async (req, res) => {
+  const { rest_id, username } = req.params;
+  console.log("username", username);
   try {
-    const Reviews = await Review.find({
-      rest_id: rest_id,
-    });
+    const Reviews = await Review.aggregate([
+      {
+        $match: {
+          rest_id: rest_id,
+        },
+      },
+      {
+        $project: {
+          editDelete: {
+            $cond: {
+              if: { $strcasecmp: ["$reviewer", username] },
+              then: false,
+              else: true,
+            },
+          },
+        },
+      },
+    ]);
     res.status(200).json(Reviews);
   } catch (error) {
     res.status(404).json({ Error: error.message });

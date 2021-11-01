@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const reviewSchema = mongoose.Schema({
   rest_id: { type: String, required: true },
-  reviewer: { type: String, required: true, unique: true},
+  reviewer: { type: String, unique: true },
   date: { type: Date, required: true },
   reviewText: { type: String },
   star: { type: Number, required: true },
