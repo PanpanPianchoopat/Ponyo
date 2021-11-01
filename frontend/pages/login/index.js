@@ -1,9 +1,8 @@
 import React from "react";
-import COLORS from "../../public/constant/colors";
 import { Form, Input } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import Button from "../components/Button";
 import Link from "next/link";
+import { AiOutlineUser, AiOutlineLock } from "react-icons/ai";
 import {
   Container,
   ContainerLeft,
@@ -16,6 +15,9 @@ import {
   Logo,
   Wave,
   StyledImage,
+  Icon,
+  CustomInput,
+  StyleInput,
 } from "./styled";
 
 const login = () => {
@@ -59,11 +61,12 @@ const login = () => {
               },
             ]}
           >
-            <Input
-              size="large"
-              prefix={<UserOutlined className="site-form-item-icon" />}
-              placeholder="Username"
-            />
+            <CustomInput>
+              <Icon>
+                <AiOutlineUser size={18} />
+              </Icon>
+              <StyleInput type="text" placeholder="Username" />
+            </CustomInput>
           </Form.Item>
           <Form.Item
             name="password"
@@ -74,12 +77,12 @@ const login = () => {
               },
             ]}
           >
-            <Input
-              size="large"
-              prefix={<LockOutlined className="site-form-item-icon" />}
-              type="password"
-              placeholder="Password"
-            />
+            <CustomInput>
+              <Icon>
+                <AiOutlineLock size={18} />
+              </Icon>
+              <StyleInput type="password" placeholder="Password" />
+            </CustomInput>
           </Form.Item>
           <Form.Item>
             <Button variant="red" size="large">
