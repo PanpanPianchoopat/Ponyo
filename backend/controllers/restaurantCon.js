@@ -458,7 +458,6 @@ export const getResByAddress = async (req, res) => {
 
 export const getResByType = async (req, res) => {
   const { type } = req.params;
-console.log("type",type);
   try {
     const Restaurants = await Restaurant.find({
       type: type,

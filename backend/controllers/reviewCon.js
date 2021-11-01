@@ -17,7 +17,6 @@ export const addReview = async (req, res) => {
     image,
     like: 0,
   });
-  console.log(reviewer);
   try {
     await newReview.save();
     res.status(201).json(newReview);
@@ -61,7 +60,6 @@ export const deleteReview = async (req, res) => {
 
 export const getAllReview = async (req, res) => {
   const { rest_id, username } = req.params;
-
   try {
     const Reviews = await Review.aggregate([
       {
@@ -136,7 +134,6 @@ export const getReviewByPhoto = async (req, res) => {
 export const getAmount = async (req, res) => {
   const { rest_id } = req.params;
   const { typeReview, star } = req.body;
-
   try {
     //Find number of all review (All rating)
     if (typeReview == 1) {
