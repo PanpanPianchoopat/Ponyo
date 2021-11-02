@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import COLORS from "../../public/constant/colors";
 import Image from "next/image";
+import { DatePicker } from "antd";
 import BREAKPOINTS from "../../public/constant/breakpoints";
 
 export const Container = styled.div`
@@ -83,23 +84,59 @@ export const Logo = styled.div`
 `;
 
 export const Wave = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-end;
+  position: relative;
   width: 100%;
   height: 40%;
 `;
 
-export const StyledImage = styled(Image)`
+export const LogoImage = styled(Image)`
   object-fit: contain;
   position: relative;
 `;
 
+export const WaveImage = styled(Image)`
+  object-fit: contain;
+  position: relative;
+  top: 150px !important;
+  left: -250px !important;
+`;
+
+export const FormContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+  width: 60vw;
+`;
+
+export const LeftSide = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const RightSide = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const Info = styled.div`
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  color: #4c403f;
+  opacity: 0.5;
+  margin-bottom: 10px;
+`;
+
+export const Center = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+`;
+
 export const CustomInput = styled.div`
-  height: 45px;
-  width: 30vw;
+  width: 23vw;
   background: #f6f5ef;
   border-bottom: 2px solid #87695d;
+  margin-bottom: 5px;
 
   @media (max-width: ${BREAKPOINTS.IPHONE_11}) {
     width: 50vw;
@@ -111,10 +148,19 @@ export const StyleInput = styled.input`
   height: 100%;
   background: #f6f5ef;
   width: 23vw;
-  margin-left: 10px;
   outline: none;
   font-size: 18px;
   letter-spacing: 2px;
+  @media (max-width: ${BREAKPOINTS.IPHONE_11}) {
+    width: 42vw;
+  }
+`;
+
+export const CustomDatePicker = styled(DatePicker)`
+  height: 100%;
+  background: #f6f5ef;
+  width: 23vw;
+  font-size: 22px;
   @media (max-width: ${BREAKPOINTS.IPHONE_11}) {
     width: 42vw;
   }
