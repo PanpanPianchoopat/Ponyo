@@ -6,7 +6,7 @@ import {
   StyledInput,
   ButtonGroup,
 } from "./styled";
-import { Form, Divider } from "antd";
+import { Form, Divider, Upload } from "antd";
 import Button from "../../../components/Button";
 
 const WriteReview = () => {
@@ -35,6 +35,9 @@ const WriteReview = () => {
         <Form.Item name="star">
           <StyledRate />
           <Divider />
+        </Form.Item>
+        <Form.Item name="pictures">
+          <Upload listType="picture" beforeUpload={() => false} />
         </Form.Item>
         <Form.Item name="review">
           <StyledInput placeholder="Share you experience..." type="text" />

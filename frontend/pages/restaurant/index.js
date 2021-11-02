@@ -1,5 +1,12 @@
 import React from "react";
-import { DetailContainer, BigContainer, SmallContainer } from "./styled";
+import {
+  DetailContainer,
+  BigContainer,
+  SmallContainer,
+  Name,
+  Underline,
+  HeadSection,
+} from "./styled";
 import WriteReview from "./components/WriteReview";
 import Ratings from "./components/Ratings";
 import Carousel from "./components/Carousel";
@@ -10,7 +17,13 @@ import Detail from "./components/Detail";
 const Restaurant = () => {
   return (
     <div>
-      <Carousel slides={SAMPLE_IMAGE} />
+      <HeadSection>
+        <Name>
+          Dek Ying Pungjung
+          <Underline />
+        </Name>
+        <Carousel slides={SAMPLE_IMAGE} />
+      </HeadSection>
       <DetailContainer>
         <BigContainer>
           <Overview />

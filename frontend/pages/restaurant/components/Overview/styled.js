@@ -48,9 +48,11 @@ export const Status = styled.div.attrs((props) => {
 export const Bookmark = styled(BsBookmark)`
   font-size: 25px;
   color: ${COLORS.LIGHT_GREY};
+  cursor: pointer;
 `;
 
 export const BookmarkActive = styled(BsBookmarkFill)`
   font-size: 25px;
   color: ${COLORS.PRIMARY_BLUE};
+  cursor: pointer;
 `;

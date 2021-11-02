@@ -2,6 +2,38 @@ import styled from "styled-components";
 import COLORS from "../../public/constant/colors";
 import BREAKPOINTS from "../../public/constant/breakpoints";
 
+export const HeadSection = styled.div`
+  width: 100%;
+  background: ${COLORS.PRIMARY_LIGHT};
+  padding-bottom: 20px;
+  @media (max-width: ${BREAKPOINTS.IPHONE_11}) {
+    padding-bottom: 5px;
+  }
+`;
+export const Name = styled.div`
+  width: 100%;
+  background: ${COLORS.PRIMARY_DARK};
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  font-size: 48px;
+  color: white;
+  padding: 20px 0 40px 0;
+  @media (max-width: ${BREAKPOINTS.IPHONE_11}) {
+    font-size: 36px;
+  }
+`;
+
+export const Underline = styled.hr`
+  width: 100px;
+  margin: 5px auto;
+  border: 2px solid white;
+  border-radius: 10px;
+  @media (max-width: ${BREAKPOINTS.IPHONE_11}) {
+    width: 50px;
+  }
+`;
 export const DetailContainer = styled.div`
   background: ${COLORS.PRIMARY_LIGHT};
   padding: 20px 5vw;

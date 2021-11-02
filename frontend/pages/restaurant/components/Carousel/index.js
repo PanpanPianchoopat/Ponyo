@@ -2,23 +2,17 @@ import React from "react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import "swiper/css/effect-fade";
+import "swiper/css/effect-coverflow";
 import SwiperCore, {
   Navigation,
   Pagination,
-  EffectFade,
   Autoplay,
+  EffectCoverflow,
 } from "swiper";
-import {
-  Slider,
-  SlideContent,
-  SlideImage,
-  CarouselContainer,
-  Test,
-} from "./styled";
+import { Slider, SlideContent, SlideImage, CarouselContainer } from "./styled";
 import { SwiperSlide } from "swiper/react";
 
-SwiperCore.use([Navigation, Pagination, EffectFade, Autoplay]);
+SwiperCore.use([Navigation, Pagination, Autoplay, EffectCoverflow]);
 
 const Carousel = (props) => {
   return (
@@ -27,8 +21,18 @@ const Carousel = (props) => {
         navigation={true}
         pagination={{ clickable: true }}
         loop={true}
-        effect={"fade"}
         autoplay={{ delay: 2500, disableOnInteraction: false }}
+        effect={"coverflow"}
+        grabCursor={true}
+        centeredSlides={true}
+        slidesPerView={3}
+        coverflowEffect={{
+          rotate: 50,
+          stretch: 0,
+          depth: 100,
+          modifier: 1,
+          slideShadows: true,
+        }}
       >
         {props.slides.map((image, index) => (
           <SwiperSlide key={index}>
