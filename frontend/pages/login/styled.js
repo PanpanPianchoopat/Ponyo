@@ -36,6 +36,7 @@ export const ContainerRight = styled.div`
 export const Header = styled.div`
   font-weight: bold;
   font-size: 72px;
+  text-shadow: 0px 5px 7px #91a0a5;
   color: ${COLORS.PRIMARY_RED};
   letter-spacing: 15px;
   margin-bottom: 40px;
