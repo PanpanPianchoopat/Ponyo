@@ -2,8 +2,11 @@ import express from "express";
 import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
 import User from "../models/userModel.js";
+import Restaurant from "../models/restaurantModel.js";
 const ObjectId = mongoose.Types.ObjectId;
 const router = express.Router();
+
+// เหลือ edit list รอข้อมูลจาก front
 
 export const register = async (req, res) => {
   const { username, email, password, dateOfBirth, gender, imageFile } =
@@ -72,20 +75,70 @@ const countRes = async (key, id) => {
   return count[0].numRes;
 };
 
-export const addFavorite = async (req, res) => {
-  const { id, res_id } = req.params;
+export const addList = async (req, res) => {
+  const { key, id, res_id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id))
     return res.status(404).send(`No review with id: ${id}`);
 
-  const countFav = await countRes("favorite", id);
+  const countList = await countRes(key, id);
 
-  if (countFav < 5) {
-    await User.updateOne({ _id: id }, { $addToSet: { favorite: res_id } });
-    res.status(200).json({ Message: "Update Success" });
+  if (key == "favorite") {
+    if (countList < 5) {
+      await User.updateOne({ _id: id }, { $addToSet: { favorite: res_id } });
+      res.status(200).json({ Message: "Update Success" });
+    } else {
+      res.status(404).json({ Error: "Full Favorite List" });
+    }
   } else {
-    res.status(404).json({ Error: "Full Favorite List" });
+    if (countList < 50) {
+      await User.updateOne({ _id: id }, { $addToSet: { interest: res_id } });
+      res.status(200).json({ Message: "Update Success" });
+    } else {
+      res.status(404).json({ Error: "Full interesting restaurant List" });
+    }
   }
+};
+
+export const getList = async (req, res) => {
+  const { key, user_id } = req.params;
+  const userList = "listId[0]." + key;
+  try {
+    const listId = await User.find(
+      {
+        _id: ObjectId(user_id),
+      },
+      { [key]: 1 }
+    );
+
+    if (key == "favorite") {
+      const detailRest = await Restaurant.find({
+        _id: { $in: listId[0].favorite },
+      });
+      res.status(200).json(detailRest);
+    } else {
+      const detailRest = await Restaurant.find({
+        _id: { $in: listId[0].interest },
+      });
+      res.status(200).json(detailRest);
+    }
+  } catch (error) {
+    res.status(404).json({ Error: error.message });
+  }
+};
+
+//Favorite and Interest
+export const deleteList = async (req, res) => {
+  const { key, id, index } = req.params;
+  const deleteIndex = key + "." + index;
+
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send(`No post with id: ${id}`);
+
+  await User.updateOne({ _id: ObjectId(id) }, { $unset: { [deleteIndex]: 1 } });
+  await User.updateOne({ _id: ObjectId(id) }, { $pull: { [key]: null } });
+
+  res.json({ message: "List deleted successfully." });
 };
 
 export default router;
