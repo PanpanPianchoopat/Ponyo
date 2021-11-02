@@ -170,7 +170,7 @@ const register = () => {
           <Form.Item>
             <Center>
               <Button variant="red" size="large">
-                Log in
+                SIGN UP
               </Button>
             </Center>
             <Description>
