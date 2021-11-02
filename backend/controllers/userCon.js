@@ -1,7 +1,8 @@
 import express from "express";
 import bcrypt from "bcryptjs";
+import mongoose from "mongoose";
 import User from "../models/userModel.js";
-
+const ObjectId = mongoose.Types.ObjectId;
 const router = express.Router();
 
 export const register = async (req, res) => {
@@ -50,6 +51,40 @@ export const login = async (req, res) => {
     res.status(200).json({ Message: "Login Success" });
   } else {
     res.status(404).json({ Error: "Login Failed" });
+  }
+};
+
+const countRes = async (key, id) => {
+  const keyArray = "$" + key;
+  const count = await User.aggregate([
+    {
+      $match: {
+        _id: ObjectId(id),
+      },
+    },
+    {
+      $project: {
+        numRes: { $size: { $ifNull: [keyArray, []] } },
+      },
+    },
+  ]);
+
+  return count[0].numRes;
+};
+
+export const addFavorite = async (req, res) => {
+  const { id, res_id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send(`No review with id: ${id}`);
+
+  const countFav = await countRes("favorite", id);
+
+  if (countFav < 5) {
+    await User.updateOne({ _id: id }, { $addToSet: { favorite: res_id } });
+    res.status(200).json({ Message: "Update Success" });
+  } else {
+    res.status(404).json({ Error: "Full Favorite List" });
   }
 };
 

@@ -14,7 +14,7 @@ import {
 const router = express.Router();
 
 
-router.post("/edit/:id/:reviewer", editReview);
+router.patch("/edit/:id/:reviewer", editReview);
 router.delete("/delete/:rest_id", deleteReview);
 router.get("/comment/:rest_id", getReviewByComment);
 router.get("/image/:rest_id", getReviewByPhoto);
