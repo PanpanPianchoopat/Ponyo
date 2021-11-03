@@ -5,9 +5,13 @@ import {
   WriteReviewInnnerContainer,
   StyledInput,
   ButtonGroup,
+  UploadImage,
+  PlusIcon,
+  CameraIcon,
 } from "./styled";
-import { Form, Divider, Upload } from "antd";
+import { Form, Divider } from "antd";
 import Button from "../../../components/Button";
+import { CameraFilled, PlusCircleFilled } from "@ant-design/icons";
 
 const WriteReview = () => {
   const [form] = Form.useForm();
@@ -37,7 +41,14 @@ const WriteReview = () => {
           <Divider />
         </Form.Item>
         <Form.Item name="pictures">
-          <Upload listType="picture" beforeUpload={() => false} />
+          <UploadImage
+            listType="picture-card"
+            beforeUpload={() => false}
+            showUploadList={{ showPreviewIcon: false }}
+          >
+            <CameraIcon />
+            <PlusIcon />
+          </UploadImage>
         </Form.Item>
         <Form.Item name="review">
           <StyledInput placeholder="Share you experience..." type="text" />

@@ -6,6 +6,7 @@ import {
   Name,
   Underline,
   HeadSection,
+  ReviewContainer,
 } from "./styled";
 import WriteReview from "./components/WriteReview";
 import Ratings from "./components/Ratings";
@@ -13,6 +14,7 @@ import Carousel from "./components/Carousel";
 import { SAMPLE_IMAGE } from "./components/Carousel/constant";
 import Overview from "./components/Overview";
 import Detail from "./components/Detail";
+import Reviews from "./components/Reviews";
 
 const Restaurant = () => {
   return (
@@ -40,6 +42,9 @@ const Restaurant = () => {
           <Ratings />
         </SmallContainer>
       </DetailContainer>
+      <ReviewContainer>
+        <Reviews />
+      </ReviewContainer>
     </div>
   );
 };

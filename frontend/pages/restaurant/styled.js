@@ -72,3 +72,15 @@ export const SmallContainer = styled.div`
     margin-bottom: 20px;
   }
 `;
+
+export const ReviewContainer = styled.div`
+  background: linear-gradient(
+    180deg,
+    ${COLORS.PRIMARY_LIGHT} 170px,
+    ${COLORS.PRIMARY_DARK} 0%
+  );
+  padding: 20px 5vw;
+  height: fit-content;
+  display: flex;
+  justify-content: space-between;
+`;
