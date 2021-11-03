@@ -11,7 +11,6 @@ import {
 } from "./styled";
 import { Form, Divider } from "antd";
 import Button from "../../../components/Button";
-import { CameraFilled, PlusCircleFilled } from "@ant-design/icons";
 
 const WriteReview = () => {
   const [form] = Form.useForm();
