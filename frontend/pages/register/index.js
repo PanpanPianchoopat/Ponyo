@@ -175,8 +175,8 @@ const register = () => {
             </Center>
             <Description>
               First time here?
-              <Link href="/register">
-                <Path>Sign up!</Path>
+              <Link href="/login">
+                <Path>Sign in!</Path>
               </Link>
             </Description>
           </Form.Item>
