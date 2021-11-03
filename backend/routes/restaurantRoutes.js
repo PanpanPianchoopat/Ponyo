@@ -3,18 +3,23 @@ import {
   addRestaurant,
   getAllRestaurant,
   getResByName,
-  getResByPostCode,
-  getResByProvince,
-  getResStatus,
+  getRestaurantByID,
+  getResByAddress,
+  getResByType,
+  getTagStatus,
 } from "../controllers/restaurantCon.js";
 
 const router = express.Router();
 
 router.post("/", addRestaurant);
 router.get("/", getAllRestaurant);
+router.get("/:id",getRestaurantByID)
 router.get("/name", getResByName);
-router.get("/code", getResByPostCode);
-router.get("/province", getResByProvince);
-router.get("/status/:name", getResStatus);
+router.get("/address", getResByAddress);
+router.get("/type/:type", getResByType);
+router.get("/detail/:id", getRestaurantByID);
+router.get("/status/:name", getTagStatus);
+
+
 
 export default router;
