@@ -174,7 +174,7 @@ const register = () => {
               </Button>
             </Center>
             <Description>
-              First time here?
+              Not the first time here?
               <Link href="/login">
                 <Path>Sign in!</Path>
               </Link>

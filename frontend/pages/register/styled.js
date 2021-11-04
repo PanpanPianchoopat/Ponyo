@@ -70,6 +70,7 @@ export const Description = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 20px;
+  letter-spacing: 1.5px;
 `;
 
 export const Path = styled.a`
