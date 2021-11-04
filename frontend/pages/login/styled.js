@@ -83,20 +83,29 @@ export const Logo = styled.div`
 `;
 
 export const Wave = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-end;
+  position: relative;
   width: 100%;
   height: 40%;
 `;
 
-export const StyledImage = styled(Image)`
+export const LogoImage = styled(Image)`
   object-fit: contain;
   position: relative;
 `;
 
+export const WaveImage = styled(Image)`
+  object-fit: contain;
+  position: relative;
+  top: 150px !important;
+  left: -250px !important;
+`;
+
 export const Icon = styled.i`
   color: #4c403f;
+`;
+
+export const MarginBox = styled.div`
+  margin-top: 20px;
 `;
 
 export const CustomInput = styled.div`
@@ -104,7 +113,7 @@ export const CustomInput = styled.div`
   width: 30vw;
   background: #f6f5ef;
   border-bottom: 2px solid #87695d;
-
+  margin-bottom: 5px;
   @media (max-width: ${BREAKPOINTS.IPHONE_11}) {
     width: 50vw;
   }
