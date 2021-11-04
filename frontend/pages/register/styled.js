@@ -137,7 +137,6 @@ export const CustomInput = styled.div`
   background: #f6f5ef;
   border-bottom: 2px solid #87695d;
   margin-bottom: 5px;
-
   @media (max-width: ${BREAKPOINTS.IPHONE_11}) {
     width: 50vw;
   }
@@ -151,6 +150,10 @@ export const StyleInput = styled.input`
   outline: none;
   font-size: 18px;
   letter-spacing: 2px;
+  padding: 0 0 8px 12px;
+  &::placeholder {
+    color: ${COLORS.LIGHT_GREY};
+  }
   @media (max-width: ${BREAKPOINTS.IPHONE_11}) {
     width: 42vw;
   }
