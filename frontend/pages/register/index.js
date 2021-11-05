@@ -1,8 +1,8 @@
 import React from "react";
-import { Form } from "antd";
+import { Form, Upload } from "antd";
 import Button from "../components/Button";
 import Link from "next/link";
-import moment from "moment";
+import { UploadOutlined, InboxOutlined } from "@ant-design/icons";
 import {
   Container,
   ContainerLeft,
@@ -33,6 +33,10 @@ const register = () => {
     console.log("Received values of form: ", values);
   };
   const dateFormat = "DD/MM/YYYY";
+  const setDate = (dateString) => {
+    const birthday = dateString;
+    console.log(dateString, birthday);
+  };
 
   return (
     <Container>
@@ -115,12 +119,12 @@ const register = () => {
               </Form.Item>
               <Form.Item
                 name="datePicker"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your birthday!",
-                  },
-                ]}
+                // rules={[
+                //   {
+                //     required: true,
+                //     message: "Please input your birthday!",
+                //   },
+                // ]}
               >
                 <CustomInput>
                   <Info>Birthday</Info>
@@ -128,13 +132,27 @@ const register = () => {
                     placeholder="DD/MM/YYYY"
                     bordered={false}
                     size="large"
-                    defaultValue={moment("01-01-2021", dateFormat)}
                     format={dateFormat}
+                    onChange={(_, dateString) => setDate(dateString)}
                   />
                 </CustomInput>
               </Form.Item>
             </LeftSide>
             <RightSide>
+              <Form.Item name="upload">
+                <Upload
+                  name="profile"
+                  listType="picture-card"
+                  showUploadList={false}
+                  beforeUpload={() => false}
+                >            
+                    <img
+                      src="../../public/assets/Logo.svg"
+                      alt="profile"
+                      style={{ width: "100%" }}
+                    />
+                </Upload>
+              </Form.Item>
               <Form.Item
                 name="confirm"
                 dependencies={["password"]}
