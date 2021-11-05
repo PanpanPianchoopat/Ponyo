@@ -21,10 +21,24 @@ import {
   CustomInput,
   StyleInput,
 } from "./styled";
+import UserAPI from "../api/userAPI";
 
 const login = () => {
   const onFinish = (values) => {
-    console.log("Received values of form: ", values);
+    const data = {
+      email: values.email,
+      password: values.password,
+    };
+    console.log("Received values of form: ", data);
+
+    UserAPI.login(data)
+      .then((response) => {
+        console.log("user ", response.data.user);
+        localStorage.setItem("token", response.data.user);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   return (
@@ -55,7 +69,7 @@ const login = () => {
           onFinish={onFinish}
         >
           <Form.Item
-            name="username"
+            name="email"
             rules={[
               {
                 required: true,
@@ -67,7 +81,7 @@ const login = () => {
               <Icon>
                 <AiOutlineUser size={18} />
               </Icon>
-              <StyleInput type="text" placeholder="Username" />
+              <StyleInput type="text" placeholder="Email" />
             </CustomInput>
           </Form.Item>
           <Form.Item
