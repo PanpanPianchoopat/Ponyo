@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import COLORS from "../../public/constant/colors";
 import Image from "next/image";
-import { DatePicker } from "antd";
+import { DatePicker, Radio } from "antd";
 import BREAKPOINTS from "../../public/constant/breakpoints";
 
 export const Container = styled.div`
@@ -165,7 +165,13 @@ export const CustomDatePicker = styled(DatePicker)`
   background: #f6f5ef;
   width: 23vw;
   font-size: 22px;
+  border: none;
+  border-bottom: 2px solid #87695d;
   @media (max-width: ${BREAKPOINTS.IPHONE_11}) {
     width: 42vw;
   }
+`;
+
+export const CustomRadio = styled(Radio)`
+  
 `;

@@ -2,6 +2,7 @@ import React from "react";
 import { Form } from "antd";
 import Button from "../components/Button";
 import Link from "next/link";
+import moment from "moment";
 import {
   Container,
   ContainerLeft,
@@ -23,6 +24,7 @@ import {
   CustomInput,
   StyleInput,
   CustomDatePicker,
+  CustomRadio,
 } from "./styled";
 
 const register = () => {
@@ -126,6 +128,7 @@ const register = () => {
                     placeholder="DD/MM/YYYY"
                     bordered={false}
                     size="large"
+                    defaultValue={moment("01-01-2021", dateFormat)}
                     format={dateFormat}
                   />
                 </CustomInput>
@@ -163,6 +166,22 @@ const register = () => {
                     placeholder="Confirm your password"
                   />
                 </CustomInput>
+              </Form.Item>
+              <Form.Item
+                name="gender"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please select your gender!",
+                  },
+                ]}
+              >
+                <CustomRadio.Group buttonStyle="solid" size="large">
+                  <Info>Gender</Info>
+                  <CustomRadio.Button value="male">Male</CustomRadio.Button>
+                  <CustomRadio.Button value="female">Female</CustomRadio.Button>
+                  <CustomRadio.Button value="other">Other</CustomRadio.Button>
+                </CustomRadio.Group>
               </Form.Item>
             </RightSide>
           </FormContainer>
