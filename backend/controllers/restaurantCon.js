@@ -104,10 +104,11 @@ export const getAllRestaurant = async (req, res) => {
   }
 };
 
-export const getRestaurantByID = async (req, res) => {
+export const getResDetail = async (req, res) => {
   const { id } = req.params;
   try {
     const Restaurants = await Restaurant.findById(id);
+
 
     res.status(200).json(Restaurants);
   } catch (error) {
