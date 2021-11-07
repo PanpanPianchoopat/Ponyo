@@ -23,6 +23,7 @@ export default class MyDocument extends Document {
     return (
       <Html>
         <Head />
+        {this.props.styleTags}
         <body>
           <Main />
           <NextScript />
