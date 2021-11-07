@@ -75,6 +75,10 @@ const login = () => {
                 required: true,
                 message: "Please input your Username!",
               },
+              {
+                type: "email",
+                message: "The input is not valid E-mail!",
+              },
             ]}
           >
             <CustomInput>
