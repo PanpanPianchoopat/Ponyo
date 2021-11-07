@@ -104,11 +104,42 @@ export const getAllRestaurant = async (req, res) => {
   }
 };
 
+const convertDay = (week) => {
+  var i = 0;
+  var j = 0;
+  const array = [];
+
+  for (i = 0; i < 6; i++) {
+    if (week[i].status == 0) {
+      array[j] = week[i].weekDay;
+      j++;
+    }
+  }
+  if (j == 0) {
+    array[j] = "Open everyday";
+  }
+  return array;
+};
+
+const convertOpenHours = (minTime) => {
+  const time = [0, 0];
+  time[1] = minTime % 60;
+  time[0] = (minTime - time[1]) / 60;
+  return time;
+};
+
 export const getResDetail = async (req, res) => {
   const { id } = req.params;
   try {
     const Restaurants = await Restaurant.findById(id);
 
+    const closeDay = convertDay(Restaurants.openDays);
+    const openTime = convertOpenHours(Restaurants.openHours.openTime);
+    const closeTime = convertOpenHours(Restaurants.openHours.closeTime);
+
+    Restaurants.closeDay = closeDay;
+    Restaurants.openTime = openTime;
+    Restaurants.closeTime = closeTime;
 
     res.status(200).json(Restaurants);
   } catch (error) {
