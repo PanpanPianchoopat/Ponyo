@@ -7,7 +7,6 @@ import {
   NumContainer,
   Count,
 } from "./styled";
-import { RATINGS } from "./constant";
 import { Progress } from "antd";
 import colors from "../../../../public/constant/colors";
 

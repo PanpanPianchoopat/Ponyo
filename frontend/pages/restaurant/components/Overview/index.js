@@ -14,7 +14,6 @@ import {
   Heart,
   HeartACtive,
 } from "./styled";
-import { DATA } from "./constant";
 import { Divider } from "antd";
 
 const Overview = (props) => {

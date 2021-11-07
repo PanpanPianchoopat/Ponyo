@@ -26,7 +26,6 @@ import Review from "./components/Review";
 import { FILTER, COUNT, REVIEWS } from "./constant";
 import { Divider } from "antd";
 import { REST_INFO } from "./constant";
-import { Direction } from "./components/Detail/styled";
 
 function Restaurant() {
   const [filter, setFilter] = useState(0);
