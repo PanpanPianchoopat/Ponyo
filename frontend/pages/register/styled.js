@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import COLORS from "../../public/constant/colors";
 import Image from "next/image";
-import { DatePicker, Radio } from "antd";
+import { DatePicker, Radio, Button } from "antd";
 import BREAKPOINTS from "../../public/constant/breakpoints";
 
 export const Container = styled.div`
@@ -172,6 +172,30 @@ export const CustomDatePicker = styled(DatePicker)`
   }
 `;
 
-export const CustomRadio = styled(Radio)`
-  
+export const StyleButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  width: 23vw;
+  height: 6vh;
+  border-radius: 5px;
+`;
+
+export const CustomButton = styled.button`
+  width: 32%;
+  border-radius: 5px;
+  background: white;
+  border: 0;
+  color: black;
+  padding: 5px 20px;
+  &:hover {
+    background: #ecd89d;
+  }
+  &:active {
+    transform: translateY(2px);
+  }
+  &:focus {
+    background: #ecd89d;
+  }
 `;

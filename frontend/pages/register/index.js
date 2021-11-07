@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form, Upload } from "antd";
 import Button from "../components/Button";
 import Link from "next/link";
@@ -24,7 +24,8 @@ import {
   CustomInput,
   StyleInput,
   CustomDatePicker,
-  CustomRadio,
+  StyleButton,
+  CustomButton,
 } from "./styled";
 
 const register = () => {
@@ -32,11 +33,12 @@ const register = () => {
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
   };
-  const dateFormat = "DD/MM/YYYY";
   const setDate = (dateString) => {
     const birthday = dateString;
     console.log(dateString, birthday);
   };
+
+  const [gender, setGender] = useState("");
 
   return (
     <Container>
@@ -63,6 +65,7 @@ const register = () => {
             remember: true,
           }}
           onFinish={onFinish}
+          layout="vertical"
         >
           <FormContainer>
             <LeftSide>
@@ -119,6 +122,20 @@ const register = () => {
               </Form.Item>
               <Form.Item
                 name="datePicker"
+                label={
+                  <label
+                    style={{
+                      fontSize: "18px",
+                      fontWeight: "bold",
+                      letterSpacing: "3px",
+                      color: "#4c403f",
+                      opacity: "0.5",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    Birthday
+                  </label>
+                }
                 // rules={[
                 //   {
                 //     required: true,
@@ -126,32 +143,31 @@ const register = () => {
                 //   },
                 // ]}
               >
-                <CustomInput>
-                  <Info>Birthday</Info>
-                  <CustomDatePicker
-                    placeholder="DD/MM/YYYY"
-                    bordered={false}
-                    size="large"
-                    format={dateFormat}
-                    onChange={(_, dateString) => setDate(dateString)}
-                  />
-                </CustomInput>
+                <CustomDatePicker
+                  placeholder="DD/MM/YYYY"
+                  size="large"
+                  format={"DD/MM/YYYY"}
+                  onChange={(_, dateString) => setDate(dateString)}
+                />
               </Form.Item>
             </LeftSide>
             <RightSide>
               <Form.Item name="upload">
-                <Upload
-                  name="profile"
-                  listType="picture-card"
-                  showUploadList={false}
-                  beforeUpload={() => false}
-                >            
+                <>
+                  <Info>Upload Photo</Info>
+                  <Upload
+                    name="profile"
+                    listType="picture-card"
+                    showUploadList={false}
+                    beforeUpload={() => false}
+                  >
                     <img
                       src="../../public/assets/Logo.svg"
                       alt="profile"
                       style={{ width: "100%" }}
                     />
-                </Upload>
+                  </Upload>
+                </>
               </Form.Item>
               <Form.Item
                 name="confirm"
@@ -185,21 +201,39 @@ const register = () => {
                   />
                 </CustomInput>
               </Form.Item>
-              <Form.Item
-                name="gender"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please select your gender!",
-                  },
-                ]}
-              >
-                <CustomRadio.Group buttonStyle="solid" size="large">
+              <Form.Item name="gender">
+                <>
                   <Info>Gender</Info>
-                  <CustomRadio.Button value="male">Male</CustomRadio.Button>
-                  <CustomRadio.Button value="female">Female</CustomRadio.Button>
-                  <CustomRadio.Button value="other">Other</CustomRadio.Button>
-                </CustomRadio.Group>
+                  <StyleButton>
+                    <CustomButton
+                      type="primary"
+                      size="large"
+                      onClick={() => {
+                        setGender("male");
+                      }}
+                    >
+                      Male
+                    </CustomButton>
+                    <CustomButton
+                      type="primary"
+                      size="large"
+                      onClick={() => {
+                        setGender("female");
+                      }}
+                    >
+                      Female
+                    </CustomButton>
+                    <CustomButton
+                      type="primary"
+                      size="large"
+                      onClick={() => {
+                        setGender("other");
+                      }}
+                    >
+                      Other
+                    </CustomButton>
+                  </StyleButton>
+                </>
               </Form.Item>
             </RightSide>
           </FormContainer>
