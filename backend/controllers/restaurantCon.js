@@ -532,25 +532,3 @@ export const getTagStatus = async (req, res) => {
   }
 };
 
-export const updateAllDay = async (req, res) => {
-  const days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-  var i = 0;
-
-  while (i < 7) {
-    var day = "openDays." + i + ".weekDay";
-    const Restaurants = await Restaurant.updateMany({
-      $set: { [day]: days[i] },
-    });
-    i++;
-  }
-
-  res.status(200).json("Restaurants");
-};
