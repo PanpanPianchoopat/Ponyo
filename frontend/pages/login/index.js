@@ -14,8 +14,10 @@ import {
   BoldContent,
   Logo,
   Wave,
-  StyledImage,
+  LogoImage,
+  WaveImage,
   Icon,
+  MarginBox,
   CustomInput,
   StyleInput,
 } from "./styled";
@@ -29,7 +31,7 @@ const login = () => {
     <Container>
       <ContainerLeft>
         <Logo>
-          <StyledImage src="/assets/Logo.svg" width={150} height={150} />
+          <LogoImage src="/assets/Logo.svg" width={150} height={150} />
         </Logo>
         <Content>
           <p>I love you as much as</p>
@@ -39,7 +41,7 @@ const login = () => {
           </p>
         </Content>
         <Wave>
-          <StyledImage src="/assets/Logo.svg" width={200} height={200} />
+          <WaveImage src="/assets/ponyoWave.svg" layout="fill" />
         </Wave>
       </ContainerLeft>
       <ContainerRight>
@@ -85,9 +87,12 @@ const login = () => {
             </CustomInput>
           </Form.Item>
           <Form.Item>
-            <Button variant="red" size="large">
-              Log in
-            </Button>
+            <MarginBox>
+              <Button variant="red" size="large">
+                Log in
+              </Button>
+            </MarginBox>
+
             <Description>
               First time here?
               <Link href="/register">
