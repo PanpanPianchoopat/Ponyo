@@ -16,33 +16,37 @@ SwiperCore.use([Navigation, Pagination, Autoplay, EffectCoverflow]);
 
 const Carousel = (props) => {
   return (
-    <CarouselContainer>
-      <Slider
-        navigation={true}
-        pagination={{ clickable: true }}
-        loop={true}
-        autoplay={{ delay: 2500, disableOnInteraction: false }}
-        effect={"coverflow"}
-        grabCursor={true}
-        centeredSlides={true}
-        slidesPerView={3}
-        coverflowEffect={{
-          rotate: 50,
-          stretch: 0,
-          depth: 100,
-          modifier: 1,
-          slideShadows: true,
-        }}
-      >
-        {props.slides.map((image, index) => (
-          <SwiperSlide key={index}>
-            <SlideContent>
-              <SlideImage src={image} />
-            </SlideContent>
-          </SwiperSlide>
-        ))}
-      </Slider>
-    </CarouselContainer>
+    <>
+      <CarouselContainer>
+        <Slider
+          navigation={true}
+          pagination={{ clickable: true }}
+          loop={true}
+          autoplay={{ delay: 2500, disableOnInteraction: false }}
+          effect={"coverflow"}
+          grabCursor={true}
+          centeredSlides={true}
+          slidesPerView={3}
+          coverflowEffect={{
+            rotate: 50,
+            stretch: 0,
+            depth: 100,
+            modifier: 1,
+            slideShadows: true,
+          }}
+        >
+          {props.slides.map((image, index) => {
+            return (
+              <SwiperSlide key={index}>
+                <SlideContent>
+                  <SlideImage src={image} />
+                </SlideContent>
+              </SwiperSlide>
+            );
+          })}
+        </Slider>
+      </CarouselContainer>
+    </>
   );
 };
 

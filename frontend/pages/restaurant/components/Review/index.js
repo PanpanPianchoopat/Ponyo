@@ -29,7 +29,7 @@ const Review = (props) => {
   };
 
   useEffect(() => {
-    console.log(isLiked);
+    console.log("Review Liked:", isLiked);
   }, [isLiked]);
 
   return (
@@ -48,9 +48,9 @@ const Review = (props) => {
         <CommentSection>
           <Comment>{props.review.comment}</Comment>
           <Line>
-            {props.review.pictures.map((pic, index) => (
-              <ReviewPic src={pic} key={index} />
-            ))}
+            {props.review.pictures.map((pic, index) => {
+              return <ReviewPic key={index} src={pic} />;
+            })}
           </Line>
           <Line>
             {isLiked ? (

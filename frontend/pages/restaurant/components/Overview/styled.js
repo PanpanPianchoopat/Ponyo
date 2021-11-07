@@ -35,8 +35,7 @@ export const RestName = styled.b`
 `;
 
 export const Status = styled.div.attrs((props) => {
-  const bgColor =
-    props.background === "open" ? COLORS.LIGHT_GREEN : COLORS.PRIMARY_RED;
+  const bgColor = props.open ? COLORS.LIGHT_GREEN : COLORS.PRIMARY_RED;
   return { bgColor };
 })`
   background: ${(props) => props.bgColor};

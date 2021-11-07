@@ -9,7 +9,7 @@ export const WriteReviewInnnerContainer = styled.div`
   flex-direction: column;
   width: 100%;
   text-align: center;
-  margin: 20px;
+  margin: 20px 20px 0 20px;
 `;
 
 export const SectionHeader = styled.b`

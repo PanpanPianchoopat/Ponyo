@@ -1,5 +1,32 @@
 export const FILTER = ["ALL", "Wtih Comment", "With Photo", 5, 4, 3, 2, 1];
 export const COUNT = [700, 560, 243, 234, 234, 23, 1, 10];
+export const REST_INFO = {
+  name: "Dek Ying Pungjung",
+  description: "Sushi Susu Sasa",
+  minPrice: 5,
+  maxPrice: 555,
+  avgRate: 2.7,
+  ratings: [1, 2, 3, 4, 5],
+  ratingCount: 70,
+  commentCount: 56,
+  isOpen: true,
+  isBookmarked: false,
+  isLiked: true,
+  closingDays: ["Mondays", "Tuesdays"],
+  openFrom: "10:00",
+  openTo: "20:00",
+  address:
+    "60/1 Moo 12, Sala Thammasop Sub-district, Thawi Watthana District, Bangkok 10170",
+  locationLink:
+    "https://www.google.com/maps/place/%E0%B8%9A%E0%B9%89%E0%B8%B2%E0%B8%99%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B9%80%E0%B8%84%E0%B8%B5%E0%B8%A2%E0%B8%87%E0%B8%94%E0%B8%B4%E0%B8%99/@13.7772843,100.3556008,17z/data=!3m1!4b1!4m5!3m4!1s0x30e297ec80d80327:0x9543ac9a48a16a04!8m2!3d13.7772843!4d100.3577895",
+  phone: "088-123-4567",
+  photos: [
+    "https://i.ytimg.com/vi/MPV2METPeJU/maxresdefault.jpg",
+    "https://tonkit360.com/wp-content/uploads/2021/04/fast-food.jpg",
+    "https://www.sciencenewsforstudents.org/wp-content/uploads/2019/11/860_AT_guitar_acoustics.png",
+    "https://images2.minutemediacdn.com/image/upload/c_crop,h_1126,w_2000,x_0,y_181/f_auto,q_auto,w_1100/v1554932288/shape/mentalfloss/12531-istock-637790866.jpg",
+  ],
+};
 export const REVIEWS = [
   {
     id: 1,

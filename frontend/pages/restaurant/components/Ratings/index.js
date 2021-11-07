@@ -19,26 +19,31 @@ function getSum(values) {
   return sum;
 }
 
-const Ratings = () => {
-  const total = getSum(RATINGS);
+const Ratings = (props) => {
+  const rates = props.rates;
+  const total = getSum(rates);
   return (
-    <RatingContainer>
-      <SectionHeader>Ratings</SectionHeader>
-      {RATINGS.map((num, index) => (
-        <EachRate key={index}>
-          <RestaurantRate defaultValue={5 - index} disabled />
-          <NumContainer>
-            <Progress
-              percent={(num / total) * 100}
-              showInfo={false}
-              strokeWidth={4}
-              strokeColor={colors.PRIMARY_BLUE}
-            />
-            <Count>{num}</Count>
-          </NumContainer>
-        </EachRate>
-      ))}
-    </RatingContainer>
+    <>
+      <RatingContainer>
+        <SectionHeader>Ratings</SectionHeader>
+        {rates.map((num, index) => {
+          return (
+            <EachRate key={index}>
+              <RestaurantRate defaultValue={5 - index} disabled />
+              <NumContainer>
+                <Progress
+                  percent={(num / total) * 100}
+                  showInfo={false}
+                  strokeWidth={4}
+                  strokeColor={colors.PRIMARY_BLUE}
+                />
+                <Count>{num}</Count>
+              </NumContainer>
+            </EachRate>
+          );
+        })}
+      </RatingContainer>
+    </>
   );
 };
 

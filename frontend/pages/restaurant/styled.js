@@ -35,49 +35,53 @@ export const Underline = styled.hr`
     width: 50px;
   }
 `;
+
 export const DetailContainer = styled.div`
-  background: ${COLORS.PRIMARY_LIGHT};
-  padding: 20px 5vw;
-  height: fit-content;
   display: flex;
+  width: 100%;
   justify-content: space-between;
+  background: ${COLORS.PRIMARY_LIGHT};
+  padding: 0 5vw;
   @media (max-width: ${BREAKPOINTS.IPAD_PORTRAIT}) {
-    padding: 0 5vw;
     flex-direction: column;
   }
 `;
 
-export const RevertContainer = styled(DetailContainer)`
+export const LargeSection = styled.div`
+  width: 54vw;
+  background: white;
+  padding: 5px;
+  display: flex;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
   @media (max-width: ${BREAKPOINTS.IPAD_PORTRAIT}) {
-    flex-direction: column-reverse;
+    display: none;
   }
 `;
 
-export const BigContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  width: 60%;
-  height: fit-content;
-  border-radius: 5px;
+export const SmallSection = styled.div`
+  width: 34vw;
   background: white;
+  padding: 5px;
+  display: flex;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
   @media (max-width: ${BREAKPOINTS.IPAD_PORTRAIT}) {
-    width: 100%;
-    margin: 10px 0;
+    display: none;
   }
 `;
 
-export const SmallContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  width: 38%;
-  height: fit-content;
-  border-radius: 5px;
+export const FullSection = styled.div`
+  width: 100%;
   background: white;
+  padding: 5px;
+  display: flex;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  display: none;
+  margin: 10px 0;
   @media (max-width: ${BREAKPOINTS.IPAD_PORTRAIT}) {
-    width: 100%;
-    margin: 10px 0;
+    display: flex;
   }
 `;
 

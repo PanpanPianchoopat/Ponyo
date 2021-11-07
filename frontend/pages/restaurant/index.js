@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import {
   DetailContainer,
-  RevertContainer,
-  BigContainer,
-  SmallContainer,
+  LargeSection,
+  SmallSection,
   Name,
   Underline,
   HeadSection,
@@ -16,19 +15,20 @@ import {
   Star,
   Number,
   ReviewsContainer,
-  StyledRadio,
+  FullSection,
 } from "./styled";
 import WriteReview from "./components/WriteReview";
 import Ratings from "./components/Ratings";
 import Carousel from "./components/Carousel";
-import { SAMPLE_IMAGE } from "./components/Carousel/constant";
 import Overview from "./components/Overview";
 import Detail from "./components/Detail";
 import Review from "./components/Review";
 import { FILTER, COUNT, REVIEWS } from "./constant";
 import { Divider } from "antd";
+import { REST_INFO } from "./constant";
+import { Direction } from "./components/Detail/styled";
 
-const Restaurant = () => {
+function Restaurant() {
   const [filter, setFilter] = useState(0);
 
   const StarNum = (count) => {
@@ -43,53 +43,71 @@ const Restaurant = () => {
     <>
       <HeadSection>
         <Name>
-          Dek Ying Pungjung
+          {REST_INFO.name}
           <Underline />
         </Name>
-        <Carousel slides={SAMPLE_IMAGE} />
+        <Carousel slides={REST_INFO.photos} />
       </HeadSection>
+
       <DetailContainer>
-        <BigContainer>
-          <Overview />
-        </BigContainer>
-        <SmallContainer>
-          <Detail />
-        </SmallContainer>
-      </DetailContainer>
-      <RevertContainer>
-        <BigContainer>
+        <div>
+          <LargeSection style={{ marginBottom: "15px" }}>
+            <Overview info={REST_INFO} />
+          </LargeSection>
+          <LargeSection>
+            <WriteReview />
+          </LargeSection>
+        </div>
+        <div>
+          <SmallSection style={{ marginBottom: "15px" }}>
+            <Detail detail={REST_INFO} />
+          </SmallSection>
+          <SmallSection>
+            <Ratings rates={REST_INFO.ratings} />
+          </SmallSection>
+        </div>
+        <FullSection>
+          <Overview info={REST_INFO} />
+        </FullSection>
+        <FullSection>
+          <Detail detail={REST_INFO} />
+        </FullSection>
+        <FullSection>
+          <Ratings rates={REST_INFO.ratings} />
+        </FullSection>
+        <FullSection>
           <WriteReview />
-        </BigContainer>
-        <SmallContainer>
-          <Ratings />
-        </SmallContainer>
-      </RevertContainer>
+        </FullSection>
+      </DetailContainer>
+
       <ReviewContainer>
         <ReviewInnerContainer>
           <SectionHeader>Review</SectionHeader>
           <SectionUnderline />
           <ReviewFilters>
-            {FILTER.map((type, index) => (
-              <FilterButton
-                key={index}
-                isSelected={filter == index}
-                onClick={() => setFilter(index)}
-              >
-                {typeof type === "string" ? type : <div>{StarNum(type)}</div>}
-                <Number>({COUNT[index]})</Number>
-              </FilterButton>
-            ))}
+            {FILTER.map((type, index) => {
+              return (
+                <FilterButton
+                  key={index}
+                  isSelected={filter == index}
+                  onClick={() => setFilter(index)}
+                >
+                  {typeof type === "string" ? type : <div>{StarNum(type)}</div>}
+                  <Number>({COUNT[index]})</Number>
+                </FilterButton>
+              );
+            })}
           </ReviewFilters>
           <Divider />
           <ReviewsContainer>
-            {REVIEWS.map((review) => (
-              <Review key={review.id} review={review} />
-            ))}
+            {REVIEWS.map((review, index) => {
+              return <Review key={index} review={review} />;
+            })}
           </ReviewsContainer>
         </ReviewInnerContainer>
       </ReviewContainer>
     </>
   );
-};
+}
 
 export default Restaurant;

@@ -39,7 +39,7 @@ const WriteReview = () => {
           <Form.Item name="star">
             <>
               <StyledRate />
-              <Divider />
+              <Divider style={{ margin: "10px 0 0 0" }} />
             </>
           </Form.Item>
           <Form.Item name="pictures">

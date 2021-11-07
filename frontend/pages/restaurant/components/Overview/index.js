@@ -16,11 +16,11 @@ import {
 } from "./styled";
 import { DATA } from "./constant";
 import { Divider } from "antd";
-import { HeartOutlined, HeartFilled } from "@ant-design/icons";
 
-const Overview = () => {
-  const [isBookmarked, setBookmark] = useState(DATA.bookmark);
-  const [isLiked, setIsLiked] = useState(DATA.like);
+const Overview = (props) => {
+  const restaurant = props.info;
+  const [isBookmarked, setBookmark] = useState(restaurant.isBookmarked);
+  const [isLiked, setIsLiked] = useState(restaurant.isLiked);
 
   function toggleBookmark() {
     setBookmark(!isBookmarked);
@@ -33,43 +33,47 @@ const Overview = () => {
   useEffect(
     () =>
       // print updated bookmark
-      console.log(isBookmarked),
+      console.log("Rest Marked:", isBookmarked),
     [isBookmarked]
   );
 
   return (
-    <OverviewContainer>
-      <Line>
-        <RestName>{DATA.name}</RestName>
-        <Inline>
-          <Status background={DATA.status}>{DATA.status.toUpperCase()}</Status>
-          {isBookmarked ? (
-            <BookmarkActive onClick={toggleBookmark} />
+    <>
+      <OverviewContainer>
+        <Line>
+          <RestName>{restaurant.name}</RestName>
+          <Inline>
+            <Status open={restaurant.isOpen}>
+              {restaurant.isOpen ? "OPEN" : "CLOSE"}
+            </Status>
+            {isBookmarked ? (
+              <BookmarkActive onClick={toggleBookmark} />
+            ) : (
+              <Bookmark onClick={toggleBookmark} />
+            )}
+          </Inline>
+        </Line>
+        <Line>{restaurant.description}</Line>
+        <PriceRange>
+          ฿{restaurant.minPrice} - ฿{restaurant.maxPrice}
+        </PriceRange>
+        <Divider />
+        <Record>
+          {restaurant.ratingCount} ratings ({restaurant.commentCount} reviews)
+        </Record>
+        <Line>
+          <div>
+            <AverageRate defaultValue={restaurant.avgRate} disabled allowHalf />
+            <AvgRateText>{restaurant.avgRate}</AvgRateText>
+          </div>
+          {isLiked ? (
+            <HeartACtive onClick={toggleLike} />
           ) : (
-            <Bookmark onClick={toggleBookmark} />
+            <Heart onClick={toggleLike} />
           )}
-        </Inline>
-      </Line>
-      <Line>{DATA.description}</Line>
-      <PriceRange>
-        ฿{DATA.minPrice} - ฿{DATA.maxPrice}
-      </PriceRange>
-      <Divider />
-      <Record>
-        {DATA.rateNum} ratings ({DATA.reviewNum} reviews)
-      </Record>
-      <Line>
-        <div>
-          <AverageRate defaultValue={DATA.avgRate} disabled allowHalf />
-          <AvgRateText>{DATA.avgRate}</AvgRateText>
-        </div>
-        {isLiked ? (
-          <HeartACtive onClick={toggleLike} />
-        ) : (
-          <Heart onClick={toggleLike} />
-        )}
-      </Line>
-    </OverviewContainer>
+        </Line>
+      </OverviewContainer>
+    </>
   );
 };
 
