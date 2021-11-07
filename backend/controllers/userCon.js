@@ -142,17 +142,18 @@ export const deleteList = async (req, res) => {
   res.json({ message: "List deleted successfully." });
 };
 
-export default router;
+export const editFav = async (req, res) => {
+  const { id } = req.params;
+  const { favorite } = req.body;
+  console.log(favorite);
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send(`No post with id: ${id}`);
 
-// useEffect(() => {
-//     const token = localStorage.getItem("token");
-//     if (token) {
-//       const user = jwt.decode(token);
-//       if (!user) {
-//         localStorage.removeItem("token");
-//         history.replace("login");
-//       } else {
-//         populateQuote();
-//       }
-//     }
-//   }, []);
+  const updatedList = { _id: id, favorite: favorite };
+
+  await User.findByIdAndUpdate(id, updatedList, { new: true });
+
+  res.status(200).json(updatedList);
+};
+
+export default router;
