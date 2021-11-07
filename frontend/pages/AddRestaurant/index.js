@@ -76,6 +76,7 @@ const AddRestaurant = () => {
   return (
     <Form form={form} onFinish={onFinish} onFinishFailed={onFinishFailed}>
       <Form.Item>
+        <Form.Item name="gender"></Form.Item>
         <Form.Item
           name="name"
           label="rest name"
@@ -83,6 +84,7 @@ const AddRestaurant = () => {
         >
           <Input />
         </Form.Item>
+
         <Form.Item
           name="type"
           label="type"

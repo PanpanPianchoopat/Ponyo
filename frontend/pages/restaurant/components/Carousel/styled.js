@@ -1,16 +1,21 @@
 import styled from "styled-components";
 import { Swiper } from "swiper/react";
-import COLORS from "../../../public/constant/colors";
-import BREAKPOINTS from "../../../public/constant/breakpoints";
+import COLORS from "../../../../public/constant/colors";
+import BREAKPOINTS from "../../../../public/constant/breakpoints";
 
 export const CarouselContainer = styled.div`
   width: 100%;
-  background: ${COLORS.PRIMARY_DARK};
+  background: linear-gradient(
+    180deg,
+    ${COLORS.PRIMARY_DARK} 90%,
+    ${COLORS.PRIMARY_LIGHT} 0%
+  );
 `;
 
 export const Slider = styled(Swiper)`
   width: 80%;
   height: 700px;
+
   .swiper-button-prev,
   .swiper-button-next {
     color: ${COLORS.LIGHT_GREY};
@@ -40,11 +45,27 @@ export const SlideContent = styled.div`
   display: flex;
   width: 100%;
   height: 100%;
-  background: ${COLORS.PRIMARY_DARK};
+  background: linear-gradient(
+    180deg,
+    ${COLORS.PRIMARY_DARK} 90%,
+    ${COLORS.PRIMARY_LIGHT} 0%
+  );
   justify-content: center;
 `;
 
 export const SlideImage = styled.img`
   width: auto;
   height: 100%;
+`;
+
+export const Test = styled.div`
+  display: flex;
+
+  background: linear-gradient(
+    180deg,
+    ${COLORS.PRIMARY_DARK} 80%,
+    ${COLORS.PRIMARY_LIGHT} 0%
+  );
+  width: 100%;
+  height: 200px;
 `;

@@ -1,9 +1,8 @@
 html,
 body {
-  padding: 0;
+  padding: 40px 0 0 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: Helvetica;
 }
 
 a {
@@ -13,4 +12,27 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+*:focus {
+  outline: none;
+}
+
+@media screen and (max-width: 1440px) {
+  html,
+  body {
+    padding-top: 30px;
+  }
+}
+@media screen and (max-width: 768px) {
+  html,
+  body {
+    padding-top: 20px;
+  }
+}
+@media screen and (max-width: 414px) {
+  html,
+  body {
+    padding-top: 15px;
+  }
 }
