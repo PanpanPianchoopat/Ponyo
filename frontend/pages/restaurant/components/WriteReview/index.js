@@ -14,7 +14,6 @@ import Button from "../../../components/Button";
 
 const WriteReview = () => {
   const [form] = Form.useForm();
-  const review = useRef();
 
   const onFinish = (values) => {
     console.log("Success:", values);
@@ -47,7 +46,7 @@ const WriteReview = () => {
               listType="picture-card"
               beforeUpload={() => false}
               showUploadList={{ showPreviewIcon: false }}
-              fileList={[]}
+              multiple
             >
               <CameraIcon />
               <PlusIcon />
