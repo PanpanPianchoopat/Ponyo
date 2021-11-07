@@ -21,6 +21,7 @@ export const SectionHeader = styled.b`
 
 export const StyledRate = styled(Rate)`
   font-size: 35px;
+  color: ${COLORS.PRIMARY_YELLOW};
   @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
     font-size: 28px;
   }

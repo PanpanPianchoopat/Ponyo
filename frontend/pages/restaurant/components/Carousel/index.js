@@ -42,7 +42,6 @@ const Carousel = (props) => {
           </SwiperSlide>
         ))}
       </Slider>
-      {/* <Test /> */}
     </CarouselContainer>
   );
 };

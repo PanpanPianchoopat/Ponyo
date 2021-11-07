@@ -5,7 +5,8 @@ export const DATA = {
   maxPrice: "5555",
   status: "open",
   bookmark: true,
-  like: true,
-  rateNume: 700,
+  like: false,
+  rateNum: 700,
   reviewNum: 560,
+  avgRate: 4.7,
 };

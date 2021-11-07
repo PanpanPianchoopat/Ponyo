@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Rate } from "antd";
 import BREAKPOINTS from "../../../../public/constant/breakpoints";
+import COLORS from "../../../../public/constant/colors";
 
 export const RatingContainer = styled.div`
   display: flex;
@@ -24,13 +25,14 @@ export const EachRate = styled.div`
 
 export const RestaurantRate = styled(Rate)`
   font-size: 1rem;
-  margin-right: 10px;
+  color: ${COLORS.PRIMARY_YELLOW};
 `;
 
 export const NumContainer = styled.div`
   display: flex;
-  min-width: 40%;
+  width: 50%;
   align-items: center;
+  margin-left: 8px;
 `;
 
 export const Count = styled.text`

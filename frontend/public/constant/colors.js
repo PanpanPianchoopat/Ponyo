@@ -5,5 +5,6 @@ export default {
   PRIMARY_YELLOW: "#F6BE0F",
   PRIMARY_BLUE: "#02858F",
   LIGHT_GREY: "#CFCFD0",
+  DARK_GREY: "#858585",
   LIGHT_GREEN: "#72C19A",
 };

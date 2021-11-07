@@ -12,12 +12,6 @@ function Home() {
 
       <main className={styles.main}>
         {/* <Carousel slides={SAMPLE_IMAGE} /> */}
-
-        {/* <div style={{ display: "flex" }}>
-          {SAMPLE_DATA.map((item) => (
-            <RestCard detail={item} liked={item.liked} saved={item.saved} />
-          ))}
-        </div> */}
       </main>
       <footer></footer>
     </div>
