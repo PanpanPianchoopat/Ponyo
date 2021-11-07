@@ -7,6 +7,8 @@ import {
   getResByAddress,
   getResByType,
   getTagStatus,
+  updateAllDay
+
 } from "../controllers/restaurantCon.js";
 
 const router = express.Router();
@@ -18,6 +20,8 @@ router.get("/address", getResByAddress);
 router.get("/type/:type", getResByType);
 router.get("/detail/:id", getResDetail);
 router.get("/status/:name", getTagStatus);
+router.patch("/update", updateAllDay);
+
 
 
 

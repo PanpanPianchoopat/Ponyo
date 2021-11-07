@@ -23,7 +23,15 @@ const convertToMin = (hour, min) => {
 };
 
 export const addRestaurant = async (req, res) => {
-  const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+  const days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
   const {
     name,
     type,
@@ -167,7 +175,15 @@ const findPriceRange = (priceRange) => {
 
 const searchWithStatus = async (resStatus, key, search, range, type) => {
   const now = new Date(),
-    days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"],
+    days = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ],
     weekDay = days[now.getDay()],
     hour = now.getHours(),
     minutes = now.getMinutes();
@@ -514,4 +530,27 @@ export const getTagStatus = async (req, res) => {
   } catch (error) {
     res.status(404).json({ Error: error.message });
   }
+};
+
+export const updateAllDay = async (req, res) => {
+  const days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  var i = 0;
+
+  while (i < 7) {
+    var day = "openDays." + i + ".weekDay";
+    const Restaurants = await Restaurant.updateMany({
+      $set: { [day]: days[i] },
+    });
+    i++;
+  }
+
+  res.status(200).json("Restaurants");
 };
