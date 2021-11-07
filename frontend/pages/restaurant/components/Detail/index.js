@@ -22,10 +22,10 @@ const Detail = (props) => {
           <CloseDays>
             Close every: &ensp;
             {detail.closingDays.map((day, index) => (
-              <>
+              <text key={index}>
                 {day}
                 {index < detail.closingDays.length - 1 ? ", " : ""}
-              </>
+              </text>
             ))}
           </CloseDays>
         ) : null}
