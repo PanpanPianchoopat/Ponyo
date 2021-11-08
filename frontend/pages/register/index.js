@@ -124,7 +124,7 @@ const register = () => {
                 </CustomInput>
               </Form.Item>
               <Form.Item
-                name="datePicker"
+                name="birthday"
                 label={
                   <label
                     style={{
@@ -139,12 +139,6 @@ const register = () => {
                     Birthday
                   </label>
                 }
-                // rules={[
-                //   {
-                //     required: true,
-                //     message: "Please input your birthday!",
-                //   },
-                // ]}
               >
                 <CustomDatePicker
                   placeholder="DD/MM/YYYY"
@@ -219,8 +213,6 @@ const register = () => {
                   <Info>Gender</Info>
                   <StyleButton>
                     <CustomButton
-                      type="primary"
-                      size="large"
                       onClick={() => {
                         setGender("male");
                       }}
@@ -228,8 +220,6 @@ const register = () => {
                       Male
                     </CustomButton>
                     <CustomButton
-                      type="primary"
-                      size="large"
                       onClick={() => {
                         setGender("female");
                       }}
@@ -237,8 +227,6 @@ const register = () => {
                       Female
                     </CustomButton>
                     <CustomButton
-                      type="primary"
-                      size="large"
                       onClick={() => {
                         setGender("other");
                       }}

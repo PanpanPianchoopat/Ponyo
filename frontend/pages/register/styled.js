@@ -108,19 +108,25 @@ export const FormContainer = styled.div`
   justify-content: space-around;
   width: 60vw;
   @media (max-width: ${BREAKPOINTS.IPAD_PORTRAIT}) {
-    width: 80vw;
+    width: 100vw;
   }
 `;
 
 export const LeftSide = styled.div`
   display: flex;
   flex-direction: column;
+  @media (max-width: ${BREAKPOINTS.IPAD_PORTRAIT}) {
+    width: 30%;
+  }
 `;
 
 export const RightSide = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  @media (max-width: ${BREAKPOINTS.IPAD_PORTRAIT}) {
+    width: 40%;
+  }
 `;
 
 export const Info = styled.div`
@@ -130,6 +136,9 @@ export const Info = styled.div`
   color: #4c403f;
   opacity: 0.5;
   margin-bottom: 10px;
+  @media (max-width: 893px) {
+    font-size: 15px;
+  }
 `;
 
 export const Center = styled.div`
@@ -147,6 +156,9 @@ export const CustomInput = styled.div`
   @media (max-width: ${BREAKPOINTS.IPHONE_11}) {
     width: 50vw;
   }
+  @media (max-width: ${BREAKPOINTS.IPAD_PORTRAIT}) {
+    width: 30vw;
+  }
 `;
 
 export const StyleInput = styled.input`
@@ -163,7 +175,6 @@ export const StyleInput = styled.input`
   }
   @media (max-width: ${BREAKPOINTS.IPHONE_11}) {
     width: 42vw;
-    font-size: 16px;
   }
 `;
 
@@ -174,9 +185,6 @@ export const CustomDatePicker = styled(DatePicker)`
   font-size: 22px;
   border: none;
   border-bottom: 2px solid #87695d;
-  @media (max-width: ${BREAKPOINTS.IPHONE_11}) {
-    width: 200px;
-  }
 `;
 
 export const StyleButton = styled.div`
@@ -187,10 +195,13 @@ export const StyleButton = styled.div`
   width: 23vw;
   height: 6vh;
   border-radius: 5px;
+  @media (max-width: ${BREAKPOINTS.IPAD_PORTRAIT}) {
+    width: 39vw;
+  }
 `;
 
 export const CustomButton = styled.button`
-  width: 32%;
+  width: 30%;
   border-radius: 5px;
   background: white;
   border: 0;
@@ -204,6 +215,9 @@ export const CustomButton = styled.button`
   }
   &:focus {
     background: #ecd89d;
+  }
+  @media (max-width: ${BREAKPOINTS.IPAD_PORTRAIT}) {
+    width: 40%;
   }
 `;
 
