@@ -59,6 +59,7 @@ export const deleteReview = async (req, res) => {
 
 export const getAllReview = async (req, res) => {
   const { rest_id, username } = req.params;
+  const likeTest = ["Yingza", "pungjung"];
   try {
     const Reviews = await Review.aggregate([
       {
@@ -73,7 +74,6 @@ export const getAllReview = async (req, res) => {
           reviewText: 1,
           star: 1,
           image: 1,
-          like: 1,
           editDelete: {
             $cond: {
               if: { $strcasecmp: ["$reviewer", username] },
@@ -81,7 +81,13 @@ export const getAllReview = async (req, res) => {
               else: true,
             },
           },
-          
+          likeReview:{
+            $cond: {
+              if: {  $in: [username,"$like"] },
+              then: true,
+              else: false,
+            },
+          }
         },
       },
     ]);
