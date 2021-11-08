@@ -14,7 +14,7 @@ export const CarouselContainer = styled.div`
 
 export const Slider = styled(Swiper)`
   width: 80%;
-  height: 700px;
+  height: 500px;
 
   .swiper-button-prev,
   .swiper-button-next {
@@ -29,11 +29,14 @@ export const Slider = styled(Swiper)`
     background: var(--swiper-pagination-color, var(--swiper-theme-color));
     background-color: ${COLORS.PRIMARY_YELLOW};
   }
+  @media (max-width: ${BREAKPOINTS.DESKTOP_FULL_HD}) {
+    height: 350px;
+  }
   @media (max-width: ${BREAKPOINTS.HiDPI_LAPTOP}) {
-    height: 450px;
+    height: 250px;
   }
   @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
-    height: 250px;
+    height: 200px;
   }
   @media (max-width: ${BREAKPOINTS.IPHONE_11}) {
     width: 100%;

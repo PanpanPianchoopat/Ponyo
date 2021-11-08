@@ -92,7 +92,7 @@ function Restaurant() {
                   onClick={() => setFilter(index)}
                 >
                   {typeof type === "string" ? type : <div>{StarNum(type)}</div>}
-                  <Number>({COUNT[index]})</Number>
+                  <Number isSelected={filter == index}>({COUNT[index]})</Number>
                 </FilterButton>
               );
             })}

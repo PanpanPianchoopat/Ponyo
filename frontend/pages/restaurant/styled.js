@@ -21,8 +21,13 @@ export const Name = styled.div`
   font-size: 48px;
   color: white;
   padding: 20px 0 40px 0;
+  @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
+    font-size: 32px;
+    padding: 15px 0;
+  }
   @media (max-width: ${BREAKPOINTS.IPHONE_11}) {
-    font-size: 36px;
+    font-size: 28px;
+    padding: 15px 0;
   }
 `;
 
@@ -140,7 +145,7 @@ export const ReviewFilters = styled.div`
 
 export const FilterButton = styled.button.attrs((props) => {
   const bgColor = props.isSelected ? COLORS.PRIMARY_BLUE : "none";
-  const textColor = props.isSelected ? "white" : COLORS.PRIMARY_BLUE;
+  const textColor = props.isSelected ? "white" : "black";
   return { bgColor, textColor };
 })`
   width: 150px;
@@ -159,8 +164,12 @@ export const FilterButton = styled.button.attrs((props) => {
   font-size: 12px;
 `;
 
-export const Number = styled.text`
+export const Number = styled.text.attrs((props) => {
+  const textColor = props.isSelected ? "white" : COLORS.DARK_GREY;
+  return { textColor };
+})`
   font-size: 8px;
+  color: ${(props) => props.textColor};
 `;
 
 export const Star = styled(StarFilled)`

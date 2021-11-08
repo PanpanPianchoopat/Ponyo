@@ -8,7 +8,6 @@ import {
   PinIcon,
   Direction,
   PhoneIcon,
-  Link,
 } from "./styled";
 import { FaDirections } from "react-icons/fa";
 
@@ -36,12 +35,11 @@ const Detail = (props) => {
           <PinIcon />
           {detail.address}
         </DetailText>
-        <Direction>
+        <Direction href={detail.locationLink} target="_blank">
           <FaDirections style={{ marginRight: "5px" }} />
-          <Link href={detail.locationLink} target="_blank">
-            Direction
-          </Link>
+          Direction
         </Direction>
+
         <Divider />
         <div>
           <PhoneIcon />
