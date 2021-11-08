@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import COLORS from "../../public/constant/colors";
 import Image from "next/image";
-import { DatePicker, Radio, Button } from "antd";
+import { DatePicker, Upload } from "antd";
+import { CameraFilled, PlusCircleFilled } from "@ant-design/icons";
 import BREAKPOINTS from "../../public/constant/breakpoints";
 
 export const Container = styled.div`
@@ -106,6 +107,9 @@ export const FormContainer = styled.div`
   display: flex;
   justify-content: space-around;
   width: 60vw;
+  @media (max-width: ${BREAKPOINTS.IPAD_PORTRAIT}) {
+    width: 80vw;
+  }
 `;
 
 export const LeftSide = styled.div`
@@ -116,6 +120,7 @@ export const LeftSide = styled.div`
 export const RightSide = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 `;
 
 export const Info = styled.div`
@@ -131,6 +136,7 @@ export const Center = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
+  margin-top: 30px;
 `;
 
 export const CustomInput = styled.div`
@@ -157,6 +163,7 @@ export const StyleInput = styled.input`
   }
   @media (max-width: ${BREAKPOINTS.IPHONE_11}) {
     width: 42vw;
+    font-size: 16px;
   }
 `;
 
@@ -168,7 +175,7 @@ export const CustomDatePicker = styled(DatePicker)`
   border: none;
   border-bottom: 2px solid #87695d;
   @media (max-width: ${BREAKPOINTS.IPHONE_11}) {
-    width: 42vw;
+    width: 200px;
   }
 `;
 
@@ -198,4 +205,45 @@ export const CustomButton = styled.button`
   &:focus {
     background: #ecd89d;
   }
+`;
+
+export const UploadImage = styled(Upload)`
+  .ant-upload-list-picture-card-container {
+    width: 80px;
+    height: fit-content;
+    margin: 0;
+  }
+  .ant-upload-select,
+  .ant-upload-select:hover {
+    border-radius: 100px;
+    border: 1.5px dashed #6ba59c;
+    width: 60px;
+    height: 60px;
+    background: white;
+  }
+  .ant-upload-list-item,
+  .ant-upload-list-item-info {
+    border-radius: 100px;
+    width: 60px;
+    height: 60px;
+    padding: 0;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  }
+  .ant-upload-list-item-info::before {
+    left: 0;
+  }
+`;
+
+export const CameraIcon = styled(CameraFilled)`
+  font-size: 25px;
+  color: #2e3840;
+`;
+
+export const PlusIcon = styled(PlusCircleFilled)`
+  font-size: 15px;
+  color: #6ba59c;
+  position: absolute;
+  margin: 40px 0 0 40px;
+  background: white;
+  border-radius: 100px;
 `;

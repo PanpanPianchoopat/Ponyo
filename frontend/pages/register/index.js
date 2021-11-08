@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Form, Upload } from "antd";
+import { Form } from "antd";
 import Button from "../components/Button";
 import Link from "next/link";
-import { UploadOutlined, InboxOutlined } from "@ant-design/icons";
 import {
   Container,
   ContainerLeft,
@@ -26,12 +25,16 @@ import {
   CustomDatePicker,
   StyleButton,
   CustomButton,
+  UploadImage,
+  CameraIcon,
+  PlusIcon,
 } from "./styled";
 
 const register = () => {
   const [form] = Form.useForm();
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
+    console.log("Received values of form: ", gender);
   };
   const setDate = (dateString) => {
     const birthday = dateString;
@@ -88,6 +91,21 @@ const register = () => {
                 </CustomInput>
               </Form.Item>
               <Form.Item
+                name="username"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your username!",
+                    whitespace: true,
+                  },
+                ]}
+              >
+                <CustomInput>
+                  <Info>Username</Info>
+                  <StyleInput type="text" placeholder="Enter your username" />
+                </CustomInput>
+              </Form.Item>
+              <Form.Item
                 name="password"
                 rules={[
                   {
@@ -103,21 +121,6 @@ const register = () => {
                     type="password"
                     placeholder="Enter your password"
                   />
-                </CustomInput>
-              </Form.Item>
-              <Form.Item
-                name="username"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your username!",
-                    whitespace: true,
-                  },
-                ]}
-              >
-                <CustomInput>
-                  <Info>Username</Info>
-                  <StyleInput type="text" placeholder="Enter your username" />
                 </CustomInput>
               </Form.Item>
               <Form.Item
@@ -152,22 +155,32 @@ const register = () => {
               </Form.Item>
             </LeftSide>
             <RightSide>
-              <Form.Item name="upload">
-                <>
-                  <Info>Upload Photo</Info>
-                  <Upload
-                    name="profile"
-                    listType="picture-card"
-                    showUploadList={false}
-                    beforeUpload={() => false}
+              <Form.Item
+                name="profile"
+                label={
+                  <label
+                    style={{
+                      fontSize: "18px",
+                      fontWeight: "bold",
+                      letterSpacing: "3px",
+                      color: "#4c403f",
+                      opacity: "0.5",
+                      marginBottom: "10px",
+                    }}
                   >
-                    <img
-                      src="../../public/assets/Logo.svg"
-                      alt="profile"
-                      style={{ width: "100%" }}
-                    />
-                  </Upload>
-                </>
+                    Upload photo
+                  </label>
+                }
+              >
+                <UploadImage
+                  listType="picture-card"
+                  beforeUpload={() => false}
+                  showUploadList={{ showPreviewIcon: false }}
+                  maxCount={1}
+                >
+                  <CameraIcon />
+                  <PlusIcon />
+                </UploadImage>
               </Form.Item>
               <Form.Item
                 name="confirm"
@@ -193,7 +206,7 @@ const register = () => {
                   }),
                 ]}
               >
-                <CustomInput>
+                <CustomInput style={{ marginTop: "57px" }}>
                   <Info>Confirm password</Info>
                   <StyleInput
                     type="password"
