@@ -42,27 +42,20 @@ export const PinIcon = styled(BsFillGeoAltFill)`
   color: ${COLORS.PRIMARY_RED};
 `;
 
-export const Direction = styled.button`
+export const Direction = styled.a`
   width: 80%;
   height: 25px;
-  align-self: center;
-  margin-top: 10px;
-  border: none;
   border-radius: 5px;
+  align-self: center;
   background: ${COLORS.PRIMARY_BLUE};
   color: white;
   font-size: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 10px;
   &:hover {
     filter: brightness(0.9);
-  }
-`;
-
-export const Link = styled.a`
-  color: white;
-  &:hover {
     color: white;
   }
 `;
