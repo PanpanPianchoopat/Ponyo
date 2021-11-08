@@ -15,7 +15,6 @@ export const addReview = async (req, res) => {
     reviewText,
     star,
     image,
-    like: 0,
   });
   try {
     await newReview.save();
@@ -82,6 +81,7 @@ export const getAllReview = async (req, res) => {
               else: true,
             },
           },
+          
         },
       },
     ]);
@@ -134,6 +134,7 @@ export const getReviewByPhoto = async (req, res) => {
 export const getAmount = async (req, res) => {
   const { rest_id } = req.params;
   const { typeReview, star } = req.body;
+
   try {
     //Find number of all review (All rating)
     if (typeReview == 1) {
@@ -195,4 +196,34 @@ export const calRate = async (req, res) => {
   } catch (error) {
     res.status(404).json({ Error: error.message });
   }
+};
+
+export const addLikeReview = async (req, res) => {
+  const { id, username } = req.params;
+  const { like } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send(`No review with id: ${id}`);
+
+  if (like == "true") {
+    await Review.findByIdAndUpdate(
+      id,
+      {
+        $push: {
+          like: username,
+        },
+      },
+      { new: true } 
+    );
+    res.status(200).json({ Message: "add Success" });
+  } else {
+    await Review.findByIdAndUpdate(
+      id,
+      { $pull: { "like": username } },
+      { new: true }
+    );
+    res.status(200).json({ Message: "remove Success" });
+  }
+
+  
 };

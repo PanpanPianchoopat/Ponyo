@@ -9,6 +9,7 @@ import {
   calRate,
   editReview,
   deleteReview,
+  addLikeReview,
 } from "../controllers/reviewCon.js";
 
 const router = express.Router();
@@ -21,8 +22,10 @@ router.get("/image/:rest_id", getReviewByPhoto);
 router.get("/amount/:rest_id", getAmount);
 router.get("/star/:rest_id", getReviewByStar);
 router.get("/rate/:rest_id", calRate);
+router.patch("/like/:id/:username", addLikeReview);
 router.post("/:rest_id/:reviewer", addReview);
 router.get("/:rest_id/:username", getAllReview);
+
 
 
 
