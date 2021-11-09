@@ -59,6 +59,7 @@ export const deleteReview = async (req, res) => {
 
 export const getAllReview = async (req, res) => {
   const { rest_id, username } = req.params;
+  const likeTest = ["Yingza", "pungjung"];
   try {
     const Reviews = await Review.aggregate([
       {
@@ -99,44 +100,48 @@ export const getAllReview = async (req, res) => {
   }
 };
 
-export const getReviewByStar = async (req, res) => {
-  const { rest_id } = req.params;
+export const getReview = async (req, res) => {
+  const { rest_id, filter } = req.params;
   const { star } = req.body;
+
   try {
-    const Reviews = await Review.find({
-      rest_id: rest_id,
-      star: star,
-    });
-    res.status(200).json(Reviews);
+    if (filter == "star") {
+      const Reviews = await getReviewByStar(rest_id, star);
+      res.status(200).json(Reviews);
+    } else if (filter == "comment") {
+      const Reviews = await getReviewByComment(rest_id);
+      res.status(200).json(Reviews);
+    } else {
+      const Reviews = await getReviewByPhoto(rest_id);
+      res.status(200).json(Reviews);
+    }
   } catch (error) {
     res.status(404).json({ Error: error.message });
   }
 };
 
-export const getReviewByComment = async (req, res) => {
-  const { rest_id } = req.params;
-  try {
-    const Reviews = await Review.find({
-      rest_id: rest_id,
-      reviewText: { $exists: true, $ne: "" },
-    });
-    res.status(200).json(Reviews);
-  } catch (error) {
-    res.status(404).json({ Error: error.message });
-  }
+const getReviewByStar = async (rest_id, star) => {
+  const Reviews = await Review.find({
+    rest_id: rest_id,
+    star: star,
+  });
+  return Reviews;
 };
 
-export const getReviewByPhoto = async (req, res) => {
-  const { rest_id } = req.params;
-  try {
-    const Reviews = await Review.find({
-      rest_id: rest_id,
-      image: { $exists: true, $ne: [] },
-    });
-    res.status(200).json(Reviews);
-  } catch (error) {
-    res.status(404).json({ Error: error.message });
-  }
+const getReviewByComment = async (rest_id) => {
+  const Reviews = await Review.find({
+    rest_id: rest_id,
+    reviewText: { $exists: true, $ne: "" },
+  });
+  return Reviews;
+};
+
+const getReviewByPhoto = async (rest_id) => {
+  const Reviews = await Review.find({
+    rest_id: rest_id,
+    image: { $exists: true, $ne: [] },
+  });
+  return Reviews;
 };
 
 export const getAmount = async (req, res) => {

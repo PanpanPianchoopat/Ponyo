@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import COLORS from "../../../../../public/constant/colors";
 import { StarFilled } from "@ant-design/icons";
+import BREAKPOINTS from "../../../../../public/constant/breakpoints";
 
 export const Description = styled.div.attrs((props) => {
   const showDescription = props.isHovered ? 1 : 0;
@@ -23,17 +24,32 @@ export const Description = styled.div.attrs((props) => {
 `;
 
 export const RestaurantName = styled.text.attrs((props) => {
-  const fontSize = props.isTop ? "1.5rem" : "1.1rem";
-  return { fontSize };
+  const isTop = props.isTop;
+  const fontSize = isTop ? "1.5rem" : "1.1rem";
+  return { isTop, fontSize };
 })`
   font-size: ${(props) => props.fontSize};
+  @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
+    line-height: ${(props) => (props.isTop ? "20px" : "15px")};
+    font-size: ${(props) => (props.isTop ? "1rem" : "0.8rem")};
+  }
+  @media (max-width: ${BREAKPOINTS.IPHONE_11}) {
+    font-size: ${(props) => (props.isTop ? "0.8rem" : "0.6rem")};
+  }
 `;
 
 export const RestaurantDescription = styled.text.attrs((props) => {
-  const fontSize = props.isTop ? "1rem" : "0.8rem";
-  return { fontSize };
+  const isTop = props.isTop;
+  const fontSize = isTop ? "1rem" : "0.8rem";
+  return { isTop, fontSize };
 })`
   font-size: ${(props) => props.fontSize};
+  @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
+    font-size: ${(props) => (props.isTop ? "0.8rem" : "0.6rem")};
+  }
+  @media (max-width: ${BREAKPOINTS.IPHONE_11}) {
+    font-size: ${(props) => (props.isTop ? "0.6rem" : "0.5rem")};
+  }
 `;
 
 export const CoverPic = styled.img`
