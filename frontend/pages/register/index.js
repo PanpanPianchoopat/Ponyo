@@ -69,6 +69,7 @@ const register = () => {
           }}
           onFinish={onFinish}
           layout="vertical"
+          requiredMark={false}
         >
           <FormContainer>
             <LeftSide>
@@ -98,6 +99,15 @@ const register = () => {
                     message: "Please input your username!",
                     whitespace: true,
                   },
+                  () => ({
+                    validator(_, value) {
+                      if (value.length >= 6) {
+                        return Promise.resolve();
+                      }
+
+                      return Promise.reject(new Error("6 characters minimum"));
+                    },
+                  }),
                 ]}
               >
                 <CustomInput>
@@ -112,6 +122,38 @@ const register = () => {
                     required: true,
                     message: "Please input your password!",
                   },
+                  () => ({
+                    validator(_, value) {
+                      if (value.length < 6) {
+                        return Promise.reject(
+                          new Error("6 characters minimum")
+                        );
+                      }
+                      return Promise.resolve();
+                    },
+                  }),
+                  () => ({
+                    validator(_, value) {
+                      var hasNumber = /\d/;
+                      if (hasNumber.test(value) == false) {
+                        return Promise.reject(
+                          new Error("Must contain one number")
+                        );
+                      }
+                      return Promise.resolve();
+                    },
+                  }),
+                  () => ({
+                    validator(_, value) {
+                      var hasUppercase = /[A-Z]/;
+                      if (hasUppercase.test(value) == false) {
+                        return Promise.reject(
+                          new Error("Must contain one uppercase")
+                        );
+                      }
+                      return Promise.resolve();
+                    },
+                  }),
                 ]}
                 hasFeedback
               >
@@ -139,6 +181,12 @@ const register = () => {
                     Birthday
                   </label>
                 }
+                rules={[
+                  {
+                    required: true,
+                    message: "Please select your birthday!",
+                  },
+                ]}
               >
                 <CustomDatePicker
                   placeholder="DD/MM/YYYY"
