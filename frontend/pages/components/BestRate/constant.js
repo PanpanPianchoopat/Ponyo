@@ -24,3 +24,7 @@ export const TOP_3 = [
     rate: 4.5,
   },
 ];
+
+export const TOP = 0;
+export const SECOND = 1;
+export const THIRD = 2;

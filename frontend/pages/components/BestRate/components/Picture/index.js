@@ -10,7 +10,7 @@ import {
 
 const Picture = (props) => {
   const [isHovered, setIsHovered] = useState(false);
-  const isTop = props.info.id == 1;
+  const isTop = props.isTop;
 
   return (
     <>
