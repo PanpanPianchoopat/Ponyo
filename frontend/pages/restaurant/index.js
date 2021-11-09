@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   DetailContainer,
   LargeSection,
@@ -25,10 +25,17 @@ import Detail from "./components/Detail";
 import Review from "./components/Review";
 import { FILTER, COUNT, REVIEWS } from "./constant";
 import { Divider } from "antd";
+import RestaurantAPI from "../api/restaurantAPI";
+
 import { REST_INFO } from "./constant";
 
-function Restaurant() {
+const Restaurant = () => {
   const [filter, setFilter] = useState(0);
+  const [res_inf, setRestaurant] = useState([]);
+
+  useEffect(() => {
+    getRestaurantDetail();
+  }, []);
 
   const StarNum = (count) => {
     const stars = [];
@@ -36,6 +43,18 @@ function Restaurant() {
       stars.push(<Star />);
     }
     return stars;
+  };
+
+  const getRestaurantDetail = () => {
+    RestaurantAPI.getRestaurantDetail()
+      .then((response) => {
+        setRestaurant(response.data);
+        // console.log(res_inf);
+        console.log("res", res_inf.image[0]);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   return (
@@ -107,6 +126,6 @@ function Restaurant() {
       </ReviewContainer>
     </>
   );
-}
+};
 
 export default Restaurant;
