@@ -3,8 +3,8 @@ import {
   addReview,
   getAllReview,
   getReview,
-  getAmount,
-  calRate,
+  getReviewAmount,
+  calReviewRate,
   editReview,
   deleteReview,
   addLikeReview,
@@ -12,14 +12,15 @@ import {
 
 const router = express.Router();
 
-router.patch("/edit/:id/:reviewer", editReview);
-router.delete("/delete/:review_id", deleteReview);
-router.get("/filter/:rest_id/:filter", getReview);
-router.get("/amount/:rest_id", getAmount);
-
-router.get("/rate/:rest_id", calRate);
-router.patch("/like/:review_id/:username/:like", addLikeReview);
 router.post("/:rest_id/:reviewer", addReview);
+router.patch("/edit/:review_id/:reviewer", editReview);
+router.delete("/delete/:review_id", deleteReview);
 router.get("/:rest_id/:username", getAllReview);
+router.get("/filter/:rest_id/:filter", getReview);
+router.get("/amount/:rest_id", getReviewAmount);
+router.get("/rate/:rest_id", calReviewRate);
+router.patch("/like/:review_id/:username/:like", addLikeReview);
+
+
 
 export default router;

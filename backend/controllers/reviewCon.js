@@ -25,12 +25,12 @@ export const addReview = async (req, res) => {
 };
 
 export const editReview = async (req, res) => {
-  const { id, reviewer } = req.params;
+  const { review_id, reviewer } = req.params;
   const { reviewText, star, image } = req.body;
   const date = new Date();
 
-  if (!mongoose.Types.ObjectId.isValid(id))
-    return res.status(404).send(`No review with id: ${id}`);
+  if (!mongoose.Types.ObjectId.isValid(review_id))
+    return res.status(404).send(`No review with id: ${review_id}`);
 
   const updatedReview = {
     reviewText,
@@ -38,10 +38,10 @@ export const editReview = async (req, res) => {
     image,
     reviewer,
     date,
-    _id: id,
+    _id: review_id,
   };
 
-  await Review.findByIdAndUpdate(id, updatedReview, { new: true });
+  await Review.findByIdAndUpdate(review_id, updatedReview, { new: true });
 
   res.status(200).json({ Message: "Updated Success" });
 };
@@ -59,7 +59,6 @@ export const deleteReview = async (req, res) => {
 
 export const getAllReview = async (req, res) => {
   const { rest_id, username } = req.params;
-  const likeTest = ["Yingza", "pungjung"];
   try {
     const Reviews = await Review.aggregate([
       {
@@ -144,7 +143,7 @@ const getReviewByPhoto = async (rest_id) => {
   return Reviews;
 };
 
-export const getAmount = async (req, res) => {
+export const getReviewAmount = async (req, res) => {
   const { rest_id } = req.params;
   const { typeReview, star } = req.body;
 
@@ -189,7 +188,7 @@ export const getAmount = async (req, res) => {
   }
 };
 
-export const calRate = async (req, res) => {
+export const calReviewRate = async (req, res) => {
   const { rest_id } = req.params;
   try {
     const avgStar = await Review.aggregate([
