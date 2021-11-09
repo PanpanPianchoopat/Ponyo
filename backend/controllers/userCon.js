@@ -1,13 +1,13 @@
 import express from "express";
 import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
+import jwt from "jsonwebtoken";
 import User from "../models/userModel.js";
 import Restaurant from "../models/restaurantModel.js";
 const ObjectId = mongoose.Types.ObjectId;
 const router = express.Router();
 
 // เหลือ edit list รอข้อมูลจาก front
-
 export const register = async (req, res) => {
   const { username, email, password, dateOfBirth, gender, imageFile } =
     req.body;
@@ -44,14 +44,15 @@ export const login = async (req, res) => {
   );
 
   if (isPasswordValid) {
-    // const token = jwt.sign(
-    //   {
-    //     username: user.username,
-    //     email: user.email,
-    //   },
-    //   "PonyoSecret"
-    // );
-    res.status(200).json({ Message: "Login Success" });
+    const token = jwt.sign(
+      {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+      },
+      "PonyoSecret"
+    );
+    res.status(200).json({ user: token });
   } else {
     res.status(404).json({ Error: "Login Failed" });
   }
@@ -139,6 +140,20 @@ export const deleteList = async (req, res) => {
   await User.updateOne({ _id: ObjectId(id) }, { $pull: { [key]: null } });
 
   res.json({ message: "List deleted successfully." });
+};
+
+export const editFav = async (req, res) => {
+  const { id } = req.params;
+  const { favorite } = req.body;
+  console.log(favorite);
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send(`No post with id: ${id}`);
+
+  const updatedList = { _id: id, favorite: favorite };
+
+  await User.findByIdAndUpdate(id, updatedList, { new: true });
+
+  res.status(200).json(updatedList);
 };
 
 export default router;
