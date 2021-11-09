@@ -278,26 +278,26 @@ const register = () => {
                   <Info>Gender</Info>
                   <StyleButton>
                     <CustomButton
+                      type="button"
+                      value="Male"
                       onClick={() => {
                         setGender("male");
                       }}
-                    >
-                      Male
-                    </CustomButton>
+                    />
                     <CustomButton
+                      type="button"
+                      value="Female"
                       onClick={() => {
                         setGender("female");
                       }}
-                    >
-                      Female
-                    </CustomButton>
+                    />
                     <CustomButton
+                      type="button"
+                      value="Other"
                       onClick={() => {
                         setGender("other");
                       }}
-                    >
-                      Other
-                    </CustomButton>
+                    />
                   </StyleButton>
                 </>
               </Form.Item>
