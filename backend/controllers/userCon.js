@@ -9,9 +9,7 @@ const router = express.Router();
 
 // เหลือ edit list รอข้อมูลจาก front
 export const register = async (req, res) => {
-  const { username, email, password, dateOfBirth, gender, image } =
-    req.body;
-
+  const { username, email, password, dateOfBirth, gender, image } = req.body;
   const newPassword = await bcrypt.hash(password, 10);
   const newUser = new User({
     username,
@@ -22,10 +20,17 @@ export const register = async (req, res) => {
     image,
   });
   try {
-    await newUser.save();
-    res.status(201).json(true);
+    const checkUser = await User.find({
+      $or: [{ username: username }, { email: email }],
+    });
+    if (checkUser.length != 0) {
+      res.status(409).json({ Error: "Already has username or email" });
+    } else {
+      await newUser.save();
+      res.status(201).json(true);
+    }
   } catch (error) {
-    res.status(409).json({ Error: error.message });
+    res.status(409).json({ Error: "error.message" });
   }
 };
 
@@ -86,14 +91,20 @@ export const addRestaurantToList = async (req, res) => {
 
   if (key == "myFavRestaurants") {
     if (countList < 5) {
-      await User.updateOne({ _id: id }, { $addToSet: { myFavRestaurants: res_id } });
+      await User.updateOne(
+        { _id: id },
+        { $addToSet: { myFavRestaurants: res_id } }
+      );
       res.status(200).json({ Message: "Update Success" });
     } else {
       res.status(404).json({ Error: "Full Favorite List" });
     }
   } else {
     if (countList < 50) {
-      await User.updateOne({ _id: id }, { $addToSet: { myInterestRestaurants: res_id } });
+      await User.updateOne(
+        { _id: id },
+        { $addToSet: { myInterestRestaurants: res_id } }
+      );
       res.status(200).json({ Message: "Update Success" });
     } else {
       res.status(404).json({ Error: "Full interesting restaurant List" });
