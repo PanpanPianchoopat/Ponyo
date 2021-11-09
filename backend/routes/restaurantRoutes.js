@@ -1,22 +1,20 @@
 import express from "express";
 import {
   addRestaurant,
-  getAllRestaurant,
-  getResByName,
-  getResDetail,
-  getResByAddress,
-  getResByType,
-  getTagStatus,
+  getAllRestaurants,
+  getRestaurantDetail,
+  getRestuarantByType,
+  getRestaurantStatus,
+  getRestaurant,
 } from "../controllers/restaurantCon.js";
 
 const router = express.Router();
 
 router.post("/", addRestaurant);
-router.get("/", getAllRestaurant);
-router.get("/name", getResByName);
-router.get("/address", getResByAddress);
-router.get("/type/:type", getResByType);
-router.get("/detail/:id", getResDetail);
-router.get("/status/:name", getTagStatus);
+router.get("/", getAllRestaurants);
+router.get("/search/:filter", getRestaurant);
+router.get("/type/:type", getRestuarantByType);
+router.get("/detail/:id", getRestaurantDetail);
+router.get("/status/:name", getRestaurantStatus);
 
 export default router;

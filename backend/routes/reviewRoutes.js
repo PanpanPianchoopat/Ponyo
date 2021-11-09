@@ -14,19 +14,15 @@ import {
 
 const router = express.Router();
 
-
 router.patch("/edit/:id/:reviewer", editReview);
-router.delete("/delete/:rest_id", deleteReview);
+router.delete("/delete/:review_id", deleteReview);
 router.get("/comment/:rest_id", getReviewByComment);
 router.get("/image/:rest_id", getReviewByPhoto);
 router.get("/amount/:rest_id", getAmount);
 router.get("/star/:rest_id", getReviewByStar);
 router.get("/rate/:rest_id", calRate);
-router.patch("/like/:id/:username", addLikeReview);
+router.patch("/like/:review_id/:username/:like", addLikeReview);
 router.post("/:rest_id/:reviewer", addReview);
 router.get("/:rest_id/:username", getAllReview);
-
-
-
 
 export default router;

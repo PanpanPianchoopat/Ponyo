@@ -47,19 +47,18 @@ export const editReview = async (req, res) => {
 };
 
 export const deleteReview = async (req, res) => {
-  const { rest_id } = req.params;
+  const { review_id } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(rest_id))
-    return res.status(404).send(`No post with id: ${rest_id}`);
+  if (!mongoose.Types.ObjectId.isValid(review_id))
+    return res.status(404).send(`No post with id: ${review_id}`);
 
-  await Review.findByIdAndRemove(rest_id);
+  await Review.findByIdAndRemove(review_id);
 
   res.json({ message: "Review deleted successfully." });
 };
 
 export const getAllReview = async (req, res) => {
   const { rest_id, username } = req.params;
-  const likeTest = ["Yingza", "pungjung"];
   try {
     const Reviews = await Review.aggregate([
       {
@@ -81,13 +80,16 @@ export const getAllReview = async (req, res) => {
               else: true,
             },
           },
-          likeReview:{
+          likeReview: {
             $cond: {
-              if: {  $in: [username,"$like"] },
+              if: { $in: [username, "$like"] },
               then: true,
               else: false,
             },
-          }
+          },
+          countLike: {
+            $size: { $ifNull: ["$like", []] },
+          },
         },
       },
     ]);
@@ -205,31 +207,28 @@ export const calRate = async (req, res) => {
 };
 
 export const addLikeReview = async (req, res) => {
-  const { id, username } = req.params;
-  const { like } = req.body;
+  const { review_id, username, like } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(id))
-    return res.status(404).send(`No review with id: ${id}`);
+  if (!mongoose.Types.ObjectId.isValid(review_id))
+    return res.status(404).send(`No review with id: ${review_id}`);
 
   if (like == "true") {
     await Review.findByIdAndUpdate(
-      id,
+      review_id,
       {
         $push: {
           like: username,
         },
       },
-      { new: true } 
+      { new: true }
     );
     res.status(200).json({ Message: "add Success" });
   } else {
     await Review.findByIdAndUpdate(
-      id,
-      { $pull: { "like": username } },
+      review_id,
+      { $pull: { like: username } },
       { new: true }
     );
     res.status(200).json({ Message: "remove Success" });
   }
-
-  
 };

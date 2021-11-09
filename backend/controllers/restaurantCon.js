@@ -102,7 +102,7 @@ export const addRestaurant = async (req, res) => {
   }
 };
 
-export const getAllRestaurant = async (req, res) => {
+export const getAllRestaurants = async (req, res) => {
   try {
     const Restaurants = await Restaurant.find();
 
@@ -136,7 +136,7 @@ const convertOpenHours = (minTime) => {
   return time;
 };
 
-export const getResDetail = async (req, res) => {
+export const getRestaurantDetail = async (req, res) => {
   const { id } = req.params;
   try {
     const Restaurants = await Restaurant.findById(id);
@@ -467,14 +467,15 @@ const searchRestaurant = async (key, search, range, type, resStatus) => {
   }
 };
 
-export const getResByName = async (req, res) => {
-  const { name, priceRange, type, resStatus } = req.body;
+export const getRestaurant = async (req, res) => {
+  const { filter } = req.params;
+  const { search, priceRange, type, resStatus } = req.body;
   const range = findPriceRange(priceRange);
-  const key = "name";
+
   try {
     const Restaurants = await searchRestaurant(
-      key,
-      name,
+      filter,
+      search,
       range,
       type,
       resStatus
@@ -485,26 +486,7 @@ export const getResByName = async (req, res) => {
   }
 };
 
-export const getResByAddress = async (req, res) => {
-  const { address, priceRange, type, resStatus } = req.body;
-  const range = findPriceRange(priceRange);
-  const key = "location.address";
-
-  try {
-    const Restaurants = await searchRestaurant(
-      key,
-      address,
-      range,
-      type,
-      resStatus
-    );
-    res.status(200).json(Restaurants);
-  } catch (error) {
-    res.status(404).json({ Error: error.message });
-  }
-};
-
-export const getResByType = async (req, res) => {
+export const getRestuarantByType = async (req, res) => {
   const { type } = req.params;
   try {
     const Restaurants = await Restaurant.find({
@@ -516,7 +498,7 @@ export const getResByType = async (req, res) => {
   }
 };
 
-export const getTagStatus = async (req, res) => {
+export const getRestaurantStatus = async (req, res) => {
   const { name } = req.params;
 
   try {
@@ -531,4 +513,3 @@ export const getTagStatus = async (req, res) => {
     res.status(404).json({ Error: error.message });
   }
 };
-

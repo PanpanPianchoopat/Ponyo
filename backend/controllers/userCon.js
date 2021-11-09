@@ -9,7 +9,7 @@ const router = express.Router();
 
 // เหลือ edit list รอข้อมูลจาก front
 export const register = async (req, res) => {
-  const { username, email, password, dateOfBirth, gender, imageFile } =
+  const { username, email, password, dateOfBirth, gender, image } =
     req.body;
 
   const newPassword = await bcrypt.hash(password, 10);
@@ -19,11 +19,11 @@ export const register = async (req, res) => {
     password: newPassword,
     dateOfBirth,
     gender,
-    imageFile,
+    image,
   });
   try {
     await newUser.save();
-    res.status(201).json(newUser);
+    res.status(201).json(true);
   } catch (error) {
     res.status(409).json({ Error: error.message });
   }
@@ -58,7 +58,7 @@ export const login = async (req, res) => {
   }
 };
 
-const countRes = async (key, id) => {
+const countRestuarant = async (key, id) => {
   const keyArray = "$" + key;
   const count = await User.aggregate([
     {
@@ -76,24 +76,24 @@ const countRes = async (key, id) => {
   return count[0].numRes;
 };
 
-export const addList = async (req, res) => {
+export const addRestaurantToList = async (req, res) => {
   const { key, id, res_id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id))
     return res.status(404).send(`No review with id: ${id}`);
 
-  const countList = await countRes(key, id);
+  const countList = await countRestuarant(key, id);
 
-  if (key == "favorite") {
+  if (key == "myFavRestaurants") {
     if (countList < 5) {
-      await User.updateOne({ _id: id }, { $addToSet: { favorite: res_id } });
+      await User.updateOne({ _id: id }, { $addToSet: { myFavRestaurants: res_id } });
       res.status(200).json({ Message: "Update Success" });
     } else {
       res.status(404).json({ Error: "Full Favorite List" });
     }
   } else {
     if (countList < 50) {
-      await User.updateOne({ _id: id }, { $addToSet: { interest: res_id } });
+      await User.updateOne({ _id: id }, { $addToSet: { myInterestRestaurants: res_id } });
       res.status(200).json({ Message: "Update Success" });
     } else {
       res.status(404).json({ Error: "Full interesting restaurant List" });
@@ -101,9 +101,8 @@ export const addList = async (req, res) => {
   }
 };
 
-export const getList = async (req, res) => {
+export const getMyRestaurantList = async (req, res) => {
   const { key, user_id } = req.params;
-  const userList = "listId[0]." + key;
   try {
     const listId = await User.find(
       {
@@ -112,14 +111,14 @@ export const getList = async (req, res) => {
       { [key]: 1 }
     );
 
-    if (key == "favorite") {
+    if (key == "myFavRestaurants") {
       const detailRest = await Restaurant.find({
-        _id: { $in: listId[0].favorite },
+        _id: { $in: listId[0].myFavRestaurants },
       });
       res.status(200).json(detailRest);
     } else {
       const detailRest = await Restaurant.find({
-        _id: { $in: listId[0].interest },
+        _id: { $in: listId[0].myInterestRestaurants },
       });
       res.status(200).json(detailRest);
     }
@@ -129,7 +128,7 @@ export const getList = async (req, res) => {
 };
 
 //Favorite and Interest
-export const deleteList = async (req, res) => {
+export const removeResFromList = async (req, res) => {
   const { key, id, index } = req.params;
   const deleteIndex = key + "." + index;
 
@@ -142,14 +141,14 @@ export const deleteList = async (req, res) => {
   res.json({ message: "List deleted successfully." });
 };
 
-export const editFav = async (req, res) => {
+export const editMyFavList = async (req, res) => {
   const { id } = req.params;
-  const { favorite } = req.body;
-  console.log(favorite);
+  const { myFavRestaurants } = req.body;
+
   if (!mongoose.Types.ObjectId.isValid(id))
     return res.status(404).send(`No post with id: ${id}`);
 
-  const updatedList = { _id: id, favorite: favorite };
+  const updatedList = { _id: id, myFavRestaurants: myFavRestaurants };
 
   await User.findByIdAndUpdate(id, updatedList, { new: true });
 
