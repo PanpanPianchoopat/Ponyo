@@ -39,7 +39,6 @@ const AddRestaurant = () => {
     const openTime = convertTime(values.openHour);
     const photo = photoArray(values.photos.fileList);
 
-    console.log("s", values.closingDay);
     if (values.closingDay == undefined) {
       values.closingDay = [];
     }
@@ -56,8 +55,6 @@ const AddRestaurant = () => {
       openHour: openTime,
       image: photo,
     };
-
-    console.log("front", data);
 
     RestaurantAPI.addRestaurant(data)
       .then((response) => {

@@ -3,7 +3,7 @@ import {
   addRestaurant,
   getAllRestaurant,
   getResByName,
-  getRestaurantByID,
+  getResDetail,
   getResByAddress,
   getResByType,
   getTagStatus,
@@ -13,13 +13,10 @@ const router = express.Router();
 
 router.post("/", addRestaurant);
 router.get("/", getAllRestaurant);
-router.get("/:id",getRestaurantByID)
 router.get("/name", getResByName);
 router.get("/address", getResByAddress);
 router.get("/type/:type", getResByType);
-router.get("/detail/:id", getRestaurantByID);
+router.get("/detail/:id", getResDetail);
 router.get("/status/:name", getTagStatus);
-
-
 
 export default router;

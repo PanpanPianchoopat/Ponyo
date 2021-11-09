@@ -44,7 +44,7 @@ export const editReview = async (req, res) => {
 
   await Review.findByIdAndUpdate(id, updatedReview, { new: true });
 
-  res.json(id);
+  res.status(200).json({ Message: "Updated Success" });
 };
 
 export const deleteReview = async (req, res) => {

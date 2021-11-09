@@ -23,7 +23,15 @@ const convertToMin = (hour, min) => {
 };
 
 export const addRestaurant = async (req, res) => {
-  const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+  const days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
   const {
     name,
     type,
@@ -104,10 +112,42 @@ export const getAllRestaurant = async (req, res) => {
   }
 };
 
-export const getRestaurantByID = async (req, res) => {
+const convertDay = (week) => {
+  var i = 0;
+  var j = 0;
+  const array = [];
+
+  for (i = 0; i < 6; i++) {
+    if (week[i].status == 0) {
+      array[j] = week[i].weekDay;
+      j++;
+    }
+  }
+  if (j == 0) {
+    array[j] = "Open everyday";
+  }
+  return array;
+};
+
+const convertOpenHours = (minTime) => {
+  const time = [0, 0];
+  time[1] = minTime % 60;
+  time[0] = (minTime - time[1]) / 60;
+  return time;
+};
+
+export const getResDetail = async (req, res) => {
   const { id } = req.params;
   try {
     const Restaurants = await Restaurant.findById(id);
+
+    const closeDay = convertDay(Restaurants.openDays);
+    const openTime = convertOpenHours(Restaurants.openHours.openTime);
+    const closeTime = convertOpenHours(Restaurants.openHours.closeTime);
+
+    Restaurants.closeDay = closeDay;
+    Restaurants.openTime = openTime;
+    Restaurants.closeTime = closeTime;
 
     res.status(200).json(Restaurants);
   } catch (error) {
@@ -135,7 +175,15 @@ const findPriceRange = (priceRange) => {
 
 const searchWithStatus = async (resStatus, key, search, range, type) => {
   const now = new Date(),
-    days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"],
+    days = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ],
     weekDay = days[now.getDay()],
     hour = now.getHours(),
     minutes = now.getMinutes();
@@ -483,3 +531,4 @@ export const getTagStatus = async (req, res) => {
     res.status(404).json({ Error: error.message });
   }
 };
+
