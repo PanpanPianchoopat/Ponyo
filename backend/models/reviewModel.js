@@ -7,7 +7,7 @@ const reviewSchema = mongoose.Schema({
   reviewText: { type: String },
   star: { type: Number, required: true },
   image: { type: Array },
-  like: { type: Number },
+  like: { type: Array },
 });
 
 const Review = mongoose.model("Review", reviewSchema);
