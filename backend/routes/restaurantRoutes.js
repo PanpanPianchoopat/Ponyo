@@ -15,6 +15,6 @@ router.get("/", getAllRestaurants);
 router.get("/search/:filter", getRestaurant);
 router.get("/type/:type", getRestuarantByType);
 router.get("/detail/:id", getRestaurantDetail);
-router.get("/status/:name", getRestaurantStatus);
+router.get("/status/:res_id", getRestaurantStatus);
 
 export default router;

@@ -189,20 +189,21 @@ const searchWithStatus = async (resStatus, key, search, range, type) => {
     minutes = now.getMinutes();
 
   const currentMin = convertToMin(hour, minutes);
+
   //tag
   if (resStatus == 2) {
     const resOpen = await Restaurant.find({
-      [key]: { $regex: search, $options: "i" },
-      openDays: { weekDay: weekDay, status: 1 },
+      _id: search,
+      openDays: { weekDay: weekDay, dayStatus: 1 },
       $and: [
         { "openHours.openTime": { $lte: currentMin } },
         { "openHours.closeTime": { $gte: currentMin } },
       ],
     });
     if (resOpen.length == 0) {
-      return 0;
+      return "CLOSE";
     } else {
-      return 1;
+      return "OPEN";
     }
   }
   //Search Open Restaurants
@@ -211,7 +212,7 @@ const searchWithStatus = async (resStatus, key, search, range, type) => {
     if (!type && range[0] == 0 && range[1] == 0) {
       const resOpen = await Restaurant.find({
         [key]: { $regex: search, $options: "i" },
-        openDays: { weekDay: weekDay, status: 1 },
+        openDays: { weekDay: weekDay, dayStatus: 1 },
         $and: [
           { "openHours.openTime": { $lte: currentMin } },
           { "openHours.closeTime": { $gte: currentMin } },
@@ -237,7 +238,7 @@ const searchWithStatus = async (resStatus, key, search, range, type) => {
             ],
           },
         ],
-        openDays: { weekDay: weekDay, status: 1 },
+        openDays: { weekDay: weekDay, dayStatus: 1 },
         $and: [
           { "openHours.openTime": { $lte: currentMin } },
           { "openHours.closeTime": { $gte: currentMin } },
@@ -250,7 +251,7 @@ const searchWithStatus = async (resStatus, key, search, range, type) => {
       const resOpen = await Restaurant.find({
         [key]: { $regex: search, $options: "i" },
         type: type,
-        openDays: { weekDay: weekDay, status: 1 },
+        openDays: { weekDay: weekDay, dayStatus: 1 },
         $and: [
           { "openHours.openTime": { $lte: currentMin } },
           { "openHours.closeTime": { $gte: currentMin } },
@@ -275,7 +276,7 @@ const searchWithStatus = async (resStatus, key, search, range, type) => {
           },
         ],
         type: type,
-        openDays: { weekDay: weekDay, status: 1 },
+        openDays: { weekDay: weekDay, dayStatus: 1 },
         $and: [
           { "openHours.openTime": { $lte: currentMin } },
           { "openHours.closeTime": { $gte: currentMin } },
@@ -291,7 +292,7 @@ const searchWithStatus = async (resStatus, key, search, range, type) => {
       const resClose = await Restaurant.find({
         [key]: { $regex: search, $options: "i" },
         $or: [
-          { openDays: { weekDay: weekDay, status: 0 } },
+          { openDays: { weekDay: weekDay, dayStatus: 0 } },
           {
             $or: [
               { "openHours.openTime": { $gte: currentMin } },
@@ -309,7 +310,7 @@ const searchWithStatus = async (resStatus, key, search, range, type) => {
         $and: [
           {
             $or: [
-              { openDays: { weekDay: weekDay, status: 0 } },
+              { openDays: { weekDay: weekDay, dayStatus: 0 } },
               {
                 $or: [
                   { "openHours.openTime": { $gte: currentMin } },
@@ -344,7 +345,7 @@ const searchWithStatus = async (resStatus, key, search, range, type) => {
         [key]: { $regex: search, $options: "i" },
         type: type,
         $or: [
-          { openDays: { weekDay: weekDay, status: 0 } },
+          { openDays: { weekDay: weekDay, dayStatus: 0 } },
           {
             $or: [
               { "openHours.openTime": { $gte: currentMin } },
@@ -361,7 +362,7 @@ const searchWithStatus = async (resStatus, key, search, range, type) => {
         $and: [
           {
             $or: [
-              { openDays: { weekDay: weekDay, status: 0 } },
+              { openDays: { weekDay: weekDay, dayStatus: 0 } },
               {
                 $or: [
                   { "openHours.openTime": { $gte: currentMin } },
@@ -499,16 +500,11 @@ export const getRestuarantByType = async (req, res) => {
 };
 
 export const getRestaurantStatus = async (req, res) => {
-  const { name } = req.params;
+  const { res_id } = req.params;
 
   try {
-    const resOpen = await findStatus(2, "name", name, "", "");
-
-    if (resOpen == 0) {
-      res.status(200).json("false");
-    } else {
-      res.status(200).json("true");
-    }
+    const resOpen = await searchWithStatus(2, "_id", res_id, "", "");
+    res.status(200).json(resOpen);
   } catch (error) {
     res.status(404).json({ Error: error.message });
   }
