@@ -144,8 +144,7 @@ const getReviewByPhoto = async (rest_id) => {
 };
 
 export const getReviewAmount = async (req, res) => {
-  const { rest_id } = req.params;
-  const { typeReview, star } = req.body;
+  const { rest_id, typeReview, star } = req.params;
 
   try {
     //Find number of all review (All rating)
@@ -204,7 +203,7 @@ export const calReviewRate = async (req, res) => {
         },
       },
     ]);
-    return avgStar;
+    res.status(200).json(avgStar);
   } catch (error) {
     res.status(404).json({ Error: error.message });
   }

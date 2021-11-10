@@ -5,18 +5,24 @@ class RestaurantAPI {
     return http.post("/restaurant", data);
   };
 
-  getRestaurantDetail = () => {
-    const id = "617d07fb8f7c593a9e729a56";
-    return http.get(`/restaurant/detail/${id}`);
+  getRestaurantDetail = (res_id) => {
+    return http.get(`/restaurant/detail/${res_id}`);
   };
 
-  getRestaurantStatus = () => {
-    const res_id = "617d07fb8f7c593a9e729a56";
+  getRestaurantStatus = (res_id) => {
     return http.get(`/restaurant/status/${res_id}`);
   };
 
-  test = () => {
-    return http.get("/restaurant");
+  calReviewRate = (res_id) => {
+    return http.get(`/review/rate/${res_id}`);
+  };
+
+  getReviewAmount = (res_id, typeReview, star) => {
+    return http.get(`/review/amount/${res_id}/${typeReview}/${star}`);
+  };
+
+  getLikedBookmarked = (key, user_id, res_id) => {
+    return http.get(`/restaurant/checkList/${key}/${user_id}/${res_id}`);
   };
 }
 

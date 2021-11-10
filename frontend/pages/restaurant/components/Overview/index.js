@@ -19,8 +19,24 @@ import { Divider } from "antd";
 const Overview = (props) => {
   const restaurant = props.info;
   const isOpen = props.status;
-  const [isBookmarked, setBookmark] = useState(restaurant.isBookmarked);
-  const [isLiked, setIsLiked] = useState(restaurant.isLiked);
+  const avgRate = props.avgRate;
+  const ratingCount = props.ratingAmount;
+  const commentCount = props.commentAmount;
+  const bookmarked = props.isBookmarked;
+  const liked = props.isLiked;
+  const [isBookmarked, setBookmark] = useState(bookmarked);
+  const [isLiked, setIsLiked] = useState(liked);
+
+  useEffect(() => {
+    changeBookLike();
+  }, [bookmarked, liked]);
+
+  useEffect(
+    () =>
+      // print updated bookmark
+      console.log("Rest Marked:", isBookmarked),
+    [isBookmarked]
+  );
 
   function toggleBookmark() {
     setBookmark(!isBookmarked);
@@ -30,22 +46,17 @@ const Overview = (props) => {
     setIsLiked(!isLiked);
   }
 
-  useEffect(
-    () =>
-      // print updated bookmark
-      console.log("Rest Marked:", isBookmarked),
-    [isBookmarked]
-  );
-
+  const changeBookLike = () => {
+    setBookmark(bookmarked);
+    setIsLiked(liked);
+  };
   return (
     <>
       <OverviewContainer>
         <Line>
-          <RestName>{restaurant.name}</RestName>
+          <RestName>{restaurant ? restaurant.details.name : ""}</RestName>
           <Inline>
-            <Status open={isOpen}>
-              {isOpen ? "OPEN" : "CLOSE"}
-            </Status>
+            <Status open={isOpen}>{isOpen ? "OPEN" : "CLOSE"}</Status>
             {isBookmarked ? (
               <BookmarkActive onClick={toggleBookmark} />
             ) : (
@@ -53,18 +64,19 @@ const Overview = (props) => {
             )}
           </Inline>
         </Line>
-        <Line>{restaurant.description}</Line>
+        <Line>{restaurant ? restaurant.details.description : ""}</Line>
         <PriceRange>
-          ฿{restaurant.minPrice} - ฿{restaurant.maxPrice}
+          ฿{restaurant ? restaurant.details.priceRange.min : "0"} - ฿
+          {restaurant ? restaurant.details.priceRange.max : "0"}
         </PriceRange>
         <Divider />
         <Record>
-          {restaurant.ratingCount} ratings ({restaurant.commentCount} reviews)
+          {ratingCount} ratings ({commentCount} reviews)
         </Record>
         <Line>
           <div>
-            <AverageRate defaultValue={restaurant.avgRate} disabled allowHalf />
-            <AvgRateText>{restaurant.avgRate}</AvgRateText>
+            <AverageRate defaultValue={avgRate} disabled allowHalf />
+            <AvgRateText>{avgRate}</AvgRateText>
           </div>
           {isLiked ? (
             <HeartACtive onClick={toggleLike} />

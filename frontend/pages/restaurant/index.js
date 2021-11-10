@@ -31,13 +31,25 @@ import { REST_INFO } from "./constant";
 
 const Restaurant = () => {
   const [filter, setFilter] = useState(0);
-  const [resInfo, setRestaurant] = useState(null);
+  const [resInfo, setDetail] = useState(null);
   const [statusInfo, setStatus] = useState(null);
+  const [isLiked, setLiked] = useState(null);
+  const [isBookmarked, setBookmarked] = useState(null);
+  const [ratingInfo, setRate] = useState(null);
+  const [reviewAmountInfo, setRatingAmount] = useState(null);
+  const [commentAmountInfo, setCommentAmount] = useState(null);
 
   useEffect(() => {
     getRestaurantDetail();
     getRestaurantStatus();
-  }, [resInfo, statusInfo]);
+    calReviewRate();
+    getReviewAmount();
+    getLikedBookmarked();
+  }, []);
+
+  useEffect(() => {
+    console.log(resInfo);
+  }, [resInfo]);
 
   const StarNum = (count) => {
     const stars = [];
@@ -48,20 +60,74 @@ const Restaurant = () => {
   };
 
   const getRestaurantDetail = () => {
-    RestaurantAPI.getRestaurantDetail()
+    const res_id = "617aeb9ca6287c38c323f851";
+    RestaurantAPI.getRestaurantDetail(res_id)
       .then((response) => {
-        setRestaurant(response.data);
-        console.log(resInfo);
+        setDetail(response.data);
       })
       .catch((e) => {
         console.log(e);
       });
   };
+
   const getRestaurantStatus = () => {
-    RestaurantAPI.getRestaurantStatus()
+    const res_id = "617aeb9ca6287c38c323f851";
+    RestaurantAPI.getRestaurantStatus(res_id)
       .then((response) => {
         setStatus(response.data);
-        console.log(statusInfo);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const calReviewRate = () => {
+    const res_id = "617aeb9ca6287c38c323f851";
+    RestaurantAPI.calReviewRate(res_id)
+      .then((response) => {
+        setRate(response.data[0].avg);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const getReviewAmount = () => {
+    const res_id = "617aeb9ca6287c38c323f851";
+    const ratingAmount = 1;
+    const commentAmount = 2;
+    const star = 0;
+    RestaurantAPI.getReviewAmount(res_id, ratingAmount, star)
+      .then((response) => {
+        setRatingAmount(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    RestaurantAPI.getReviewAmount(res_id, commentAmount, star)
+      .then((response) => {
+        setCommentAmount(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const getLikedBookmarked = () => {
+    const user_id = "618aa139fb57df6bdf51f733";
+    const res_id = "617aeb9ca6287c38c323f851";
+
+    RestaurantAPI.getLikedBookmarked("myFavRestaurants", user_id, res_id)
+      .then((response) => {
+        setLiked(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+
+    RestaurantAPI.getLikedBookmarked("myInterestRestaurants", user_id, res_id)
+      .then((response) => {
+        setBookmarked(response.data);
       })
       .catch((e) => {
         console.log(e);
@@ -72,16 +138,24 @@ const Restaurant = () => {
     <>
       <HeadSection>
         <Name>
-          {resInfo ? resInfo.name : ""}
+          {resInfo ? resInfo.details.name : ""}
           <Underline />
         </Name>
-        <Carousel slides={resInfo ? resInfo.image : []} />
+        <Carousel slides={resInfo ? resInfo.details.image : []} />
       </HeadSection>
 
       <DetailContainer>
         <div>
           <LargeSection style={{ marginBottom: "15px" }}>
-            <Overview info={REST_INFO} status={statusInfo} />
+            <Overview
+              info={resInfo}
+              status={statusInfo}
+              avgRate={ratingInfo}
+              ratingAmount={reviewAmountInfo}
+              commentAmount={commentAmountInfo}
+              isLiked={isLiked}
+              isBookmarked={isBookmarked}
+            />
           </LargeSection>
           <LargeSection>
             <WriteReview />
@@ -96,7 +170,15 @@ const Restaurant = () => {
           </SmallSection>
         </div>
         <FullSection>
-          <Overview info={REST_INFO} status={statusInfo} />
+          <Overview
+            info={resInfo}
+            status={statusInfo}
+            avgRate={ratingInfo}
+            ratingAmount={reviewAmountInfo}
+            commentAmount={commentAmountInfo}
+            isLiked={isLiked}
+            isBookmarked={isBookmarked}
+          />
         </FullSection>
         <FullSection>
           <Detail detail={REST_INFO} />

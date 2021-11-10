@@ -1,5 +1,8 @@
 import express from "express";
+import mongoose from "mongoose";
+const ObjectId = mongoose.Types.ObjectId;
 import Restaurant from "../models/restaurantModel.js";
+import User from "../models/userModel.js";
 
 const router = express.router;
 
@@ -137,19 +140,20 @@ const convertOpenHours = (minTime) => {
 };
 
 export const getRestaurantDetail = async (req, res) => {
-  const { id } = req.params;
+  const { res_id } = req.params;
   try {
-    const Restaurants = await Restaurant.findById(id);
+    const Restaurants = await Restaurant.findById(res_id);
 
     const closeDay = convertDay(Restaurants.openDays);
     const openTime = convertOpenHours(Restaurants.openHours.openTime);
     const closeTime = convertOpenHours(Restaurants.openHours.closeTime);
 
-    Restaurants.closeDay = closeDay;
-    Restaurants.openTime = openTime;
-    Restaurants.closeTime = closeTime;
-
-    res.status(200).json(Restaurants);
+    res.status(200).json({
+      details: Restaurants,
+      closeDay: closeDay,
+      openTime: openTime,
+      closeTime: closeTime,
+    });
   } catch (error) {
     res.status(404).json({ Error: error.message });
   }
@@ -509,3 +513,35 @@ export const getRestaurantStatus = async (req, res) => {
     res.status(404).json({ Error: error.message });
   }
 };
+
+export const checkLikedBookmarked = async (req, res) => {
+  const { key, user_id, res_id } = req.params;
+  const searchKey = "$" + key;
+
+  try {
+    const check = await User.aggregate([
+      {
+        $match: {
+          _id: ObjectId(user_id),
+        },
+      },
+      {
+        $project: {
+          check: {
+            $cond: {
+              if: {
+                $in: [res_id, searchKey],
+              },
+              then: true,
+              else: false,
+            },
+          },
+        },
+      },
+    ]);
+    res.status(200).json(check[0].check);
+  } catch (error) {
+    res.status(404).json({ Error: error.message });
+  }
+};
+
