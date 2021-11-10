@@ -7,6 +7,7 @@ const Button = ({ children, ...props }) => {
       customColor={props.variant}
       customStyle={props.outline}
       customSize={props.size}
+      {...props}
     >
       {children}
     </StyledButton>
