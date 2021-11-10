@@ -31,11 +31,13 @@ import { REST_INFO } from "./constant";
 
 const Restaurant = () => {
   const [filter, setFilter] = useState(0);
-  const [res_inf, setRestaurant] = useState([]);
+  const [resInfo, setRestaurant] = useState(null);
+  const [statusInfo, setStatus] = useState(null);
 
   useEffect(() => {
     getRestaurantDetail();
-  }, []);
+    getRestaurantStatus();
+  }, [resInfo, statusInfo]);
 
   const StarNum = (count) => {
     const stars = [];
@@ -49,8 +51,17 @@ const Restaurant = () => {
     RestaurantAPI.getRestaurantDetail()
       .then((response) => {
         setRestaurant(response.data);
-        // console.log(res_inf);
-        console.log("res", res_inf.image[0]);
+        console.log(resInfo);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  const getRestaurantStatus = () => {
+    RestaurantAPI.getRestaurantStatus()
+      .then((response) => {
+        setStatus(response.data);
+        console.log(statusInfo);
       })
       .catch((e) => {
         console.log(e);
@@ -61,16 +72,16 @@ const Restaurant = () => {
     <>
       <HeadSection>
         <Name>
-          {REST_INFO.name}
+          {resInfo ? resInfo.name : ""}
           <Underline />
         </Name>
-        <Carousel slides={REST_INFO.photos} />
+        <Carousel slides={resInfo ? resInfo.image : []} />
       </HeadSection>
 
       <DetailContainer>
         <div>
           <LargeSection style={{ marginBottom: "15px" }}>
-            <Overview info={REST_INFO} />
+            <Overview info={REST_INFO} status={statusInfo} />
           </LargeSection>
           <LargeSection>
             <WriteReview />
@@ -85,7 +96,7 @@ const Restaurant = () => {
           </SmallSection>
         </div>
         <FullSection>
-          <Overview info={REST_INFO} />
+          <Overview info={REST_INFO} status={statusInfo} />
         </FullSection>
         <FullSection>
           <Detail detail={REST_INFO} />

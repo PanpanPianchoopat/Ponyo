@@ -18,6 +18,7 @@ import { Divider } from "antd";
 
 const Overview = (props) => {
   const restaurant = props.info;
+  const isOpen = props.status;
   const [isBookmarked, setBookmark] = useState(restaurant.isBookmarked);
   const [isLiked, setIsLiked] = useState(restaurant.isLiked);
 
@@ -42,8 +43,8 @@ const Overview = (props) => {
         <Line>
           <RestName>{restaurant.name}</RestName>
           <Inline>
-            <Status open={restaurant.isOpen}>
-              {restaurant.isOpen ? "OPEN" : "CLOSE"}
+            <Status open={isOpen}>
+              {isOpen ? "OPEN" : "CLOSE"}
             </Status>
             {isBookmarked ? (
               <BookmarkActive onClick={toggleBookmark} />

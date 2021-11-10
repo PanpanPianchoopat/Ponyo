@@ -6,8 +6,13 @@ class RestaurantAPI {
   };
 
   getRestaurantDetail = () => {
-    const id = "617aeb9ca6287c38c323f851";
+    const id = "617d07fb8f7c593a9e729a56";
     return http.get(`/restaurant/detail/${id}`);
+  };
+
+  getRestaurantStatus = () => {
+    const res_id = "617d07fb8f7c593a9e729a56";
+    return http.get(`/restaurant/status/${res_id}`);
   };
 
   test = () => {
