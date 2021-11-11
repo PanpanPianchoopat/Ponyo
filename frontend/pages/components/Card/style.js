@@ -19,7 +19,6 @@ export const RestaurantCard = styled(Card)`
   width: 300px;
   height: auto;
   margin-bottom: 20px;
-  background: ${COLORS.PRIMARY_BLUE};
   @media (max-width: ${BREAKPOINTS.IPHONE_11}) {
     width: 200px;
   }
