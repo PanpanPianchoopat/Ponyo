@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import COLORS from "../../public/constant/colors";
 import Button from "../components/Button";
 import BestRate from "../components/BestRate";
+import Card from "../components/Card";
 import Category from "./components/Category";
 import {
   Container,
@@ -19,6 +20,7 @@ import {
   CardContainer,
   BestRateContainer,
 } from "./styled";
+import { TOP_3 } from "../components/BestRate/constant";
 
 const SearchRestaurant = () => {
   const { Option } = Selecter;
@@ -91,12 +93,19 @@ const SearchRestaurant = () => {
               value={status}
             />
           </StatusBox>
-          <CardContainer></CardContainer>
+          <CardContainer>
+            <Card detail="SAMPLE_DATA" />
+          </CardContainer>
           <Button variant="yellow">Explore more</Button>
         </ContentContainer>
-        {/* <BestRateContainer> */}
-          {/* <BestRate head="Best rated restaurants" restaurants={ordered_array_of_size_3}/> */}
-        {/* </BestRateContainer> */}
+        <BestRateContainer>
+          <BestRate
+            head="Best rated restaurants"
+            theme="dark"
+            restaurants={TOP_3}
+          />
+          <Button variant="yellow">Explore more</Button>
+        </BestRateContainer>
       </Container>
     </>
   );

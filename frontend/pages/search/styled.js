@@ -152,6 +152,9 @@ export const CardContainer = styled.div`
 
 export const BestRateContainer = styled.div`
   width: 100%;
-  height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 80px;
   background: ${COLORS.PRIMARY_DARK};
 `;
