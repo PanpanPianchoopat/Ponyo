@@ -20,7 +20,7 @@ const FAVOURITE = 0;
 const INTEREST = 1;
 
 const myAccount = () => {
-  const [selectedTab, setSelectedTab] = useState(FAVOURITE);
+  const [selectedTab, setSelectedTab] = useState(INTEREST);
 
   const [popupVisible, setPopupVisible] = useState(false);
   useEffect(() => {
@@ -53,7 +53,12 @@ const myAccount = () => {
         <List>
           {selectedTab == FAVOURITE ? (
             <>
-              Top 5 Favourite Restaurant
+              <TabContainer>
+                Top 5 Favourite Restaurant
+                <Button variant="dark" onClick={() => setPopupVisible(true)}>
+                  Edit List
+                </Button>
+              </TabContainer>
               <FavList />
             </>
           ) : (
@@ -64,9 +69,6 @@ const myAccount = () => {
           )}
         </List>
       </ListContainer>
-      <Button variant="transparent" onClick={() => setPopupVisible(true)}>
-        Edit List
-      </Button>
 
       <Popup
         title="Edit Top 5 Favourite List"

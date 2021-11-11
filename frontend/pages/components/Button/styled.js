@@ -15,9 +15,15 @@ export const StyledButton = styled.button.attrs((props) => {
       ? COLORS.LIGHT_GREEN
       : customColor === "turquoise"
       ? COLORS.PRIMARY_BLUE
-      : "white";
+      : customColor === "dark"
+      ? COLORS.PRIMARY_DARK
+      : "none";
   const borderType =
-    customColor === "transparent" ? "rgba(76, 64, 63, 0.5) 2px solid" : "none";
+    customColor === "transparent"
+      ? "rgba(76, 64, 63, 0.5) 2px solid"
+      : customColor === "dark"
+      ? "1px solid white"
+      : "none";
   const borderStyle = customStyle === "round" ? "50px" : "0px";
   const textColor =
     customColor === "transparent"

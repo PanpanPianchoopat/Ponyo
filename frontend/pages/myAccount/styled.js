@@ -47,7 +47,7 @@ export const Menu = styled.div.attrs((props) => {
 export const List = styled.div`
   background: ${COLORS.PRIMARY_DARK};
   color: white;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   padding: 20px;
 `;
 
