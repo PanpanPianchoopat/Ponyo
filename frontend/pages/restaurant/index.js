@@ -60,7 +60,7 @@ const Restaurant = () => {
   };
 
   const getRestaurantDetail = () => {
-    const res_id = "617aeb9ca6287c38c323f851";
+    const res_id = "617d07fb8f7c593a9e729a56";
     RestaurantAPI.getRestaurantDetail(res_id)
       .then((response) => {
         setDetail(response.data);
@@ -71,7 +71,7 @@ const Restaurant = () => {
   };
 
   const getRestaurantStatus = () => {
-    const res_id = "617aeb9ca6287c38c323f851";
+    const res_id = "617d07fb8f7c593a9e729a56";
     RestaurantAPI.getRestaurantStatus(res_id)
       .then((response) => {
         setStatus(response.data);
@@ -82,10 +82,10 @@ const Restaurant = () => {
   };
 
   const calReviewRate = () => {
-    const res_id = "617aeb9ca6287c38c323f851";
+    const res_id = "617d07fb8f7c593a9e729a56";
     RestaurantAPI.calReviewRate(res_id)
       .then((response) => {
-        setRate(response.data[0].avg);
+        setRate(response.data[0].avgStar);
       })
       .catch((e) => {
         console.log(e);
@@ -93,7 +93,7 @@ const Restaurant = () => {
   };
 
   const getReviewAmount = () => {
-    const res_id = "617aeb9ca6287c38c323f851";
+    const res_id = "617d07fb8f7c593a9e729a56";
     const ratingAmount = 1;
     const commentAmount = 2;
     const star = 0;
@@ -114,8 +114,8 @@ const Restaurant = () => {
   };
 
   const getLikedBookmarked = () => {
-    const user_id = "618aa139fb57df6bdf51f733";
-    const res_id = "617aeb9ca6287c38c323f851";
+    const user_id = "618d4610965a69dd7993e663";
+    const res_id = "617d07fb8f7c593a9e729a56";
 
     RestaurantAPI.getLikedBookmarked("myFavRestaurants", user_id, res_id)
       .then((response) => {
@@ -133,6 +133,8 @@ const Restaurant = () => {
         console.log(e);
       });
   };
+
+  const getReview = () => {};
 
   return (
     <>

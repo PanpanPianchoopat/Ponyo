@@ -11,9 +11,9 @@ const router = express.Router();
 
 router.post("/register", register);
 router.post("/login", login);
-router.post("/add/:key/:id/:res_id", addRestaurantToList);
+router.post("/add/:key/:user_id/:res_id", addRestaurantToList);
+router.post("/delete/:key/:user_id/:index", removeResFromList);
 router.get("/list/:key/:user_id", getMyRestaurantList);
-router.post("/delete/:key/:id/:index", removeResFromList);
-router.patch("/editfav/:id", editMyFavList);
+router.patch("/editfav/:user_id", editMyFavList);
 
 export default router;

@@ -82,17 +82,17 @@ const countRestuarant = async (key, id) => {
 };
 
 export const addRestaurantToList = async (req, res) => {
-  const { key, id, res_id } = req.params;
+  const { key, user_id, res_id } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(id))
-    return res.status(404).send(`No review with id: ${id}`);
+  if (!mongoose.Types.ObjectId.isValid(user_id))
+    return res.status(404).send(`No review with id: ${user_id}`);
 
-  const countList = await countRestuarant(key, id);
+  const countList = await countRestuarant(key, user_id);
 
   if (key == "myFavRestaurants") {
     if (countList < 5) {
       await User.updateOne(
-        { _id: id },
+        { _id: user_id },
         { $addToSet: { myFavRestaurants: res_id } }
       );
       res.status(200).json({ Message: "Update Success" });
@@ -102,7 +102,7 @@ export const addRestaurantToList = async (req, res) => {
   } else {
     if (countList < 50) {
       await User.updateOne(
-        { _id: id },
+        { _id: user_id },
         { $addToSet: { myInterestRestaurants: res_id } }
       );
       res.status(200).json({ Message: "Update Success" });
@@ -140,28 +140,31 @@ export const getMyRestaurantList = async (req, res) => {
 
 //Favorite and Interest
 export const removeResFromList = async (req, res) => {
-  const { key, id, index } = req.params;
+  const { key, user_id, index } = req.params;
   const deleteIndex = key + "." + index;
 
-  if (!mongoose.Types.ObjectId.isValid(id))
+  if (!mongoose.Types.ObjectId.isValid(user_id))
     return res.status(404).send(`No post with id: ${id}`);
 
-  await User.updateOne({ _id: ObjectId(id) }, { $unset: { [deleteIndex]: 1 } });
-  await User.updateOne({ _id: ObjectId(id) }, { $pull: { [key]: null } });
+  await User.updateOne(
+    { _id: ObjectId(user_id) },
+    { $unset: { [deleteIndex]: 1 } }
+  );
+  await User.updateOne({ _id: ObjectId(user_id) }, { $pull: { [key]: null } });
 
   res.json({ message: "List deleted successfully." });
 };
 
 export const editMyFavList = async (req, res) => {
-  const { id } = req.params;
+  const { user_id } = req.params;
   const { myFavRestaurants } = req.body;
 
-  if (!mongoose.Types.ObjectId.isValid(id))
-    return res.status(404).send(`No post with id: ${id}`);
+  if (!mongoose.Types.ObjectId.isValid(user_id))
+    return res.status(404).send(`No post with id: ${user_id}`);
 
-  const updatedList = { _id: id, myFavRestaurants: myFavRestaurants };
+  const updatedList = { _id: user_id, myFavRestaurants: myFavRestaurants };
 
-  await User.findByIdAndUpdate(id, updatedList, { new: true });
+  await User.findByIdAndUpdate(user_id, updatedList, { new: true });
 
   res.status(200).json(updatedList);
 };

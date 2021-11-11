@@ -1,16 +1,17 @@
 import express from "express";
 import mongoose from "mongoose";
 import Review from "../models/reviewModel.js";
+import User from "../models/userModel.js";
 
 const router = express.router;
 
 export const addReview = async (req, res) => {
-  const { res_id, reviewer } = req.params;
+  const { res_id, user_id } = req.params;
   const { reviewText, star, image } = req.body;
 
   const newReview = new Review({
     res_id,
-    reviewer,
+    user_id,
     date: new Date(),
     reviewText,
     star,
@@ -25,7 +26,7 @@ export const addReview = async (req, res) => {
 };
 
 export const editReview = async (req, res) => {
-  const { review_id, reviewer } = req.params;
+  const { review_id, user_id } = req.params;
   const { reviewText, star, image } = req.body;
   const date = new Date();
 
@@ -36,7 +37,7 @@ export const editReview = async (req, res) => {
     reviewText,
     star,
     image,
-    reviewer,
+    user_id,
     date,
     _id: review_id,
   };
@@ -58,7 +59,8 @@ export const deleteReview = async (req, res) => {
 };
 
 export const getAllReview = async (req, res) => {
-  const { res_id, username } = req.params;
+  const { res_id, user_id } = req.params;
+
   try {
     const Reviews = await Review.aggregate([
       {
@@ -68,21 +70,24 @@ export const getAllReview = async (req, res) => {
       },
       {
         $project: {
-          reviewer: 1,
+          user_id_ob: {
+            $toObjectId: "$user_id",
+          },
           date: 1,
+          reviewer: 1,
           reviewText: 1,
           star: 1,
           image: 1,
           editDelete: {
             $cond: {
-              if: { $strcasecmp: ["$reviewer", username] },
+              if: { $strcasecmp: ["$user_id", user_id] },
               then: false,
               else: true,
             },
           },
           likeReview: {
             $cond: {
-              if: { $in: [username, "$like"] },
+              if: { $in: [user_id, "$like"] },
               then: true,
               else: false,
             },
@@ -90,6 +95,22 @@ export const getAllReview = async (req, res) => {
           countLike: {
             $size: { $ifNull: ["$like", []] },
           },
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "user_id_ob",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+      {
+        $unwind: "$user",
+      },
+      {
+        $addFields: {
+          reviewer: "$user.username",
         },
       },
     ]);
@@ -100,18 +121,18 @@ export const getAllReview = async (req, res) => {
 };
 
 export const getReview = async (req, res) => {
-  const { res_id, filter } = req.params;
+  const { res_id, filter, user_id } = req.params;
   const { star } = req.body;
 
   try {
     if (filter == "star") {
-      const Reviews = await getReviewByStar(res_id, star);
+      const Reviews = await getReviewByStar(res_id, star, user_id);
       res.status(200).json(Reviews);
     } else if (filter == "comment") {
-      const Reviews = await getReviewByComment(res_id);
+      const Reviews = await getReviewByComment(res_id, user_id);
       res.status(200).json(Reviews);
     } else {
-      const Reviews = await getReviewByPhoto(res_id);
+      const Reviews = await getReviewByPhoto(res_id, user_id);
       res.status(200).json(Reviews);
     }
   } catch (error) {
@@ -119,27 +140,177 @@ export const getReview = async (req, res) => {
   }
 };
 
-const getReviewByStar = async (res_id, star) => {
-  const Reviews = await Review.find({
-    res_id: res_id,
-    star: star,
-  });
+const getReviewByStar = async (res_id, star, user_id) => {
+  const Reviews = await Review.aggregate([
+    {
+      $match: {
+        res_id: res_id,
+        star: star,
+      },
+    },
+    {
+      $project: {
+        user_id_ob: {
+          $toObjectId: "$user_id",
+        },
+        date: 1,
+        reviewer: 1,
+        reviewText: 1,
+        star: 1,
+        image: 1,
+        editDelete: {
+          $cond: {
+            if: { $strcasecmp: ["$user_id", user_id] },
+            then: false,
+            else: true,
+          },
+        },
+        likeReview: {
+          $cond: {
+            if: { $in: [user_id, "$like"] },
+            then: true,
+            else: false,
+          },
+        },
+        countLike: {
+          $size: { $ifNull: ["$like", []] },
+        },
+      },
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "user_id_ob",
+        foreignField: "_id",
+        as: "user",
+      },
+    },
+    {
+      $unwind: "$user",
+    },
+    {
+      $addFields: {
+        reviewer: "$user.username",
+      },
+    },
+  ]);
+
   return Reviews;
 };
 
-const getReviewByComment = async (res_id) => {
-  const Reviews = await Review.find({
-    res_id: res_id,
-    reviewText: { $exists: true, $ne: "" },
-  });
+const getReviewByComment = async (res_id, user_id) => {
+  const Reviews = await Review.aggregate([
+    {
+      $match: {
+        res_id: res_id,
+        reviewText: { $exists: true, $ne: "" },
+      },
+    },
+    {
+      $project: {
+        user_id_ob: {
+          $toObjectId: "$user_id",
+        },
+        date: 1,
+        reviewer: 1,
+        reviewText: 1,
+        star: 1,
+        image: 1,
+        editDelete: {
+          $cond: {
+            if: { $strcasecmp: ["$user_id", user_id] },
+            then: false,
+            else: true,
+          },
+        },
+        likeReview: {
+          $cond: {
+            if: { $in: [user_id, "$like"] },
+            then: true,
+            else: false,
+          },
+        },
+        countLike: {
+          $size: { $ifNull: ["$like", []] },
+        },
+      },
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "user_id_ob",
+        foreignField: "_id",
+        as: "user",
+      },
+    },
+    {
+      $unwind: "$user",
+    },
+    {
+      $addFields: {
+        reviewer: "$user.username",
+      },
+    },
+  ]);
+
   return Reviews;
 };
 
-const getReviewByPhoto = async (res_id) => {
-  const Reviews = await Review.find({
-    res_id: res_id,
-    image: { $exists: true, $ne: [] },
-  });
+const getReviewByPhoto = async (res_id, user_id) => {
+  const Reviews = await Review.aggregate([
+    {
+      $match: {
+        res_id: res_id,
+        image: { $exists: true, $ne: [] },
+      },
+    },
+    {
+      $project: {
+        user_id_ob: {
+          $toObjectId: "$user_id",
+        },
+        date: 1,
+        reviewer: 1,
+        reviewText: 1,
+        star: 1,
+        image: 1,
+        editDelete: {
+          $cond: {
+            if: { $strcasecmp: ["$user_id", user_id] },
+            then: false,
+            else: true,
+          },
+        },
+        likeReview: {
+          $cond: {
+            if: { $in: [user_id, "$like"] },
+            then: true,
+            else: false,
+          },
+        },
+        countLike: {
+          $size: { $ifNull: ["$like", []] },
+        },
+      },
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "user_id_ob",
+        foreignField: "_id",
+        as: "user",
+      },
+    },
+    {
+      $unwind: "$user",
+    },
+    {
+      $addFields: {
+        reviewer: "$user.username",
+      },
+    },
+  ]);
+  console.log(Reviews.length);
   return Reviews;
 };
 
@@ -202,6 +373,12 @@ export const calReviewRate = async (req, res) => {
           avg: { $avg: "$star" },
         },
       },
+      {
+        $project: {
+          _id: "$id",
+          avgStar: { $round: ["$avg", 2] },
+        },
+      },
     ]);
     res.status(200).json(avgStar);
   } catch (error) {
@@ -210,7 +387,7 @@ export const calReviewRate = async (req, res) => {
 };
 
 export const addLikeReview = async (req, res) => {
-  const { review_id, username, like } = req.params;
+  const { review_id, user_id, like } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(review_id))
     return res.status(404).send(`No review with id: ${review_id}`);
@@ -220,7 +397,7 @@ export const addLikeReview = async (req, res) => {
       review_id,
       {
         $push: {
-          like: username,
+          like: user_id,
         },
       },
       { new: true }
@@ -229,7 +406,7 @@ export const addLikeReview = async (req, res) => {
   } else {
     await Review.findByIdAndUpdate(
       review_id,
-      { $pull: { like: username } },
+      { $pull: { like: user_id } },
       { new: true }
     );
     res.status(200).json({ Message: "remove Success" });

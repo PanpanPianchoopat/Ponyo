@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
 const reviewSchema = mongoose.Schema({
+  user_id: { type: String, required: true, unique: true},
   res_id: { type: String, required: true },
-  reviewer: { type: String, unique: true },
   date: { type: Date, required: true },
   reviewText: { type: String },
   star: { type: Number, required: true },

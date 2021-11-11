@@ -126,9 +126,7 @@ const convertDay = (week) => {
       j++;
     }
   }
-  if (j == 0) {
-    array[j] = "Open everyday";
-  }
+
   return array;
 };
 
@@ -544,4 +542,3 @@ export const checkLikedBookmarked = async (req, res) => {
     res.status(404).json({ Error: error.message });
   }
 };
-
