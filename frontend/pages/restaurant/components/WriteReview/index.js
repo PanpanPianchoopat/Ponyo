@@ -28,8 +28,8 @@ const WriteReview = () => {
 
   const onFinish = (values) => {
     console.log("Success:", values);
-    const reviewer = "supa";
-    const rest_id = "617aeb9ca6287c38c323f851";
+    const reviewer = "test3";
+    const res_id = "617aeb9ca6287c38c323f851";
     var image = null;
 
     if (values.pictures != undefined) {
@@ -42,7 +42,7 @@ const WriteReview = () => {
       image: image,
     };
 
-    RestaurantAPI.addReview(reviewer, rest_id, data)
+    RestaurantAPI.addReview(reviewer, res_id, data)
       .then((response) => {
         console.log(response.data);
       })

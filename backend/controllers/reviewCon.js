@@ -5,11 +5,11 @@ import Review from "../models/reviewModel.js";
 const router = express.router;
 
 export const addReview = async (req, res) => {
-  const { rest_id, reviewer } = req.params;
+  const { res_id, reviewer } = req.params;
   const { reviewText, star, image } = req.body;
 
   const newReview = new Review({
-    rest_id,
+    res_id,
     reviewer,
     date: new Date(),
     reviewText,
@@ -58,12 +58,12 @@ export const deleteReview = async (req, res) => {
 };
 
 export const getAllReview = async (req, res) => {
-  const { rest_id, username } = req.params;
+  const { res_id, username } = req.params;
   try {
     const Reviews = await Review.aggregate([
       {
         $match: {
-          rest_id: rest_id,
+          res_id: res_id,
         },
       },
       {
@@ -100,18 +100,18 @@ export const getAllReview = async (req, res) => {
 };
 
 export const getReview = async (req, res) => {
-  const { rest_id, filter } = req.params;
+  const { res_id, filter } = req.params;
   const { star } = req.body;
 
   try {
     if (filter == "star") {
-      const Reviews = await getReviewByStar(rest_id, star);
+      const Reviews = await getReviewByStar(res_id, star);
       res.status(200).json(Reviews);
     } else if (filter == "comment") {
-      const Reviews = await getReviewByComment(rest_id);
+      const Reviews = await getReviewByComment(res_id);
       res.status(200).json(Reviews);
     } else {
-      const Reviews = await getReviewByPhoto(rest_id);
+      const Reviews = await getReviewByPhoto(res_id);
       res.status(200).json(Reviews);
     }
   } catch (error) {
@@ -119,38 +119,38 @@ export const getReview = async (req, res) => {
   }
 };
 
-const getReviewByStar = async (rest_id, star) => {
+const getReviewByStar = async (res_id, star) => {
   const Reviews = await Review.find({
-    rest_id: rest_id,
+    res_id: res_id,
     star: star,
   });
   return Reviews;
 };
 
-const getReviewByComment = async (rest_id) => {
+const getReviewByComment = async (res_id) => {
   const Reviews = await Review.find({
-    rest_id: rest_id,
+    res_id: res_id,
     reviewText: { $exists: true, $ne: "" },
   });
   return Reviews;
 };
 
-const getReviewByPhoto = async (rest_id) => {
+const getReviewByPhoto = async (res_id) => {
   const Reviews = await Review.find({
-    rest_id: rest_id,
+    res_id: res_id,
     image: { $exists: true, $ne: [] },
   });
   return Reviews;
 };
 
 export const getReviewAmount = async (req, res) => {
-  const { rest_id, typeReview, star } = req.params;
+  const { res_id, typeReview, star } = req.params;
 
   try {
     //Find number of all review (All rating)
     if (typeReview == 1) {
       const amountRate = await Review.find({
-        rest_id: rest_id,
+        res_id: res_id,
       }).count();
       res.status(200).json(amountRate);
       return amountRate;
@@ -158,7 +158,7 @@ export const getReviewAmount = async (req, res) => {
     //Find number of comment
     else if (typeReview == 2) {
       const amountComment = await Review.find({
-        rest_id: rest_id,
+        res_id: res_id,
         reviewText: { $exists: true, $ne: "" },
       }).count();
       res.status(200).json(amountComment);
@@ -167,7 +167,7 @@ export const getReviewAmount = async (req, res) => {
     //Find number of star
     else if (typeReview == 3) {
       const amountStar = await Review.find({
-        rest_id: rest_id,
+        res_id: res_id,
         star: star,
       }).count();
       res.status(200).json(amountStar);
@@ -176,7 +176,7 @@ export const getReviewAmount = async (req, res) => {
     //Find number of photo
     else {
       const amountPhoto = await Review.find({
-        rest_id: rest_id,
+        res_id: res_id,
         image: { $exists: true, $ne: [] },
       }).count();
       res.status(200).json(amountPhoto);
@@ -188,12 +188,12 @@ export const getReviewAmount = async (req, res) => {
 };
 
 export const calReviewRate = async (req, res) => {
-  const { rest_id } = req.params;
+  const { res_id } = req.params;
   try {
     const avgStar = await Review.aggregate([
       {
         $match: {
-          rest_id: rest_id,
+          res_id: res_id,
         },
       },
       {

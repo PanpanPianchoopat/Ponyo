@@ -25,8 +25,8 @@ class RestaurantAPI {
     return http.get(`/restaurant/checkList/${key}/${user_id}/${res_id}`);
   };
 
-  addReview = (reviewer, rest_id, data) => {
-    return http.post(`/review/add/${rest_id}/${reviewer}`, data);
+  addReview = (reviewer, res_id, data) => {
+    return http.post(`/review/add/${res_id}/${reviewer}`, data);
   };
 }
 
