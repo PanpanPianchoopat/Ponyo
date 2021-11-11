@@ -15,8 +15,6 @@ import {
 } from "./styled";
 
 import { List, arrayMove, arrayRemove } from "react-movable";
-import COLORS from "../../../../public/constant/colors";
-import { Tooltip } from "antd";
 
 const EditList = (props, { setPopupVisible }) => {
   const [favList, setFavList] = useState(props.list);

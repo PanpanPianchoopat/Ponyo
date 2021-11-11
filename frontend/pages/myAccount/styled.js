@@ -2,6 +2,55 @@ import styled from "styled-components";
 import { Modal } from "antd";
 import COLORS from "../../public/constant/colors";
 
+export const ProfileContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: ${COLORS.PRIMARY_LIGHT};
+  height: 100vh;
+`;
+
+export const ProfilePicture = styled.div`
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const ListContainer = styled.div`
+  display: flex;
+  width: 80%;
+  flex-direction: column;
+`;
+
+export const TabContainer = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-self: center;
+`;
+
+export const Menu = styled.div.attrs((props) => {
+  const isActive = props.isSelected;
+  const borderStyle = isActive ? `2px solid ${COLORS.PRIMARY_BLUE}` : "none";
+  const textColor = isActive ? COLORS.PRIMARY_BLUE : "rgba(2, 133, 143, 0.5)";
+  return { borderStyle, textColor };
+})`
+  border-bottom: ${(props) => props.borderStyle};
+  font-size: 1rem;
+  width: 50%;
+  text-align: center;
+  color: ${(props) => props.textColor};
+  cursor: pointer;
+`;
+
+export const List = styled.div`
+  background: ${COLORS.PRIMARY_DARK};
+  color: white;
+  font-size: 1.5rem;
+  padding: 20px;
+`;
+
 export const Popup = styled(Modal)`
   .ant-modal-header {
     border: 0;
