@@ -68,11 +68,9 @@ const WriteReview = () => {
           }}
         >
           <Form.Item name="star">
-            <>
-              <StyledRate />
-              <Divider style={{ margin: "10px 0 0 0" }} />
-            </>
+            <StyledRate />
           </Form.Item>
+          <Divider />
           <Form.Item name="pictures">
             <UploadImage
               listType="picture-card"

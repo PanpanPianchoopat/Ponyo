@@ -1,5 +1,7 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
+import Card from "./components/Card";
+import { SAMPLE_DATA } from "./components/Card/constant";
 
 function Home() {
   return (
@@ -12,6 +14,23 @@ function Home() {
 
       <main className={styles.main}>
         {/* <Carousel slides={SAMPLE_IMAGE} /> */}
+        <div style={{ display: "flex", flexWrap: "wrap" }}>
+          <Card
+            detail={SAMPLE_DATA[1]}
+            liked={SAMPLE_DATA[1].liked}
+            saved={SAMPLE_DATA[1].saved}
+          />
+          <Card
+            detail={SAMPLE_DATA[0]}
+            liked={SAMPLE_DATA[0].liked}
+            saved={SAMPLE_DATA[0].saved}
+          />
+          <Card
+            detail={SAMPLE_DATA[1]}
+            liked={SAMPLE_DATA[1].liked}
+            saved={SAMPLE_DATA[1].saved}
+          />
+        </div>
       </main>
       <footer></footer>
     </div>
