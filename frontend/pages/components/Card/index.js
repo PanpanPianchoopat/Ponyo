@@ -51,7 +51,11 @@ const RestCard = (props) => {
         <PriceRange>฿ {props.detail.price} .-</PriceRange>
       </Line>
       <Line>
-        <Description>{props.detail.description}</Description>
+        <Description>
+          {props.detail.description.length > 25
+            ? `${props.detail.description.substring(0, 25)}...`
+            : props.detail.description}
+        </Description>
         <Rating>
           <Star />
           {props.detail.rate}
@@ -60,7 +64,9 @@ const RestCard = (props) => {
 
       <Location>
         <PinIcon />
-        {props.detail.location}
+        {props.detail.location.length > 32
+          ? `${props.detail.location.substring(0, 32)}...`
+          : props.detail.location}
       </Location>
     </RestaurantCard>
   );

@@ -17,7 +17,7 @@ export const RestaurantCard = styled(Card)`
   outline: none;
   width: 300px;
   height: 350px;
-  margin: 20px;
+  margin: 0 20px 35px 0;
 `;
 
 export const CoverContainer = styled.div`
@@ -70,8 +70,7 @@ export const PriceRange = styled.text`
 `;
 
 export const Description = styled.text`
-  font-size: 12px;
-  font-size: 15px;
+  font-size: 0.9rem;
 `;
 
 export const Star = styled(StarFilled)`
