@@ -13,11 +13,12 @@ import { FaDirections } from "react-icons/fa";
 
 const Detail = (props) => {
   const detail = props.detail;
+  console.log("detail", detail);
   return (
     <>
       <InnerContainer>
         <SectionHeader>Detail</SectionHeader>
-        {detail.closingDays.length > 0 ? (
+        {/* { detail.closingDays.length > 0 ? (
           <CloseDays>
             Close every: &ensp;
             {detail.closingDays.map((day, index) => (
@@ -27,15 +28,20 @@ const Detail = (props) => {
               </text>
             ))}
           </CloseDays>
-        ) : null}
+        ) : null} */}
         <DetailText>
-          Service hour: {detail.openFrom} - {detail.openTo}
+          Service hour: {detail ? detail.openTime[0] : 0}:
+          {detail ? detail.openTime[1] : 0} - {detail ? detail.closeTime[0] : 0}
+          :{detail ? detail.closeTime[1] : 0}
         </DetailText>
         <DetailText style={{ marginTop: "15px" }}>
           <PinIcon />
-          {detail.address}
+          {detail ? detail.details.location.address : ""}
         </DetailText>
-        <Direction href={detail.locationLink} target="_blank">
+        <Direction
+          href={detail ? detail.details.location.ggLink : ""}
+          target="_blank"
+        >
           <FaDirections style={{ marginRight: "5px" }} />
           Direction
         </Direction>
@@ -43,7 +49,7 @@ const Detail = (props) => {
         <Divider />
         <div>
           <PhoneIcon />
-          <DetailText>{detail.phone}</DetailText>
+          <DetailText>{detail.details.phone}</DetailText>
         </div>
       </InnerContainer>
     </>

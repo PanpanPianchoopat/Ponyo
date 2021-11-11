@@ -163,7 +163,7 @@ const Restaurant = () => {
         </div>
         <div>
           <SmallSection style={{ marginBottom: "15px" }}>
-            <Detail detail={REST_INFO} />
+            <Detail detail={resInfo} />
           </SmallSection>
           <SmallSection>
             <Ratings rates={REST_INFO.ratings} />
@@ -181,7 +181,7 @@ const Restaurant = () => {
           />
         </FullSection>
         <FullSection>
-          <Detail detail={REST_INFO} />
+          <Detail detail={resInfo} />
         </FullSection>
         <FullSection>
           <Ratings rates={REST_INFO.ratings} />
