@@ -9,10 +9,6 @@ class userAPI {
     return http.post("/user/register", data);
   }
 
-  test = (data) => {
-    console.log("data ", data);
-    return http.post("/user", data);
-  };
 }
 
 export default new userAPI();

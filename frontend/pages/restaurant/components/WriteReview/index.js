@@ -11,12 +11,44 @@ import {
 } from "./styled";
 import { Form, Divider } from "antd";
 import Button from "../../../components/Button";
+import RestaurantAPI from "../../../api/restaurantAPI";
 
 const WriteReview = () => {
   const [form] = Form.useForm();
 
+  const photoArray = (fileList) => {
+    var i = 0;
+    const image = [];
+    while (i < fileList.length) {
+      image[i] = fileList[i].thumbUrl;
+      i++;
+    }
+    return image;
+  };
+
   const onFinish = (values) => {
     console.log("Success:", values);
+    const reviewer = "supa";
+    const rest_id = "617aeb9ca6287c38c323f851";
+    var image = null;
+
+    if (values.pictures != undefined) {
+      image = photoArray(values.pictures.fileList);
+    }
+
+    const data = {
+      reviewText: values.review,
+      star: values.star,
+      image: image,
+    };
+
+    RestaurantAPI.addReview(reviewer, rest_id, data)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((e) => {
+        console.log("Write Review Not Success");
+      });
   };
 
   const onFinishFailed = (error) => {

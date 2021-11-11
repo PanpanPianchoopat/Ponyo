@@ -13,7 +13,6 @@ import { FaDirections } from "react-icons/fa";
 
 const Detail = (props) => {
   const detail = props.detail;
-  console.log("detail", detail);
   return (
     <>
       <InnerContainer>
@@ -49,7 +48,7 @@ const Detail = (props) => {
         <Divider />
         <div>
           <PhoneIcon />
-          <DetailText>{detail.details.phone}</DetailText>
+          <DetailText>{detail ? detail.details.phone : ""}</DetailText>
         </div>
       </InnerContainer>
     </>
