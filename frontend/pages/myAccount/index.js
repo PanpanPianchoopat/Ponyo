@@ -62,10 +62,7 @@ const myAccount = () => {
               <FavList />
             </>
           ) : (
-            <>
-              Interesting Restaurant
-              <InterestList />
-            </>
+            <InterestList />
           )}
         </List>
       </ListContainer>

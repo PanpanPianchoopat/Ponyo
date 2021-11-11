@@ -7,7 +7,7 @@ export const ProfileContainer = styled.div`
   flex-direction: column;
   align-items: center;
   background: ${COLORS.PRIMARY_LIGHT};
-  height: 100vh;
+  height: 100%;
 `;
 
 export const ProfilePicture = styled.div`
@@ -21,6 +21,7 @@ export const ListContainer = styled.div`
   display: flex;
   width: 80%;
   flex-direction: column;
+  padding-bottom: 50px;
 `;
 
 export const TabContainer = styled.div`
