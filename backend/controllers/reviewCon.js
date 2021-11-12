@@ -376,7 +376,7 @@ export const calReviewRate = async (req, res) => {
       {
         $project: {
           _id: "$id",
-          avgStar: { $round: ["$avg", 2] },
+          avgStar: { $round: ["$avg", 1] },
         },
       },
     ]);

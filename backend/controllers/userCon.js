@@ -27,7 +27,7 @@ export const register = async (req, res) => {
       res.status(409).json({ Error: "Already has username or email" });
     } else {
       await newUser.save();
-      res.status(201).json(true);
+      res.status(201).json(newUser);
     }
   } catch (error) {
     res.status(409).json({ Error: "error.message" });
@@ -167,6 +167,16 @@ export const editMyFavList = async (req, res) => {
   await User.findByIdAndUpdate(user_id, updatedList, { new: true });
 
   res.status(200).json(updatedList);
+};
+
+export const getAllUser = async (req, res) => {
+  try {
+    const Users = await User.find({}, { username: 1 });
+
+    res.status(200).json(Users);
+  } catch (error) {
+    res.status(404).json({ Error: error.message });
+  }
 };
 
 export default router;

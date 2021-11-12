@@ -39,22 +39,26 @@ const Restaurant = () => {
   const [starInfo, setStarAmount] = useState(null);
   const [reviewAmountInfo, setRatingAmount] = useState(null);
   const [commentAmountInfo, setCommentAmount] = useState(null);
+  const [overview, setOverview] = useState(null);
+
+  const updateInfo = (review) => {
+    console.log("FROM_REVIEW", review);
+    if (review) {
+      getAvgRate();
+      getReviewAmount();
+    }
+  };
 
   useEffect(() => {
     getRestaurantDetail();
     getRestaurantStatus();
-    calReviewRate();
+    getAvgRate();
     getReviewAmount();
     getLikedBookmarked();
     getStarAmount();
   }, []);
 
-  useEffect(() => {
-    console.log("Rating", starInfo);
-    console.log("reviewAmountInfo", reviewAmountInfo);
-  }, [starInfo, reviewAmountInfo]);
-
-  const user_id = "618d4610965a69dd7993e663";
+  const user_id = "618e861f44657266888550c3";
   const res_id = "617d07fb8f7c593a9e729a56";
 
   const StarNum = (count) => {
@@ -69,6 +73,7 @@ const Restaurant = () => {
     RestaurantAPI.getRestaurantDetail(res_id)
       .then((response) => {
         setDetail(response.data);
+        console.log(response.data);
       })
       .catch((e) => {
         console.log(e);
@@ -85,10 +90,11 @@ const Restaurant = () => {
       });
   };
 
-  const calReviewRate = () => {
+  const getAvgRate = () => {
     ReviewAPI.calReviewRate(res_id)
       .then((response) => {
         setAvgRate(response.data[0].avgStar);
+        console.log("GET_NEW_AVG");
       })
       .catch((e) => {
         console.log(e);
@@ -132,9 +138,8 @@ const Restaurant = () => {
   };
 
   const getStarAmount = () => {
-    var star = 1;
     const allRating = [];
-    for (star = 1; star < 6; star++) {
+    for (let star = 5; star >= 1; star--) {
       ReviewAPI.getStarAmount(res_id, "star", star)
         .then((response) => {
           allRating.push(response.data);
@@ -170,7 +175,7 @@ const Restaurant = () => {
             />
           </LargeSection>
           <LargeSection>
-            <WriteReview />
+            <WriteReview func={updateInfo} />
           </LargeSection>
         </div>
         <div>

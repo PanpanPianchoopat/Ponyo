@@ -19,22 +19,46 @@ import { Divider } from "antd";
 const Overview = (props) => {
   const restaurant = props.info;
   const isOpen = props.status;
-  const avgRate = props.avgRate;
   const ratingCount = props.ratingAmount;
   const commentCount = props.commentAmount;
   const bookmarked = props.isBookmarked;
   const liked = props.isLiked;
   const [isBookmarked, setBookmark] = useState(bookmarked);
   const [isLiked, setIsLiked] = useState(liked);
+  const [rate, setRate] = useState(null);
+  const [avgText, setAvgText] = useState(null);
 
   useEffect(() => {
     changeBookLike();
   }, [bookmarked, liked]);
 
   useEffect(() => {
-    console.log("star", avgRate);
+    const newRate = (
+      <AverageRate defaultValue={props.avgRate} allowHalf disabled />
+    );
+    if (props.avgRate != null) {
+      console.log("BEFORE_ENTER");
+      setRate(newRate);
+      console.log("AFTER_CALL");
+      setAvgText(props.avgRate);
+    }
+  }, [props.avgRate]);
+
+  // useEffect(() => {
+  //   if (avgText != null) {
+  //     console.log("12345");
+  //     setAvgRate(<AverageRate defaultValue={avgText} allowHalf disabled />);
+  //     console.log("after set avg");
+  //   }
+  // }, [avgText]);
+
+  useEffect(() => {
+    console.log("CHANGE_STAR");
+  }, [rate]);
+
+  useEffect(() => {
     console.log("Rest Marked:", isBookmarked);
-  }, [isBookmarked, avgRate]);
+  }, [isBookmarked]);
 
   function toggleBookmark() {
     setBookmark(!isBookmarked);
@@ -48,6 +72,7 @@ const Overview = (props) => {
     setBookmark(bookmarked);
     setIsLiked(liked);
   };
+
   return (
     <>
       <OverviewContainer>
@@ -73,12 +98,14 @@ const Overview = (props) => {
         </Record>
         <Line>
           <div>
+            {/* {rate} */}
+
             <AverageRate
-              defaultValue={avgRate ? avgRate : 0}
-              disabled
+              defaultValue={avgText}
               allowHalf
+              disabled
             />
-            <AvgRateText>{avgRate ? avgRate : 0}</AvgRateText>
+            <AvgRateText>{avgText}</AvgRateText>
           </div>
           {isLiked ? (
             <HeartACtive onClick={toggleLike} />

@@ -24,23 +24,26 @@ const Ratings = (props) => {
   return (
     <>
       <RatingContainer>
-        {/* <SectionHeader>Ratings</SectionHeader>
-        {rates.map((num, index) => {
-          return (
-            <EachRate key={index}>
-              <RestaurantRate defaultValue={5 - index} disabled />
-              <NumContainer>
-                <Progress
-                  percent={(num / total) * 100}
-                  showInfo={false}
-                  strokeWidth={4}
-                  strokeColor={colors.PRIMARY_BLUE}
-                />
-                <Count>{num}</Count>
-              </NumContainer>
-            </EachRate>
-          );
-        })} */}
+        <SectionHeader>Ratings</SectionHeader>
+
+        {rates
+          ? rates.map((num, index) => {
+              return (
+                <EachRate key={index}>
+                  <RestaurantRate defaultValue={5 - index} disabled />
+                  <NumContainer>
+                    <Progress
+                      percent={(num / total) * 100}
+                      showInfo={false}
+                      strokeWidth={4}
+                      strokeColor={colors.PRIMARY_BLUE}
+                    />
+                    <Count>{num}</Count>
+                  </NumContainer>
+                </EachRate>
+              );
+            })
+          : null}
       </RatingContainer>
     </>
   );

@@ -118,10 +118,15 @@ export const getAllRestaurants = async (req, res) => {
 const convertDay = (week) => {
   var i = 0;
   var j = 0;
+  var closeDay = "";
   const array = [];
 
-  for (i = 0; i < 6; i++) {
-    if (week[i].status == 0) {
+  for (i = 0; i <= 6; i++) {
+    if (week[i].dayStatus == 0) {
+      if (j != 0 && i != 6) {
+        array[j] = ", ";
+        j++;
+      }
       array[j] = week[i].weekDay;
       j++;
     }
@@ -141,7 +146,6 @@ export const getRestaurantDetail = async (req, res) => {
   const { res_id } = req.params;
   try {
     const Restaurants = await Restaurant.findById(res_id);
-
     const closeDay = convertDay(Restaurants.openDays);
     const openTime = convertOpenHours(Restaurants.openHours.openTime);
     const closeTime = convertOpenHours(Restaurants.openHours.closeTime);

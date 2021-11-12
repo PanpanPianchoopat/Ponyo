@@ -13,7 +13,7 @@ import { Form, Divider } from "antd";
 import Button from "../../../components/Button";
 import ReviewAPI from "../../../api/reviewAPI";
 
-const WriteReview = () => {
+const WriteReview = (props) => {
   const [form] = Form.useForm();
 
   const photoArray = (fileList) => {
@@ -27,7 +27,7 @@ const WriteReview = () => {
   };
 
   const onFinish = (values) => {
-    const user_id = "618d4610965a69dd7993e663";
+    const user_id = "test27";
     const res_id = "617d07fb8f7c593a9e729a56";
     var image = null;
 
@@ -44,6 +44,7 @@ const WriteReview = () => {
     ReviewAPI.addReview(user_id, res_id, data)
       .then((response) => {
         console.log(response.data);
+        props.func(true);
       })
       .catch((e) => {
         console.log("Already review");
