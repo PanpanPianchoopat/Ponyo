@@ -319,7 +319,7 @@ export const getReviewAmount = async (req, res) => {
 
   try {
     //Find number of all review (All rating)
-    if (typeReview == 1) {
+    if (typeReview == "all") {
       const amountRate = await Review.find({
         res_id: res_id,
       }).count();
@@ -327,7 +327,7 @@ export const getReviewAmount = async (req, res) => {
       return amountRate;
     }
     //Find number of comment
-    else if (typeReview == 2) {
+    else if (typeReview == "comment") {
       const amountComment = await Review.find({
         res_id: res_id,
         reviewText: { $exists: true, $ne: "" },
@@ -336,7 +336,7 @@ export const getReviewAmount = async (req, res) => {
       return amountComment;
     }
     //Find number of star
-    else if (typeReview == 3) {
+    else if (typeReview == "star") {
       const amountStar = await Review.find({
         res_id: res_id,
         star: star,
@@ -345,7 +345,7 @@ export const getReviewAmount = async (req, res) => {
       return amountStar;
     }
     //Find number of photo
-    else {
+    else if (typeReview == "photo") {
       const amountPhoto = await Review.find({
         res_id: res_id,
         image: { $exists: true, $ne: [] },

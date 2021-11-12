@@ -11,7 +11,7 @@ import {
 } from "./styled";
 import { Form, Divider } from "antd";
 import Button from "../../../components/Button";
-import RestaurantAPI from "../../../api/restaurantAPI";
+import ReviewAPI from "../../../api/reviewAPI";
 
 const WriteReview = () => {
   const [form] = Form.useForm();
@@ -41,12 +41,12 @@ const WriteReview = () => {
       image: image,
     };
 
-    RestaurantAPI.addReview(user_id, res_id, data)
+    ReviewAPI.addReview(user_id, res_id, data)
       .then((response) => {
         console.log(response.data);
       })
       .catch((e) => {
-        console.log("Write Review Not Success");
+        console.log("Already review");
       });
   };
 

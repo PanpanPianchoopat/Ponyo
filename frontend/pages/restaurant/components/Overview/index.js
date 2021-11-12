@@ -31,12 +31,10 @@ const Overview = (props) => {
     changeBookLike();
   }, [bookmarked, liked]);
 
-  useEffect(
-    () =>
-      // print updated bookmark
-      console.log("Rest Marked:", isBookmarked),
-    [isBookmarked]
-  );
+  useEffect(() => {
+    console.log("star", avgRate);
+    console.log("Rest Marked:", isBookmarked);
+  }, [isBookmarked, avgRate]);
 
   function toggleBookmark() {
     setBookmark(!isBookmarked);
@@ -75,8 +73,12 @@ const Overview = (props) => {
         </Record>
         <Line>
           <div>
-            <AverageRate defaultValue={avgRate} disabled allowHalf />
-            <AvgRateText>{avgRate}</AvgRateText>
+            <AverageRate
+              defaultValue={avgRate ? avgRate : 0}
+              disabled
+              allowHalf
+            />
+            <AvgRateText>{avgRate ? avgRate : 0}</AvgRateText>
           </div>
           {isLiked ? (
             <HeartACtive onClick={toggleLike} />

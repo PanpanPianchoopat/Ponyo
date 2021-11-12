@@ -20,11 +20,11 @@ function getSum(values) {
 
 const Ratings = (props) => {
   const rates = props.rates;
-  const total = getSum(rates);
+  const total = getSum(rates ? rates : []);
   return (
     <>
       <RatingContainer>
-        <SectionHeader>Ratings</SectionHeader>
+        {/* <SectionHeader>Ratings</SectionHeader>
         {rates.map((num, index) => {
           return (
             <EachRate key={index}>
@@ -40,7 +40,7 @@ const Ratings = (props) => {
               </NumContainer>
             </EachRate>
           );
-        })}
+        })} */}
       </RatingContainer>
     </>
   );

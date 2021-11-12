@@ -26,7 +26,7 @@ import Review from "./components/Review";
 import { FILTER, COUNT, REVIEWS } from "./constant";
 import { Divider } from "antd";
 import RestaurantAPI from "../api/restaurantAPI";
-
+import ReviewAPI from "../api/reviewAPI";
 import { REST_INFO } from "./constant";
 
 const Restaurant = () => {
@@ -35,7 +35,8 @@ const Restaurant = () => {
   const [statusInfo, setStatus] = useState(null);
   const [isLiked, setLiked] = useState(null);
   const [isBookmarked, setBookmarked] = useState(null);
-  const [ratingInfo, setRate] = useState(null);
+  const [avgRate, setAvgRate] = useState(null);
+  const [starInfo, setStarAmount] = useState(null);
   const [reviewAmountInfo, setRatingAmount] = useState(null);
   const [commentAmountInfo, setCommentAmount] = useState(null);
 
@@ -45,11 +46,16 @@ const Restaurant = () => {
     calReviewRate();
     getReviewAmount();
     getLikedBookmarked();
+    getStarAmount();
   }, []);
 
   useEffect(() => {
-    console.log(resInfo);
-  }, [resInfo]);
+    console.log("Rating", starInfo);
+    console.log("reviewAmountInfo", reviewAmountInfo);
+  }, [starInfo, reviewAmountInfo]);
+
+  const user_id = "618d4610965a69dd7993e663";
+  const res_id = "617d07fb8f7c593a9e729a56";
 
   const StarNum = (count) => {
     const stars = [];
@@ -60,7 +66,6 @@ const Restaurant = () => {
   };
 
   const getRestaurantDetail = () => {
-    const res_id = "617d07fb8f7c593a9e729a56";
     RestaurantAPI.getRestaurantDetail(res_id)
       .then((response) => {
         setDetail(response.data);
@@ -71,7 +76,6 @@ const Restaurant = () => {
   };
 
   const getRestaurantStatus = () => {
-    const res_id = "617d07fb8f7c593a9e729a56";
     RestaurantAPI.getRestaurantStatus(res_id)
       .then((response) => {
         setStatus(response.data);
@@ -82,10 +86,9 @@ const Restaurant = () => {
   };
 
   const calReviewRate = () => {
-    const res_id = "617d07fb8f7c593a9e729a56";
-    RestaurantAPI.calReviewRate(res_id)
+    ReviewAPI.calReviewRate(res_id)
       .then((response) => {
-        setRate(response.data[0].avgStar);
+        setAvgRate(response.data[0].avgStar);
       })
       .catch((e) => {
         console.log(e);
@@ -93,18 +96,15 @@ const Restaurant = () => {
   };
 
   const getReviewAmount = () => {
-    const res_id = "617d07fb8f7c593a9e729a56";
-    const ratingAmount = 1;
-    const commentAmount = 2;
     const star = 0;
-    RestaurantAPI.getReviewAmount(res_id, ratingAmount, star)
+    ReviewAPI.getReviewAmount(res_id, "all", star)
       .then((response) => {
         setRatingAmount(response.data);
       })
       .catch((e) => {
         console.log(e);
       });
-    RestaurantAPI.getReviewAmount(res_id, commentAmount, star)
+    ReviewAPI.getReviewAmount(res_id, "comment", star)
       .then((response) => {
         setCommentAmount(response.data);
       })
@@ -114,9 +114,6 @@ const Restaurant = () => {
   };
 
   const getLikedBookmarked = () => {
-    const user_id = "618d4610965a69dd7993e663";
-    const res_id = "617d07fb8f7c593a9e729a56";
-
     RestaurantAPI.getLikedBookmarked("myFavRestaurants", user_id, res_id)
       .then((response) => {
         setLiked(response.data);
@@ -134,7 +131,20 @@ const Restaurant = () => {
       });
   };
 
-  const getReview = () => {};
+  const getStarAmount = () => {
+    var star = 1;
+    const allRating = [];
+    for (star = 1; star < 6; star++) {
+      ReviewAPI.getStarAmount(res_id, "star", star)
+        .then((response) => {
+          allRating.push(response.data);
+          setStarAmount(allRating);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  };
 
   return (
     <>
@@ -152,7 +162,7 @@ const Restaurant = () => {
             <Overview
               info={resInfo}
               status={statusInfo}
-              avgRate={ratingInfo}
+              avgRate={avgRate}
               ratingAmount={reviewAmountInfo}
               commentAmount={commentAmountInfo}
               isLiked={isLiked}
@@ -168,14 +178,14 @@ const Restaurant = () => {
             <Detail detail={resInfo} />
           </SmallSection>
           <SmallSection>
-            <Ratings rates={REST_INFO.ratings} />
+            <Ratings rates={starInfo} />
           </SmallSection>
         </div>
         <FullSection>
           <Overview
             info={resInfo}
             status={statusInfo}
-            avgRate={ratingInfo}
+            avgRate={avgRate}
             ratingAmount={reviewAmountInfo}
             commentAmount={commentAmountInfo}
             isLiked={isLiked}
@@ -186,7 +196,7 @@ const Restaurant = () => {
           <Detail detail={resInfo} />
         </FullSection>
         <FullSection>
-          <Ratings rates={REST_INFO.ratings} />
+          <Ratings rates={starInfo} />
         </FullSection>
         <FullSection>
           <WriteReview />
