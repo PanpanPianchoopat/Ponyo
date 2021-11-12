@@ -25,7 +25,7 @@ import { TOP_3 } from "../components/BestRate/constant";
 const SearchRestaurant = () => {
   const { Option } = Selecter;
   const statusOption = ["ALL", "OPEN", "CLOSE"];
-  const [status, setStatus] = useState("All");
+  const [status, setStatus] = useState("ALL");
 
   const changeStatus = (e) => {
     setStatus(e.target.value);
@@ -94,7 +94,7 @@ const SearchRestaurant = () => {
             />
           </StatusBox>
           <CardContainer>
-            <Card detail="SAMPLE_DATA" />
+            {/* <Card detail="SAMPLE_DATA" liked="true" saved="false" /> */}
           </CardContainer>
           <Button variant="yellow">Explore more</Button>
         </ContentContainer>
