@@ -13,7 +13,7 @@ const router = express.Router();
 router.post("/register", register);
 router.post("/login", login);
 router.post("/add/:key/:user_id/:res_id", addRestaurantToList);
-router.post("/delete/:key/:user_id/:index", removeResFromList);
+router.post("/delete/:key/:user_id/:res_id", removeResFromList);
 router.get("/list/:key/:user_id", getMyRestaurantList);
 router.patch("/editfav/:user_id", editMyFavList);
 

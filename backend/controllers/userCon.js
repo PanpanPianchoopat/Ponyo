@@ -140,19 +140,22 @@ export const getMyRestaurantList = async (req, res) => {
 
 //Favorite and Interest
 export const removeResFromList = async (req, res) => {
-  const { key, user_id, index } = req.params;
-  const deleteIndex = key + "." + index;
+  const { key, user_id, res_id } = req.params;
+  // const deleteIndex = key + "." + index;
 
   if (!mongoose.Types.ObjectId.isValid(user_id))
     return res.status(404).send(`No post with id: ${id}`);
 
-  await User.updateOne(
-    { _id: ObjectId(user_id) },
-    { $unset: { [deleteIndex]: 1 } }
-  );
-  await User.updateOne({ _id: ObjectId(user_id) }, { $pull: { [key]: null } });
-
-  res.json({ message: "List deleted successfully." });
+  try {
+    await User.updateOne(
+      { _id: ObjectId(user_id) },
+      { $pull: { [key]: res_id } }
+    );
+    // await User.updateOne({ _id: ObjectId(user_id) }, { $pull: { [key]: null } });
+    res.status(200).json("List deleted successfully.");
+  } catch (error) {
+    res.status(404).json({ Error: error.message });
+  }
 };
 
 export const editMyFavList = async (req, res) => {

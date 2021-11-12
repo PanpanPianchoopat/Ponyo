@@ -15,6 +15,7 @@ import {
   HeartACtive,
 } from "./styled";
 import { Divider } from "antd";
+import UserAPI from "../../../api/userAPI";
 
 const Overview = (props) => {
   const restaurant = props.info;
@@ -27,6 +28,9 @@ const Overview = (props) => {
   const [isLiked, setIsLiked] = useState(liked);
   const [rate, setRate] = useState(null);
   const [avgText, setAvgText] = useState(null);
+
+  const user_id = "618e861f44657266888550c3";
+  const res_id = "617d07fb8f7c593a9e729a56";
 
   useEffect(() => {
     changeBookLike();
@@ -62,15 +66,37 @@ const Overview = (props) => {
 
   function toggleBookmark() {
     setBookmark(!isBookmarked);
+    manageRestaurantList("myInterestRestaurants", isBookmarked);
   }
 
   function toggleLike() {
     setIsLiked(!isLiked);
+    manageRestaurantList("myFavRestaurants", isLiked);
   }
 
   const changeBookLike = () => {
     setBookmark(bookmarked);
     setIsLiked(liked);
+  };
+
+  const manageRestaurantList = (key, isDeleteFromList) => {
+    if (!isDeleteFromList) {
+      UserAPI.addRestaurantToList(key, user_id, res_id)
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } else {
+      UserAPI.removeResFromList(key, user_id, res_id)
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
   };
 
   return (
@@ -100,11 +126,7 @@ const Overview = (props) => {
           <div>
             {/* {rate} */}
 
-            <AverageRate
-              defaultValue={avgText}
-              allowHalf
-              disabled
-            />
+            <AverageRate defaultValue={avgText} allowHalf disabled />
             <AvgRateText>{avgText}</AvgRateText>
           </div>
           {isLiked ? (
