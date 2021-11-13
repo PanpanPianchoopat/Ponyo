@@ -1,5 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
+const ObjectId = mongoose.Types.ObjectId;
 import Review from "../models/reviewModel.js";
 import User from "../models/userModel.js";
 
@@ -68,11 +69,18 @@ export const getAllReview = async (req, res) => {
           res_id: res_id,
         },
       },
+
       {
         $project: {
           user_id_ob: {
-            $toObjectId: "$user_id",
+            $convert: {
+              input: "$user_id",
+              to: "objectId",
+              onError: "",
+              onNull: "",
+            },
           },
+
           date: 1,
           reviewer: 1,
           reviewText: 1,
@@ -120,7 +128,7 @@ export const getAllReview = async (req, res) => {
   }
 };
 
-export const getReview = async (req, res) => {
+export const getReviewByFilter = async (req, res) => {
   const { res_id, filter, user_id } = req.params;
   const { star } = req.body;
 
@@ -131,7 +139,7 @@ export const getReview = async (req, res) => {
     } else if (filter == "comment") {
       const Reviews = await getReviewByComment(res_id, user_id);
       res.status(200).json(Reviews);
-    } else {
+    } else if (filter == "filter") {
       const Reviews = await getReviewByPhoto(res_id, user_id);
       res.status(200).json(Reviews);
     }

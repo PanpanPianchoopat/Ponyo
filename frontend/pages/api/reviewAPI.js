@@ -20,8 +20,12 @@ class ReviewAPI {
     return http.get(`/review/amount/${res_id}/${typeReview}/${star}`);
   };
 
-  getAllReview = (res_id, username) => {
-    return http.get(`/review/all/${res_id}/${username}`);
+  getAllReview = (res_id, user_id) => {
+    return http.get(`/review/all/${res_id}/${user_id}`);
+  };
+
+  getReviewByFilter = (filter, res_id, user_id, data) => {
+    return http.get(`/filter/${filter}/${res_id}/${user_id}`, data);
   };
 }
 

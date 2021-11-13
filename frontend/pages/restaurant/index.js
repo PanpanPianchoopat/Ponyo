@@ -39,10 +39,10 @@ const Restaurant = () => {
   const [starInfo, setStarAmount] = useState(null);
   const [reviewAmountInfo, setRatingAmount] = useState(null);
   const [commentAmountInfo, setCommentAmount] = useState(null);
-  const [overview, setOverview] = useState(null);
+  const [reviewInfo, setReview] = useState(null);
+
 
   const updateInfo = (review) => {
-    console.log("FROM_REVIEW", review);
     if (review) {
       getAvgRate();
       getReviewAmount();
@@ -73,7 +73,6 @@ const Restaurant = () => {
     RestaurantAPI.getRestaurantDetail(res_id)
       .then((response) => {
         setDetail(response.data);
-        console.log(response.data);
       })
       .catch((e) => {
         console.log(e);
@@ -94,7 +93,6 @@ const Restaurant = () => {
     ReviewAPI.calReviewRate(res_id)
       .then((response) => {
         setAvgRate(response.data[0].avgStar);
-        console.log("GET_NEW_AVG");
       })
       .catch((e) => {
         console.log(e);
@@ -149,6 +147,42 @@ const Restaurant = () => {
           console.log(e);
         });
     }
+  };
+
+  const getReviewByFilter = (index) => {
+    const type = ["all", "comment", "photo", "star"];
+    const star = [0, 0, 0, 5, 4, 3, 2, 1];
+    if (index == 0) {
+      ReviewAPI.getAllReview(res_id, user_id)
+        .then((response) => {
+          setReview(response.data);
+          console.log("reviewAll",reviewInfo);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } else if (index >= 3) {
+      const data = { star: star[index] };
+      ReviewAPI.getReviewByFilter(type[3], res_id, user_id, data)
+        .then((response) => {
+          setReview(response.data);
+          console.log("reviewInfo",reviewInfo);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } else {
+      const data = { star: star[index] };
+      ReviewAPI.getReviewByFilter(type[index],res_id,  user_id, data)
+        .then((response) => {
+          setReview(response.data);
+          
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+    
   };
 
   return (
@@ -218,7 +252,7 @@ const Restaurant = () => {
                 <FilterButton
                   key={index}
                   isSelected={filter == index}
-                  onClick={() => setFilter(index)}
+                  onClick={() => getReviewByFilter(index)}
                 >
                   {typeof type === "string" ? type : <div>{StarNum(type)}</div>}
                   <Number isSelected={filter == index}>({COUNT[index]})</Number>
