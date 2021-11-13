@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { TOP_5 } from "./constant";
-import { Avatar } from "antd";
+import { Avatar, Modal, Form, Input } from "antd";
 import Button from "../components/Button";
-import EditList from "./components/EditList";
+import RestList from "./components/RestList";
+import { PROFILE, FAVOURITE, INTEREST } from "./constant";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
+
 import {
   ProfileContainer,
   ProfilePicture,
@@ -10,22 +12,40 @@ import {
   TabContainer,
   Menu,
   List,
-  Popup,
 } from "./styled";
-import { PROFILE } from "./constant";
-import FavList from "./components/FavList";
-import InterestList from "./components/InterestList";
-
-const FAVOURITE = 0;
-const INTEREST = 1;
 
 const myAccount = () => {
-  const [selectedTab, setSelectedTab] = useState(INTEREST);
+  const [selectedTab, setSelectedTab] = useState(FAVOURITE);
+  const [profileForm] = Form.useForm();
 
-  const [popupVisible, setPopupVisible] = useState(false);
-  useEffect(() => {
-    console.log("VISIBLE", popupVisible);
-  }, [popupVisible]);
+  const { confirm } = Modal;
+  function warning() {
+    confirm({
+      title: "Edit Porfile",
+      icon: <ExclamationCircleOutlined />,
+      footer: null,
+      content: (
+        <Form form={profileForm}>
+          <Form.Item label="Username" name="username">
+            <Input />
+          </Form.Item>
+          <Form.Item label="Current Password" name="old_pass">
+            <Input />
+          </Form.Item>
+          <Form.Item label="New Password" name="new_pass">
+            <Input />
+          </Form.Item>
+        </Form>
+      ),
+      onOk() {
+        //profileForm.submit;
+        console.log("OK");
+      },
+      onCancel() {
+        console.log("CANCEL");
+      },
+    });
+  }
 
   return (
     <ProfileContainer>
@@ -33,7 +53,9 @@ const myAccount = () => {
         <Avatar size={100} src={PROFILE.profilePic} />
         <h3>{PROFILE.name}</h3>
       </ProfilePicture>
-      <Button variant="transparent">Edit Profile</Button>
+      <Button variant="transparent" onClick={warning}>
+        Edit Profile
+      </Button>
 
       <ListContainer>
         <TabContainer>
@@ -52,30 +74,12 @@ const myAccount = () => {
         </TabContainer>
         <List>
           {selectedTab == FAVOURITE ? (
-            <>
-              <TabContainer>
-                Top 5 Favourite Restaurant
-                <Button variant="dark" onClick={() => setPopupVisible(true)}>
-                  Edit List
-                </Button>
-              </TabContainer>
-              <FavList />
-            </>
+            <RestList type={FAVOURITE} />
           ) : (
-            <InterestList />
+            <RestList type={INTEREST} />
           )}
         </List>
       </ListContainer>
-
-      <Popup
-        title="Edit Top 5 Favourite List"
-        visible={popupVisible}
-        okText="Save"
-        onOk={() => setPopupVisible(false)}
-        onCancel={() => setPopupVisible(false)}
-      >
-        <EditList list={TOP_5} />
-      </Popup>
     </ProfileContainer>
   );
 };
