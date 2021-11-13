@@ -25,6 +25,7 @@ class ReviewAPI {
   };
 
   getReviewByFilter = (filter, res_id, user_id, data) => {
+    console.log("API");
     return http.get(`/filter/${filter}/${res_id}/${user_id}`, data);
   };
 }

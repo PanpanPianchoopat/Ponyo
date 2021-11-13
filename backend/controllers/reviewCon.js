@@ -80,8 +80,14 @@ export const getAllReview = async (req, res) => {
               onNull: "",
             },
           },
-
-          date: 1,
+          // date:1,
+          date:{
+            $dateToString: {
+              format:"%d/%m/%Y",
+              date: "$date",
+            },
+          },
+          
           reviewer: 1,
           reviewText: 1,
           star: 1,

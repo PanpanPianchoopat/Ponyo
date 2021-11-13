@@ -12,9 +12,11 @@ import {
 import { Form, Divider } from "antd";
 import Button from "../../../components/Button";
 import ReviewAPI from "../../../api/reviewAPI";
+import { useRouter } from 'next/router'
 
 const WriteReview = (props) => {
   const [form] = Form.useForm();
+  const router = useRouter()
 
   const photoArray = (fileList) => {
     var i = 0;
@@ -27,9 +29,9 @@ const WriteReview = (props) => {
   };
 
   const onFinish = (values) => {
-    const user_id = "test27";
+    const user_id = "618e84fe446572668885508a";
     const res_id = "617d07fb8f7c593a9e729a56";
-    var image = null;
+    var image = [];
 
     if (values.pictures != undefined) {
       image = photoArray(values.pictures.fileList);
@@ -45,6 +47,7 @@ const WriteReview = (props) => {
       .then((response) => {
         console.log(response.data);
         props.func(true);
+  
       })
       .catch((e) => {
         console.log("Already review");
@@ -54,6 +57,8 @@ const WriteReview = (props) => {
   const onFinishFailed = (error) => {
     console.log("Failed:", error);
   };
+  
+
   return (
     <>
       <WriteReviewInnnerContainer>
@@ -90,7 +95,7 @@ const WriteReview = (props) => {
               <Button variant="transparent" outline="round" type="button">
                 Cancel
               </Button>
-              <Button variant="red" outline="round" type="submit">
+              <Button variant="red" outline="round" type="submit" onClick={() => router.reload()}>
                 Submit
               </Button>
             </ButtonGroup>

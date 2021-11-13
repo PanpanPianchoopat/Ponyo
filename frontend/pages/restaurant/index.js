@@ -41,7 +41,6 @@ const Restaurant = () => {
   const [commentAmountInfo, setCommentAmount] = useState(null);
   const [reviewInfo, setReview] = useState(null);
 
-
   const updateInfo = (review) => {
     if (review) {
       getAvgRate();
@@ -56,6 +55,7 @@ const Restaurant = () => {
     getReviewAmount();
     getLikedBookmarked();
     getStarAmount();
+    getReviewByFilter(0);
   }, []);
 
   const user_id = "618e861f44657266888550c3";
@@ -152,11 +152,12 @@ const Restaurant = () => {
   const getReviewByFilter = (index) => {
     const type = ["all", "comment", "photo", "star"];
     const star = [0, 0, 0, 5, 4, 3, 2, 1];
+    console.log("index",index);
     if (index == 0) {
       ReviewAPI.getAllReview(res_id, user_id)
         .then((response) => {
           setReview(response.data);
-          console.log("reviewAll",reviewInfo);
+          console.log("reviewAll", reviewInfo);
         })
         .catch((e) => {
           console.log(e);
@@ -166,23 +167,21 @@ const Restaurant = () => {
       ReviewAPI.getReviewByFilter(type[3], res_id, user_id, data)
         .then((response) => {
           setReview(response.data);
-          console.log("reviewInfo",reviewInfo);
+          console.log("reviewInfo", reviewInfo);
         })
         .catch((e) => {
           console.log(e);
         });
     } else {
       const data = { star: star[index] };
-      ReviewAPI.getReviewByFilter(type[index],res_id,  user_id, data)
+      ReviewAPI.getReviewByFilter(type[index], res_id, user_id, data)
         .then((response) => {
           setReview(response.data);
-          
         })
         .catch((e) => {
           console.log(e);
         });
     }
-    
   };
 
   return (
@@ -262,9 +261,11 @@ const Restaurant = () => {
           </ReviewFilters>
           <Divider />
           <ReviewsContainer>
-            {REVIEWS.map((review, index) => {
-              return <Review key={index} review={review} />;
-            })}
+            {reviewInfo
+              ? reviewInfo.map((review, index) => {
+                  return <Review key={index} review={review} />;
+                })
+              : null}
           </ReviewsContainer>
         </ReviewInnerContainer>
       </ReviewContainer>
