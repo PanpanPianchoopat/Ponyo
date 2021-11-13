@@ -43,7 +43,7 @@ const Category = () => {
               preview={false}
             />
           </TypeCircle>
-          <TypeName>Fast-food</TypeName>
+          <TypeName>Fast food</TypeName>
         </TypeContainer>
         <TypeContainer>
           <TypeCircle>
@@ -65,7 +65,7 @@ const Category = () => {
               preview={false}
             />
           </TypeCircle>
-          <TypeName>Family-style</TypeName>
+          <TypeName>Family style</TypeName>
         </TypeContainer>
         <TypeContainer>
           <TypeCircle>

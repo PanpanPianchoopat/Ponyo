@@ -119,7 +119,7 @@ export const Underline = styled.hr`
 
 export const ContentContainer = styled.div`
   width: 100%;
-  height: 800px;
+  height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -146,8 +146,11 @@ export const Status = styled(Radio)``;
 export const CardContainer = styled.div`
   width: 80%;
   margin: 30px 0 50px 0;
-  height: 400px;
-  background: ${COLORS.PRIMARY_BLUE};
+  height: auto;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  // background: ${COLORS.PRIMARY_BLUE};
 `;
 
 export const BestRateContainer = styled.div`
@@ -155,6 +158,7 @@ export const BestRateContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 50px;
   padding-bottom: 80px;
   background: ${COLORS.PRIMARY_DARK};
 `;

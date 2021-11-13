@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import COLORS from "../../../../public/constant/colors";
+import BREAKPOINTS from "../../../../public/constant/breakpoints";
 import { Image } from "antd";
 
 export const CategoryContainer = styled.div`
@@ -27,13 +28,21 @@ export const TypeCircle = styled.div`
   align-items: center;
   box-shadow: 0px 0px 20px black;
   cursor: pointer;
+  @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
+    height: 70px;
+    width: 70px;
+  }
 `;
 
 export const TypeName = styled.div`
   font-size: 16px;
   letter-spacing: 1px;
+  text-align: center;
   padding-top: 20px;
   color: #4c403f;
+  @media (max-width: ${BREAKPOINTS.MDPI_LAPTOP}) {
+    font-size: 14px;
+  }
 `;
 
 export const TypeImage = styled(Image)`

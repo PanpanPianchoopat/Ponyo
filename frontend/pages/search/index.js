@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import COLORS from "../../public/constant/colors";
 import Button from "../components/Button";
 import BestRate from "../components/BestRate";
+import { TOP_3 } from "../components/BestRate/constant";
 import Card from "../components/Card";
+import {SAMPLE_DATA} from "../components/Card/constant";
+import { BackTop } from "antd";
 import Category from "./components/Category";
 import {
   Container,
@@ -20,7 +23,6 @@ import {
   CardContainer,
   BestRateContainer,
 } from "./styled";
-import { TOP_3 } from "../components/BestRate/constant";
 
 const SearchRestaurant = () => {
   const { Option } = Selecter;
@@ -94,7 +96,7 @@ const SearchRestaurant = () => {
             />
           </StatusBox>
           <CardContainer>
-            {/* <Card detail="SAMPLE_DATA" liked="true" saved="false" /> */}
+          {SAMPLE_DATA.map((detail, key) => <Card detail={detail} liked={true} saved={true} key={key}/>)}
           </CardContainer>
           <Button variant="yellow">Explore more</Button>
         </ContentContainer>
@@ -107,6 +109,7 @@ const SearchRestaurant = () => {
           <Button variant="yellow">Explore more</Button>
         </BestRateContainer>
       </Container>
+      <BackTop />
     </>
   );
 };
