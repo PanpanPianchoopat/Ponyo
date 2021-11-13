@@ -152,7 +152,7 @@ const Restaurant = () => {
   const getReviewByFilter = (index) => {
     const type = ["all", "comment", "photo", "star"];
     const star = [0, 0, 0, 5, 4, 3, 2, 1];
-    console.log("index",index);
+
     if (index == 0) {
       ReviewAPI.getAllReview(res_id, user_id)
         .then((response) => {
@@ -163,20 +163,23 @@ const Restaurant = () => {
           console.log(e);
         });
     } else if (index >= 3) {
-      const data = { star: star[index] };
-      ReviewAPI.getReviewByFilter(type[3], res_id, user_id, data)
+      const starFilter = star[index];
+      console.log("star", starFilter);
+      console.log("type", type[3]);
+      ReviewAPI.getReviewByFilter(type[3], res_id, user_id, starFilter)
         .then((response) => {
           setReview(response.data);
-          console.log("reviewInfo", reviewInfo);
+          console.log("reviewStar", reviewInfo);
         })
         .catch((e) => {
           console.log(e);
         });
     } else {
-      const data = { star: star[index] };
-      ReviewAPI.getReviewByFilter(type[index], res_id, user_id, data)
+      const starFilter = 0;
+      ReviewAPI.getReviewByFilter(type[index], res_id, user_id, starFilter)
         .then((response) => {
           setReview(response.data);
+          console.log("review", reviewInfo);
         })
         .catch((e) => {
           console.log(e);

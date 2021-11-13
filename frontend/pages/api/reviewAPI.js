@@ -24,9 +24,9 @@ class ReviewAPI {
     return http.get(`/review/all/${res_id}/${user_id}`);
   };
 
-  getReviewByFilter = (filter, res_id, user_id, data) => {
-    console.log("API");
-    return http.get(`/filter/${filter}/${res_id}/${user_id}`, data);
+  getReviewByFilter = (filter, res_id, user_id, star) => {
+    console.log("APIstar", star);
+    return http.get(`/review/filter/${filter}/${res_id}/${user_id}/${star}` );
   };
 }
 

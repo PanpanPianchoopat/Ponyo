@@ -81,13 +81,13 @@ export const getAllReview = async (req, res) => {
             },
           },
           // date:1,
-          date:{
+          date: {
             $dateToString: {
-              format:"%d/%m/%Y",
+              format: "%d/%m/%Y",
               date: "$date",
             },
           },
-          
+
           reviewer: 1,
           reviewText: 1,
           star: 1,
@@ -135,8 +135,9 @@ export const getAllReview = async (req, res) => {
 };
 
 export const getReviewByFilter = async (req, res) => {
-  const { res_id, filter, user_id } = req.params;
-  const { star } = req.body;
+  const { res_id, filter, user_id, star } = req.params;
+  // const { star } = req.body;
+  console.log("checkStar", star);
 
   try {
     if (filter == "star") {
@@ -145,7 +146,7 @@ export const getReviewByFilter = async (req, res) => {
     } else if (filter == "comment") {
       const Reviews = await getReviewByComment(res_id, user_id);
       res.status(200).json(Reviews);
-    } else if (filter == "filter") {
+    } else if (filter == "photo") {
       const Reviews = await getReviewByPhoto(res_id, user_id);
       res.status(200).json(Reviews);
     }
@@ -155,19 +156,32 @@ export const getReviewByFilter = async (req, res) => {
 };
 
 const getReviewByStar = async (res_id, star, user_id) => {
+  console.log("star", star);
   const Reviews = await Review.aggregate([
     {
       $match: {
-        res_id: res_id,
+        // $and: [{ res_id: res_id }, { star: star }],
+        // res_id: res_id,
         star: star,
       },
     },
     {
       $project: {
         user_id_ob: {
-          $toObjectId: "$user_id",
+          $convert: {
+            input: "$user_id",
+            to: "objectId",
+            onError: "",
+            onNull: "",
+          },
         },
-        date: 1,
+        // date:1,
+        date: {
+          $dateToString: {
+            format: "%d/%m/%Y",
+            date: "$date",
+          },
+        },
         reviewer: 1,
         reviewText: 1,
         star: 1,
@@ -223,9 +237,20 @@ const getReviewByComment = async (res_id, user_id) => {
     {
       $project: {
         user_id_ob: {
-          $toObjectId: "$user_id",
+          $convert: {
+            input: "$user_id",
+            to: "objectId",
+            onError: "",
+            onNull: "",
+          },
         },
-        date: 1,
+        // date:1,
+        date: {
+          $dateToString: {
+            format: "%d/%m/%Y",
+            date: "$date",
+          },
+        },
         reviewer: 1,
         reviewText: 1,
         star: 1,
@@ -281,9 +306,20 @@ const getReviewByPhoto = async (res_id, user_id) => {
     {
       $project: {
         user_id_ob: {
-          $toObjectId: "$user_id",
+          $convert: {
+            input: "$user_id",
+            to: "objectId",
+            onError: "",
+            onNull: "",
+          },
         },
-        date: 1,
+        // date:1,
+        date: {
+          $dateToString: {
+            format: "%d/%m/%Y",
+            date: "$date",
+          },
+        },
         reviewer: 1,
         reviewText: 1,
         star: 1,
