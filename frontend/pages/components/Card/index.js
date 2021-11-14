@@ -14,7 +14,7 @@ import {
   Star,
   Status,
   PinIcon,
-} from "./style";
+} from "./styled";
 
 const RestCard = ({ ...props }) => {
   const restName = props.detail.name;

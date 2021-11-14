@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Card from "../../../components/Card";
 import { FAVOURITE, INTEREST } from "../../constant";
 import { FAV_LIST, MY_INTEREST } from "./constant";
-import EditList from "../EditList";
+import EditList from "./components/EditList";
 import {
   HeaderWrapper,
   CardsWrapper,
@@ -10,6 +10,7 @@ import {
   EditButton,
   Popup,
 } from "./styled";
+import { Router } from "next/dist/client/router";
 
 const RestList = (props) => {
   const isFav = props.type == FAVOURITE;
@@ -24,13 +25,16 @@ const RestList = (props) => {
   const REST_LIST = isFav ? favList : isIn ? inList : null;
   const isLarge = isFav ? "large" : "";
   const [popupVisible, setPopupVisible] = useState(false);
+  const [edittedList, setEdittedList] = useState(FAV_LIST);
 
   function handleOk() {
+    setFavList(edittedList);
     setPopupVisible(false);
   }
 
   useEffect(() => {
-    console.log("FROM_CHILD", favList);
+    // print updated list
+    console.log("FAV_EDIT", favList);
   }, [favList]);
 
   return (
@@ -62,7 +66,7 @@ const RestList = (props) => {
         onOk={handleOk}
         onCancel={() => setPopupVisible(false)}
       >
-        <EditList list={favList} updateList={setFavList} />
+        <EditList list={favList} updateList={setEdittedList} />
       </Popup>
     </>
   );

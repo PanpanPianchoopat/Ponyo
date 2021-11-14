@@ -125,7 +125,7 @@ export const Line = styled.div`
   width: 100%;
 `;
 
-export const RestaurantName = styled.text`
+export const RestaurantName = styled.small`
   font-weight: bold;
   font-size: 1.1rem;
   @media (max-width: ${BREAKPOINTS.DESKTOP_FULL_HD}) {
@@ -136,7 +136,7 @@ export const RestaurantName = styled.text`
   }
 `;
 
-export const PriceRange = styled.text`
+export const PriceRange = styled.small`
   font-weight: bold;
   color: ${COLORS.PRIMARY_RED};
   font-size: 1.1rem;
@@ -145,7 +145,7 @@ export const PriceRange = styled.text`
   }
 `;
 
-export const Description = styled.text`
+export const Description = styled.small`
   font-size: 0.8rem;
   @media (max-width: ${BREAKPOINTS.DESKTOP_FULL_HD}) {
     font-size: 0.8rem;
@@ -167,7 +167,7 @@ export const Star = styled(StarFilled)`
   }
 `;
 
-export const Rating = styled.text`
+export const Rating = styled.small`
   color: ${COLORS.PRIMARY_YELLOW};
   font-size: 0.8rem;
   @media (max-width: ${BREAKPOINTS.DESKTOP_FULL_HD}) {

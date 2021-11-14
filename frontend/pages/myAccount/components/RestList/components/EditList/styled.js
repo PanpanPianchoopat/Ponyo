@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import COLORS from "../../../../public/constant/colors";
+import COLORS from "../../../../../../public/constant/colors";
 import { BsFillBookmarkFill } from "react-icons/bs";
 import { DeleteOutlined } from "@ant-design/icons";
 import { Popconfirm } from "antd";

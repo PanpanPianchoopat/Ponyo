@@ -25,7 +25,7 @@ const EditList = (props) => {
       favList[i].rank = i + 1;
     }
     console.log("NEW_LIST", favList);
-    //props.updateList(favList); //send new list back to parent
+    props.updateList(favList); //send new list back to parent
   }, [favList]);
 
   const handleChange = (oldIndex, newIndex) => {
