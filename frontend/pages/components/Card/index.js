@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
+import { EditOutlined } from "@ant-design/icons";
 import {
   RestaurantCard,
-  ActiveHeartButton,
-  HeartButton,
-  CommentButton,
+  IconWrapper,
+  Ranking,
   Location,
   Line,
   RestaurantName,
@@ -12,62 +12,73 @@ import {
   Rating,
   CoverPhoto,
   CoverContainer,
+  DetailContainer,
+  LeftSection,
+  RightSection,
   Star,
   Status,
-  BookmarkButton,
-  ActiveBookmark,
   PinIcon,
-} from "./style";
+} from "./styled";
 
-const RestCard = (props) => {
-  const [isLiked, setIsLiked] = useState(props.liked);
-  const heartButton = isLiked ? (
-    <ActiveHeartButton onClick={() => setIsLiked(!isLiked)} />
-  ) : (
-    <HeartButton onClick={() => setIsLiked(!isLiked)} />
-  );
-  const [isSaved, setIsSaved] = useState(props.saved);
-  const saveButton = isSaved ? (
-    <ActiveBookmark onClick={() => setIsSaved(!isSaved)} />
-  ) : (
-    <BookmarkButton onClick={() => setIsSaved(!isSaved)} />
-  );
+const RestCard = ({ ...props }) => {
+  const restName = props.detail.name;
+  const description = props.detail.description;
+  const priceRange = props.detail.price;
+  const rating = props.detail.rate;
+  const location = props.detail.location;
+  const restStatus = props.detail.status;
+  const restPicture = props.detail.cover;
+  const restRank = props.detail.rank;
 
   return (
     <RestaurantCard
+      size={props.size}
+      headStyle={{ display: props.showRank ? "flex" : "none" }}
+      bordered={false}
+      title={<Ranking showRank={props.showRank}>{restRank}</Ranking>}
       cover={
-        <CoverContainer>
-          <Status status={props.detail.status}>
-            {props.detail.status.toUpperCase()}
-          </Status>
-          <CoverPhoto src={props.detail.cover} />
+        <CoverContainer customSize={props.size}>
+          <IconWrapper>
+            {restStatus ? (
+              <Status status={restStatus}>{restStatus.toUpperCase()}</Status>
+            ) : null}
+          </IconWrapper>
+          <CoverPhoto src={restPicture} />
         </CoverContainer>
       }
-      actions={[heartButton, <CommentButton />, saveButton]}
-      bordered={false}
     >
-      <Line>
-        <RestaurantName>{props.detail.name}</RestaurantName>
-        <PriceRange>฿ {props.detail.price} .-</PriceRange>
-      </Line>
-      <Line>
-        <Description>
-          {props.detail.description.length > 25
-            ? `${props.detail.description.substring(0, 25)}...`
-            : props.detail.description}
-        </Description>
-        <Rating>
-          <Star />
-          {props.detail.rate}
-        </Rating>
-      </Line>
+      <DetailContainer>
+        <LeftSection>
+          <RestaurantName>
+            {restName
+              ? restName.length > 20
+                ? `${restName.substring(0, 20)}...`
+                : restName
+              : null}
+          </RestaurantName>
+          <Description>
+            {description
+              ? description.length > 60
+                ? `${description.substring(0, 60)}...`
+                : description
+              : null}
+          </Description>
+        </LeftSection>
+        <RightSection>
+          <PriceRange>฿{priceRange}</PriceRange>
+          <Rating>
+            <Star />
+            {rating}
+          </Rating>
+        </RightSection>
+      </DetailContainer>
 
-      <Location>
-        <PinIcon />
-        {props.detail.location.length > 32
-          ? `${props.detail.location.substring(0, 32)}...`
-          : props.detail.location}
-      </Location>
+      {location ? (
+        <Location>
+          <PinIcon />
+          {location.length > 25 ? `${location.substring(0, 25)}...` : location}
+        </Location>
+      ) : null}
     </RestaurantCard>
   );
 };
