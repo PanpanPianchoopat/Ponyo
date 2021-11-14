@@ -23,11 +23,11 @@ import Carousel from "./components/Carousel";
 import Overview from "./components/Overview";
 import Detail from "./components/Detail";
 import Review from "./components/Review";
-import { FILTER, COUNT, REVIEWS } from "./constant";
+import CONSTANT from "./constant";
+import { FILTER, KEY_FILTER, REVIEW_FILTER } from "./constant";
 import { Divider } from "antd";
 import RestaurantAPI from "../api/restaurantAPI";
 import ReviewAPI from "../api/reviewAPI";
-import { REST_INFO } from "./constant";
 
 const Restaurant = () => {
   const [filter, setFilter] = useState(0);
@@ -39,6 +39,7 @@ const Restaurant = () => {
   const [starInfo, setStarAmount] = useState(null);
   const [reviewAmountInfo, setRatingAmount] = useState(null);
   const [commentAmountInfo, setCommentAmount] = useState(null);
+  const [photoAmountInfo, setPhotoAmount] = useState(null);
   const [reviewInfo, setReview] = useState(null);
 
   const updateInfo = (review) => {
@@ -108,6 +109,7 @@ const Restaurant = () => {
       .catch((e) => {
         console.log(e);
       });
+
     ReviewAPI.getReviewAmount(res_id, "comment", star)
       .then((response) => {
         setCommentAmount(response.data);
@@ -115,20 +117,10 @@ const Restaurant = () => {
       .catch((e) => {
         console.log(e);
       });
-  };
 
-  const getLikedBookmarked = () => {
-    RestaurantAPI.getLikedBookmarked("myFavRestaurants", user_id, res_id)
+    ReviewAPI.getReviewAmount(res_id, "photo", star)
       .then((response) => {
-        setLiked(response.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-
-    RestaurantAPI.getLikedBookmarked("myInterestRestaurants", user_id, res_id)
-      .then((response) => {
-        setBookmarked(response.data);
+        setPhotoAmount(response.data);
       })
       .catch((e) => {
         console.log(e);
@@ -149,27 +141,40 @@ const Restaurant = () => {
     }
   };
 
+  const getLikedBookmarked = () => {
+    RestaurantAPI.getLikedBookmarked("myFavRestaurants", user_id, res_id)
+      .then((response) => {
+        setLiked(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+
+    RestaurantAPI.getLikedBookmarked("myInterestRestaurants", user_id, res_id)
+      .then((response) => {
+        setBookmarked(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
   const getReviewByFilter = (index) => {
     const type = ["all", "comment", "photo", "star"];
-    const star = [0, 0, 0, 5, 4, 3, 2, 1];
-
+    setFilter(index);
     if (index == 0) {
       ReviewAPI.getAllReview(res_id, user_id)
         .then((response) => {
           setReview(response.data);
-          console.log("reviewAll", reviewInfo);
         })
         .catch((e) => {
           console.log(e);
         });
     } else if (index >= 3) {
-      const starFilter = star[index];
-      console.log("star", starFilter);
-      console.log("type", type[3]);
+      const starFilter = FILTER[index];
       ReviewAPI.getReviewByFilter(type[3], res_id, user_id, starFilter)
         .then((response) => {
           setReview(response.data);
-          console.log("reviewStar", reviewInfo);
         })
         .catch((e) => {
           console.log(e);
@@ -179,11 +184,38 @@ const Restaurant = () => {
       ReviewAPI.getReviewByFilter(type[index], res_id, user_id, starFilter)
         .then((response) => {
           setReview(response.data);
-          console.log("review", reviewInfo);
         })
         .catch((e) => {
           console.log(e);
         });
+    }
+  };
+
+  const getCountReview = (filter) => {
+    switch (filter) {
+      case REVIEW_FILTER.COMMENT:
+        return commentAmountInfo ? commentAmountInfo : 0;
+        break;
+      case REVIEW_FILTER.PHOTO:
+        return photoAmountInfo ? photoAmountInfo : 0;
+        break;
+      case REVIEW_FILTER.FIVE_STAR:
+        return starInfo ? starInfo[REVIEW_FILTER.FIVE_STAR_INFO] : 0;
+        break;
+      case REVIEW_FILTER.FOUR_STAR:
+        return starInfo ? starInfo[REVIEW_FILTER.FOUR_STAR_INFO] : 0;
+        break;
+      case REVIEW_FILTER.THREE_STAR:
+        return starInfo ? starInfo[REVIEW_FILTER.THREE_STAR_INFO] : 0;
+        break;
+      case REVIEW_FILTER.TWO_STAR:
+        return starInfo ? starInfo[REVIEW_FILTER.TWO_STAR_INFO] : 0;
+        break;
+      case REVIEW_FILTER.ONE_STAR:
+        return starInfo ? starInfo[REVIEW_FILTER.ONE_STAR_INFO] : 0;
+        break;
+      default:
+        return reviewAmountInfo ? reviewAmountInfo : 0;
     }
   };
 
@@ -257,7 +289,9 @@ const Restaurant = () => {
                   onClick={() => getReviewByFilter(index)}
                 >
                   {typeof type === "string" ? type : <div>{StarNum(type)}</div>}
-                  <Number isSelected={filter == index}>({COUNT[index]})</Number>
+                  <Number isSelected={filter == index}>
+                    ({getCountReview(index)})
+                  </Number>
                 </FilterButton>
               );
             })}

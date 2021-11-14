@@ -26,7 +26,6 @@ const Overview = (props) => {
   const liked = props.isLiked;
   const [isBookmarked, setBookmark] = useState(bookmarked);
   const [isLiked, setIsLiked] = useState(liked);
-  const [rate, setRate] = useState(null);
   const [avgText, setAvgText] = useState(null);
 
   const user_id = "618e861f44657266888550c3";
@@ -37,32 +36,10 @@ const Overview = (props) => {
   }, [bookmarked, liked]);
 
   useEffect(() => {
-    const newRate = (
-      <AverageRate defaultValue={props.avgRate} allowHalf disabled />
-    );
     if (props.avgRate != null) {
-      console.log("BEFORE_ENTER");
-      setRate(newRate);
-      console.log("AFTER_CALL");
       setAvgText(props.avgRate);
     }
   }, [props.avgRate]);
-
-  // useEffect(() => {
-  //   if (avgText != null) {
-  //     console.log("12345");
-  //     setAvgRate(<AverageRate defaultValue={avgText} allowHalf disabled />);
-  //     console.log("after set avg");
-  //   }
-  // }, [avgText]);
-
-  useEffect(() => {
-    console.log("CHANGE_STAR");
-  }, [rate]);
-
-  useEffect(() => {
-    console.log("Rest Marked:", isBookmarked);
-  }, [isBookmarked]);
 
   function toggleBookmark() {
     setBookmark(!isBookmarked);
@@ -126,7 +103,7 @@ const Overview = (props) => {
           <div>
             {/* {rate} */}
 
-            <AverageRate defaultValue={avgText} allowHalf disabled />
+            <AverageRate defaultValue={avgText} value={avgText} allowHalf disabled />
             <AvgRateText>{avgText}</AvgRateText>
           </div>
           {isLiked ? (

@@ -2,9 +2,6 @@ import http from "./http-common";
 
 class ReviewAPI {
   addReview = (user_id, res_id, data) => {
-    console.log("user ", user_id);
-    console.log("res ", res_id);
-    console.log("data", data);
     return http.post(`/review/add/${res_id}/${user_id}`, data);
   };
 
@@ -25,8 +22,11 @@ class ReviewAPI {
   };
 
   getReviewByFilter = (filter, res_id, user_id, star) => {
-    console.log("APIstar", star);
-    return http.get(`/review/filter/${filter}/${res_id}/${user_id}/${star}` );
+    return http.get(`/review/filter/${filter}/${res_id}/${user_id}/${star}`);
+  };
+
+  addLikeReview = (review_id, user_id, like) => {
+    return http.patch(`/review/like/${review_id}/${user_id}/${like}`);
   };
 }
 

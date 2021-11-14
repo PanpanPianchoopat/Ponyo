@@ -13,14 +13,9 @@ class RestaurantAPI {
     return http.get(`/restaurant/status/${res_id}`);
   };
 
-  
-
   getLikedBookmarked = (key, user_id, res_id) => {
     return http.get(`/restaurant/checkList/${key}/${user_id}/${res_id}`);
   };
-
- 
-
 
 }
 

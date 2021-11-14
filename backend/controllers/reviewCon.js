@@ -80,7 +80,6 @@ export const getAllReview = async (req, res) => {
               onNull: "",
             },
           },
-          // date:1,
           date: {
             $dateToString: {
               format: "%d/%m/%Y",
@@ -136,8 +135,6 @@ export const getAllReview = async (req, res) => {
 
 export const getReviewByFilter = async (req, res) => {
   const { res_id, filter, user_id, star } = req.params;
-  // const { star } = req.body;
-  console.log("checkStar", star);
 
   try {
     if (filter == "star") {
@@ -156,13 +153,12 @@ export const getReviewByFilter = async (req, res) => {
 };
 
 const getReviewByStar = async (res_id, star, user_id) => {
-  console.log("star", star);
+  const starInt = Number(star);
   const Reviews = await Review.aggregate([
     {
       $match: {
-        // $and: [{ res_id: res_id }, { star: star }],
-        // res_id: res_id,
-        star: star,
+        res_id: res_id,
+        star: starInt,
       },
     },
     {
@@ -175,7 +171,6 @@ const getReviewByStar = async (res_id, star, user_id) => {
             onNull: "",
           },
         },
-        // date:1,
         date: {
           $dateToString: {
             format: "%d/%m/%Y",
@@ -222,7 +217,6 @@ const getReviewByStar = async (res_id, star, user_id) => {
       },
     },
   ]);
-
   return Reviews;
 };
 
@@ -360,7 +354,6 @@ const getReviewByPhoto = async (res_id, user_id) => {
       },
     },
   ]);
-  console.log(Reviews.length);
   return Reviews;
 };
 
@@ -376,7 +369,7 @@ export const getReviewAmount = async (req, res) => {
       res.status(200).json(amountRate);
       return amountRate;
     }
-    //Find number of comment
+    //Find number of review with comment
     else if (typeReview == "comment") {
       const amountComment = await Review.find({
         res_id: res_id,
@@ -385,7 +378,7 @@ export const getReviewAmount = async (req, res) => {
       res.status(200).json(amountComment);
       return amountComment;
     }
-    //Find number of star
+    //Find number of review with star
     else if (typeReview == "star") {
       const amountStar = await Review.find({
         res_id: res_id,
@@ -394,7 +387,7 @@ export const getReviewAmount = async (req, res) => {
       res.status(200).json(amountStar);
       return amountStar;
     }
-    //Find number of photo
+    //Find number of review with photo
     else if (typeReview == "photo") {
       const amountPhoto = await Review.find({
         res_id: res_id,
@@ -442,23 +435,28 @@ export const addLikeReview = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(review_id))
     return res.status(404).send(`No review with id: ${review_id}`);
 
-  if (like == "true") {
-    await Review.findByIdAndUpdate(
-      review_id,
-      {
-        $push: {
-          like: user_id,
-        },
-      },
-      { new: true }
-    );
-    res.status(200).json({ Message: "add Success" });
-  } else {
-    await Review.findByIdAndUpdate(
-      review_id,
-      { $pull: { like: user_id } },
-      { new: true }
-    );
-    res.status(200).json({ Message: "remove Success" });
-  }
+    try {
+      if (like == "true") {
+        await Review.findByIdAndUpdate(
+          review_id,
+          {
+            $push: {
+              like: user_id,
+            },
+          },
+          { new: true }
+        );
+        res.status(200).json({ Message: "add Success" });
+      } else {
+        await Review.findByIdAndUpdate(
+          review_id,
+          { $pull: { like: user_id } },
+          { new: true }
+        );
+        res.status(200).json({ Message: "remove Success" });
+      }
+    } catch (error) {
+      res.status(404).json({ Error: error.message });
+    }
+  
 };
