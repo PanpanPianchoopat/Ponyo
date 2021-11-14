@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import COLORS from "../../public/constant/colors";
+import { Modal } from "antd";
 
 export const ProfileContainer = styled.div`
   display: flex;
@@ -48,4 +49,17 @@ export const List = styled.div`
   background: ${COLORS.PRIMARY_DARK};
   color: white;
   padding: 20px;
+`;
+
+export const Popup = styled(Modal)`
+  .ant-modal-header {
+    border: 0;
+  }
+  .ant-modal-title {
+    font-size: 24px;
+    margin: 10px 0;
+  }
+  .ant-modal-body {
+    // padding: 0 20px;
+  }
 `;

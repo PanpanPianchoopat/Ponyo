@@ -3,7 +3,7 @@ import { Avatar, Modal, Form, Input } from "antd";
 import Button from "../components/Button";
 import RestList from "./components/RestList";
 import { PROFILE, FAVOURITE, INTEREST } from "./constant";
-import { ExclamationCircleOutlined } from "@ant-design/icons";
+import EditProfile from "./components/EditProfile";
 
 import {
   ProfileContainer,
@@ -12,39 +12,15 @@ import {
   TabContainer,
   Menu,
   List,
+  Popup,
 } from "./styled";
 
 const myAccount = () => {
   const [selectedTab, setSelectedTab] = useState(FAVOURITE);
-  const [profileForm] = Form.useForm();
+  const [popupVisible, setPopupVisible] = useState(false);
 
-  const { confirm } = Modal;
-  function warning() {
-    confirm({
-      title: "Edit Porfile",
-      icon: <ExclamationCircleOutlined />,
-      footer: null,
-      content: (
-        <Form form={profileForm}>
-          <Form.Item label="Username" name="username">
-            <Input />
-          </Form.Item>
-          <Form.Item label="Current Password" name="old_pass">
-            <Input />
-          </Form.Item>
-          <Form.Item label="New Password" name="new_pass">
-            <Input />
-          </Form.Item>
-        </Form>
-      ),
-      onOk() {
-        //profileForm.submit;
-        console.log("OK");
-      },
-      onCancel() {
-        console.log("CANCEL");
-      },
-    });
+  function closePopup() {
+    setPopupVisible(false);
   }
 
   return (
@@ -53,9 +29,20 @@ const myAccount = () => {
         <Avatar size={100} src={PROFILE.profilePic} />
         <h3>{PROFILE.name}</h3>
       </ProfilePicture>
-      <Button variant="transparent" onClick={warning}>
+      <Button variant="transparent" onClick={() => setPopupVisible(true)}>
         Edit Profile
       </Button>
+      <Popup
+        title="Edit Profile"
+        visible={popupVisible}
+        okText="Save"
+        onOk={() => setPopupVisible(false)}
+        onCancel={() => setPopupVisible(false)}
+        footer={null}
+        destroyOnClose={true}
+      >
+        <EditProfile closePopup={closePopup} />
+      </Popup>
 
       <ListContainer>
         <TabContainer>

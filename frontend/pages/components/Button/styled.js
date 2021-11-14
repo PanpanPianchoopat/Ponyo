@@ -43,6 +43,9 @@ export const StyledButton = styled.button.attrs((props) => {
   color: ${(props) => props.textColor};
   font-size: 0.9rem;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   &:active {
     transform: translateY(2px);
   }
