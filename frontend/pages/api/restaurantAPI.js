@@ -1,16 +1,22 @@
 import http from "./http-common";
 
-class ReataurantAPI {
-
+class RestaurantAPI {
   addRestaurant = (data) => {
-    console.log("data", data);
     return http.post("/restaurant", data);
   };
 
-  test = () => {
-    return http.get("/restaurant");
-  }
+  getRestaurantDetail = (res_id) => {
+    return http.get(`/restaurant/detail/${res_id}`);
+  };
+
+  getRestaurantStatus = (res_id) => {
+    return http.get(`/restaurant/status/${res_id}`);
+  };
+
+  getLikedBookmarked = (key, user_id, res_id) => {
+    return http.get(`/restaurant/checkList/${key}/${user_id}/${res_id}`);
+  };
 
 }
 
-export default new ReataurantAPI();
+export default new RestaurantAPI();

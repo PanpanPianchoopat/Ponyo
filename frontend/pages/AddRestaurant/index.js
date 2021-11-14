@@ -36,6 +36,7 @@ const AddRestaurant = () => {
   };
 
   const onFinish = (values) => {
+    console.log(values);
     const openTime = convertTime(values.openHour);
     const photo = photoArray(values.photos.fileList);
 

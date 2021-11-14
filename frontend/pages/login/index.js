@@ -29,7 +29,6 @@ const login = () => {
       email: values.email,
       password: values.password,
     };
-    console.log("Received values of form: ", data);
 
     UserAPI.login(data)
       .then((response) => {
@@ -38,6 +37,7 @@ const login = () => {
       })
       .catch((e) => {
         console.log(e);
+        console.log("Username or password not correct");
       });
   };
 

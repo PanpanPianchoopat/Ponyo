@@ -7,8 +7,8 @@ const userSchema = mongoose.Schema({
   dateOfBirth: { type: Date, required: true },
   gender: { type: String, required: true },
   image: { type: String },
-  favorite: { type: Array },
-  interest: { type: Array },
+  myFavRestaurants: { type: Array },
+  myInterestRestaurants: { type: Array },
 });
 
 const User = mongoose.model("User", userSchema);

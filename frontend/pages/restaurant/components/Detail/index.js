@@ -13,29 +13,39 @@ import { FaDirections } from "react-icons/fa";
 
 const Detail = (props) => {
   const detail = props.detail;
+
+  const checkTime = (time) => {
+    if (time < 10) {
+      return "0" + time;
+    } else {
+      return time;
+    }
+  };
+
   return (
     <>
       <InnerContainer>
         <SectionHeader>Detail</SectionHeader>
-        {detail.closingDays.length > 0 ? (
+        {(detail ? detail.closeDay.length : null) > 0 ? (
           <CloseDays>
             Close every: &ensp;
-            {detail.closingDays.map((day, index) => (
-              <text key={index}>
-                {day}
-                {index < detail.closingDays.length - 1 ? ", " : ""}
-              </text>
-            ))}
+            {detail ? detail.closeDay : null}
           </CloseDays>
         ) : null}
         <DetailText>
-          Service hour: {detail.openFrom} - {detail.openTo}
+          Service hour: {checkTime(detail ? detail.openTime[0] : 0)}:
+          {checkTime(detail ? detail.openTime[1] : 0)} -{" "}
+          {checkTime(detail ? detail.closeTime[0] : 0)}:
+          {checkTime(detail ? detail.closeTime[1] : 0)}
         </DetailText>
         <DetailText style={{ marginTop: "15px" }}>
           <PinIcon />
-          {detail.address}
+          {detail ? detail.details.location.address : ""}
         </DetailText>
-        <Direction href={detail.locationLink} target="_blank">
+        <Direction
+          href={detail ? detail.details.location.ggLink : ""}
+          target="_blank"
+        >
           <FaDirections style={{ marginRight: "5px" }} />
           Direction
         </Direction>
@@ -43,7 +53,7 @@ const Detail = (props) => {
         <Divider />
         <div>
           <PhoneIcon />
-          <DetailText>{detail.phone}</DetailText>
+          <DetailText>{detail ? detail.details.phone : ""}</DetailText>
         </div>
       </InnerContainer>
     </>

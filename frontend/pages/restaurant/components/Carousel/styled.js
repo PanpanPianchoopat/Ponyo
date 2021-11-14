@@ -48,27 +48,27 @@ export const SlideContent = styled.div`
   display: flex;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    180deg,
-    ${COLORS.PRIMARY_DARK} 90%,
-    ${COLORS.PRIMARY_LIGHT} 0%
-  );
+  background: none;
   justify-content: center;
+  align-items: center;
+  overflow: hidden;
 `;
 
 export const SlideImage = styled.img`
-  width: auto;
-  height: 100%;
-`;
-
-export const Test = styled.div`
-  display: flex;
-
-  background: linear-gradient(
-    180deg,
-    ${COLORS.PRIMARY_DARK} 80%,
-    ${COLORS.PRIMARY_LIGHT} 0%
-  );
-  width: 100%;
-  height: 200px;
+  height: 650px;
+  @media (max-width: ${BREAKPOINTS.DESKTOP_FULL_HD}) {
+    height: 500px;
+  }
+  @media (max-width: ${BREAKPOINTS.HiDPI_LAPTOP}) {
+    height: 400px;
+  }
+  @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
+    height: 300px;
+  }
+  @media (max-width: ${BREAKPOINTS.IPAD_PORTRAIT}) {
+    height: 280px;
+  }
+  @media (max-width: ${BREAKPOINTS.IPHONE_11}) {
+    height: 200px;
+  }
 `;

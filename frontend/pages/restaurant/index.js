@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   DetailContainer,
   LargeSection,
@@ -23,12 +23,44 @@ import Carousel from "./components/Carousel";
 import Overview from "./components/Overview";
 import Detail from "./components/Detail";
 import Review from "./components/Review";
-import { FILTER, COUNT, REVIEWS } from "./constant";
+import CONSTANT from "./constant";
+import { FILTER, KEY_FILTER, REVIEW_FILTER } from "./constant";
 import { Divider } from "antd";
-import { REST_INFO } from "./constant";
+import RestaurantAPI from "../api/restaurantAPI";
+import ReviewAPI from "../api/reviewAPI";
 
-function Restaurant() {
+const Restaurant = () => {
   const [filter, setFilter] = useState(0);
+  const [resInfo, setDetail] = useState(null);
+  const [statusInfo, setStatus] = useState(null);
+  const [isLiked, setLiked] = useState(null);
+  const [isBookmarked, setBookmarked] = useState(null);
+  const [avgRate, setAvgRate] = useState(null);
+  const [starInfo, setStarAmount] = useState(null);
+  const [reviewAmountInfo, setRatingAmount] = useState(null);
+  const [commentAmountInfo, setCommentAmount] = useState(null);
+  const [photoAmountInfo, setPhotoAmount] = useState(null);
+  const [reviewInfo, setReview] = useState(null);
+
+  const updateInfo = (review) => {
+    if (review) {
+      getAvgRate();
+      getReviewAmount();
+    }
+  };
+
+  useEffect(() => {
+    getRestaurantDetail();
+    getRestaurantStatus();
+    getAvgRate();
+    getReviewAmount();
+    getLikedBookmarked();
+    getStarAmount();
+    getReviewByFilter(0);
+  }, []);
+
+  const user_id = "618e861f44657266888550c3";
+  const res_id = "617d07fb8f7c593a9e729a56";
 
   const StarNum = (count) => {
     const stars = [];
@@ -38,41 +70,206 @@ function Restaurant() {
     return stars;
   };
 
+  const getRestaurantDetail = () => {
+    RestaurantAPI.getRestaurantDetail(res_id)
+      .then((response) => {
+        setDetail(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const getRestaurantStatus = () => {
+    RestaurantAPI.getRestaurantStatus(res_id)
+      .then((response) => {
+        setStatus(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const getAvgRate = () => {
+    ReviewAPI.calReviewRate(res_id)
+      .then((response) => {
+        setAvgRate(response.data[0].avgStar);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const getReviewAmount = () => {
+    const star = 0;
+    ReviewAPI.getReviewAmount(res_id, "all", star)
+      .then((response) => {
+        setRatingAmount(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+
+    ReviewAPI.getReviewAmount(res_id, "comment", star)
+      .then((response) => {
+        setCommentAmount(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+
+    ReviewAPI.getReviewAmount(res_id, "photo", star)
+      .then((response) => {
+        setPhotoAmount(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const getStarAmount = () => {
+    const allRating = [];
+    for (let star = 5; star >= 1; star--) {
+      ReviewAPI.getStarAmount(res_id, "star", star)
+        .then((response) => {
+          allRating.push(response.data);
+          setStarAmount(allRating);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  };
+
+  const getLikedBookmarked = () => {
+    RestaurantAPI.getLikedBookmarked("myFavRestaurants", user_id, res_id)
+      .then((response) => {
+        setLiked(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+
+    RestaurantAPI.getLikedBookmarked("myInterestRestaurants", user_id, res_id)
+      .then((response) => {
+        setBookmarked(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const getReviewByFilter = (index) => {
+    const type = ["all", "comment", "photo", "star"];
+    setFilter(index);
+    if (index == 0) {
+      ReviewAPI.getAllReview(res_id, user_id)
+        .then((response) => {
+          setReview(response.data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } else if (index >= 3) {
+      const starFilter = FILTER[index];
+      ReviewAPI.getReviewByFilter(type[3], res_id, user_id, starFilter)
+        .then((response) => {
+          setReview(response.data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } else {
+      const starFilter = 0;
+      ReviewAPI.getReviewByFilter(type[index], res_id, user_id, starFilter)
+        .then((response) => {
+          setReview(response.data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  };
+
+  const getCountReview = (filter) => {
+    switch (filter) {
+      case REVIEW_FILTER.COMMENT:
+        return commentAmountInfo ? commentAmountInfo : 0;
+        break;
+      case REVIEW_FILTER.PHOTO:
+        return photoAmountInfo ? photoAmountInfo : 0;
+        break;
+      case REVIEW_FILTER.FIVE_STAR:
+        return starInfo ? starInfo[REVIEW_FILTER.FIVE_STAR_INFO] : 0;
+        break;
+      case REVIEW_FILTER.FOUR_STAR:
+        return starInfo ? starInfo[REVIEW_FILTER.FOUR_STAR_INFO] : 0;
+        break;
+      case REVIEW_FILTER.THREE_STAR:
+        return starInfo ? starInfo[REVIEW_FILTER.THREE_STAR_INFO] : 0;
+        break;
+      case REVIEW_FILTER.TWO_STAR:
+        return starInfo ? starInfo[REVIEW_FILTER.TWO_STAR_INFO] : 0;
+        break;
+      case REVIEW_FILTER.ONE_STAR:
+        return starInfo ? starInfo[REVIEW_FILTER.ONE_STAR_INFO] : 0;
+        break;
+      default:
+        return reviewAmountInfo ? reviewAmountInfo : 0;
+    }
+  };
+
   return (
     <>
       <HeadSection>
         <Name>
-          {REST_INFO.name}
+          {resInfo ? resInfo.details.name : ""}
           <Underline />
         </Name>
-        <Carousel slides={REST_INFO.photos} />
+        <Carousel slides={resInfo ? resInfo.details.image : []} />
       </HeadSection>
 
       <DetailContainer>
         <div>
           <LargeSection style={{ marginBottom: "15px" }}>
-            <Overview info={REST_INFO} />
+            <Overview
+              info={resInfo}
+              status={statusInfo}
+              avgRate={avgRate}
+              ratingAmount={reviewAmountInfo}
+              commentAmount={commentAmountInfo}
+              isLiked={isLiked}
+              isBookmarked={isBookmarked}
+            />
           </LargeSection>
           <LargeSection>
-            <WriteReview />
+            <WriteReview func={updateInfo} />
           </LargeSection>
         </div>
         <div>
           <SmallSection style={{ marginBottom: "15px" }}>
-            <Detail detail={REST_INFO} />
+            <Detail detail={resInfo} />
           </SmallSection>
           <SmallSection>
-            <Ratings rates={REST_INFO.ratings} />
+            <Ratings rates={starInfo} />
           </SmallSection>
         </div>
         <FullSection>
-          <Overview info={REST_INFO} />
+          <Overview
+            info={resInfo}
+            status={statusInfo}
+            avgRate={avgRate}
+            ratingAmount={reviewAmountInfo}
+            commentAmount={commentAmountInfo}
+            isLiked={isLiked}
+            isBookmarked={isBookmarked}
+          />
         </FullSection>
         <FullSection>
-          <Detail detail={REST_INFO} />
+          <Detail detail={resInfo} />
         </FullSection>
         <FullSection>
-          <Ratings rates={REST_INFO.ratings} />
+          <Ratings rates={starInfo} />
         </FullSection>
         <FullSection>
           <WriteReview />
@@ -89,24 +286,28 @@ function Restaurant() {
                 <FilterButton
                   key={index}
                   isSelected={filter == index}
-                  onClick={() => setFilter(index)}
+                  onClick={() => getReviewByFilter(index)}
                 >
                   {typeof type === "string" ? type : <div>{StarNum(type)}</div>}
-                  <Number isSelected={filter == index}>({COUNT[index]})</Number>
+                  <Number isSelected={filter == index}>
+                    ({getCountReview(index)})
+                  </Number>
                 </FilterButton>
               );
             })}
           </ReviewFilters>
           <Divider />
           <ReviewsContainer>
-            {REVIEWS.map((review, index) => {
-              return <Review key={index} review={review} />;
-            })}
+            {reviewInfo
+              ? reviewInfo.map((review, index) => {
+                  return <Review key={index} review={review} />;
+                })
+              : null}
           </ReviewsContainer>
         </ReviewInnerContainer>
       </ReviewContainer>
     </>
   );
-}
+};
 
 export default Restaurant;

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Form } from "antd";
 import Button from "../components/Button";
 import Link from "next/link";
+import UserAPI from "../api/userAPI.js";
 import {
   Container,
   ContainerLeft,
@@ -33,12 +34,29 @@ import {
 const register = () => {
   const [form] = Form.useForm();
   const onFinish = (values) => {
-    console.log("Received values of form: ", values);
-    console.log("Received values of form: ", gender);
-  };
-  const setDate = (dateString) => {
-    const birthday = dateString;
-    console.log(dateString, birthday);
+    var profile = null;
+
+    const dateOfBirth = values.birthday.format("YYYY-MM-DD");
+    if (values.profile != undefined) {
+      profile = values.profile.fileList[0].thumbUrl;
+    }
+
+    const data = {
+      username: values.username,
+      email: values.email,
+      password: values.password,
+      dateOfBirth: dateOfBirth,
+      gender: gender,
+      image: profile,
+    };
+
+    UserAPI.register(data)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((e) => {
+        console.log("Already has username or email");
+      });
   };
 
   const [gender, setGender] = useState("");
@@ -192,7 +210,6 @@ const register = () => {
                   placeholder="DD/MM/YYYY"
                   size="large"
                   format={"DD/MM/YYYY"}
-                  onChange={(_, dateString) => setDate(dateString)}
                 />
               </Form.Item>
             </LeftSide>
@@ -261,26 +278,26 @@ const register = () => {
                   <Info>Gender</Info>
                   <StyleButton>
                     <CustomButton
+                      type="button"
+                      value="Male"
                       onClick={() => {
                         setGender("male");
                       }}
-                    >
-                      Male
-                    </CustomButton>
+                    />
                     <CustomButton
+                      type="button"
+                      value="Female"
                       onClick={() => {
                         setGender("female");
                       }}
-                    >
-                      Female
-                    </CustomButton>
+                    />
                     <CustomButton
+                      type="button"
+                      value="Other"
                       onClick={() => {
                         setGender("other");
                       }}
-                    >
-                      Other
-                    </CustomButton>
+                    />
                   </StyleButton>
                 </>
               </Form.Item>

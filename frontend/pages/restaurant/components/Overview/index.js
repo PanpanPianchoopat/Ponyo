@@ -15,36 +15,75 @@ import {
   HeartACtive,
 } from "./styled";
 import { Divider } from "antd";
+import UserAPI from "../../../api/userAPI";
 
 const Overview = (props) => {
   const restaurant = props.info;
-  const [isBookmarked, setBookmark] = useState(restaurant.isBookmarked);
-  const [isLiked, setIsLiked] = useState(restaurant.isLiked);
+  const isOpen = props.status;
+  const ratingCount = props.ratingAmount;
+  const commentCount = props.commentAmount;
+  const bookmarked = props.isBookmarked;
+  const liked = props.isLiked;
+  const [isBookmarked, setBookmark] = useState(bookmarked);
+  const [isLiked, setIsLiked] = useState(liked);
+  const [avgText, setAvgText] = useState(null);
+
+  const user_id = "618e861f44657266888550c3";
+  const res_id = "617d07fb8f7c593a9e729a56";
+
+  useEffect(() => {
+    changeBookLike();
+  }, [bookmarked, liked]);
+
+
+  useEffect(() => {
+    if (props.avgRate != null) {
+      setAvgText(props.avgRate);
+    }
+  }, [props.avgRate]);
 
   function toggleBookmark() {
     setBookmark(!isBookmarked);
+    manageRestaurantList("myInterestRestaurants", isBookmarked);
   }
 
   function toggleLike() {
     setIsLiked(!isLiked);
+    manageRestaurantList("myFavRestaurants", isLiked);
   }
 
-  useEffect(
-    () =>
-      // print updated bookmark
-      console.log("Rest Marked:", isBookmarked),
-    [isBookmarked]
-  );
+  const changeBookLike = () => {
+    setBookmark(bookmarked);
+    setIsLiked(liked);
+  };
+
+  const manageRestaurantList = (key, isDeleteFromList) => {
+    if (!isDeleteFromList) {
+      UserAPI.addRestaurantToList(key, user_id, res_id)
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } else {
+      UserAPI.removeResFromList(key, user_id, res_id)
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  };
 
   return (
     <>
       <OverviewContainer>
         <Line>
-          <RestName>{restaurant.name}</RestName>
+          <RestName>{restaurant ? restaurant.details.name : ""}</RestName>
           <Inline>
-            <Status open={restaurant.isOpen}>
-              {restaurant.isOpen ? "OPEN" : "CLOSE"}
-            </Status>
+            <Status open={isOpen}>{isOpen ? "OPEN" : "CLOSE"}</Status>
             {isBookmarked ? (
               <BookmarkActive onClick={toggleBookmark} />
             ) : (
@@ -52,18 +91,26 @@ const Overview = (props) => {
             )}
           </Inline>
         </Line>
-        <Line>{restaurant.description}</Line>
+        <Line>{restaurant ? restaurant.details.description : ""}</Line>
         <PriceRange>
-          ฿{restaurant.minPrice} - ฿{restaurant.maxPrice}
+          ฿{restaurant ? restaurant.details.priceRange.min : "0"} - ฿
+          {restaurant ? restaurant.details.priceRange.max : "0"}
         </PriceRange>
         <Divider />
         <Record>
-          {restaurant.ratingCount} ratings ({restaurant.commentCount} reviews)
+          {ratingCount} ratings ({commentCount} reviews)
         </Record>
         <Line>
           <div>
-            <AverageRate defaultValue={restaurant.avgRate} disabled allowHalf />
-            <AvgRateText>{restaurant.avgRate}</AvgRateText>
+            {/* {rate} */}
+
+            <AverageRate
+              defaultValue={avgText}
+              value={avgText}
+              allowHalf
+              disabled
+            />
+            <AvgRateText>{avgText}</AvgRateText>
           </div>
           {isLiked ? (
             <HeartACtive onClick={toggleLike} />
