@@ -17,7 +17,7 @@ export const CardsWrapper = styled.div`
 `;
 
 export const HeaderWrapper = styled.div.attrs((props) => {
-  const marginStyle = props.headerType == FAVOURITE ? "0" : "20px";
+  const marginStyle = props.headerType == FAVOURITE ? "15px" : "20px";
   return { marginStyle };
 })`
   display: flex;

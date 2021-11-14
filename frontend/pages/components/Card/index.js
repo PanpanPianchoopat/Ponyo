@@ -46,6 +46,7 @@ const RestCard = ({ ...props }) => {
           <CoverPhoto src={restPicture} />
         </CoverContainer>
       }
+      style={{ margin: props.showRank ? "0 0.5vw" : "10px 0.5vw" }}
     >
       <DetailContainer>
         <LeftSection>

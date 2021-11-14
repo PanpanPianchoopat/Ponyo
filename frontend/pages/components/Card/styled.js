@@ -43,7 +43,6 @@ export const RestaurantCard = styled(Card).attrs((props) => {
     }
   }
   @media (max-width: ${BREAKPOINTS.IPAD_PORTRAIT}) {
-    margin: 5px 1vw;
     width: 46%;
   }
   @media (max-width: 550px) {
