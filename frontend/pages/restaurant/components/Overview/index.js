@@ -35,6 +35,7 @@ const Overview = (props) => {
     changeBookLike();
   }, [bookmarked, liked]);
 
+
   useEffect(() => {
     if (props.avgRate != null) {
       setAvgText(props.avgRate);
@@ -103,7 +104,12 @@ const Overview = (props) => {
           <div>
             {/* {rate} */}
 
-            <AverageRate defaultValue={avgText} value={avgText} allowHalf disabled />
+            <AverageRate
+              defaultValue={avgText}
+              value={avgText}
+              allowHalf
+              disabled
+            />
             <AvgRateText>{avgText}</AvgRateText>
           </div>
           {isLiked ? (

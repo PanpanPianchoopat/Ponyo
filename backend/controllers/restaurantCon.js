@@ -207,9 +207,9 @@ const searchWithStatus = async (resStatus, key, search, range, type) => {
       ],
     });
     if (resOpen.length == 0) {
-      return "CLOSE";
+      return false;
     } else {
-      return "OPEN";
+      return true;
     }
   }
   //Search Open Restaurants
