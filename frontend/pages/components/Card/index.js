@@ -1,4 +1,5 @@
 import React from "react";
+import { EditOutlined } from "@ant-design/icons";
 import {
   RestaurantCard,
   IconWrapper,
@@ -11,6 +12,9 @@ import {
   Rating,
   CoverPhoto,
   CoverContainer,
+  DetailContainer,
+  LeftSection,
+  RightSection,
   Star,
   Status,
   PinIcon,
@@ -43,34 +47,36 @@ const RestCard = ({ ...props }) => {
         </CoverContainer>
       }
     >
-      <Line>
-        <RestaurantName>
-          {restName
-            ? restName.length > 15
-              ? `${restName.substring(0, 15)}...`
-              : restName
-            : null}
-        </RestaurantName>
-        <PriceRange>฿{priceRange}</PriceRange>
-      </Line>
-      <Line>
-        <Description>
-          {description
-            ? description.length > 25
-              ? `${description.substring(0, 25)}...`
-              : description
-            : null}
-        </Description>
-        <Rating>
-          <Star />
-          {rating}
-        </Rating>
-      </Line>
+      <DetailContainer>
+        <LeftSection>
+          <RestaurantName>
+            {restName
+              ? restName.length > 20
+                ? `${restName.substring(0, 20)}...`
+                : restName
+              : null}
+          </RestaurantName>
+          <Description>
+            {description
+              ? description.length > 60
+                ? `${description.substring(0, 60)}...`
+                : description
+              : null}
+          </Description>
+        </LeftSection>
+        <RightSection>
+          <PriceRange>฿{priceRange}</PriceRange>
+          <Rating>
+            <Star />
+            {rating}
+          </Rating>
+        </RightSection>
+      </DetailContainer>
 
       {location ? (
         <Location>
           <PinIcon />
-          {location.length > 32 ? `${location.substring(0, 32)}...` : location}
+          {location.length > 25 ? `${location.substring(0, 25)}...` : location}
         </Location>
       ) : null}
     </RestaurantCard>

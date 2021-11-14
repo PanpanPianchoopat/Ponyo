@@ -6,10 +6,15 @@ import BREAKPOINTS from "../../../public/constant/breakpoints";
 import { BsFillGeoAltFill } from "react-icons/bs";
 
 export const RestaurantCard = styled(Card).attrs((props) => {
-  const custom_width = props.size === "large" ? "30%" : "20%";
+  const custom_width = props.size === "large" ? "24%" : "20%";
   const custom_responsive_width = props.size === "large" ? "30%" : "23%";
   return { custom_width, custom_responsive_width };
 })`
+  outline: none;
+  width: ${(props) => props.custom_width};
+  height: auto;
+  margin: 10px 0.5vw;
+  cursor: pointer;
   .ant-card-body {
     padding: 20px;
   }
@@ -22,11 +27,6 @@ export const RestaurantCard = styled(Card).attrs((props) => {
     display: flex;
     justify-content: center;
   }
-  outline: none;
-  width: ${(props) => props.custom_width};
-  height: auto;
-  margin: 10px 0.5vw;
-
   @media (max-width: ${BREAKPOINTS.DESKTOP_FULL_HD}) {
     width: ${(props) => props.custom_responsive_width};
   }
@@ -125,9 +125,63 @@ export const Line = styled.div`
   width: 100%;
 `;
 
+export const DetailContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
+    flex-direction: column;
+  }
+`;
+
+export const LeftSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 65%;
+  @media (max-width: ${BREAKPOINTS.DESKTOP_FULL_HD}) {
+    width: 60%;
+  }
+  @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
+    width: 100%;
+  }
+`;
+
+export const RightSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+`;
 export const RestaurantName = styled.small`
   font-weight: bold;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+  @media (max-width: ${BREAKPOINTS.DESKTOP_FULL_HD}) {
+    font-size: 1rem;
+  }
+  @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
+    font-size: 12px;
+  }
+`;
+
+export const Description = styled.small`
+  font-size: 1rem;
+  text-align: justify;
+  @media (max-width: ${BREAKPOINTS.DESKTOP_FULL_HD}) {
+    font-size: 0.8rem;
+  }
+  @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
+    font-size: 10px;
+  }
+`;
+
+export const PriceRange = styled.small`
+  font-weight: bold;
+  color: ${COLORS.PRIMARY_RED};
+  font-size: 1.2rem;
+  margin-bottom: 5px;
   @media (max-width: ${BREAKPOINTS.DESKTOP_FULL_HD}) {
     font-size: 0.9rem;
   }
@@ -136,59 +190,49 @@ export const RestaurantName = styled.small`
   }
 `;
 
-export const PriceRange = styled.small`
-  font-weight: bold;
-  color: ${COLORS.PRIMARY_RED};
-  font-size: 1.1rem;
-  @media (max-width: ${BREAKPOINTS.DESKTOP_FULL_HD}) {
-    font-size: 12px;
-  }
-`;
-
-export const Description = styled.small`
-  font-size: 0.8rem;
-  @media (max-width: ${BREAKPOINTS.DESKTOP_FULL_HD}) {
-    font-size: 0.8rem;
-  }
-  @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
-    font-size: 10px;
-  }
-`;
-
 export const Star = styled(StarFilled)`
   padding-right: 5px;
-  font-size: 0.8rem;
+  font-size: 1.2rem;
   @media (max-width: ${BREAKPOINTS.DESKTOP_FULL_HD}) {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
   }
   @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
-    font-size: 10px;
+    font-size: 12px;
     padding-right: 1px;
   }
 `;
 
 export const Rating = styled.small`
   color: ${COLORS.PRIMARY_YELLOW};
-  font-size: 0.8rem;
+  font-size: 1.2rem;
   @media (max-width: ${BREAKPOINTS.DESKTOP_FULL_HD}) {
-    font-size: 10px;
+    font-size: 0.9rem;
+  }
+  @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
+    font-size: 12px;
   }
 `;
 
 export const Location = styled.div`
   display: flex;
   color: ${COLORS.PRIMARY_RED};
-  font-size: 0.9rem;
+  font-size: 1.2rem;
   align-items: center;
+  margin-top: 10px;
+  @media (max-width: ${BREAKPOINTS.DESKTOP_FULL_HD}) {
+    font-size: 1rem;
+  }
   @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
     font-size: 10px;
+    margin-top: 5px;
   }
 `;
 
 export const PinIcon = styled(BsFillGeoAltFill)`
-  margin-right: 5px;
+  margin: 5px 5px 0 0;
+  align-self: flex-start;
   @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
-    margin-right: 2px;
+    margin: 3px 2px 0 0;
     font-size: 10px;
   }
 `;

@@ -1,10 +1,12 @@
 export const FAV_LIST = [
   {
     rank: 1,
-    name: "Pungjung Burger",
-    description: "Scrumtious",
+    name: "Pungjung Burger Ario Tee Sood",
+    description:
+      "Yummy Tummy Cheesy Buttery Greasy Unhealthy Bad for your Body, Very Good for your Tummy Eat Now Exercise Later",
     price: "100-200",
-    location: "Yummy Tummy",
+    location:
+      "Yummy Tummy Cheesy Buttery Greasy Unhealthy Heavenly Very Good for your Tummy",
     cover:
       "https://brandinside.asia/wp-content/uploads/2019/07/shutterstock_1437332618-e1563988304801.jpg",
     rate: "4.00",

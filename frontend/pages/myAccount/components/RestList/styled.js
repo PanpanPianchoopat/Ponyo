@@ -2,12 +2,18 @@ import styled from "styled-components";
 import { Modal } from "antd";
 import COLORS from "../../../../public/constant/colors";
 import { FAVOURITE } from "../../constant";
+import BREAKPOINTS from "../../../../public/constant/breakpoints";
 
 export const CardsWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   padding: 20px 0;
+  height: 1000px;
+  overflow-y: auto;
+  @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
+    height: 700px;
+  }
 `;
 
 export const HeaderWrapper = styled.div.attrs((props) => {

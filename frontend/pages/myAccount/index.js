@@ -35,8 +35,6 @@ const myAccount = () => {
       <Popup
         title="Edit Profile"
         visible={popupVisible}
-        okText="Save"
-        onOk={() => setPopupVisible(false)}
         onCancel={() => setPopupVisible(false)}
         footer={null}
         destroyOnClose={true}
