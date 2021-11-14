@@ -4,13 +4,13 @@ import Button from "../components/Button";
 import BestRate from "../components/BestRate";
 import { TOP_3 } from "../components/BestRate/constant";
 import Card from "../components/Card";
-import {SAMPLE_DATA} from "../components/Card/constant";
+import { SAMPLE_DATA } from "../components/Card/constant";
 import { BackTop } from "antd";
 import Category from "./components/Category";
 import {
   Container,
   HeadSection,
-  Name,
+  NameImage,
   SearchBar,
   Search,
   Selecter,
@@ -37,7 +37,11 @@ const SearchRestaurant = () => {
     <>
       <Container>
         <HeadSection>
-          <Name>PONYO</Name>
+          {/* <Name>PONYO</Name> */}
+          <NameImage
+            src="/assets/ponyoName.svg"
+            preview={false}
+          />
           <SearchBar>
             <Search.Group compact>
               <Selecter
@@ -96,7 +100,9 @@ const SearchRestaurant = () => {
             />
           </StatusBox>
           <CardContainer>
-          {SAMPLE_DATA.map((detail, key) => <Card detail={detail} liked={true} saved={true} key={key}/>)}
+            {SAMPLE_DATA.map((detail, key) => (
+              <Card detail={detail} liked={true} saved={true} key={key} />
+            ))}
           </CardContainer>
           <Button variant="yellow">Explore more</Button>
         </ContentContainer>

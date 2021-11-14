@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import COLORS from "../../public/constant/colors";
 import BREAKPOINTS from "../../public/constant/breakpoints";
-import { Input, Select, Radio } from "antd";
+import { Input, Select, Radio, Image } from "antd";
 import breakpoints from "../../public/constant/breakpoints";
 
 export const Container = styled.div`
@@ -18,16 +18,24 @@ export const HeadSection = styled.div`
   align-items: center;
 `;
 
-export const Name = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  color: white;
-  font-size: 100px;
-  font-weight: bold;
-  letter-spacing: 40px;
+export const NameImage = styled(Image)`
+  object-fit: contain;
+  width: 700px;
   padding: 60px 0 50px 0;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+  @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
+    width: 600px;
+  }
+  @media (max-width: ${BREAKPOINTS.IPAD_PORTRAIT}) {
+    width: 400px;
+  }
+  @media (max-width: ${BREAKPOINTS.IPHONE_11}) {
+    width: 300px;
+  }
 `;
 
 export const SearchBar = styled.div`
@@ -52,15 +60,11 @@ export const Search = styled(Input)`
   color: #4c403f;
   background-color: ${COLORS.PRIMARY_LIGHT};
   border: none;
-  //border-right: 2px solid #d9ae38 !important;
   padding-left: 20px;
   margin-left: 1px;
   &::placeholder {
     letter-spacing: 2px;
   }
-  // &:focus {
-  //   border-right: 2px solid #d9ae38 !important;
-  // }
 `;
 
 export const Selecter = styled(Select)`
@@ -73,7 +77,6 @@ export const Selecter = styled(Select)`
     height: 100% !important;
     background-color: ${COLORS.PRIMARY_LIGHT} !important;
     border: none !important;
-    //border-right: 2px solid #d9ae38 !important;
     border-radius: 50px 0 0 50px !important;
   }
 `;
