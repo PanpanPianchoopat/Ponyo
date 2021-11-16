@@ -123,15 +123,28 @@ export const getMyRestaurantList = async (req, res) => {
     );
 
     if (key == "myFavRestaurants") {
-      const detailRest = await Restaurant.find({
-        _id: { $in: listId[0].myFavRestaurants },
-      });
-      res.status(200).json(detailRest);
+      var i = 0;
+      var resList = [];
+      while (i < listId[0].myFavRestaurants.length) {
+        const detailRes = await Restaurant.find({
+          _id: listId[0].myFavRestaurants[i],
+        });
+        resList.push(detailRes);
+        i++;
+      }
+      res.status(200).json(resList);
     } else {
-      const detailRest = await Restaurant.find({
-        _id: { $in: listId[0].myInterestRestaurants },
-      });
-      res.status(200).json(detailRest);
+      var i = listId[0].myInterestRestaurants.length;
+      var resList = [];
+      while (i > 0) {
+        i--;
+        const detailRes = await Restaurant.find({
+          _id: listId[0].myInterestRestaurants[i],
+        });
+        resList.push(detailRes);
+      }
+
+      res.status(200).json(resList);
     }
   } catch (error) {
     res.status(404).json({ Error: error.message });
@@ -141,7 +154,6 @@ export const getMyRestaurantList = async (req, res) => {
 //Favorite and Interest
 export const removeResFromList = async (req, res) => {
   const { key, user_id, res_id } = req.params;
-  // const deleteIndex = key + "." + index;
 
   if (!mongoose.Types.ObjectId.isValid(user_id))
     return res.status(404).send(`No post with id: ${id}`);
@@ -174,7 +186,10 @@ export const editMyFavList = async (req, res) => {
 
 export const getAllUser = async (req, res) => {
   try {
-    const Users = await User.find({}, { username: 1 });
+    const Users = await User.find(
+      {},
+      { username: 1, myFavRestaurants: 1, myInterestRestaurants: 1 }
+    );
 
     res.status(200).json(Users);
   } catch (error) {
