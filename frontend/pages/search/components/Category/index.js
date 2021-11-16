@@ -14,78 +14,43 @@ const Category = () => {
       <CategoryContainer>
         <TypeContainer>
           <TypeCircle>
-            <TypeImage
-              src="/assets/Category/dining.png"
-              width={60}
-              height={60}
-              preview={false}
-            />
+            <TypeImage src="/assets/Category/dining.png" preview={false} />
           </TypeCircle>
           <TypeName>Casual dining</TypeName>
         </TypeContainer>
         <TypeContainer>
           <TypeCircle>
-            <TypeImage
-              src="/assets/Category/food-truck.png"
-              width={50}
-              height={50}
-              preview={false}
-            />
+            <TypeImage src="/assets/Category/food-truck.png" preview={false} />
           </TypeCircle>
           <TypeName>Food trucks</TypeName>
         </TypeContainer>
         <TypeContainer>
           <TypeCircle>
-            <TypeImage
-              src="/assets/Category/fast-food.png"
-              width={50}
-              height={50}
-              preview={false}
-            />
+            <TypeImage src="/assets/Category/fast-food.png" preview={false} />
           </TypeCircle>
           <TypeName>Fast food</TypeName>
         </TypeContainer>
         <TypeContainer>
           <TypeCircle>
-            <TypeImage
-              src="/assets/Category/cafe.png"
-              width={50}
-              height={50}
-              preview={false}
-            />
+            <TypeImage src="/assets/Category/cafe.png" preview={false} />
           </TypeCircle>
           <TypeName>Café</TypeName>
         </TypeContainer>
         <TypeContainer>
           <TypeCircle>
-            <TypeImage
-              src="/assets/Category/family.png"
-              width={50}
-              height={50}
-              preview={false}
-            />
+            <TypeImage src="/assets/Category/family.png" preview={false} />
           </TypeCircle>
           <TypeName>Family style</TypeName>
         </TypeContainer>
         <TypeContainer>
           <TypeCircle>
-            <TypeImage
-              src="/assets/Category/pub.png"
-              width={50}
-              height={50}
-              preview={false}
-            />
+            <TypeImage src="/assets/Category/pub.png" preview={false} />
           </TypeCircle>
           <TypeName>Pub</TypeName>
         </TypeContainer>
         <TypeContainer>
           <TypeCircle>
-            <TypeImage
-              src="/assets/Category/buffet.png"
-              width={50}
-              height={50}
-              preview={false}
-            />
+            <TypeImage src="/assets/Category/buffet.png" preview={false} />
           </TypeCircle>
           <TypeName>Buffet</TypeName>
         </TypeContainer>

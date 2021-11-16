@@ -9,6 +9,12 @@ export const CategoryContainer = styled.div`
   width: 100%;
   background: linear-gradient(180deg, ${COLORS.PRIMARY_DARK} 35%, white 35%);
   padding: 0 90px;
+  @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
+    background: linear-gradient(180deg, ${COLORS.PRIMARY_DARK} 28%, white 28%);
+  }
+  @media (max-width: ${BREAKPOINTS.IPAD_PORTRAIT}) {
+    background: linear-gradient(180deg, ${COLORS.PRIMARY_DARK} 25%, white 25%);
+  }
 `;
 
 export const TypeContainer = styled.div`
@@ -32,6 +38,10 @@ export const TypeCircle = styled.div`
     height: 70px;
     width: 70px;
   }
+  @media (max-width: ${BREAKPOINTS.IPAD_PORTRAIT}) {
+    height: 50px;
+    width: 50px;
+  }
 `;
 
 export const TypeName = styled.div`
@@ -47,9 +57,15 @@ export const TypeName = styled.div`
 
 export const TypeImage = styled(Image)`
   object-fit: contain;
+  width: 50px;
+  height: 50px;
   -webkit-user-drag: none;
   -khtml-user-drag: none;
   -moz-user-drag: none;
   -o-user-drag: none;
   user-drag: none;
+  @media (max-width: ${BREAKPOINTS.IPAD_PORTRAIT}) {
+    height: 35px;
+    width: 35px;
+  }
 `;

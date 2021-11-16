@@ -2,7 +2,6 @@ import styled from "styled-components";
 import COLORS from "../../public/constant/colors";
 import BREAKPOINTS from "../../public/constant/breakpoints";
 import { Input, Select, Radio, Image } from "antd";
-import breakpoints from "../../public/constant/breakpoints";
 
 export const Container = styled.div`
   display: flex;
@@ -51,6 +50,12 @@ export const SearchBar = styled.div`
     .ant-select-lg {
       height: 100% !important;
     }
+  }
+  @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
+    width: 85%;
+  }
+  @media (max-width: ${BREAKPOINTS.IPAD_PORTRAIT}) {
+    width: 90%;
   }
 `;
 
