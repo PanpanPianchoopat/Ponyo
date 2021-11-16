@@ -1,5 +1,8 @@
 import express from "express";
+import mongoose from "mongoose";
+const ObjectId = mongoose.Types.ObjectId;
 import Restaurant from "../models/restaurantModel.js";
+import User from "../models/userModel.js";
 
 const router = express.router;
 
@@ -102,7 +105,7 @@ export const addRestaurant = async (req, res) => {
   }
 };
 
-export const getAllRestaurant = async (req, res) => {
+export const getAllRestaurants = async (req, res) => {
   try {
     const Restaurants = await Restaurant.find();
 
@@ -115,17 +118,20 @@ export const getAllRestaurant = async (req, res) => {
 const convertDay = (week) => {
   var i = 0;
   var j = 0;
+  var closeDay = "";
   const array = [];
 
-  for (i = 0; i < 6; i++) {
-    if (week[i].status == 0) {
+  for (i = 0; i <= 6; i++) {
+    if (week[i].dayStatus == 0) {
+      if (j != 0 && i != 6) {
+        array[j] = ", ";
+        j++;
+      }
       array[j] = week[i].weekDay;
       j++;
     }
   }
-  if (j == 0) {
-    array[j] = "Open everyday";
-  }
+
   return array;
 };
 
@@ -136,20 +142,20 @@ const convertOpenHours = (minTime) => {
   return time;
 };
 
-export const getResDetail = async (req, res) => {
-  const { id } = req.params;
+export const getRestaurantDetail = async (req, res) => {
+  const { res_id } = req.params;
   try {
-    const Restaurants = await Restaurant.findById(id);
-
+    const Restaurants = await Restaurant.findById(res_id);
     const closeDay = convertDay(Restaurants.openDays);
     const openTime = convertOpenHours(Restaurants.openHours.openTime);
     const closeTime = convertOpenHours(Restaurants.openHours.closeTime);
 
-    Restaurants.closeDay = closeDay;
-    Restaurants.openTime = openTime;
-    Restaurants.closeTime = closeTime;
-
-    res.status(200).json(Restaurants);
+    res.status(200).json({
+      details: Restaurants,
+      closeDay: closeDay,
+      openTime: openTime,
+      closeTime: closeTime,
+    });
   } catch (error) {
     res.status(404).json({ Error: error.message });
   }
@@ -189,20 +195,21 @@ const searchWithStatus = async (resStatus, key, search, range, type) => {
     minutes = now.getMinutes();
 
   const currentMin = convertToMin(hour, minutes);
+
   //tag
   if (resStatus == 2) {
     const resOpen = await Restaurant.find({
-      [key]: { $regex: search, $options: "i" },
-      openDays: { weekDay: weekDay, status: 1 },
+      _id: search,
+      openDays: { weekDay: weekDay, dayStatus: 1 },
       $and: [
         { "openHours.openTime": { $lte: currentMin } },
         { "openHours.closeTime": { $gte: currentMin } },
       ],
     });
     if (resOpen.length == 0) {
-      return 0;
+      return false;
     } else {
-      return 1;
+      return true;
     }
   }
   //Search Open Restaurants
@@ -211,7 +218,7 @@ const searchWithStatus = async (resStatus, key, search, range, type) => {
     if (!type && range[0] == 0 && range[1] == 0) {
       const resOpen = await Restaurant.find({
         [key]: { $regex: search, $options: "i" },
-        openDays: { weekDay: weekDay, status: 1 },
+        openDays: { weekDay: weekDay, dayStatus: 1 },
         $and: [
           { "openHours.openTime": { $lte: currentMin } },
           { "openHours.closeTime": { $gte: currentMin } },
@@ -237,7 +244,7 @@ const searchWithStatus = async (resStatus, key, search, range, type) => {
             ],
           },
         ],
-        openDays: { weekDay: weekDay, status: 1 },
+        openDays: { weekDay: weekDay, dayStatus: 1 },
         $and: [
           { "openHours.openTime": { $lte: currentMin } },
           { "openHours.closeTime": { $gte: currentMin } },
@@ -250,7 +257,7 @@ const searchWithStatus = async (resStatus, key, search, range, type) => {
       const resOpen = await Restaurant.find({
         [key]: { $regex: search, $options: "i" },
         type: type,
-        openDays: { weekDay: weekDay, status: 1 },
+        openDays: { weekDay: weekDay, dayStatus: 1 },
         $and: [
           { "openHours.openTime": { $lte: currentMin } },
           { "openHours.closeTime": { $gte: currentMin } },
@@ -275,7 +282,7 @@ const searchWithStatus = async (resStatus, key, search, range, type) => {
           },
         ],
         type: type,
-        openDays: { weekDay: weekDay, status: 1 },
+        openDays: { weekDay: weekDay, dayStatus: 1 },
         $and: [
           { "openHours.openTime": { $lte: currentMin } },
           { "openHours.closeTime": { $gte: currentMin } },
@@ -291,7 +298,7 @@ const searchWithStatus = async (resStatus, key, search, range, type) => {
       const resClose = await Restaurant.find({
         [key]: { $regex: search, $options: "i" },
         $or: [
-          { openDays: { weekDay: weekDay, status: 0 } },
+          { openDays: { weekDay: weekDay, dayStatus: 0 } },
           {
             $or: [
               { "openHours.openTime": { $gte: currentMin } },
@@ -309,7 +316,7 @@ const searchWithStatus = async (resStatus, key, search, range, type) => {
         $and: [
           {
             $or: [
-              { openDays: { weekDay: weekDay, status: 0 } },
+              { openDays: { weekDay: weekDay, dayStatus: 0 } },
               {
                 $or: [
                   { "openHours.openTime": { $gte: currentMin } },
@@ -344,7 +351,7 @@ const searchWithStatus = async (resStatus, key, search, range, type) => {
         [key]: { $regex: search, $options: "i" },
         type: type,
         $or: [
-          { openDays: { weekDay: weekDay, status: 0 } },
+          { openDays: { weekDay: weekDay, dayStatus: 0 } },
           {
             $or: [
               { "openHours.openTime": { $gte: currentMin } },
@@ -361,7 +368,7 @@ const searchWithStatus = async (resStatus, key, search, range, type) => {
         $and: [
           {
             $or: [
-              { openDays: { weekDay: weekDay, status: 0 } },
+              { openDays: { weekDay: weekDay, dayStatus: 0 } },
               {
                 $or: [
                   { "openHours.openTime": { $gte: currentMin } },
@@ -467,14 +474,15 @@ const searchRestaurant = async (key, search, range, type, resStatus) => {
   }
 };
 
-export const getResByName = async (req, res) => {
-  const { name, priceRange, type, resStatus } = req.body;
+export const getRestaurant = async (req, res) => {
+  const { filter } = req.params;
+  const { search, priceRange, type, resStatus } = req.body;
   const range = findPriceRange(priceRange);
-  const key = "name";
+
   try {
     const Restaurants = await searchRestaurant(
-      key,
-      name,
+      filter,
+      search,
       range,
       type,
       resStatus
@@ -485,26 +493,7 @@ export const getResByName = async (req, res) => {
   }
 };
 
-export const getResByAddress = async (req, res) => {
-  const { address, priceRange, type, resStatus } = req.body;
-  const range = findPriceRange(priceRange);
-  const key = "location.address";
-
-  try {
-    const Restaurants = await searchRestaurant(
-      key,
-      address,
-      range,
-      type,
-      resStatus
-    );
-    res.status(200).json(Restaurants);
-  } catch (error) {
-    res.status(404).json({ Error: error.message });
-  }
-};
-
-export const getResByType = async (req, res) => {
+export const getRestuarantByType = async (req, res) => {
   const { type } = req.params;
   try {
     const Restaurants = await Restaurant.find({
@@ -516,19 +505,44 @@ export const getResByType = async (req, res) => {
   }
 };
 
-export const getTagStatus = async (req, res) => {
-  const { name } = req.params;
+export const getRestaurantStatus = async (req, res) => {
+  const { res_id } = req.params;
 
   try {
-    const resOpen = await findStatus(2, "name", name, "", "");
-
-    if (resOpen == 0) {
-      res.status(200).json("false");
-    } else {
-      res.status(200).json("true");
-    }
+    const resOpen = await searchWithStatus(2, "_id", res_id, "", "");
+    res.status(200).json(resOpen);
   } catch (error) {
     res.status(404).json({ Error: error.message });
   }
 };
 
+export const checkLikedBookmarked = async (req, res) => {
+  const { key, user_id, res_id } = req.params;
+  const searchKey = "$" + key;
+
+  try {
+    const check = await User.aggregate([
+      {
+        $match: {
+          _id: ObjectId(user_id),
+        },
+      },
+      {
+        $project: {
+          check: {
+            $cond: {
+              if: {
+                $in: [res_id, searchKey],
+              },
+              then: true,
+              else: false,
+            },
+          },
+        },
+      },
+    ]);
+    res.status(200).json(check[0].check);
+  } catch (error) {
+    res.status(404).json({ Error: error.message });
+  }
+};

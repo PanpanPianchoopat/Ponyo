@@ -200,7 +200,7 @@ export const StyleButton = styled.div`
   }
 `;
 
-export const CustomButton = styled.button`
+export const CustomButton = styled.input`
   width: 30%;
   border-radius: 5px;
   background: white;

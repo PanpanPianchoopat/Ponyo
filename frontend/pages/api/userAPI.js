@@ -5,9 +5,15 @@ class userAPI {
     return http.post("/user/login", data);
   };
 
-  test = (data) => {
-    console.log("data ", data);
-    return http.post("/user", data);
+  register = (data) => {
+    return http.post("/user/register", data);
+  };
+
+  addRestaurantToList = (key, user_id, res_id) => {
+    return http.post(`/user/add/${key}/${user_id}/${res_id}`);
+  };
+  removeResFromList = (key, user_id, res_id) => {
+    return http.post(`/user/delete/${key}/${user_id}/${res_id}`);
   };
 }
 
