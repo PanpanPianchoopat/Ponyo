@@ -35,16 +35,15 @@ const RestCard = ({ ...props }) => {
   const resRank = props ? props.rank + 1 : 0;
 
   useEffect(() => {
-    setResName(props.detail[0].name);
-    setDescription(props.detail[0].description);
-    setMinPrice(props.detail[0].priceRange.min);
-    setMaxPrice(props.detail[0].priceRange.max);
-    setLocation(props.detail[0].location.address);
-    getRestaurantStatus(props.detail[0]._id);
-    setResPicture(props.detail[0].image[1]);
-    getAvgRate(props.detail[0]._id);
+    setResName(props.detail.name);
+    setDescription(props.detail.description);
+    setMinPrice(props.detail.priceRange.min);
+    setMaxPrice(props.detail.priceRange.max);
+    setLocation(props.detail.location.address);
+    getRestaurantStatus(props.detail._id);
+    setResPicture(props.detail.image[1]);
+    getAvgRate(props.detail._id);
   }, [restaurant]);
-
 
   const getRestaurantStatus = (res_id) => {
     RestaurantAPI.getRestaurantStatus(res_id)
@@ -59,7 +58,7 @@ const RestCard = ({ ...props }) => {
   const getAvgRate = (res_id) => {
     ReviewAPI.calReviewRate(res_id)
       .then((response) => {
-        setRating(response.data[0].avgStar);      
+        setRating(response.data[0].avgStar);
       })
       .catch((e) => {
         setRating(0);

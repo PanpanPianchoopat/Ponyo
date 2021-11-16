@@ -21,6 +21,10 @@ class userAPI {
     return http.get(`/user/list/${key}/${user_id}`);
   };
 
+  editMyFavList = (user_id, myFavRestaurants) => {
+    console.log("data", myFavRestaurants);
+    return http.patch(`/user/editfav/${user_id}`, myFavRestaurants);
+  };
 }
 
 export default new userAPI();

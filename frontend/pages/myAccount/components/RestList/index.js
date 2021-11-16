@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Card from "../../../components/Card";
 import { FAVOURITE, INTEREST } from "../../constant";
-import { FAV_LIST, MY_INTEREST } from "./constant";
 import EditList from "./components/EditList";
 import {
   HeaderWrapper,
@@ -12,6 +11,7 @@ import {
 } from "./styled";
 import { Router } from "next/dist/client/router";
 import UserAPI from "../../../api/userAPI";
+import { useRouter } from "next/router";
 
 const user_id = "618e861f44657266888550c3";
 
@@ -24,29 +24,31 @@ const RestList = (props) => {
     ? "My Interest"
     : null;
 
-  const [favList, setFavList] = useState(FAV_LIST);
-  const [inList, setInList] = useState(MY_INTEREST);
-  const [favList1, setFavList1] = useState(null);
-  const [inList1, setInList1] = useState(null);
-  const REST_LIST = isFav ? favList1 : isIn ? inList1 : null;
+  const [favList, setFavList] = useState(null);
+  const [inList, setInList] = useState(null);
+  const REST_LIST = isFav ? favList : isIn ? inList : null;
   const isLarge = isFav ? "large" : "";
   const [popupVisible, setPopupVisible] = useState(false);
-  const [edittedList, setEdittedList] = useState(FAV_LIST);
+  const [edittedList, setEdittedList] = useState(null);
+  const router = useRouter();
 
   function handleOk() {
+    
     setFavList(edittedList);
     setPopupVisible(false);
+    editMyFavList(user_id, edittedList);
   }
+
 
   useEffect(() => {
     getMyRestaurantList();
   }, []);
 
-
   const getMyRestaurantList = () => {
     UserAPI.getMyRestaurantList("myFavRestaurants", user_id)
       .then((response) => {
-        setFavList1(response.data);
+        setFavList(response.data);
+        setEdittedList(response.data);
       })
       .catch((e) => {
         console.log(e);
@@ -54,7 +56,19 @@ const RestList = (props) => {
 
     UserAPI.getMyRestaurantList("myInterestRestaurants", user_id)
       .then((response) => {
-        setInList1(response.data);
+        setInList(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const editMyFavList = (user_id, edittedList) => {
+    
+    UserAPI.editMyFavList(user_id, edittedList)
+      .then((response) => {
+        console.log("edit",response.data);
+        
       })
       .catch((e) => {
         console.log(e);
@@ -88,7 +102,7 @@ const RestList = (props) => {
         title="Edit Top 5 Favourite List"
         visible={popupVisible}
         okText="Save"
-        onOk={handleOk}
+        onOk={() => {router.reload(); handleOk();}}
         onCancel={() => setPopupVisible(false)}
       >
         <EditList list={favList} updateList={setEdittedList} />

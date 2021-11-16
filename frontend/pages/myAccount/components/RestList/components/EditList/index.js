@@ -20,6 +20,7 @@ const EditList = (props) => {
   const [favList, setFavList] = useState(props.list);
 
   useEffect(() => {
+    
     // if there's a change in fav list, reorder the rankings
     for (var i = 0; i < favList.length; i++) {
       favList[i].rank = i + 1;
@@ -53,7 +54,7 @@ const EditList = (props) => {
             <ItemCard>
               <RankingIcon />
               <Ranking> {index + 1}</Ranking>
-              <CardImage src={value.cover} />
+              <CardImage src={value.image[1]} />
               <CardDetail>
                 <TextContainer>
                   {value.name}
