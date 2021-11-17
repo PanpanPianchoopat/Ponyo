@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import useAppSelector from "../../hooks/useAppSelector";
 import {
   DetailContainer,
   LargeSection,
@@ -30,8 +31,12 @@ import { Divider } from "antd";
 import RestaurantAPI from "../api/restaurantAPI";
 import ReviewAPI from "../api/reviewAPI";
 import Image from "next/image";
+// import token from "../api/userInfo";
 
 const Restaurant = () => {
+  const { token, data } = useAppSelector((state) => state.auth);
+  console.log(data);
+
   const [filter, setFilter] = useState(0);
   const [resInfo, setDetail] = useState(null);
   const [statusInfo, setStatus] = useState(null);

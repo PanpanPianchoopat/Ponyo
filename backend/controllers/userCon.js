@@ -190,7 +190,7 @@ export const getAllUser = async (req, res) => {
   try {
     const Users = await User.find(
       {},
-      { username: 1, myFavRestaurants: 1, myInterestRestaurants: 1 }
+      { username: 1, myFavRestaurants: 1, myInterestRestaurants: 1, email: 1 }
     );
 
     res.status(200).json(Users);
