@@ -67,6 +67,7 @@ const EditProfile = (props) => {
       callback("Must contain more than 6 charaters");
       setCheckUsername("error");
     } else {
+      // validate distinct username
       callback();
       setCheckUsername("success");
     }

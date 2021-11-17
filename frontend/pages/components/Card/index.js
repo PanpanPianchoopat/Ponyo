@@ -5,7 +5,6 @@ import {
   IconWrapper,
   Ranking,
   Location,
-  Line,
   RestaurantName,
   PriceRange,
   Description,
@@ -48,7 +47,7 @@ const RestCard = ({ ...props }) => {
       }
       style={{ margin: props.showRank ? "0 0.5vw" : "10px 0.5vw" }}
     >
-      <DetailContainer>
+      <DetailContainer size={props.size}>
         <LeftSection>
           <RestaurantName>
             {restName

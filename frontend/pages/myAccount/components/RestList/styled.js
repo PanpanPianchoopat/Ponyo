@@ -87,3 +87,19 @@ export const Popup = styled(Modal)`
     color: white;
   }
 `;
+
+export const EmptyList = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 15px 0;
+  width: 100%;
+`;
+
+export const EmptyTextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 15px 0;
+  color: ${COLORS.LIGHT_GREY};
+`;
