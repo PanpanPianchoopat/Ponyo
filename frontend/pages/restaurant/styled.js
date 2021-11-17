@@ -188,3 +188,10 @@ export const ReviewsContainer = styled.div`
     height: 500px;
   }
 `;
+
+export const EmptyDisplayContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: ${COLORS.DARK_GREY};
+`;

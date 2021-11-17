@@ -16,6 +16,7 @@ import {
   Number,
   ReviewsContainer,
   FullSection,
+  EmptyDisplayContainer,
 } from "./styled";
 import WriteReview from "./components/WriteReview";
 import Ratings from "./components/Ratings";
@@ -28,6 +29,7 @@ import { FILTER, KEY_FILTER, REVIEW_FILTER } from "./constant";
 import { Divider } from "antd";
 import RestaurantAPI from "../api/restaurantAPI";
 import ReviewAPI from "../api/reviewAPI";
+import Image from "next/image";
 
 const Restaurant = () => {
   const [filter, setFilter] = useState(0);
@@ -298,11 +300,18 @@ const Restaurant = () => {
           </ReviewFilters>
           <Divider />
           <ReviewsContainer>
-            {reviewInfo
-              ? reviewInfo.map((review, index) => {
+            {reviewInfo ? (
+              reviewInfo.length > 0 ? (
+                reviewInfo.map((review, index) => {
                   return <Review key={index} review={review} />;
                 })
-              : null}
+              ) : (
+                <EmptyDisplayContainer>
+                  <Image src="/assets/redBowl.svg" width={120} height={120} />
+                  <p>No review yet</p>
+                </EmptyDisplayContainer>
+              )
+            ) : null}
           </ReviewsContainer>
         </ReviewInnerContainer>
       </ReviewContainer>

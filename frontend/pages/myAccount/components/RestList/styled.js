@@ -101,4 +101,5 @@ export const EmptyTextContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 15px 0;
+  color: ${COLORS.LIGHT_GREY};
 `;

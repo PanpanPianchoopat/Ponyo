@@ -67,7 +67,7 @@ const RestList = (props) => {
             ))
           ) : (
             <EmptyList>
-              <Image src="/assets/WhiteBowl.svg" width={180} height={180} />
+              <Image src="/assets/whiteBowl.svg" width={180} height={180} />
               <EmptyTextContainer>
                 <b>Emypty List</b>
                 <p>You haven't {emptyDisplay} any restaurant yet</p>
