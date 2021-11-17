@@ -2,12 +2,16 @@ import React, { useState, useEffect } from "react";
 import Card from "../../../components/Card";
 import { FAVOURITE, INTEREST } from "../../constant";
 import EditList from "./components/EditList";
+import Image from "next/image";
+import Button from "../../../components/Button";
 import {
   HeaderWrapper,
   CardsWrapper,
   ListHeader,
   EditButton,
   Popup,
+  EmptyList,
+  EmptyTextContainer,
 } from "./styled";
 import { Router } from "next/dist/client/router";
 import UserAPI from "../../../api/userAPI";
@@ -26,7 +30,9 @@ const RestList = (props) => {
 
   const [favList, setFavList] = useState(null);
   const [inList, setInList] = useState(null);
-  const REST_LIST = isFav ? favList : isIn ? inList : null;
+  // const REST_LIST = isFav ? favList : isIn ? inList : null;
+  const REST_LIST = isFav ? favList : inList;
+  const emptyDisplay = isFav ? "liked" : "saved";
   const isLarge = isFav ? "large" : "";
   const [popupVisible, setPopupVisible] = useState(false);
   const [edittedList, setEdittedList] = useState(null);
@@ -79,14 +85,18 @@ const RestList = (props) => {
     <>
       <HeaderWrapper headerType={props.type}>
         <ListHeader>{listHead}</ListHeader>
-        <EditButton visible={isFav} onClick={() => setPopupVisible(true)}>
+        <EditButton
+          visible={REST_LIST && REST_LIST.length > 1}
+          onClick={() => setPopupVisible(true)}
+        >
           Edit List
         </EditButton>
       </HeaderWrapper>
 
       <CardsWrapper>
-        {REST_LIST
-          ? REST_LIST.map((restuarant, index) => (
+        {REST_LIST ? (
+          REST_LIST.length > 0 ? (
+            REST_LIST.map((restuarant, index) => (
               <Card
                 key={index}
                 rank={index}
@@ -95,7 +105,17 @@ const RestList = (props) => {
                 showRank={isFav}
               />
             ))
-          : null}
+          ) : (
+            <EmptyList>
+              <Image src="/assets/whiteBowl.svg" width={180} height={180} />
+              <EmptyTextContainer>
+                <b>Emypty List</b>
+                <p>You haven't {emptyDisplay} any restaurant yet</p>
+              </EmptyTextContainer>
+              <Button variant="yellow">Explore</Button>
+            </EmptyList>
+          )
+        ) : null}
       </CardsWrapper>
 
       <Popup

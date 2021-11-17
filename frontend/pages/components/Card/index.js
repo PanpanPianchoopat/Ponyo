@@ -5,7 +5,6 @@ import {
   IconWrapper,
   Ranking,
   Location,
-  Line,
   RestaurantName,
   PriceRange,
   Description,
@@ -23,7 +22,6 @@ import RestaurantAPI from "../../api/restaurantAPI";
 import ReviewAPI from "../../api/reviewAPI";
 
 const RestCard = ({ ...props }) => {
-  const restaurant = props ? props.detail[0] : null;
   const [resName, setResName] = useState(null);
   const [description, setDescription] = useState(null);
   const [minPrice, setMinPrice] = useState(null);
@@ -43,7 +41,8 @@ const RestCard = ({ ...props }) => {
     getRestaurantStatus(props.detail._id);
     setResPicture(props.detail.image[1]);
     getAvgRate(props.detail._id);
-  }, [restaurant]);
+  }, [props.detail]);
+
 
   const getRestaurantStatus = (res_id) => {
     RestaurantAPI.getRestaurantStatus(res_id)
@@ -83,7 +82,7 @@ const RestCard = ({ ...props }) => {
       }
       style={{ margin: props.showRank ? "0 0.5vw" : "10px 0.5vw" }}
     >
-      <DetailContainer>
+      <DetailContainer size={props.size}>
         <LeftSection>
           <RestaurantName>
             {resName
