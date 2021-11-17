@@ -28,6 +28,15 @@ class ReviewAPI {
   addLikeReview = (review_id, user_id, like) => {
     return http.patch(`/review/like/${review_id}/${user_id}/${like}`);
   };
+
+  editReview = (review_id, data) => {
+    return http.patch(`/review/edit/${review_id}`,data);
+  };
+
+  deleteReview = (review_id) => {
+    return http.delete(`/review/delete/${review_id}`);
+  };
+
 }
 
 export default new ReviewAPI();

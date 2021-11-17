@@ -29,12 +29,11 @@ const Overview = (props) => {
   const [avgText, setAvgText] = useState(null);
 
   const user_id = "618e861f44657266888550c3";
-  const res_id = "617aeb9ca6287c38c323f851";
+  const res_id = "617d07fb8f7c593a9e729a56";
 
   useEffect(() => {
     changeBookLike();
   }, [bookmarked, liked]);
-
 
   useEffect(() => {
     if (props.avgRate != null) {

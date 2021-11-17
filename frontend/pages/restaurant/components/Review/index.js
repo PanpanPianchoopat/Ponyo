@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   ReviewContainer,
   ProfilePic,
@@ -29,12 +29,20 @@ const Review = (props) => {
   const [popupVisible, setPopupVisible] = useState(false);
 
   const review = props.review;
+  const isEdit = props.review.editDelete;
   const [reviewRate, setReviewRate] = useState(review ? review.star : 0);
   const [reviewText, setReviewText] = useState(
     review ? review.reviewText : null
   );
-  const user_id = "618e861f44657266888550c3";
+  const [isSave, setSaveReview] = useState(false);
+  const user_id = "618d4707965a69dd7993e669";
   const res_id = "617d07fb8f7c593a9e729a56";
+
+  useEffect(() => {
+    if (isSave) {
+      editReview();
+    }
+  }, [isSave]);
 
   const handleClick = (review_id) => {
     if (isLiked) {
@@ -58,11 +66,34 @@ const Review = (props) => {
       });
   };
 
+  const editReview = () => {
+    const data = {
+      star: reviewRate,
+      reviewText: reviewText,
+    };
+    ReviewAPI.editReview(props.review._id, data)
+      .then((response) => {
+        console.log(response.data);
+        setSaveReview(false);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
   const [showReview, setShowReview] = useState(true);
 
   function handleDelete() {
     // remove review from database and reduce total number of review by 1
-    setShowReview(false);
+
+    ReviewAPI.deleteReview(props.review._id)
+      .then((response) => {
+        console.log(response.data);
+        setShowReview(false);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }
 
   return (
@@ -77,21 +108,26 @@ const Review = (props) => {
           <ReviewHead>
             <HeadLine>
               <Name>{review ? review.reviewer : null}</Name>
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <EditButton onClick={() => setPopupVisible(true)}>
-                  <BsPencil />
-                </EditButton>
-                <Divider type="vertical" style={{ height: "25px" }} />
-                <Popconfirm
-                  title="Are you sure to delete this comment?"
-                  placement="topRight"
-                  onConfirm={handleDelete}
-                >
-                  <EditButton>
-                    <BsTrash />
+              {isEdit ? (
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <EditButton onClick={() => setPopupVisible(true)}>
+                    <BsPencil />
                   </EditButton>
-                </Popconfirm>
-              </div>
+
+                  <Divider type="vertical" style={{ height: "25px" }} />
+                  <Popconfirm
+                    title="Are you sure to delete this comment?"
+                    placement="topRight"
+                    onConfirm={() => handleDelete()}
+                  >
+                    <EditButton>
+                      <BsTrash />
+                    </EditButton>
+                  </Popconfirm>
+                </div>
+              ) : (
+                ""
+              )}
             </HeadLine>
             <div>
               <Rating defaultValue={reviewRate} value={reviewRate} disabled />
@@ -132,6 +168,7 @@ const Review = (props) => {
           setVisible={setPopupVisible}
           setRate={setReviewRate}
           setText={setReviewText}
+          setSave={setSaveReview}
         />
       </Modal>
       {/* <DeleteWarn visible={warnVisible} /> */}

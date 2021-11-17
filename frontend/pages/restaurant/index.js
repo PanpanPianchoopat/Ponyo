@@ -61,8 +61,8 @@ const Restaurant = () => {
     getReviewByFilter(0);
   }, []);
 
-  const user_id = "618e861f44657266888550c3";
-  const res_id = "617aeb9ca6287c38c323f851";
+  const user_id = "618d4707965a69dd7993e669";
+  const res_id = "617d07fb8f7c593a9e729a56";
 
   const StarNum = (count) => {
     const stars = [];

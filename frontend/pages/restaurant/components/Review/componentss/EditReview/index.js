@@ -12,6 +12,7 @@ const EditReview = (props) => {
     props.setRate(value.rate);
     props.setText(value.review);
     props.setVisible(false);
+    props.setSave(true);
   };
 
   return (
