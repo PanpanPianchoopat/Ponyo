@@ -20,12 +20,12 @@ export const SectionHeader = styled.b`
   }
 `;
 
-export const CloseDays = styled.text`
+export const CloseDays = styled.small`
   color: ${COLORS.PRIMARY_RED};
   font-size: 14px;
 `;
 
-export const DetailText = styled.text`
+export const DetailText = styled.small`
   font-size: 14px;
   margin: 5px 0;
   color: #4c403f;

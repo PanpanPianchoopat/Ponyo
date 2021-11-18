@@ -35,7 +35,7 @@ export const NumContainer = styled.div`
   margin-left: 8px;
 `;
 
-export const Count = styled.text`
+export const Count = styled.small`
   color: #858585;
   font-size: 0.5rem;
   margin-left: 10px;

@@ -58,13 +58,13 @@ export const BookmarkActive = styled(BsBookmarkFill)`
   cursor: pointer;
 `;
 
-export const PriceRange = styled.text`
+export const PriceRange = styled.small`
   font-size: 24px;
   color: ${COLORS.PRIMARY_RED};
   font-weight: bold;
 `;
 
-export const Record = styled.text`
+export const Record = styled.small`
   font-size: 12px;
   color: ${COLORS.DARK_GREY};
   margin-top: -15px;
@@ -75,7 +75,7 @@ export const AverageRate = styled(Rate)`
   color: ${COLORS.PRIMARY_YELLOW};
 `;
 
-export const AvgRateText = styled.text`
+export const AvgRateText = styled.small`
   font-size: 15px;
   color: ${COLORS.PRIMARY_YELLOW};
   margin-left: 15px;
