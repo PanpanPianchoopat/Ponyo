@@ -8,73 +8,59 @@ import {
   PlusIcon,
 } from "../../../WriteReview/styled";
 import { EditContainer, ButtonGroup, StyledButton } from "./styled";
-import SkeletonImage from "antd/lib/skeleton/Image";
 
 const EditReview = (props) => {
   const [newReview] = Form.useForm();
 
-  // const [reviewPics, setReviewPics] = useState([]);
-  // useEffect(() => {
-  //   for (let i = 0; i < props.review.photos.length; i++) {
-  //     reviewPics.push({
-  //       uid: -i,
-  //       name: `pic${i}`,
-  //       status: "done",
-  //       url: props.review.photos[i],
-  //     });
-  //   }
-  // }, []);
+  const [reviewPics, setReviewPics] = useState([]);
+  useEffect(() => {
+    for (let i = 0; i < props.review.photos.length; i++) {
+      reviewPics.push({
+        uid: -i,
+        name: `pic${i}`,
+        status: "done",
+        url: props.review.photos[i],
+      });
+    }
+  }, []);
 
-  // function deleteImage(name) {
-  //   setReviewPics(reviewPics.filter((item) => item.name !== name));
-  //   return 0;
-  // }
+  useEffect(() => {
+    console.log("CHANGE", reviewPics);
+  }, [reviewPics]);
 
-  // const getBase64 = (file) => {
-  //   const reader = new FileReader();
-  //   reader.addEventListener("load", () =>
-  //     reviewPics.push({
-  //       uid: file.uid,
-  //       name: file.name,
-  //       status: "done",
-  //       url: reader.result,
-  //     })
-  //   );
-  //   reader.readAsDataURL(file.originFileObj);
-  //   console.log("NEW_ARRAY", reviewPics);
-  // };
+  function getBase64(info) {
+    const reader = new FileReader();
+    reader.addEventListener("load", () =>
+      reviewPics.push({
+        uid: info.file.uid,
+        name: info.file.name,
+        status: "done",
+        url: reader.result, // base64 of the file
+      })
+    );
+    reader.readAsDataURL(info.file.originFileObj);
+  }
 
-  // const [image, setImage] = useState(null);
-
-  // const handleChange = useCallback((info) => {
-  //   console.log(info.file);
-  //   console.log(info.file.status);
-  //   if (info.file.status === "uploading") {
-  //     setImage({ loading: true, image: null });
-  //     info.file.status = "done";
-  //   }
-  //   if (info.file.status === "removed") {
-  //     const result = deleteImage(info.file.name);
-  //     if (result != 0) {
-  //       message.error("Failed to delete picture");
-  //     }
-  //   } else if (info.file.status === "done") {
-  //     getBase64(info.file, (imageUrl) => {
-  //       const img = new Image();
-  //       img.src = imageUrl;
-  //       img.addEventListener("load", function () {
-  //         setImage({ loading: false, image: imageUrl });
-  //         //setReviewPics([{ ...info.fileList }]);
-  //       });
-  //     });
-  //   }
-  // }, []);
+  const handleChange = (info) => {
+    const status = info.file.status;
+    if (status === "done") {
+      getBase64(info);
+    } else if (status === "removed") {
+      setReviewPics(reviewPics.filter((item) => item.uid !== info.file.uid));
+    }
+    //console.log("CURRENT", reviewPics);
+  };
 
   const handleSave = (value) => {
     console.log("SAVE", value);
     props.setRate(value.rate);
     props.setText(value.review);
     props.setVisible(false);
+    const newPicList = [];
+    for (let i = 0; i < reviewPics.length; i++) {
+      newPicList.push(reviewPics[i].url);
+    }
+    props.setPhotos(newPicList);
   };
 
   return (
@@ -85,26 +71,28 @@ const EditReview = (props) => {
         initialValues={{
           rate: props.review.rate,
           review: props.review.text,
-          uploadPhoto: [],
+          uploadPhoto: props.review.photos,
         }}
       >
         <Form.Item name="rate">
           <Rating value={props.review.rate} style={{ fontSize: "30px" }} />
         </Form.Item>
 
-        {/* <Form.Item name="pictures">
-          <UploadImage
-            listType="picture-card"
-            //beforeUpload={() => false}
-            showUploadList={{ showPreviewIcon: false }}
-            fileList={reviewPics}
-            onChange={(info) => handleChange(info)}
-            multiple
-          >
-            <CameraIcon />
-            <PlusIcon />
-          </UploadImage>
-        </Form.Item> */}
+        <Form.Item name="pictures">
+          <div>
+            <UploadImage
+              listType="picture-card"
+              showUploadList={{ showPreviewIcon: false }}
+              defaultFileList={reviewPics}
+              onChange={(info) => handleChange(info)}
+              multiple
+              maxCount={5}
+            >
+              <CameraIcon />
+              <PlusIcon />
+            </UploadImage>
+          </div>
+        </Form.Item>
 
         <Form.Item name="review">
           <StyledInput placeholder="Share you experience..." type="text" />

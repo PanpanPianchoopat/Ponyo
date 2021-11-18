@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   ReviewContainer,
   ProfilePic,
@@ -33,6 +33,10 @@ const Review = (props) => {
     review ? review.reviewText : null
   );
   const [reviewImage, setReviewImage] = useState(review ? review.image : null);
+  useEffect(() => {
+    console.log("PARENT_PIC", reviewImage);
+  }, [reviewImage]);
+
   const user_id = "618e861f44657266888550c3";
   const res_id = "617d07fb8f7c593a9e729a56";
 
@@ -102,8 +106,8 @@ const Review = (props) => {
         <CommentSection>
           <Comment>{reviewText}</Comment>
           <Line>
-            {review
-              ? review.image.map((pic, index) => {
+            {reviewImage
+              ? reviewImage.map((pic, index) => {
                   return <ReviewPic key={index} src={pic} />;
                 })
               : []}
@@ -133,6 +137,7 @@ const Review = (props) => {
           setVisible={setPopupVisible}
           setRate={setReviewRate}
           setText={setReviewText}
+          setPhotos={setReviewImage}
         />
       </Modal>
     </>
