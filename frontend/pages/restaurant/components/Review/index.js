@@ -20,7 +20,6 @@ import ReviewAPI from "../../../api/reviewAPI";
 import { Divider, Modal, Popconfirm } from "antd";
 import { BsPencil, BsTrash } from "react-icons/bs";
 import EditReview from "./componentss/EditReview";
-import DeleteWarn from "./componentss/DeleteWarn";
 
 const Review = (props) => {
   const [isLiked, setIsLiked] = useState(props.review.likeReview);
@@ -33,6 +32,7 @@ const Review = (props) => {
   const [reviewText, setReviewText] = useState(
     review ? review.reviewText : null
   );
+  const [reviewImage, setReviewImage] = useState(review ? review.image : null);
   const user_id = "618e861f44657266888550c3";
   const res_id = "617d07fb8f7c593a9e729a56";
 
@@ -83,7 +83,7 @@ const Review = (props) => {
                 </EditButton>
                 <Divider type="vertical" style={{ height: "25px" }} />
                 <Popconfirm
-                  title="Are you sure to delete this comment?"
+                  title="Are you sure to delete your review?"
                   placement="topRight"
                   onConfirm={handleDelete}
                 >
@@ -128,13 +128,13 @@ const Review = (props) => {
           review={{
             rate: reviewRate,
             text: reviewText,
+            photos: reviewImage,
           }}
           setVisible={setPopupVisible}
           setRate={setReviewRate}
           setText={setReviewText}
         />
       </Modal>
-      {/* <DeleteWarn visible={warnVisible} /> */}
     </>
   );
 };
