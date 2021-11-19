@@ -5,8 +5,14 @@ import BestRate from "../components/BestRate";
 import { TOP_3 } from "../components/BestRate/constant";
 import Card from "../components/Card";
 import { SAMPLE_DATA } from "../components/Card/constant";
-import { Form, BackTop } from "antd";
+import { BackTop } from "antd";
 import Category from "./components/Category";
+import {
+  STATUS_OPTION,
+  FILTER_OPTION,
+  PRICE_OPTION,
+  CUISINE_OPTION,
+} from "./constant";
 import RestaurantAPI from "../api/restaurantAPI";
 import {
   Container,
@@ -28,15 +34,34 @@ import {
 const SearchRestaurant = () => {
   const { Option } = Selecter;
   const statusOption = ["ALL", "OPEN", "CLOSE"];
+  const filterOption = ["Name", "Address"];
+  const priceOption = ["Price", "0-500", "500-1000", "1000-5000", "5000-10000"];
+  const cuisineOption = [
+    "Cuisine",
+    "Casual Dining",
+    "Food Trucks",
+    "Fast-food",
+    "Café",
+    "Family Style",
+    "Pub",
+    "Buffet",
+  ];
   const [status, setStatus] = useState("ALL");
   const [getRestaurants, setRestaurants] = useState(null);
+
+  const [searchValue, setSearchValue] = useState({
+    filter: "Name",
+    input: "null",
+    price: "0",
+    cuisine: "Cuisine",
+  });
 
   useEffect(() => {
     getAllRestaurant();
   }, []);
 
   useEffect(() => {
-    if(status != null){
+    if (status != null) {
       getRestaurant();
     }
   }, [status]);
@@ -73,62 +98,67 @@ const SearchRestaurant = () => {
     <>
       <Container>
         <HeadSection>
-          {/* <Name>PONYO</Name> */}
           <NameImage src="/assets/ponyoName.svg" preview={false} />
           <SearchBar>
             <Search.Group compact>
-              <Form>
               <Selecter
                 bordered={false}
                 size="large"
-                defaultValue="name"
-
+                defaultValue="Name"
                 dropdownStyle={{
                   backgroundColor: COLORS.PRIMARY_LIGHT,
                 }}
+                onChange={(e) => {
+                  setSearchValue({ ...searchValue, filter: e });
+                }}
               >
-                <Option value="name">Name</Option>
-                <Option value="address">address</Option>
+                {filterOption.map((type) => {
+                  return <Option value={type}>{type}</Option>;
+                })}
               </Selecter>
-              <Search bordered={false} size="large" placeholder="Search" />
+              <Search
+                bordered={false}
+                size="large"
+                placeholder="Search"
+                onChange={(e) => {
+                  setSearchValue({ ...searchValue, input: e.target.value });
+                }}
+              />
               <Selecter
                 bordered={false}
                 size="large"
-                defaultValue="price"
+                defaultValue="Price"
                 dropdownStyle={{
                   backgroundColor: COLORS.PRIMARY_LIGHT,
                 }}
+                onChange={(e) => {
+                  setSearchValue({ ...searchValue, price: e });
+                }}
               >
-                <Option value="0">Price</Option>
-                <Option value="1">0-500</Option>
-                <Option value="2">500-1,000</Option>
-                <Option value="3">1,000-5,000</Option>
-                <Option value="4">5,000-10,000</Option>
+                {priceOption.map((type, index) => {
+                  return <Option value={index.toString()}>{type}</Option>;
+                })}
               </Selecter>
               <Selecter
                 bordered={false}
                 size="large"
-                defaultValue="cusine"
+                defaultValue="Cuisine"
                 dropdownStyle={{
                   backgroundColor: COLORS.PRIMARY_LIGHT,
                 }}
+                onChange={(e) => {
+                  setSearchValue({ ...searchValue, cuisine: e });
+                }}
               >
-                <Option value="null" >Cuisine</Option>
-                <Option value="Casual Dining">Casual Dining</Option>
-                <Option value="Food Trucks">Food Trucks</Option>
-                <Option value="Fast-food">Fast-food</Option>
-                <Option value="Café">Café</Option>
-                <Option value="Family Style">Family Style</Option>
-                <Option value="Pub">Pub</Option>
-                <Option value="Buffet">Buffet</Option>
+                {cuisineOption.map((type) => {
+                  return <Option value={type}>{type}</Option>;
+                })}
               </Selecter>
               <StyleButton>SEARCH</StyleButton>
-              </Form>
             </Search.Group>
           </SearchBar>
         </HeadSection>
         <Category />
-
         <ContentContainer>
           <ContentName>
             Explore our restaurants
