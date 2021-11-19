@@ -19,12 +19,12 @@ import { StyledButton } from "../RestList/components/EditList/styled";
 import UserAPI from "../../../api/userAPI";
 
 const EditProfile = (props) => {
+  console.log(props.info);
   const oldPass = props.info.password;
   const [editProfile, setEditProfile] = useState(props.info);
   const [avatar, setAvatar] = useState(props.info.image);
 
   const onFinish = (value) => {
-    //console.log(value);
     const editPass = value.new_pass !== undefined;
     const newPassword = editPass ? value.new_pass : oldPass;
     props.setNewProfile({
@@ -32,22 +32,25 @@ const EditProfile = (props) => {
       password: newPassword,
       image: avatar,
     });
+    updateProfile(value.username, newPassword);
     props.popupVisible(false);
   };
 
-  // const editProfile = (value) => {
-  //   const data = {
-  //     username: value.username,
-  //     password
-  //   }
-  //   UserAPI.editProfile("myInterestRestaurants", user_id)
-  //     .then((response) => {
-  //       setInList(response.data);
-  //     })
-  //     .catch((e) => {
-  //       console.log(e);
-  //     });
-  // };
+  const updateProfile = (username, password) => {
+    const data = {
+      username: username,
+      password: password,
+      image: avatar,
+    };
+    UserAPI.editProfile(props.info.id, data)
+      .then((response) => {
+        localStorage.setItem("_token", response.data.token);
+        console.log(response.data.token);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
   function getBase64(info) {
     const reader = new FileReader();
@@ -85,6 +88,9 @@ const EditProfile = (props) => {
     if (trimedName.length < 6 && value != null) {
       callback("Must contain more than 6 charaters");
       setCheckUsername("error");
+    } else if (trimedName == props.info.username) {
+      callback();
+      setCheckUsername("success");
     } else {
       UserAPI.checkUsername(trimedName)
         .then((response) => {
