@@ -1,14 +1,19 @@
+import { Provider as ReduxProvider } from "react-redux";
+import store from "../store";
+
 import "../styles/globals.css";
 import "antd/dist/antd.css";
 import Navbar from "./components/Navbar";
 
-function MyApp({ Component, pageProps }) {
+const App = ({ Component, pageProps }) => {
   return (
     <>
-      <Navbar />
-      <Component {...pageProps} />
+      <ReduxProvider store={store}>
+        <Navbar />
+        <Component {...pageProps} />
+      </ReduxProvider>
     </>
   );
-}
+};
 
-export default MyApp;
+export default App;

@@ -28,13 +28,13 @@ const Overview = (props) => {
   const [isLiked, setIsLiked] = useState(liked);
   const [avgText, setAvgText] = useState(null);
 
-  const user_id = "618e861f44657266888550c3";
+  const user_id = "618d4337965a69dd7993e643";
   const res_id = "617d07fb8f7c593a9e729a56";
 
   useEffect(() => {
     changeBookLike();
+    console.log("bookmarked", isBookmarked);
   }, [bookmarked, liked]);
-
 
   useEffect(() => {
     if (props.avgRate != null) {
@@ -102,8 +102,6 @@ const Overview = (props) => {
         </Record>
         <Line>
           <div>
-            {/* {rate} */}
-
             <AverageRate
               defaultValue={avgText}
               value={avgText}

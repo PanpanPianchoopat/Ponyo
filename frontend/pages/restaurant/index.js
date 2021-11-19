@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import useAppSelector from "../../hooks/useAppSelector";
 import {
   DetailContainer,
   LargeSection,
@@ -30,8 +31,12 @@ import { Divider } from "antd";
 import RestaurantAPI from "../api/restaurantAPI";
 import ReviewAPI from "../api/reviewAPI";
 import Image from "next/image";
+// import token from "../api/userInfo";
 
 const Restaurant = () => {
+  const { token, data } = useAppSelector((state) => state.auth);
+  console.log(data);
+
   const [filter, setFilter] = useState(0);
   const [resInfo, setDetail] = useState(null);
   const [statusInfo, setStatus] = useState(null);
@@ -61,8 +66,13 @@ const Restaurant = () => {
     getReviewByFilter(0);
   }, []);
 
-  const user_id = "618e861f44657266888550c3";
+  const user_id = "618d4337965a69dd7993e643";
   const res_id = "617d07fb8f7c593a9e729a56";
+
+  useEffect(() => {
+    console.log("isBookmarked", isBookmarked);
+    console.log("DATA LIKE",isLiked);
+  }, [isBookmarked,isLiked]);
 
   const StarNum = (count) => {
     const stars = [];
@@ -147,6 +157,7 @@ const Restaurant = () => {
     RestaurantAPI.getLikedBookmarked("myFavRestaurants", user_id, res_id)
       .then((response) => {
         setLiked(response.data);
+        
       })
       .catch((e) => {
         console.log(e);
@@ -307,7 +318,7 @@ const Restaurant = () => {
                 })
               ) : (
                 <EmptyDisplayContainer>
-                  <Image src="/assets/redBowl.svg" width={120} height={120} />
+                  <Image src="/assets/redBowl.svg" width={200} height={150} />
                   <p>No review yet</p>
                 </EmptyDisplayContainer>
               )

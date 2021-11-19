@@ -17,9 +17,20 @@ import {
 } from "./styled";
 
 import { List, arrayMove, arrayRemove } from "react-movable";
+import UserAPI from "../../../../../api/userAPI";
 
 const EditList = (props) => {
   const [favList, setFavList] = useState(props.list);
+  const user_id = "618e861f44657266888550c3";
+
+  useEffect(() => {
+    // if there's a change in fav list, reorder the rankings
+    for (var i = 0; i < favList.length; i++) {
+      favList[i].rank = i + 1;
+    }
+    console.log("NEW_LIST", favList);
+    props.updateList(favList); //send new list back to parent
+  }, [favList]);
 
   const handleChange = (oldIndex, newIndex) => {
     setFavList(arrayMove(favList, oldIndex, newIndex));
@@ -30,13 +41,29 @@ const EditList = (props) => {
   };
 
   const handleSubmit = () => {
+    const idFavList = [];
     // change ranking in the list
     for (var i = 0; i < favList.length; i++) {
       favList[i].rank = i + 1;
     }
-    //console.log("NEW_LIST", favList);
+    // Keep only id
+    for (var i = 0; i < favList.length; i++) {
+      idFavList[i] = favList[i]._id
+    }
+    console.log("NEW_LIST", idFavList);
+    editMyFavList(user_id, idFavList);
     props.updateList(favList);
     props.setVisible(false);
+  };
+
+  const editMyFavList = (user_id, edittedList) => {
+    UserAPI.editMyFavList(user_id, edittedList)
+      .then((response) => {
+        console.log("edit", response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   return (
@@ -53,7 +80,7 @@ const EditList = (props) => {
             <ItemCard>
               <RankingIcon />
               <Ranking> {index + 1}</Ranking>
-              <CardImage src={value.cover} />
+              <CardImage src={value.image[1]} />
               <CardDetail>
                 <TextContainer>
                   {value.name}

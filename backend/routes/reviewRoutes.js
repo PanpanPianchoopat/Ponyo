@@ -13,7 +13,7 @@ import {
 const router = express.Router();
 
 router.post("/add/:res_id/:user_id", addReview);
-router.patch("/edit/:review_id/:user_id", editReview);
+router.patch("/edit/:review_id", editReview);
 router.delete("/delete/:review_id", deleteReview);
 router.get("/rate/:res_id", calReviewRate);
 router.get("/filter/:filter/:res_id/:user_id/:star", getReviewByFilter);
