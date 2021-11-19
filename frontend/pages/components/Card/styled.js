@@ -72,7 +72,7 @@ export const CoverContainer = styled.div.attrs((props) => {
   display: flex;
   align-items: space-between;
   width: 100%;
-
+  justify-content: center;
   height: ${(props) => props.customSize};
   overflow: hidden;
   @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
@@ -128,9 +128,8 @@ export const Status = styled.div.attrs((props) => {
 `;
 
 export const CoverPhoto = styled.img`
-  height: 100%;
-  width: auto;
-  margin: 0 auto;
+  width: 100%;
+  object-fit: cover;
 `;
 
 export const DetailContainer = styled.div.attrs((props) => {

@@ -43,7 +43,6 @@ const RestCard = ({ ...props }) => {
     getAvgRate(props.detail._id);
   }, [props.detail]);
 
-
   const getRestaurantStatus = (res_id) => {
     RestaurantAPI.getRestaurantStatus(res_id)
       .then((response) => {

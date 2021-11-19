@@ -29,7 +29,6 @@ const SearchRestaurant = () => {
   const { Option } = Selecter;
   const statusOption = ["ALL", "OPEN", "CLOSE"];
   const [status, setStatus] = useState("ALL");
-  const [allRestaurants, setAllRestaurants] = useState(null);
   const [getRestaurants, setRestaurants] = useState(null);
 
   useEffect(() => {
@@ -51,8 +50,6 @@ const SearchRestaurant = () => {
   };
 
   const getRestaurant = () => {
-    
-
     RestaurantAPI.getRestaurant("name", "V", 0, "Pub", "OPEN")
       .then((response) => {
         setRestaurants(response.data);
@@ -114,12 +111,12 @@ const SearchRestaurant = () => {
                   backgroundColor: COLORS.PRIMARY_LIGHT,
                 }}
               >
-                <Option value="">Cuisine</Option>
-                <Option value="Causual dining">Causual dining</Option>
-                <Option value="Food trucks">Food trucks</Option>
+                <Option value="null" >Cuisine</Option>
+                <Option value="Casual Dining">Casual Dining</Option>
+                <Option value="Food Trucks">Food Trucks</Option>
                 <Option value="Fast-food">Fast-food</Option>
                 <Option value="Café">Café</Option>
-                <Option value="Family-style">Family-style</Option>
+                <Option value="Family Style">Family Style</Option>
                 <Option value="Pub">Pub</Option>
                 <Option value="Buffet">Buffet</Option>
               </Selecter>

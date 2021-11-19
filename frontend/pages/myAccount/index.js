@@ -14,20 +14,21 @@ import {
   Popup,
 } from "./styled";
 
-
 const myAccount = () => {
   const [selectedTab, setSelectedTab] = useState(FAVOURITE);
   const [popupVisible, setPopupVisible] = useState(false);
+  const [profile, setProfile] = useState(PROFILE);
 
-  function closePopup() {
-    setPopupVisible(false);
-  }
-  
+  useEffect(() => {
+    // state change from child
+    console.log("EDIT_PROFILE", profile);
+  }, [profile]);
+
   return (
     <ProfileContainer>
       <ProfilePicture>
-        <Avatar size={100} src={PROFILE.profilePic} />
-        <h3>{PROFILE.name}</h3>
+        <Avatar size={100} src={profile.profilePic} />
+        <h3>{profile.name}</h3>
       </ProfilePicture>
       <Button variant="transparent" onClick={() => setPopupVisible(true)}>
         Edit Profile
@@ -39,7 +40,11 @@ const myAccount = () => {
         footer={null}
         destroyOnClose={true}
       >
-        <EditProfile closePopup={closePopup} />
+        <EditProfile
+          info={profile}
+          setNewProfile={setProfile}
+          popupVisible={setPopupVisible}
+        />
       </Popup>
 
       <ListContainer>
