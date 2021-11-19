@@ -7,7 +7,6 @@ import Restaurant from "../models/restaurantModel.js";
 const ObjectId = mongoose.Types.ObjectId;
 const router = express.Router();
 
-// เหลือ edit list รอข้อมูลจาก front
 export const register = async (req, res) => {
   const { username, email, password, dateOfBirth, gender, image } = req.body;
   const newPassword = await bcrypt.hash(password, 10);
@@ -53,11 +52,11 @@ export const login = async (req, res) => {
       {
         id: user._id,
         username: user.username,
-        email: user.email,
+        image: user.image,
       },
       "PonyoSecret"
     );
-    res.status(200).json({ user: token });
+    res.status(200).json({ token: token });
   } else {
     res.status(404).json({ Error: "Login Failed" });
   }

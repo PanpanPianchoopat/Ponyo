@@ -2,7 +2,6 @@ import express from "express";
 import mongoose from "mongoose";
 const ObjectId = mongoose.Types.ObjectId;
 import Review from "../models/reviewModel.js";
-import User from "../models/userModel.js";
 
 const router = express.router;
 
@@ -12,7 +11,6 @@ export const addReview = async (req, res) => {
   if (reviewText == "") {
     reviewText = null;
   }
-  console.log("reviewText", reviewText);
 
   const newReview = new Review({
     res_id,
@@ -23,9 +21,7 @@ export const addReview = async (req, res) => {
     image,
   });
   try {
-    console.log("newReview1", newReview);
     await newReview.save();
-    console.log("newReview", newReview);
     res.status(201).json(newReview);
   } catch (error) {
     res.status(404).json({ Error: error.message });

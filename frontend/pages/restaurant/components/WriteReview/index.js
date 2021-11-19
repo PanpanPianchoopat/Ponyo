@@ -1,4 +1,5 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
+import jwt from "jsonwebtoken";
 import {
   StyledRate,
   SectionHeader,
@@ -17,6 +18,13 @@ import { useRouter } from "next/router";
 const WriteReview = (props) => {
   const [form] = Form.useForm();
   const router = useRouter();
+  const [user_id, setUserID] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem("_token");
+    const userData = jwt.decode(token);
+    setUserID(userData.id);
+  }, []);
 
   const photoArray = (fileList) => {
     var i = 0;
@@ -29,7 +37,6 @@ const WriteReview = (props) => {
   };
 
   const onFinish = (values) => {
-    const user_id = "618e861f44657266888550c3";
     const res_id = "617d07fb8f7c593a9e729a56";
     var image = [];
 

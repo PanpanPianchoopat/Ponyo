@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import jwt from "jsonwebtoken";
 import useAppSelector from "../../hooks/useAppSelector";
 import {
   DetailContainer,
@@ -32,9 +33,8 @@ import ReviewAPI from "../api/reviewAPI";
 import Image from "next/image";
 
 const Restaurant = () => {
-  const { token, data } = useAppSelector((state) => state.auth);
-  console.log("data", data);
-
+  // const { token, data } = useAppSelector((state) => state.auth);
+  const [user_id, setUserID] = useState(null);
   const [filter, setFilter] = useState(0);
   const [resInfo, setDetail] = useState(null);
   const [statusInfo, setStatus] = useState(null);
@@ -47,6 +47,25 @@ const Restaurant = () => {
   const [photoAmountInfo, setPhotoAmount] = useState(null);
   const [reviewInfo, setReview] = useState(null);
 
+  useEffect(() => {
+    const token = localStorage.getItem("_token");
+    const userData = jwt.decode(token);
+    setUserID(userData.id);
+  }, []);
+
+
+  useEffect(() => {
+    getRestaurantDetail();
+    getRestaurantStatus();
+    getAvgRate();
+    getReviewAmount();
+    getStarAmount();
+    getReviewByFilter(0);
+    if (user_id != null) {
+      getLikedBookmarked();
+    }
+  }, []);
+
   const updateInfo = (review) => {
     if (review) {
       getAvgRate();
@@ -54,17 +73,7 @@ const Restaurant = () => {
     }
   };
 
-  useEffect(() => {
-    getRestaurantDetail();
-    getRestaurantStatus();
-    getAvgRate();
-    getReviewAmount();
-    getLikedBookmarked();
-    getStarAmount();
-    getReviewByFilter(0);
-  }, []);
-
-  const user_id = "618d4337965a69dd7993e643";
+  // const user_id = "618d4337965a69dd7993e643";
   const res_id = "617d07fb8f7c593a9e729a56";
 
   const StarNum = (count) => {
