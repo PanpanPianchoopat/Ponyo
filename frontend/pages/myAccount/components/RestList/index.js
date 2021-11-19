@@ -14,7 +14,6 @@ import {
   EmptyList,
   EmptyTextContainer,
 } from "./styled";
-import { Router } from "next/dist/client/router";
 
 const RestList = (props) => {
   const isFav = props.type == FAVOURITE;
@@ -32,16 +31,6 @@ const RestList = (props) => {
   const [popupVisible, setPopupVisible] = useState(false);
   const [edittedList, setEdittedList] = useState(FAV_LIST);
 
-  function handleOk() {
-    setFavList(edittedList);
-    setPopupVisible(false);
-  }
-
-  useEffect(() => {
-    // print updated list
-    console.log("FAV_EDIT", favList);
-  }, [favList]);
-
   return (
     <>
       <HeaderWrapper headerType={props.type}>
@@ -55,9 +44,9 @@ const RestList = (props) => {
       </HeaderWrapper>
 
       <CardsWrapper>
-        {REST_LIST ? (
-          REST_LIST.length > 0 ? (
-            REST_LIST.map((restuarant, index) => (
+        {edittedList ? (
+          edittedList.length > 0 ? (
+            edittedList.map((restuarant, index) => (
               <Card
                 key={index}
                 detail={restuarant}
@@ -81,11 +70,15 @@ const RestList = (props) => {
       <Popup
         title="Edit Top 5 Favourite List"
         visible={popupVisible}
-        okText="Save"
-        onOk={handleOk}
+        destroyOnClose={true}
         onCancel={() => setPopupVisible(false)}
+        footer={null}
       >
-        <EditList list={favList} updateList={setEdittedList} />
+        <EditList
+          list={edittedList}
+          updateList={setEdittedList}
+          setVisible={setPopupVisible}
+        />
       </Popup>
     </>
   );
