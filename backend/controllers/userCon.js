@@ -52,6 +52,7 @@ export const login = async (req, res) => {
       {
         id: user._id,
         username: user.username,
+        password: user.password,
         image: user.image,
       },
       "PonyoSecret"
@@ -59,6 +60,43 @@ export const login = async (req, res) => {
     res.status(200).json({ token: token });
   } else {
     res.status(404).json({ Error: "Login Failed" });
+  }
+};
+
+export const checkUsername = async (req, res) => {
+  const { username } = req.params;
+  console.log("user", username);
+  try {
+    const checkUsername = await User.find({
+      username: username,
+    });
+    console.log("length", checkUsername.length);
+    if (checkUsername.length == 0) {
+      res.status(201).json(true);
+    } else {
+      res.status(201).json(false);
+    }
+  } catch (error) {
+    res.status(404).json({ Error: error.message });
+  }
+};
+
+export const editProfile = async (req, res) => {
+  const { user_id } = req.params;
+  const { username, password, image } = req.body;
+  try {
+    const updatedProfile = {
+      username,
+      password,
+      image,
+      _id: user_id,
+    };
+
+    await User.findByIdAndUpdate(user_id, updatedProfile, { new: true });
+
+    res.status(200).json({ Message: "Updated Success" });
+  } catch (error) {
+    res.status(404).json({ Error: error.message });
   }
 };
 

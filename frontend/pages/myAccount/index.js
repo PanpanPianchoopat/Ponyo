@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import jwt from "jsonwebtoken";
 import { Avatar, Modal, Form, Input } from "antd";
 import Button from "../components/Button";
 import RestList from "./components/RestList";
@@ -18,17 +19,24 @@ const myAccount = () => {
   const [selectedTab, setSelectedTab] = useState(FAVOURITE);
   const [popupVisible, setPopupVisible] = useState(false);
   const [profile, setProfile] = useState(PROFILE);
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    // state change from child
-    console.log("EDIT_PROFILE", profile);
-  }, [profile]);
+    const token = localStorage.getItem("_token");
+    const userData = jwt.decode(token);
+    setUserData(userData);
+  }, []);
+
+  // useEffect(() => {
+  //   // state change from child
+  //   console.log("EDIT_PROFILE", profile.name);
+  // }, [profile]);
 
   return (
     <ProfileContainer>
       <ProfilePicture>
-        <Avatar size={100} src={profile.profilePic} />
-        <h3>{profile.name}</h3>
+        <Avatar size={100} src={userData ? userData.image : null} />
+        <h3>{userData ? userData.username : null}</h3>
       </ProfilePicture>
       <Button variant="transparent" onClick={() => setPopupVisible(true)}>
         Edit Profile
@@ -41,8 +49,8 @@ const myAccount = () => {
         destroyOnClose={true}
       >
         <EditProfile
-          info={profile}
-          setNewProfile={setProfile}
+          info={userData}
+          setNewProfile={setUserData}
           popupVisible={setPopupVisible}
         />
       </Popup>

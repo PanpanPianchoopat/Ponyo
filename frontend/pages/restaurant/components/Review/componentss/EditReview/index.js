@@ -48,7 +48,6 @@ const EditReview = (props) => {
     } else if (status === "removed") {
       setReviewPics(reviewPics.filter((item) => item.uid !== info.file.uid));
     }
-    //console.log("CURRENT", reviewPics);
   };
 
   const handleSave = (value) => {

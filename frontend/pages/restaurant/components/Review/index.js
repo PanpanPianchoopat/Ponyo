@@ -41,7 +41,7 @@ const Review = (props) => {
   // }, [reviewImage]);
 
   const user_id = "618d4337965a69dd7993e643";
-  const res_id = "617d07fb8f7c593a9e729a56";
+  const res_id = "617d5b668f7c593a9e729a68";
 
   useEffect(() => {
     if (isSave) {
