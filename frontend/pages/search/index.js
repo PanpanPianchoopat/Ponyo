@@ -5,7 +5,7 @@ import BestRate from "../components/BestRate";
 import { TOP_3 } from "../components/BestRate/constant";
 import Card from "../components/Card";
 import { SAMPLE_DATA } from "../components/Card/constant";
-import { Form, BackTop } from "antd";
+import { BackTop } from "antd";
 import Category from "./components/Category";
 import RestaurantAPI from "../api/restaurantAPI";
 import {
@@ -31,12 +31,19 @@ const SearchRestaurant = () => {
   const [status, setStatus] = useState("ALL");
   const [getRestaurants, setRestaurants] = useState(null);
 
+  const [searchValue, setSearchValue] = useState({
+    nameAd: "name",
+    input: "null",
+    price: "price",
+    cuisine: "cuisine",
+  });
+
   useEffect(() => {
     getAllRestaurant();
   }, []);
 
   useEffect(() => {
-    if(status != null){
+    if (status != null) {
       getRestaurant();
     }
   }, [status]);
@@ -72,31 +79,42 @@ const SearchRestaurant = () => {
   return (
     <>
       <Container>
+        #Debug {JSON.stringify(searchValue.cuisine)}
         <HeadSection>
-          {/* <Name>PONYO</Name> */}
           <NameImage src="/assets/ponyoName.svg" preview={false} />
           <SearchBar>
             <Search.Group compact>
-              <Form>
               <Selecter
                 bordered={false}
                 size="large"
                 defaultValue="name"
-
                 dropdownStyle={{
                   backgroundColor: COLORS.PRIMARY_LIGHT,
+                }}
+                onChange={(e) => {
+                  setSearchValue({ ...searchValue, nameAd: e });
                 }}
               >
                 <Option value="name">Name</Option>
                 <Option value="address">address</Option>
               </Selecter>
-              <Search bordered={false} size="large" placeholder="Search" />
+              <Search
+                bordered={false}
+                size="large"
+                placeholder="Search"
+                onChange={(e) => {
+                  setSearchValue({ ...searchValue, input: e.target.value });
+                }}
+              />
               <Selecter
                 bordered={false}
                 size="large"
-                defaultValue="price"
+                defaultValue="0"
                 dropdownStyle={{
                   backgroundColor: COLORS.PRIMARY_LIGHT,
+                }}
+                onChange={(e) => {
+                  setSearchValue({ ...searchValue, price: e });
                 }}
               >
                 <Option value="0">Price</Option>
@@ -108,12 +126,15 @@ const SearchRestaurant = () => {
               <Selecter
                 bordered={false}
                 size="large"
-                defaultValue="cusine"
+                defaultValue="null"
                 dropdownStyle={{
                   backgroundColor: COLORS.PRIMARY_LIGHT,
                 }}
+                onChange={(e) => {
+                  setSearchValue({ ...searchValue, cuisine: e });
+                }}
               >
-                <Option value="null" >Cuisine</Option>
+                <Option value="null">Cuisine</Option>
                 <Option value="Casual Dining">Casual Dining</Option>
                 <Option value="Food Trucks">Food Trucks</Option>
                 <Option value="Fast-food">Fast-food</Option>
@@ -123,12 +144,10 @@ const SearchRestaurant = () => {
                 <Option value="Buffet">Buffet</Option>
               </Selecter>
               <StyleButton>SEARCH</StyleButton>
-              </Form>
             </Search.Group>
           </SearchBar>
         </HeadSection>
         <Category />
-
         <ContentContainer>
           <ContentName>
             Explore our restaurants
