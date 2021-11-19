@@ -43,7 +43,6 @@ const RestCard = ({ ...props }) => {
     getAvgRate(props.detail._id);
   }, [props.detail]);
 
-
   const getRestaurantStatus = (res_id) => {
     RestaurantAPI.getRestaurantStatus(res_id)
       .then((response) => {
@@ -73,9 +72,7 @@ const RestCard = ({ ...props }) => {
       cover={
         <CoverContainer customSize={props.size}>
           <IconWrapper>
-            {resStatus ? (
-              <Status status={resStatus}>{resStatus ? "OPEN" : "CLOSE"}</Status>
-            ) : null}
+            <Status status={resStatus}>{resStatus ? "OPEN" : "CLOSE"}</Status>
           </IconWrapper>
           <CoverPhoto src={resPicture} />
         </CoverContainer>
