@@ -21,14 +21,10 @@ class RestaurantAPI {
     return http.get(`/restaurant/`);
   };
 
-  // getRestaurant = (filter,search,priceRange,type, resStatus) => {
-  //   console.log("filter",filter);
-  //   console.log("search",search);
-  //   console.log("priceRange",priceRange);
-  //   console.log("type",type);
-  //   console.log("resStatus",resStatus);
-  //   return http.get(`/restaurant/search/${filter}/${search}/${priceRange}${type}/${resStatus}`);
-  // };
+  getRestaurant = (filter,search,priceRange,type, resStatus) => {
+    
+    return http.get(`/restaurant/search/${filter}/${search}/${priceRange}/${type}/${resStatus}`);
+  };
 }
 
 export default new RestaurantAPI();

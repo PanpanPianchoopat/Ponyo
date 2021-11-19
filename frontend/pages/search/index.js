@@ -36,34 +36,36 @@ const SearchRestaurant = () => {
     getAllRestaurant();
   }, []);
 
-  // useEffect(() => {
-  //   getRestaurant("name");
-  // }, [status]);
+  useEffect(() => {
+    if(status != null){
+      getRestaurant();
+    }
+  }, [status]);
 
   useEffect(() => {
-    console.log("allRestaurants", allRestaurants);
-  }, [allRestaurants]);
+    console.log("getRestaurants", getRestaurants);
+  }, [getRestaurants]);
 
   const changeStatus = (e) => {
     setStatus(e.target.value);
   };
 
-  // const getRestaurant = (filter) => {
-  //   console.log("test");
+  const getRestaurant = () => {
+    
 
-  //   RestaurantAPI.getRestaurant(filter, "", 0, "", status)
-  //     .then((response) => {
-  //       setRestaurants(response.data);
-  //     })
-  //     .catch((e) => {
-  //       console.log(e);
-  //     });
-  // };
+    RestaurantAPI.getRestaurant("name", "V", 0, "Pub", "OPEN")
+      .then((response) => {
+        setRestaurants(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
   const getAllRestaurant = () => {
     RestaurantAPI.getAllRestaurants()
       .then((response) => {
-        setAllRestaurants(response.data);
+        setRestaurants(response.data);
       })
       .catch((e) => {
         console.log(e);
@@ -140,8 +142,8 @@ const SearchRestaurant = () => {
             />
           </StatusBox>
           <CardContainer>
-            {allRestaurants
-              ? allRestaurants.map((detail, key) => (
+            {getRestaurants
+              ? getRestaurants.map((detail, key) => (
                   <Card detail={detail} liked={true} saved={true} key={key} />
                 ))
               : null}
