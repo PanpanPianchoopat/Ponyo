@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import bcrypt from "bcryptjs";
 import { Form, Input, Upload, Avatar } from "antd";
 import Button from "../../../components/Button";
 
@@ -15,23 +16,38 @@ import {
   ButtonGroup,
 } from "./styled";
 import { StyledButton } from "../RestList/components/EditList/styled";
+import UserAPI from "../../../api/userAPI";
 
 const EditProfile = (props) => {
   const oldPass = props.info.password;
   const [editProfile, setEditProfile] = useState(props.info);
-  const [avatar, setAvatar] = useState(props.info.profilePic);
+  const [avatar, setAvatar] = useState(props.info.image);
 
   const onFinish = (value) => {
     //console.log(value);
     const editPass = value.new_pass !== undefined;
     const newPassword = editPass ? value.new_pass : oldPass;
     props.setNewProfile({
-      name: value.username,
+      username: value.username,
       password: newPassword,
-      profilePic: avatar,
+      image: avatar,
     });
     props.popupVisible(false);
   };
+
+  // const editProfile = (value) => {
+  //   const data = {
+  //     username: value.username,
+  //     password
+  //   }
+  //   UserAPI.editProfile("myInterestRestaurants", user_id)
+  //     .then((response) => {
+  //       setInList(response.data);
+  //     })
+  //     .catch((e) => {
+  //       console.log(e);
+  //     });
+  // };
 
   function getBase64(info) {
     const reader = new FileReader();
@@ -47,11 +63,13 @@ const EditProfile = (props) => {
   };
 
   const [checkOldPass, setCheckOldPass] = useState(null);
-  const validateOldPass = (rule, value, callback) => {
+  const validateOldPass = async (rule, value, callback) => {
+    const isPasswordValid = await bcrypt.compare(value, oldPass);
+
     if (!value) {
       callback("Need password to edit profile");
       setCheckOldPass("warning");
-    } else if (value === editProfile.password) {
+    } else if (isPasswordValid) {
       callback();
       setCheckOldPass("success");
     } else {
@@ -68,8 +86,19 @@ const EditProfile = (props) => {
       callback("Must contain more than 6 charaters");
       setCheckUsername("error");
     } else {
-      callback();
-      setCheckUsername("success");
+      UserAPI.checkUsername(trimedName)
+        .then((response) => {
+          if (response.data) {
+            callback();
+            setCheckUsername("success");
+          } else {
+            callback("This username already has");
+            setCheckUsername("error");
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     }
   };
 
@@ -78,7 +107,7 @@ const EditProfile = (props) => {
       <Form
         labelCol={{ span: 9 }}
         onFinish={onFinish}
-        initialValues={{ username: editProfile.name }}
+        initialValues={{ username: editProfile.username }}
       >
         <Form.Item name="avatar">
           <ImageWrapper>

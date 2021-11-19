@@ -1,7 +1,7 @@
 import axios from "axios";
 import { apiEndpoints, apiHost } from "../config";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import jwt from 'jsonwebtoken'
+import jwt from "jsonwebtoken";
 
 const initialState = {
   loading: false,
@@ -24,7 +24,7 @@ export const Login = createAsyncThunk("User/Login", async (credential) => {
         headers: { "content-type": "application/json" },
       }
     );
-    localStorage.setItem("_token", response.data.user);
+    localStorage.setItem("_token", response.data.token);
     return response.data;
   } catch (err) {
     localStorage.setItem("_token", "");
@@ -36,11 +36,11 @@ const authSlice = createSlice({
   name: "authSlice",
   initialState,
   reducers: {
-    // setAuthState(state, action) {
-    //state.userData = action.payload.userData;
-    // state.isLogin = true;
-    //state.token = action.payload.user;
-    //},
+    setAuthState(state, action) {
+      state.data = jwt.decode(action.payload.token);
+      state.isLogin = true;
+      state.token = action.payload.token;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -50,8 +50,8 @@ const authSlice = createSlice({
         }
       })
       .addCase(Login.fulfilled, (state, action) => {
-        state.token = action.payload.user;
-        state.data = jwt.decode(action.payload.user)
+        state.token = action.payload.token;
+        state.data = jwt.decode(action.payload.token);
         state.isLogin = true;
         state.loading = false;
         state.hasError = false;

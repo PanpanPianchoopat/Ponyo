@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import jwt from "jsonwebtoken";
 import Card from "../../../components/Card";
 import { FAVOURITE, INTEREST } from "../../constant";
 import EditList from "./components/EditList";
@@ -17,8 +18,6 @@ import { Router } from "next/dist/client/router";
 import UserAPI from "../../../api/userAPI";
 import { useRouter } from "next/router";
 
-const user_id = "618e861f44657266888550c3";
-
 const RestList = (props) => {
   const isFav = props.type == FAVOURITE;
   const isIn = props.type == INTEREST;
@@ -27,10 +26,9 @@ const RestList = (props) => {
     : isIn
     ? "My Interest"
     : null;
-
+  const [user_id, setUserID] = useState(null);
   const [favList, setFavList] = useState(null);
   const [inList, setInList] = useState(null);
-  // const REST_LIST = isFav ? favList : isIn ? inList : null;
   const REST_LIST = isFav ? favList : inList;
   const emptyDisplay = isFav ? "liked" : "saved";
   const isLarge = isFav ? "large" : "";
@@ -38,17 +36,18 @@ const RestList = (props) => {
   const [edittedList, setEdittedList] = useState(null);
   const router = useRouter();
 
-
   useEffect(() => {
-    getMyRestaurantList();
+    const token = localStorage.getItem("_token");
+    const userData = jwt.decode(token);
+    setUserID(userData.id);
   }, []);
 
   useEffect(() => {
-    console.log("inList",inList);
-    console.log("favList",favList);
-  }, [favList,inList]);
+    if (user_id != null) {
+      getMyRestaurantList();
+    }
+  }, [user_id]);
 
-  
   const getMyRestaurantList = () => {
     UserAPI.getMyRestaurantList("myFavRestaurants", user_id)
       .then((response) => {
@@ -68,7 +67,6 @@ const RestList = (props) => {
       });
   };
 
- 
   return (
     <>
       <HeaderWrapper headerType={props.type}>

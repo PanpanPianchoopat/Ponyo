@@ -1,4 +1,5 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
+import jwt from "jsonwebtoken";
 import {
   StyledRate,
   SectionHeader,
@@ -9,7 +10,7 @@ import {
   PlusIcon,
   CameraIcon,
 } from "./styled";
-import { Form, Divider } from "antd";
+import { Form, Divider, message } from "antd";
 import Button from "../../../components/Button";
 import ReviewAPI from "../../../api/reviewAPI";
 import { useRouter } from "next/router";
@@ -17,6 +18,13 @@ import { useRouter } from "next/router";
 const WriteReview = (props) => {
   const [form] = Form.useForm();
   const router = useRouter();
+  const [user_id, setUserID] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem("_token");
+    const userData = jwt.decode(token);
+    setUserID(userData.id);
+  }, []);
 
   const photoArray = (fileList) => {
     var i = 0;
@@ -29,7 +37,6 @@ const WriteReview = (props) => {
   };
 
   const onFinish = (values) => {
-    const user_id = "618d4707965a69dd7993e669";
     const res_id = "617d5b668f7c593a9e729a68";
     var image = [];
 
@@ -47,9 +54,13 @@ const WriteReview = (props) => {
       .then((response) => {
         console.log(response.data);
         props.func(true);
+        router.reload();
       })
       .catch((e) => {
         console.log("Already review");
+        message.warning(
+          "You already review this restaurant, try edit/delete instead"
+        );
       });
   };
 
@@ -93,12 +104,7 @@ const WriteReview = (props) => {
               <Button variant="transparent" outline="round" type="button">
                 Cancel
               </Button>
-              <Button
-                variant="red"
-                outline="round"
-                type="submit"
-                onClick={() => router.reload()}
-              >
+              <Button variant="red" outline="round" type="submit">
                 Submit
               </Button>
             </ButtonGroup>

@@ -2,13 +2,15 @@ import express from "express";
 import mongoose from "mongoose";
 const ObjectId = mongoose.Types.ObjectId;
 import Review from "../models/reviewModel.js";
-import User from "../models/userModel.js";
 
 const router = express.router;
 
 export const addReview = async (req, res) => {
   const { res_id, user_id } = req.params;
-  const { reviewText, star, image } = req.body;
+  var { reviewText, star, image } = req.body;
+  if (reviewText == "") {
+    reviewText = null;
+  }
 
   const newReview = new Review({
     res_id,
@@ -30,7 +32,6 @@ export const editReview = async (req, res) => {
   const { review_id } = req.params;
   const { reviewText, star, image } = req.body;
   const date = new Date();
-
 
   if (!mongoose.Types.ObjectId.isValid(review_id))
     return res.status(404).send(`No review with id: ${review_id}`);

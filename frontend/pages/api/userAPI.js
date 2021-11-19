@@ -9,6 +9,10 @@ class userAPI {
     return http.post("/user/register", data);
   };
 
+  checkUsername = (username) => {
+    return http.get(`/user/checkUsername/${username}`);
+  };
+
   addRestaurantToList = (key, user_id, res_id) => {
     return http.post(`/user/add/${key}/${user_id}/${res_id}`);
   };
