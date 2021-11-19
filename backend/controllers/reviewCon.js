@@ -8,7 +8,11 @@ const router = express.router;
 
 export const addReview = async (req, res) => {
   const { res_id, user_id } = req.params;
-  const { reviewText, star, image } = req.body;
+  var { reviewText, star, image } = req.body;
+  if (reviewText == "") {
+    reviewText = null;
+  }
+  console.log("reviewText", reviewText);
 
   const newReview = new Review({
     res_id,
@@ -19,7 +23,9 @@ export const addReview = async (req, res) => {
     image,
   });
   try {
+    console.log("newReview1", newReview);
     await newReview.save();
+    console.log("newReview", newReview);
     res.status(201).json(newReview);
   } catch (error) {
     res.status(404).json({ Error: error.message });
@@ -30,7 +36,6 @@ export const editReview = async (req, res) => {
   const { review_id } = req.params;
   const { reviewText, star, image } = req.body;
   const date = new Date();
-
 
   if (!mongoose.Types.ObjectId.isValid(review_id))
     return res.status(404).send(`No review with id: ${review_id}`);

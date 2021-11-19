@@ -33,7 +33,6 @@ const Overview = (props) => {
 
   useEffect(() => {
     changeBookLike();
-    console.log("bookmarked", isBookmarked);
   }, [bookmarked, liked]);
 
   useEffect(() => {

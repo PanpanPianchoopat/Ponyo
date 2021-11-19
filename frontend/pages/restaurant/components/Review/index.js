@@ -35,10 +35,10 @@ const Review = (props) => {
   );
   const [isSave, setSaveReview] = useState(false);
   const [reviewImage, setReviewImage] = useState(review ? review.image : null);
-  
-  useEffect(() => {
-    console.log("PARENT_PIC", reviewImage);
-  }, [reviewImage]);
+
+  // useEffect(() => {
+  //   console.log("PARENT_PIC", reviewImage);
+  // }, [reviewImage]);
 
   const user_id = "618d4337965a69dd7993e643";
   const res_id = "617d07fb8f7c593a9e729a56";

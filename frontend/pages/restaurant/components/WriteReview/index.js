@@ -29,7 +29,7 @@ const WriteReview = (props) => {
   };
 
   const onFinish = (values) => {
-    const user_id = "618e86c944657266888550e4";
+    const user_id = "618e861f44657266888550c3";
     const res_id = "617d07fb8f7c593a9e729a56";
     var image = [];
 

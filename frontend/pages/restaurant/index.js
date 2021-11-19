@@ -25,17 +25,15 @@ import Carousel from "./components/Carousel";
 import Overview from "./components/Overview";
 import Detail from "./components/Detail";
 import Review from "./components/Review";
-import CONSTANT from "./constant";
 import { FILTER, KEY_FILTER, REVIEW_FILTER } from "./constant";
 import { Divider } from "antd";
 import RestaurantAPI from "../api/restaurantAPI";
 import ReviewAPI from "../api/reviewAPI";
 import Image from "next/image";
-// import token from "../api/userInfo";
 
 const Restaurant = () => {
   const { token, data } = useAppSelector((state) => state.auth);
-  console.log(data);
+  console.log("data", data);
 
   const [filter, setFilter] = useState(0);
   const [resInfo, setDetail] = useState(null);
@@ -68,11 +66,6 @@ const Restaurant = () => {
 
   const user_id = "618d4337965a69dd7993e643";
   const res_id = "617d07fb8f7c593a9e729a56";
-
-  useEffect(() => {
-    console.log("isBookmarked", isBookmarked);
-    console.log("DATA LIKE",isLiked);
-  }, [isBookmarked,isLiked]);
 
   const StarNum = (count) => {
     const stars = [];
@@ -157,7 +150,6 @@ const Restaurant = () => {
     RestaurantAPI.getLikedBookmarked("myFavRestaurants", user_id, res_id)
       .then((response) => {
         setLiked(response.data);
-        
       })
       .catch((e) => {
         console.log(e);

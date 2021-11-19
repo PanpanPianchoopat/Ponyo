@@ -13,11 +13,11 @@ export const apiEndpoints = {
 const AR_API = () => {
   switch (environment) {
     case "development":
-      return "http://localhost:5000";
+      return "http://localhost:8080";
     case "production":
-      return "http://localhost:5000";
+      return "http://localhost:8080";
     default:
-      return "http://localhost:5000";
+      return "http://localhost:8080";
   }
 };
 
