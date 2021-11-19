@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import jwt from "jsonwebtoken";
 import {
   OverviewContainer,
   RestName,
@@ -27,13 +28,18 @@ const Overview = (props) => {
   const [isBookmarked, setBookmark] = useState(bookmarked);
   const [isLiked, setIsLiked] = useState(liked);
   const [avgText, setAvgText] = useState(null);
+  const [user_id, setUserID] = useState(null);
 
-  const user_id = "618d4337965a69dd7993e643";
-  const res_id = "617d07fb8f7c593a9e729a56";
+  const res_id = "617d5b668f7c593a9e729a68";
+
+  useEffect(() => {
+    const token = localStorage.getItem("_token");
+    const userData = jwt.decode(token);
+    setUserID(userData.id);
+  }, []);
 
   useEffect(() => {
     changeBookLike();
-    console.log("bookmarked", isBookmarked);
   }, [bookmarked, liked]);
 
   useEffect(() => {

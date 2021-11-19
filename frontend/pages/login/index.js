@@ -27,26 +27,9 @@ import {
   CustomInput,
   StyleInput,
 } from "./styled";
-import UserAPI from "../api/userAPI";
 
 const Signin = () => {
   const router = useRouter();
-  // const auth = (values) => {
-  //   const data = {
-  //     email: values.email,
-  //     password: values.password,
-  //   };
-
-  //   UserAPI.login(data)
-  //     .then((response) => {
-  //       console.log("user ", response.data.user);
-  //       localStorage.setItem("token", response.data.user);
-  //     })
-  //     .catch((e) => {
-  //       console.log(e);
-  //       console.log("Username or password not correct");
-  //     });
-  // };
 
   const auth = (val) => {
     const credential = {

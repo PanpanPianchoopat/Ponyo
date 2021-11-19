@@ -7,7 +7,6 @@ import Restaurant from "../models/restaurantModel.js";
 const ObjectId = mongoose.Types.ObjectId;
 const router = express.Router();
 
-// เหลือ edit list รอข้อมูลจาก front
 export const register = async (req, res) => {
   const { username, email, password, dateOfBirth, gender, image } = req.body;
   const newPassword = await bcrypt.hash(password, 10);
@@ -53,13 +52,60 @@ export const login = async (req, res) => {
       {
         id: user._id,
         username: user.username,
-        email: user.email,
+        password: user.password,
+        image: user.image,
       },
       "PonyoSecret"
     );
-    res.status(200).json({ user: token });
+    res.status(200).json({ token: token });
   } else {
     res.status(404).json({ Error: "Login Failed" });
+  }
+};
+
+export const checkUsername = async (req, res) => {
+  const { username } = req.params;
+  try {
+    const checkUsername = await User.find({
+      username: username,
+    });
+    if (checkUsername.length == 0) {
+      res.status(201).json(true);
+    } else {
+      res.status(201).json(false);
+    }
+  } catch (error) {
+    res.status(404).json({ Error: error.message });
+  }
+};
+
+export const editProfile = async (req, res) => {
+  const { user_id } = req.params;
+  const { username, password, image } = req.body;
+  const newPassword = await bcrypt.hash(password, 10);
+
+  try {
+    const updatedProfile = {
+      username,
+      password: newPassword,
+      image,
+      _id: user_id,
+    };
+
+    await User.findByIdAndUpdate(user_id, updatedProfile, { new: true });
+
+    const token = jwt.sign(
+      {
+        id: user_id,
+        username: username,
+        password: password,
+        image: image,
+      },
+      "PonyoSecret"
+    );
+    res.status(200).json({ token: token });
+  } catch (error) {
+    res.status(404).json({ Error: error.message });
   }
 };
 
@@ -190,7 +236,13 @@ export const getAllUser = async (req, res) => {
   try {
     const Users = await User.find(
       {},
-      { username: 1, myFavRestaurants: 1, myInterestRestaurants: 1, email: 1 }
+      {
+        email: 1,
+        username: 1,
+        password: 1,
+        myFavRestaurants: 1,
+        myInterestRestaurants: 1,
+      }
     );
 
     res.status(200).json(Users);
