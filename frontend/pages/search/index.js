@@ -5,7 +5,7 @@ import BestRate from "../components/BestRate";
 import { TOP_3 } from "../components/BestRate/constant";
 import Card from "../components/Card";
 import { SAMPLE_DATA } from "../components/Card/constant";
-import { BackTop } from "antd";
+import { Form, BackTop } from "antd";
 import Category from "./components/Category";
 import RestaurantAPI from "../api/restaurantAPI";
 import {
@@ -77,10 +77,12 @@ const SearchRestaurant = () => {
           <NameImage src="/assets/ponyoName.svg" preview={false} />
           <SearchBar>
             <Search.Group compact>
+              <Form>
               <Selecter
                 bordered={false}
                 size="large"
                 defaultValue="name"
+
                 dropdownStyle={{
                   backgroundColor: COLORS.PRIMARY_LIGHT,
                 }}
@@ -121,6 +123,7 @@ const SearchRestaurant = () => {
                 <Option value="Buffet">Buffet</Option>
               </Selecter>
               <StyleButton>SEARCH</StyleButton>
+              </Form>
             </Search.Group>
           </SearchBar>
         </HeadSection>
