@@ -548,24 +548,18 @@ export const getRestaurantStatus = async (req, res) => {
 
 export const getTrending = async (req, res) => {
   const { type } = req.params;
-  const star = 0;
-  console.log("type", type);
 
   try {
-    // const reviewAmount = getReviewAmount(type,"all",star)
-    // const trendingRes = await Restaurant.find({
-    //   type: type,
-    // });
-    // .sort({'softcount':-1}).count(5)
-
     const trendingRes = await Restaurant.aggregate([
-      // {
-      //   $match: {
-      //     type: type,
-      //   },
-      // },
+      {
+        $match: {
+          type: type,
+        },
+      },
       {
         $project: {
+          name: 1,
+          description: 1,
           res_id_string: {
             $convert: {
               input: "$_id",
@@ -574,7 +568,7 @@ export const getTrending = async (req, res) => {
               onNull: "",
             },
           },
-          type: 1,
+          image: 1,
         },
       },
       {
@@ -588,13 +582,16 @@ export const getTrending = async (req, res) => {
       {
         $unwind: "$review",
       },
+      { $addFields: { firstElem: { $first: "$image" } } },
       {
         $group: {
           _id: { res_id: "$_id", type: type },
           count: { $sum: 1 },
+          data: { $push: "$$ROOT" },
         },
       },
       { $sort: { count: -1 } },
+      { $limit: 3 },
     ]);
 
     res.status(200).json(trendingRes);

@@ -21,10 +21,15 @@ class RestaurantAPI {
     return http.get(`/restaurant/`);
   };
 
-  getRestaurant = (filter,search,priceRange,type, resStatus) => {
-    
+  getRestaurant = (filter,search,priceRange,type, resStatus) => { 
     return http.get(`/restaurant/search/${filter}/${search}/${priceRange}/${type}/${resStatus}`);
   };
+
+  getTrending = (type) => { 
+    return http.get(`/restaurant/trending/${type}`);
+  };
+
+
 }
 
 export default new RestaurantAPI();

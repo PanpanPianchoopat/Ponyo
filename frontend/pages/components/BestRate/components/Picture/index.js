@@ -12,23 +12,27 @@ const Picture = (props) => {
   const [isHovered, setIsHovered] = useState(false);
   const isTop = props.isTop;
 
+  if (props != null) {
+    console.log("picture", props);
+  }
+
   return (
     <>
       <Description isHovered={isHovered}>
-        <RestaurantName isTop={isTop}>{props.info.name}</RestaurantName>
+        {/* <RestaurantName isTop={isTop}>{props.info.name}</RestaurantName>
         <RestaurantDescription isTop={isTop}>
           {props.info.description}
-        </RestaurantDescription>
+        </RestaurantDescription> */}
       </Description>
-      <CoverPic
-        src={props.info.image}
+      {/* <CoverPic
+        src={props.info.image[1]}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       />
       <Rating>
         <StarIcon />
         {props.info.rate}
-      </Rating>
+      </Rating> */}
     </>
   );
 };
