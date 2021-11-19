@@ -13,6 +13,10 @@ class userAPI {
     return http.get(`/user/checkUsername/${username}`);
   };
 
+  editProfile = (user_id, data) => {
+    return http.patch(`/user/editProfile/${user_id}`, data);
+  };
+
   addRestaurantToList = (key, user_id, res_id) => {
     return http.post(`/user/add/${key}/${user_id}/${res_id}`);
   };
