@@ -53,18 +53,20 @@ const Restaurant = () => {
     setUserID(userData.id);
   }, []);
 
-
   useEffect(() => {
     getRestaurantDetail();
     getRestaurantStatus();
     getAvgRate();
     getReviewAmount();
     getStarAmount();
-    getReviewByFilter(0);
+  }, []);
+
+  useEffect(() => {
     if (user_id != null) {
       getLikedBookmarked();
+      getReviewByFilter(0);
     }
-  }, []);
+  }, [user_id]);
 
   const updateInfo = (review) => {
     if (review) {
@@ -73,7 +75,6 @@ const Restaurant = () => {
     }
   };
 
-  // const user_id = "618d4337965a69dd7993e643";
   const res_id = "617d07fb8f7c593a9e729a56";
 
   const StarNum = (count) => {
