@@ -66,8 +66,13 @@ const Restaurant = () => {
     getReviewByFilter(0);
   }, []);
 
-  const user_id = "618d4707965a69dd7993e669";
+  const user_id = "618d4337965a69dd7993e643";
   const res_id = "617d07fb8f7c593a9e729a56";
+
+  useEffect(() => {
+    console.log("isBookmarked", isBookmarked);
+    console.log("DATA LIKE",isLiked);
+  }, [isBookmarked,isLiked]);
 
   const StarNum = (count) => {
     const stars = [];
@@ -152,6 +157,7 @@ const Restaurant = () => {
     RestaurantAPI.getLikedBookmarked("myFavRestaurants", user_id, res_id)
       .then((response) => {
         setLiked(response.data);
+        
       })
       .catch((e) => {
         console.log(e);

@@ -56,12 +56,12 @@ const EditReview = (props) => {
     props.setRate(value.rate);
     props.setText(value.review);
     props.setVisible(false);
-    props.setSave(true);
     const newPicList = [];
     for (let i = 0; i < reviewPics.length; i++) {
       newPicList.push(reviewPics[i].url);
     }
     props.setPhotos(newPicList);
+    props.setSave(true);
   };
 
   return (

@@ -38,18 +38,17 @@ const RestList = (props) => {
   const [edittedList, setEdittedList] = useState(null);
   const router = useRouter();
 
-  function handleOk() {
-    
-    setFavList(edittedList);
-    setPopupVisible(false);
-    editMyFavList(user_id, edittedList);
-  }
-
 
   useEffect(() => {
     getMyRestaurantList();
   }, []);
 
+  useEffect(() => {
+    console.log("inList",inList);
+    console.log("favList",favList);
+  }, [favList,inList]);
+
+  
   const getMyRestaurantList = () => {
     UserAPI.getMyRestaurantList("myFavRestaurants", user_id)
       .then((response) => {
@@ -69,24 +68,13 @@ const RestList = (props) => {
       });
   };
 
-  const editMyFavList = (user_id, edittedList) => {
-    
-    UserAPI.editMyFavList(user_id, edittedList)
-      .then((response) => {
-        console.log("edit",response.data);
-        
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
-
+ 
   return (
     <>
       <HeaderWrapper headerType={props.type}>
         <ListHeader>{listHead}</ListHeader>
         <EditButton
-          visible={REST_LIST && REST_LIST.length > 1}
+          visible={REST_LIST && REST_LIST.length >= 1}
           onClick={() => setPopupVisible(true)}
         >
           Edit List
@@ -94,9 +82,9 @@ const RestList = (props) => {
       </HeaderWrapper>
 
       <CardsWrapper>
-        {REST_LIST ? (
-          REST_LIST.length > 0 ? (
-            REST_LIST.map((restuarant, index) => (
+        {edittedList ? (
+          edittedList.length > 0 ? (
+            edittedList.map((restuarant, index) => (
               <Card
                 key={index}
                 rank={index}
@@ -121,11 +109,15 @@ const RestList = (props) => {
       <Popup
         title="Edit Top 5 Favourite List"
         visible={popupVisible}
-        okText="Save"
-        onOk={() => {router.reload(); handleOk();}}
+        destroyOnClose={true}
         onCancel={() => setPopupVisible(false)}
+        footer={null}
       >
-        <EditList list={favList} updateList={setEdittedList} />
+        <EditList
+          list={edittedList}
+          updateList={setEdittedList}
+          setVisible={setPopupVisible}
+        />
       </Popup>
     </>
   );
