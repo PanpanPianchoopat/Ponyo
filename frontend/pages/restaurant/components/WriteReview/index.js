@@ -10,7 +10,7 @@ import {
   PlusIcon,
   CameraIcon,
 } from "./styled";
-import { Form, Divider } from "antd";
+import { Form, Divider, message } from "antd";
 import Button from "../../../components/Button";
 import ReviewAPI from "../../../api/reviewAPI";
 import { useRouter } from "next/router";
@@ -54,9 +54,13 @@ const WriteReview = (props) => {
       .then((response) => {
         console.log(response.data);
         props.func(true);
+        router.reload();
       })
       .catch((e) => {
         console.log("Already review");
+        message.warning(
+          "You already review this restaurant, try edit/delete instead"
+        );
       });
   };
 
@@ -100,12 +104,7 @@ const WriteReview = (props) => {
               <Button variant="transparent" outline="round" type="button">
                 Cancel
               </Button>
-              <Button
-                variant="red"
-                outline="round"
-                type="submit"
-                onClick={() => router.reload()}
-              >
+              <Button variant="red" outline="round" type="submit">
                 Submit
               </Button>
             </ButtonGroup>
