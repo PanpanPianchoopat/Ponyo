@@ -213,7 +213,7 @@ const searchWithStatus = async (resStatus, key, search, range, type) => {
     }
   }
   //Search Open Restaurants
-  else if (resStatus == 1) {
+  else if (resStatus == "OPEN") {
     //No Search Type and No Search Price (Open)
     if (!type && range[0] == 0 && range[1] == 0) {
       const resOpen = await Restaurant.find({
@@ -402,7 +402,7 @@ const searchWithStatus = async (resStatus, key, search, range, type) => {
 
 const searchRestaurant = async (key, search, range, type, resStatus) => {
   //All (Open & Close)
-  if (resStatus == 2) {
+  if (resStatus == "ALL") {
     // NO Search Type & Price
     if (!type && range[0] == 0 && range[1] == 0) {
       const Restaurants = await Restaurant.find({
@@ -463,19 +463,31 @@ const searchRestaurant = async (key, search, range, type, resStatus) => {
     }
   }
   // Open Restaurant
-  else if (resStatus == 1) {
-    const Restaurants = await searchWithStatus(1, key, search, range, type);
+  else if (resStatus == "OPEN") {
+    const Restaurants = await searchWithStatus(
+      "OPEN",
+      key,
+      search,
+      range,
+      type
+    );
     return Restaurants;
   }
   // Close Restaurant
   else {
-    const Restaurants = await searchWithStatus(0, key, search, range, type);
+    const Restaurants = await searchWithStatus(
+      "CLOSE",
+      key,
+      search,
+      range,
+      type
+    );
     return Restaurants;
   }
 };
 
 export const getRestaurant = async (req, res) => {
-  const { filter } = req.params;
+  const { filter} = req.params;
   const { search, priceRange, type, resStatus } = req.body;
   const range = findPriceRange(priceRange);
 

@@ -20,3 +20,5 @@ router.get("/status/:res_id", getRestaurantStatus);
 router.get("/checkList/:key/:user_id/:res_id", checkLikedBookmarked);
 
 export default router;
+
+// /:search/:priceRange/:type/:resStatus

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import COLORS from "../../public/constant/colors";
 import Button from "../components/Button";
 import BestRate from "../components/BestRate";
@@ -7,6 +7,7 @@ import Card from "../components/Card";
 import { SAMPLE_DATA } from "../components/Card/constant";
 import { BackTop } from "antd";
 import Category from "./components/Category";
+import RestaurantAPI from "../api/restaurantAPI";
 import {
   Container,
   HeadSection,
@@ -28,9 +29,45 @@ const SearchRestaurant = () => {
   const { Option } = Selecter;
   const statusOption = ["ALL", "OPEN", "CLOSE"];
   const [status, setStatus] = useState("ALL");
+  const [allRestaurants, setAllRestaurants] = useState(null);
+  const [getRestaurants, setRestaurants] = useState(null);
+
+  useEffect(() => {
+    getAllRestaurant();
+  }, []);
+
+  // useEffect(() => {
+  //   getRestaurant("name");
+  // }, [status]);
+
+  useEffect(() => {
+    console.log("allRestaurants", allRestaurants);
+  }, [allRestaurants]);
 
   const changeStatus = (e) => {
     setStatus(e.target.value);
+  };
+
+  // const getRestaurant = (filter) => {
+  //   console.log("test");
+
+  //   RestaurantAPI.getRestaurant(filter, "", 0, "", status)
+  //     .then((response) => {
+  //       setRestaurants(response.data);
+  //     })
+  //     .catch((e) => {
+  //       console.log(e);
+  //     });
+  // };
+
+  const getAllRestaurant = () => {
+    RestaurantAPI.getAllRestaurants()
+      .then((response) => {
+        setAllRestaurants(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   return (
@@ -38,10 +75,7 @@ const SearchRestaurant = () => {
       <Container>
         <HeadSection>
           {/* <Name>PONYO</Name> */}
-          <NameImage
-            src="/assets/ponyoName.svg"
-            preview={false}
-          />
+          <NameImage src="/assets/ponyoName.svg" preview={false} />
           <SearchBar>
             <Search.Group compact>
               <Selecter
@@ -53,8 +87,7 @@ const SearchRestaurant = () => {
                 }}
               >
                 <Option value="name">Name</Option>
-                <Option value="option2">Option2</Option>
-                <Option value="option3">Option3</Option>
+                <Option value="address">address</Option>
               </Selecter>
               <Search bordered={false} size="large" placeholder="Search" />
               <Selecter
@@ -65,9 +98,11 @@ const SearchRestaurant = () => {
                   backgroundColor: COLORS.PRIMARY_LIGHT,
                 }}
               >
-                <Option value="price">Price</Option>
-                <Option value="option2">Option2</Option>
-                <Option value="option3">Option3</Option>
+                <Option value="0">Price</Option>
+                <Option value="1">0-500</Option>
+                <Option value="2">500-1,000</Option>
+                <Option value="3">1,000-5,000</Option>
+                <Option value="4">5,000-10,000</Option>
               </Selecter>
               <Selecter
                 bordered={false}
@@ -77,9 +112,14 @@ const SearchRestaurant = () => {
                   backgroundColor: COLORS.PRIMARY_LIGHT,
                 }}
               >
-                <Option value="cusine">Cuisine</Option>
-                <Option value="option2">Option2</Option>
-                <Option value="option3">Option3</Option>
+                <Option value="">Cuisine</Option>
+                <Option value="Causual dining">Causual dining</Option>
+                <Option value="Food trucks">Food trucks</Option>
+                <Option value="Fast-food">Fast-food</Option>
+                <Option value="Café">Café</Option>
+                <Option value="Family-style">Family-style</Option>
+                <Option value="Pub">Pub</Option>
+                <Option value="Buffet">Buffet</Option>
               </Selecter>
               <StyleButton>SEARCH</StyleButton>
             </Search.Group>
@@ -100,9 +140,11 @@ const SearchRestaurant = () => {
             />
           </StatusBox>
           <CardContainer>
-            {SAMPLE_DATA.map((detail, key) => (
-              <Card detail={detail} liked={true} saved={true} key={key} />
-            ))}
+            {allRestaurants
+              ? allRestaurants.map((detail, key) => (
+                  <Card detail={detail} liked={true} saved={true} key={key} />
+                ))
+              : null}
           </CardContainer>
           <Button variant="yellow">Explore more</Button>
         </ContentContainer>
