@@ -29,8 +29,8 @@ const WriteReview = (props) => {
   };
 
   const onFinish = (values) => {
-    const user_id = "618e86c944657266888550e4";
-    const res_id = "617d07fb8f7c593a9e729a56";
+    const user_id = "618d4707965a69dd7993e669";
+    const res_id = "617d5b668f7c593a9e729a68";
     var image = [];
 
     if (values.pictures != undefined) {

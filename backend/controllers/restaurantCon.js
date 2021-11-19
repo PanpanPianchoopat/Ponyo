@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const ObjectId = mongoose.Types.ObjectId;
 import Restaurant from "../models/restaurantModel.js";
 import User from "../models/userModel.js";
+import Review from "../models/reviewModel.js";
 
 const router = express.router;
 
@@ -540,6 +541,63 @@ export const getRestaurantStatus = async (req, res) => {
   try {
     const resOpen = await searchWithStatus(2, "_id", res_id, "", "");
     res.status(200).json(resOpen);
+  } catch (error) {
+    res.status(404).json({ Error: error.message });
+  }
+};
+
+export const getTrending = async (req, res) => {
+  const { type } = req.params;
+  const star = 0;
+  console.log("type", type);
+
+  try {
+    // const reviewAmount = getReviewAmount(type,"all",star)
+    // const trendingRes = await Restaurant.find({
+    //   type: type,
+    // });
+    // .sort({'softcount':-1}).count(5)
+
+    const trendingRes = await Restaurant.aggregate([
+      // {
+      //   $match: {
+      //     type: type,
+      //   },
+      // },
+      {
+        $project: {
+          res_id_string: {
+            $convert: {
+              input: "$_id",
+              to: "string",
+              onError: "",
+              onNull: "",
+            },
+          },
+          type: 1,
+        },
+      },
+      {
+        $lookup: {
+          from: "reviews",
+          localField: "res_id_string",
+          foreignField: "res_id",
+          as: "review",
+        },
+      },
+      {
+        $unwind: "$review",
+      },
+      {
+        $group: {
+          _id: { res_id: "$_id", type: type },
+          count: { $sum: 1 },
+        },
+      },
+      { $sort: { count: -1 } },
+    ]);
+
+    res.status(200).json(trendingRes);
   } catch (error) {
     res.status(404).json({ Error: error.message });
   }

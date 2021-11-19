@@ -3,8 +3,20 @@ import BestRate from "../components/BestRate";
 import { TOP_3 } from "../components/BestRate/constant";
 import { BackTop } from "antd";
 import { Header, Type } from "./styled";
+import RestaurantAPI from "../api/restaurantAPI";
 
 const Trending = () => {
+
+  // const getAllRestaurant = () => {
+  //   RestaurantAPI.getAllRestaurants()
+  //     .then((response) => {
+  //       setRestaurants(response.data);
+  //     })
+  //     .catch((e) => {
+  //       console.log(e);
+  //     });
+  // };
+
   return (
     <>
       <Header>
