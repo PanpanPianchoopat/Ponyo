@@ -35,7 +35,6 @@ const Overview = (props) => {
     changeBookLike();
   }, [bookmarked, liked]);
 
-
   useEffect(() => {
     if (props.avgRate != null) {
       setAvgText(props.avgRate);
