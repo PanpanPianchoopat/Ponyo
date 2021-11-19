@@ -34,7 +34,7 @@ app.get("/", (req, res) => {
 
 const CONNECTION_URL =
   "mongodb+srv://admin:admin@ponyo.romjl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 
 mongoose
   .connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })

@@ -1,6 +1,10 @@
 import styled from "styled-components";
 import Button from "../../../../../components/Button";
 
+export const EditContainer = styled.div`
+  padding: 10px;
+  text-align: center;
+`;
 export const ButtonGroup = styled.div`
   display: flex;
   width: 100%;

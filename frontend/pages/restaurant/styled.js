@@ -164,7 +164,7 @@ export const FilterButton = styled.button.attrs((props) => {
   font-size: 12px;
 `;
 
-export const Number = styled.text.attrs((props) => {
+export const Number = styled.small.attrs((props) => {
   const textColor = props.isSelected ? "white" : COLORS.DARK_GREY;
   return { textColor };
 })`

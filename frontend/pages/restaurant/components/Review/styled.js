@@ -73,7 +73,7 @@ export const Rating = styled(Rate)`
   color: ${COLORS.PRIMARY_YELLOW};
 `;
 
-export const Date = styled.text`
+export const Date = styled.small`
   font-size: 12px;
   color: ${COLORS.LIGHT_GREY};
 `;
@@ -92,7 +92,7 @@ export const ReviewPic = styled.img`
   margin: 0 10px 10px 0;
 `;
 
-export const Comment = styled.text`
+export const Comment = styled.small`
   font-size: 16px;
   align-self: flex-start;
   margin: 5px 0;
