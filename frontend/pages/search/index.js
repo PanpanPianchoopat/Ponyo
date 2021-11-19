@@ -79,7 +79,6 @@ const SearchRestaurant = () => {
   return (
     <>
       <Container>
-        #Debug {JSON.stringify(searchValue.cuisine)}
         <HeadSection>
           <NameImage src="/assets/ponyoName.svg" preview={false} />
           <SearchBar>
