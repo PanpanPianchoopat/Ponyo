@@ -14,43 +14,44 @@ import {
   PasswordField,
   ButtonGroup,
 } from "./styled";
+import { StyledButton } from "../RestList/components/EditList/styled";
 
 const EditProfile = (props) => {
-  const [profile, setProfile] = useState({
-    name: "Aang The Last Air Bender",
-    avatar:
-      "https://static1.cbrimages.com/wordpress/wp-content/uploads/2021/01/4-avatar-aang.jpg",
-    password: "123",
-  });
-  const [avatar, setAvatar] = useState(profile.avatar);
-  const fileList = [];
+  const oldPass = props.info.password;
+  const [editProfile, setEditProfile] = useState(props.info);
+  const [avatar, setAvatar] = useState(props.info.profilePic);
+
   const onFinish = (value) => {
-    console.log(value);
-    setAvatar(value.avatar.fileList[0].thumbUrl);
+    //console.log(value);
+    const editPass = value.new_pass !== undefined;
+    const newPassword = editPass ? value.new_pass : oldPass;
+    props.setNewProfile({
+      name: value.username,
+      password: newPassword,
+      profilePic: avatar,
+    });
+    props.popupVisible(false);
   };
 
-  function getBase64(img) {
+  function getBase64(info) {
     const reader = new FileReader();
     reader.addEventListener("load", () => setAvatar(reader.result));
-    reader.readAsDataURL(img);
+    reader.readAsDataURL(info.file.originFileObj);
   }
 
   const handleUpload = (info) => {
     if (info.file.status === "done") {
-      getBase64(info.file.originFileObj);
+      console.log("PIC", info);
+      getBase64(info);
     }
   };
-
-  // useEffect(() => {
-  //   console.log("PIC", avatar);
-  // }, [avatar]);
 
   const [checkOldPass, setCheckOldPass] = useState(null);
   const validateOldPass = (rule, value, callback) => {
     if (!value) {
-      callback();
-      setCheckOldPass(null);
-    } else if (value === profile.password) {
+      callback("Need password to edit profile");
+      setCheckOldPass("warning");
+    } else if (value === editProfile.password) {
       callback();
       setCheckOldPass("success");
     } else {
@@ -67,7 +68,6 @@ const EditProfile = (props) => {
       callback("Must contain more than 6 charaters");
       setCheckUsername("error");
     } else {
-      // validate distinct username
       callback();
       setCheckUsername("success");
     }
@@ -76,9 +76,9 @@ const EditProfile = (props) => {
   return (
     <div>
       <Form
-        labelCol={{ span: 8 }}
+        labelCol={{ span: 9 }}
         onFinish={onFinish}
-        initialValues={{ username: profile.name }}
+        initialValues={{ username: editProfile.name }}
       >
         <Form.Item name="avatar">
           <ImageWrapper>
@@ -87,6 +87,7 @@ const EditProfile = (props) => {
               className="avatar-uploader"
               showUploadList={false}
               onChange={(info) => handleUpload(info)}
+              maxCount={1}
             >
               {avatar ? <ProfileImage src={avatar} /> : <DefaultImage />}
             </UploadAvatar>
@@ -120,10 +121,12 @@ const EditProfile = (props) => {
           rules={[
             () => ({
               validator(_, value) {
-                if (value.length < 6) {
-                  return Promise.reject(
-                    new Error("Must be at least 6 characters")
-                  );
+                if (value != null) {
+                  if (value.length < 6) {
+                    return Promise.reject(
+                      new Error("Must be at least 6 characters")
+                    );
+                  }
                 }
                 return Promise.resolve();
               },
@@ -131,8 +134,10 @@ const EditProfile = (props) => {
             () => ({
               validator(_, value) {
                 const containNum = /\d/.test(value);
-                if (!containNum) {
-                  return Promise.reject(new Error("Must contain a number"));
+                if (value != null) {
+                  if (!containNum) {
+                    return Promise.reject(new Error("Must contain a number"));
+                  }
                 }
                 return Promise.resolve();
               },
@@ -140,15 +145,19 @@ const EditProfile = (props) => {
             () => ({
               validator(_, value) {
                 const containUpperCase = /[A-Z]/.test(value);
-                if (!containUpperCase) {
-                  return Promise.reject(new Error("Must contain an uppercase"));
+                if (value != null) {
+                  if (!containUpperCase) {
+                    return Promise.reject(
+                      new Error("Must contain an uppercase")
+                    );
+                  }
                 }
                 return Promise.resolve();
               },
             }),
           ]}
         >
-          <PasswordField bordered={false} />
+          <PasswordField bordered={false} placeholder="optional" />
         </FormItem>
         <FormItem
           name="new_pass_confirm"
@@ -166,27 +175,21 @@ const EditProfile = (props) => {
             }),
           ]}
         >
-          <PasswordField bordered={false} />
+          <PasswordField bordered={false} placeholder="optional" />
         </FormItem>
         <FormItem>
           <ButtonGroup>
-            <Button
+            <StyledButton
               variant="transparent"
               outline="round"
-              style={{ width: "100px", marginRight: "20px" }}
-              onClick={props.closePopup}
+              style={{ marginRight: "20px" }}
+              onClick={() => props.popupVisible(false)}
             >
               Cancel
-            </Button>
-            <Button
-              variant="green"
-              outline="round"
-              type="submit"
-              style={{ width: "100px" }}
-              onClick={props.closePopup}
-            >
+            </StyledButton>
+            <StyledButton variant="green" outline="round" type="submit">
               Save
-            </Button>
+            </StyledButton>
           </ButtonGroup>
         </FormItem>
       </Form>
