@@ -1,4 +1,10 @@
 import React from "react";
+import useAppSelector from "../../hooks/useAppSelector";
+import useAppDispatch from "../../hooks/useAppDispatch";
+
+import { Login } from "../../slices/auth";
+import { useRouter } from "next/router";
+
 import { Form, Input } from "antd";
 import Button from "../components/Button";
 import Link from "next/link";
@@ -23,23 +29,35 @@ import {
 } from "./styled";
 import UserAPI from "../api/userAPI";
 
-const login = () => {
-  const onFinish = (values) => {
-    const data = {
-      email: values.email,
-      password: values.password,
-    };
+const Signin = () => {
+  const router = useRouter();
+  // const auth = (values) => {
+  //   const data = {
+  //     email: values.email,
+  //     password: values.password,
+  //   };
 
-    UserAPI.login(data)
-      .then((response) => {
-        console.log("user ", response.data.user);
-        localStorage.setItem("token", response.data.user);
-      })
-      .catch((e) => {
-        console.log(e);
-        console.log("Username or password not correct");
-      });
+  //   UserAPI.login(data)
+  //     .then((response) => {
+  //       console.log("user ", response.data.user);
+  //       localStorage.setItem("token", response.data.user);
+  //     })
+  //     .catch((e) => {
+  //       console.log(e);
+  //       console.log("Username or password not correct");
+  //     });
+  // };
+
+  const auth = (val) => {
+    const credential = {
+      email: val.email,
+      password: val.password,
+    };
+    dispatch(Login(credential));
+    router.push("/restaurant");
   };
+
+  const dispatch = useAppDispatch();
 
   return (
     <Container>
@@ -66,7 +84,7 @@ const login = () => {
           initialValues={{
             remember: true,
           }}
-          onFinish={onFinish}
+          onFinish={auth}
         >
           <Form.Item
             name="email"
@@ -124,4 +142,4 @@ const login = () => {
   );
 };
 
-export default login;
+export default Signin;

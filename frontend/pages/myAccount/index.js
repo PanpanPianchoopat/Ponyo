@@ -4,7 +4,6 @@ import Button from "../components/Button";
 import RestList from "./components/RestList";
 import { PROFILE, FAVOURITE, INTEREST } from "./constant";
 import EditProfile from "./components/EditProfile";
-
 import {
   ProfileContainer,
   ProfilePicture,
@@ -15,6 +14,7 @@ import {
   Popup,
 } from "./styled";
 
+
 const myAccount = () => {
   const [selectedTab, setSelectedTab] = useState(FAVOURITE);
   const [popupVisible, setPopupVisible] = useState(false);
@@ -22,7 +22,7 @@ const myAccount = () => {
   function closePopup() {
     setPopupVisible(false);
   }
-
+  
   return (
     <ProfileContainer>
       <ProfilePicture>

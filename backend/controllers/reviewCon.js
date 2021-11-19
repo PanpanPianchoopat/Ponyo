@@ -27,9 +27,10 @@ export const addReview = async (req, res) => {
 };
 
 export const editReview = async (req, res) => {
-  const { review_id, user_id } = req.params;
+  const { review_id } = req.params;
   const { reviewText, star, image } = req.body;
   const date = new Date();
+
 
   if (!mongoose.Types.ObjectId.isValid(review_id))
     return res.status(404).send(`No review with id: ${review_id}`);
@@ -38,8 +39,7 @@ export const editReview = async (req, res) => {
     reviewText,
     star,
     image,
-    user_id,
-    date,
+    date: new Date(),
     _id: review_id,
   };
 
@@ -435,28 +435,27 @@ export const addLikeReview = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(review_id))
     return res.status(404).send(`No review with id: ${review_id}`);
 
-    try {
-      if (like == "true") {
-        await Review.findByIdAndUpdate(
-          review_id,
-          {
-            $push: {
-              like: user_id,
-            },
+  try {
+    if (like == "true") {
+      await Review.findByIdAndUpdate(
+        review_id,
+        {
+          $push: {
+            like: user_id,
           },
-          { new: true }
-        );
-        res.status(200).json({ Message: "add Success" });
-      } else {
-        await Review.findByIdAndUpdate(
-          review_id,
-          { $pull: { like: user_id } },
-          { new: true }
-        );
-        res.status(200).json({ Message: "remove Success" });
-      }
-    } catch (error) {
-      res.status(404).json({ Error: error.message });
+        },
+        { new: true }
+      );
+      res.status(200).json({ Message: "add Success" });
+    } else {
+      await Review.findByIdAndUpdate(
+        review_id,
+        { $pull: { like: user_id } },
+        { new: true }
+      );
+      res.status(200).json({ Message: "remove Success" });
     }
-  
+  } catch (error) {
+    res.status(404).json({ Error: error.message });
+  }
 };

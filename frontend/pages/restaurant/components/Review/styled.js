@@ -3,31 +3,64 @@ import BREAKPOINTS from "../../../../public/constant/breakpoints";
 import COLORS from "../../../../public/constant/colors";
 import { Avatar, Rate } from "antd";
 import { HeartOutlined, HeartFilled } from "@ant-design/icons";
+import Button from "../../../components/Button";
+
+export const ReviewContainer = styled.div.attrs((props) => {
+  const isVisible = props.visible ? "flex" : "none";
+  return { isVisible };
+})`
+  display: ${(props) => props.isVisible};
+  flex-direction: column;
+  width: 100%;
+  align-items: flex-start;
+  margin-bottom: 30px;
+`;
 
 export const Line = styled.div`
   display: flex;
+  width: 100%;
   align-items: center;
-  flex-wrap: wrap;
-`;
-
-export const ReviewContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 95%;
-  align-items: flex-start;
-  margin-bottom: 30px;
 `;
 
 export const ProfilePic = styled(Avatar)`
   width: 50px;
   height: 50px;
-  margin-right: 20px;
+  margin-right: 10px;
 `;
 
 export const ReviewHead = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  width: 100%;
+`;
+
+export const HeadLine = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const EditButton = styled.button`
+  width: 30px;
+  height: 30px;
+  outline: none;
+  background: none;
+  font-size: 20px;
+  border: 0;
+  cursor: pointer;
+  color: ${COLORS.DARK_GREY};
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &:hover {
+    background: ${COLORS.LIGHT_GREY};
+  }
+  &:active {
+    transform: translateY(2px);
+  }
 `;
 
 export const Name = styled.b`
@@ -40,7 +73,7 @@ export const Rating = styled(Rate)`
   color: ${COLORS.PRIMARY_YELLOW};
 `;
 
-export const Date = styled.text`
+export const Date = styled.small`
   font-size: 12px;
   color: ${COLORS.LIGHT_GREY};
 `;
@@ -59,7 +92,7 @@ export const ReviewPic = styled.img`
   margin: 0 10px 10px 0;
 `;
 
-export const Comment = styled.text`
+export const Comment = styled.small`
   font-size: 16px;
   align-self: flex-start;
   margin: 5px 0;

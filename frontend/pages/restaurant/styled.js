@@ -164,7 +164,7 @@ export const FilterButton = styled.button.attrs((props) => {
   font-size: 12px;
 `;
 
-export const Number = styled.text.attrs((props) => {
+export const Number = styled.small.attrs((props) => {
   const textColor = props.isSelected ? "white" : COLORS.DARK_GREY;
   return { textColor };
 })`
@@ -187,4 +187,11 @@ export const ReviewsContainer = styled.div`
   @media (max-width: ${BREAKPOINTS.HiDPI_LAPTOP}) {
     height: 500px;
   }
+`;
+
+export const EmptyDisplayContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: ${COLORS.DARK_GREY};
 `;

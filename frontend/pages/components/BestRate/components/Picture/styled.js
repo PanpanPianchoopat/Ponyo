@@ -23,7 +23,7 @@ export const Description = styled.div.attrs((props) => {
   color: white;
 `;
 
-export const RestaurantName = styled.text.attrs((props) => {
+export const RestaurantName = styled.small.attrs((props) => {
   const isTop = props.isTop;
   const fontSize = isTop ? "1.5rem" : "1.1rem";
   return { isTop, fontSize };
@@ -38,7 +38,7 @@ export const RestaurantName = styled.text.attrs((props) => {
   }
 `;
 
-export const RestaurantDescription = styled.text.attrs((props) => {
+export const RestaurantDescription = styled.small.attrs((props) => {
   const isTop = props.isTop;
   const fontSize = isTop ? "1rem" : "0.8rem";
   return { isTop, fontSize };

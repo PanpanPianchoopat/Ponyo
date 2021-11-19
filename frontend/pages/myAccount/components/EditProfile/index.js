@@ -67,42 +67,9 @@ const EditProfile = (props) => {
       callback("Must contain more than 6 charaters");
       setCheckUsername("error");
     } else {
+      // validate distinct username
       callback();
       setCheckUsername("success");
-    }
-  };
-
-  const [checkNewPass, setCheckNewPass] = useState(null);
-  const [newPass, setNewPass] = useState(null);
-  const validateNewPass = (rule, value, callback) => {
-    const okLength = value.length >= 6;
-    const containUpper = /[A-Z]/.test(value);
-    const containNum = /\d/.test(value);
-    if (!value) {
-      callback();
-      setCheckNewPass(null);
-      setNewPass(null);
-    } else if (okLength && containUpper && containNum) {
-      callback();
-      setCheckNewPass("success");
-      setNewPass(value);
-    } else {
-      callback("Must be at least 6 characters with 1 uppercase and 1 number");
-      setCheckNewPass("error");
-    }
-  };
-
-  const [isMatched, setIsMatched] = useState(null);
-  const isMatching = (rule, value, callback) => {
-    if (!value) {
-      callback();
-      setIsMatched(null);
-    } else if (value === newPass) {
-      callback();
-      setIsMatched("success");
-    } else {
-      callback("Password doesn't match");
-      setIsMatched("error");
     }
   };
 
@@ -150,8 +117,36 @@ const EditProfile = (props) => {
           name="new_pass"
           label="New password"
           hasFeedback
-          validateStatus={checkNewPass}
-          rules={[{ validator: validateNewPass }]}
+          rules={[
+            () => ({
+              validator(_, value) {
+                if (value.length < 6) {
+                  return Promise.reject(
+                    new Error("Must be at least 6 characters")
+                  );
+                }
+                return Promise.resolve();
+              },
+            }),
+            () => ({
+              validator(_, value) {
+                const containNum = /\d/.test(value);
+                if (!containNum) {
+                  return Promise.reject(new Error("Must contain a number"));
+                }
+                return Promise.resolve();
+              },
+            }),
+            () => ({
+              validator(_, value) {
+                const containUpperCase = /[A-Z]/.test(value);
+                if (!containUpperCase) {
+                  return Promise.reject(new Error("Must contain an uppercase"));
+                }
+                return Promise.resolve();
+              },
+            }),
+          ]}
         >
           <PasswordField bordered={false} />
         </FormItem>
@@ -159,8 +154,17 @@ const EditProfile = (props) => {
           name="new_pass_confirm"
           label="Corfirm password"
           hasFeedback
-          validateStatus={isMatched}
-          rules={[{ validator: isMatching }]}
+          rules={[
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                const isMatching = value === getFieldValue("new_pass");
+                if (!isMatching) {
+                  return Promise.reject(new Error("Password doesn't match"));
+                }
+                return Promise.resolve();
+              },
+            }),
+          ]}
         >
           <PasswordField bordered={false} />
         </FormItem>

@@ -6,14 +6,24 @@ import BREAKPOINTS from "../../../public/constant/breakpoints";
 import { BsFillGeoAltFill } from "react-icons/bs";
 
 export const RestaurantCard = styled(Card).attrs((props) => {
-  const custom_width = props.size === "large" ? "24%" : "20%";
-  const custom_responsive_width = props.size === "large" ? "30%" : "23%";
-  return { custom_width, custom_responsive_width };
+  const isLarge = props.size === "large";
+  const custom_width = isLarge ? "24%" : "20%";
+  const custom_responsive_width = isLarge ? "30%" : "23%";
+  const custom_height = isLarge ? "450px" : "420px";
+  const ipad_land_heigth = isLarge ? "320px" : "260px";
+  const ipad_por_heigth = isLarge ? "380px" : "320px";
+
+  return {
+    custom_width,
+    custom_responsive_width,
+    custom_height,
+    ipad_land_heigth,
+    ipad_por_heigth,
+  };
 })`
   outline: none;
   width: ${(props) => props.custom_width};
-  height: auto;
-  margin: 10px 0.5vw;
+  height: ${(props) => props.custom_height};
   cursor: pointer;
   .ant-card-body {
     padding: 20px;
@@ -27,6 +37,9 @@ export const RestaurantCard = styled(Card).attrs((props) => {
     display: flex;
     justify-content: center;
   }
+  .ant-card-body {
+    height: 40%;
+  }
   @media (max-width: ${BREAKPOINTS.DESKTOP_FULL_HD}) {
     width: ${(props) => props.custom_responsive_width};
   }
@@ -38,11 +51,13 @@ export const RestaurantCard = styled(Card).attrs((props) => {
   }
   @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
     width: 32%;
+    height: ${(props) => props.ipad_land_heigth};
     .ant-card-body {
       padding: 10px;
     }
   }
   @media (max-width: ${BREAKPOINTS.IPAD_PORTRAIT}) {
+    height: ${(props) => props.ipad_por_heigth};
     width: 46%;
   }
   @media (max-width: 550px) {
@@ -57,6 +72,7 @@ export const CoverContainer = styled.div.attrs((props) => {
   display: flex;
   align-items: space-between;
   width: 100%;
+
   height: ${(props) => props.customSize};
   overflow: hidden;
   @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
@@ -96,7 +112,7 @@ export const Ranking = styled.div.attrs((props) => {
 `;
 
 export const Status = styled.div.attrs((props) => {
-  const bgColor = props.status === "open" ? "#72C19A" : COLORS.PRIMARY_RED;
+  const bgColor = props.status ? "#72C19A" : COLORS.PRIMARY_RED;
   return { bgColor };
 })`
   display: flex;
@@ -117,18 +133,21 @@ export const CoverPhoto = styled.img`
   margin: 0 auto;
 `;
 
-export const Line = styled.div`
+export const DetailContainer = styled.div.attrs((props) => {
+  const custom_height = props.size === "large" ? "80%" : "100%";
+  return { custom_height };
+})`
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  width: 100%;
-`;
-
-export const DetailContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
+  height: ${(props) => props.custom_height};
   @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
     flex-direction: column;
+  }
+  @media (max-width: ${BREAKPOINTS.IPAD_PORTRAIT}) {
+    height: 70%;
+  }
+  @media (max-width: ${BREAKPOINTS.IPHONE_11}) {
+    height: 65%;
   }
 `;
 
@@ -150,18 +169,20 @@ export const RightSection = styled.div`
   @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
     flex-direction: row-reverse;
     justify-content: space-between;
-    margin-top: 10px;
   }
 `;
 export const RestaurantName = styled.small`
   font-weight: bold;
   font-size: 1.2rem;
   margin-bottom: 5px;
+  height: 30px;
+  overflow: hidden;
   @media (max-width: ${BREAKPOINTS.DESKTOP_FULL_HD}) {
     font-size: 1rem;
   }
   @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
     font-size: 12px;
+    height: 16px;
   }
 `;
 
@@ -217,7 +238,8 @@ export const Location = styled.div`
   color: ${COLORS.PRIMARY_RED};
   font-size: 1.2rem;
   align-items: center;
-  margin-top: 10px;
+  //height: 20%;
+  overflow: hidden;
   @media (max-width: ${BREAKPOINTS.DESKTOP_FULL_HD}) {
     font-size: 1rem;
   }
