@@ -8,6 +8,7 @@ import {
   getRestaurant,
   checkLikedBookmarked,
   getTrending,
+  getBestTrending
 } from "../controllers/restaurantCon.js";
 
 const router = express.Router();
@@ -23,5 +24,6 @@ router.get("/detail/:res_id", getRestaurantDetail);
 router.get("/status/:res_id", getRestaurantStatus);
 router.get("/checkList/:key/:user_id/:res_id", checkLikedBookmarked);
 router.get("/trending/:type", getTrending);
+router.get("/bestTrending", getBestTrending);
 
 export default router;

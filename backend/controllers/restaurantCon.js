@@ -582,7 +582,6 @@ export const getTrending = async (req, res) => {
       {
         $unwind: "$review",
       },
-      { $addFields: { firstElem: { $first: "$image" } } },
       {
         $group: {
           _id: { res_id: "$_id", type: type },
@@ -595,6 +594,52 @@ export const getTrending = async (req, res) => {
     ]);
 
     res.status(200).json(trendingRes);
+  } catch (error) {
+    res.status(404).json({ Error: error.message });
+  }
+};
+
+export const getBestTrending = async (req, res) => {
+  try {
+    const bestTrendingRes = await Restaurant.aggregate([
+      {
+        $project: {
+          name: 1,
+          description: 1,
+          res_id_string: {
+            $convert: {
+              input: "$_id",
+              to: "string",
+              onError: "",
+              onNull: "",
+            },
+          },
+          image: 1,
+        },
+      },
+      {
+        $lookup: {
+          from: "reviews",
+          localField: "res_id_string",
+          foreignField: "res_id",
+          as: "review",
+        },
+      },
+      {
+        $unwind: "$review",
+      },
+      {
+        $group: {
+          _id: { res_id: "$_id" },
+          count: { $sum: 1 },
+          data: { $push: "$$ROOT" },
+        },
+      },
+      { $sort: { count: -1 } },
+      { $limit: 3 },
+    ]);
+
+    res.status(200).json(bestTrendingRes);
   } catch (error) {
     res.status(404).json({ Error: error.message });
   }

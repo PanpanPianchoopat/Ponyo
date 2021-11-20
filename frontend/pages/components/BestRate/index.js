@@ -12,15 +12,20 @@ import { TOP, SECOND, THIRD } from "./constant";
 
 const BestRate = (props) => {
   const isDarkTheme = props.theme === "dark";
-  const [restaurantTrend, setRestaurantTrend] = useState(props.restaurants);
+  const [restaurantTrend, setRestaurantTrend] = useState(null);
+  const [countTrend, setCountTrend] = useState(0);
 
   useEffect(() => {
-    setRestaurantTrend(props.restaurants);
-  }, [props.restaurants]);
+    console.log(props.head, " ", "countTrend", countTrend);
+  }, [countTrend]);
 
   useEffect(() => {
-    console.log("restaurantTrend", restaurantTrend);
-  }, [restaurantTrend]);
+    if (props.isNotNull && props.restaurants.length > 0) {
+      setRestaurantTrend(props.restaurants);
+      setCountTrend(props.restaurants.length);
+      console.log(props.head, " ", props.restaurants[0].data[0]._id);
+    }
+  }, [props]);
 
   return (
     <BestRateContianer isDark={isDarkTheme}>
@@ -29,20 +34,20 @@ const BestRate = (props) => {
       <ImageContainer>
         <BigImage>
           <Picture
-            info={restaurantTrend ? restaurantTrend[TOP] : null}
+            info={(countTrend >= 1) ? restaurantTrend[TOP].data[0] : null}
             isTop={true}
           />
         </BigImage>
         <SmallImageContainer>
           <SmallImage>
             <Picture
-              info={restaurantTrend ? restaurantTrend[SECOND] : null}
+              info={(countTrend >= 2) ? restaurantTrend[SECOND].data[0] : null}
               isTop={false}
             />
           </SmallImage>
           <SmallImage>
             <Picture
-              info={restaurantTrend ? restaurantTrend[THIRD] : null}
+              info={(countTrend >= 3) ? restaurantTrend[THIRD].data[0] : null}
               isTop={false}
             />
           </SmallImage>

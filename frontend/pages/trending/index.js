@@ -6,21 +6,57 @@ import { Header, Type } from "./styled";
 import RestaurantAPI from "../api/restaurantAPI";
 
 const Trending = () => {
-  const [casualTrend, setCasual] = useState(null);
-  const [foodTrucksTrend, setFoodTrucks] = useState(null);
-  const [fastFoodTrend, setFastFood] = useState(null);
-  const [cafeTrend, setCafe] = useState(null);
-  const [familyStyleTrend, setFamilyStyle] = useState(null);
-  const [pubTrend, setPub] = useState(null);
-  const [buffetTrend, setBuffet] = useState(null);
+  const [casualTrend, setCasual] = useState([]);
+  const [foodTrucksTrend, setFoodTrucks] = useState([]);
+  const [fastFoodTrend, setFastFood] = useState([]);
+  const [cafeTrend, setCafe] = useState([]);
+  const [familyStyleTrend, setFamilyStyle] = useState([]);
+  const [pubTrend, setPub] = useState([]);
+  const [buffetTrend, setBuffet] = useState([]);
+
+  const [isCasual, setIsCasual] = useState(false);
+  const [isFoodTruck, setIsfoodTruck] = useState(false);
+  const [isFastFood, setIsFastFood] = useState(false);
+  const [isCafe, setIsCafe] = useState(false);
+  const [isFamily, setIsFamily] = useState(false);
+  const [isPub, setisPub] = useState(false);
+  const [isBuffet, setIsBuffet] = useState(false);
 
   useEffect(() => {
     getTrending();
   }, []);
 
-  // useEffect(() => {
-  //   console.log("casual", cafeTrend);
-  // }, [cafeTrend]);
+  useEffect(() => {
+    if (casualTrend != null && casualTrend.length != 0) {
+      setIsCasual(true);
+    }
+    if (foodTrucksTrend != null && foodTrucksTrend.length != 0) {
+      setIsfoodTruck(true);
+    }
+    if (fastFoodTrend != null && fastFoodTrend.length != 0) {
+      setIsFastFood(true);
+    }
+    if (cafeTrend != null && cafeTrend.length != 0) {
+      setIsCafe(true);
+    }
+    if (familyStyleTrend != null && familyStyleTrend.length != 0) {
+      setIsFamily(true);
+    }
+    if (pubTrend != null && pubTrend.length != 0) {
+      setisPub(true);
+    }
+    if (buffetTrend != null && buffetTrend.length != 0) {
+      setIsBuffet(true);
+    }
+  }, [
+    casualTrend,
+    foodTrucksTrend,
+    fastFoodTrend,
+    cafeTrend,
+    familyStyleTrend,
+    pubTrend,
+    buffetTrend,
+  ]);
 
   const getTrending = () => {
     RestaurantAPI.getTrending("Casual Dining")
@@ -86,37 +122,50 @@ const Trending = () => {
       <Type>
         <BestRate
           head="Casual dining"
-          restaurants={casualTrend ? casualTrend : null}
+          restaurants={casualTrend.length != 0 ? casualTrend : null}
+          isNotNull={isCasual}
         />
       </Type>
       <Type>
         <BestRate
           head="Food trucks"
-          restaurants={foodTrucksTrend ? foodTrucksTrend : null}
+          restaurants={foodTrucksTrend.length ? foodTrucksTrend : null}
+          isNotNull={isFoodTruck}
         />
       </Type>
       <Type>
         <BestRate
           head="Fast food"
           restaurants={fastFoodTrend ? fastFoodTrend : null}
+          isNotNull={isFastFood}
         />
       </Type>
       <Type>
-        <BestRate head="Café" restaurants={cafeTrend ? cafeTrend : null} />
+        <BestRate
+          head="Café"
+          restaurants={cafeTrend ? cafeTrend : null}
+          isNotNull={isCafe}
+        />
       </Type>
       <Type>
         <BestRate
           head="Family style"
           restaurants={familyStyleTrend ? familyStyleTrend : null}
+          isNotNull={isFamily}
         />
       </Type>
       <Type>
-        <BestRate head="Pub" restaurants={pubTrend ? pubTrend : null} />
+        <BestRate
+          head="Pub"
+          restaurants={pubTrend ? pubTrend : null}
+          isNotNull={isPub}
+        />
       </Type>
       <Type>
         <BestRate
           head="Buffet"
           restaurants={buffetTrend ? buffetTrend : null}
+          isNotNull={isBuffet}
         />
       </Type>
       <BackTop />
