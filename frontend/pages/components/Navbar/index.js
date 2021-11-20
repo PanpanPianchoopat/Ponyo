@@ -5,6 +5,7 @@ import { SEARCH, TREND } from "./constant";
 import { useRouter } from "next/router";
 
 const Navbar = () => {
+  const [visible, setVisible] = useState(true);
   const [selected, setSelected] = useState(SEARCH);
   const router = useRouter();
   const { asPath } = useRouter();
@@ -20,17 +21,22 @@ const Navbar = () => {
   };
 
   useEffect(() => {
+    console.log("PATH:", asPath);
     if (asPath === "/trending") {
+      setVisible(true);
       setSelected(TREND);
     } else if (asPath === "/search") {
+      setVisible(true);
       setSelected(SEARCH);
+    } else if (asPath === "/login" || asPath === "/register") {
+      setVisible(false);
     } else {
       setSelected(null);
     }
   }, [asPath]);
 
   return (
-    <StyledNav>
+    <StyledNav isVisible={visible}>
       <Logo>
         <StyledImage src="/assets/Logo.svg" layout="fill" />
       </Logo>
