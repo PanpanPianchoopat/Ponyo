@@ -70,7 +70,7 @@ export const deleteReview = async (req, res) => {
 
 export const getAllReview = async (req, res) => {
   const { res_id, user_id } = req.params;
-
+ 
   try {
     const Reviews = await Review.aggregate([
       {
@@ -141,6 +141,7 @@ export const getAllReview = async (req, res) => {
         },
       },
     ]);
+
     res.status(200).json(Reviews);
   } catch (error) {
     res.status(404).json({ Error: error.message });
@@ -230,6 +231,11 @@ const getReviewByStar = async (res_id, star, user_id) => {
         reviewer: "$user.username",
       },
     },
+    {
+      $sort: {
+        date: -1,
+      },
+    },
   ]);
   return Reviews;
 };
@@ -296,6 +302,11 @@ const getReviewByComment = async (res_id, user_id) => {
     {
       $addFields: {
         reviewer: "$user.username",
+      },
+    },
+    {
+      $sort: {
+        date: -1,
       },
     },
   ]);
@@ -365,6 +376,11 @@ const getReviewByPhoto = async (res_id, user_id) => {
     {
       $addFields: {
         reviewer: "$user.username",
+      },
+    },
+    {
+      $sort: {
+        date: -1,
       },
     },
   ]);

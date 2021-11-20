@@ -31,7 +31,6 @@ import { Divider } from "antd";
 import RestaurantAPI from "../api/restaurantAPI";
 import ReviewAPI from "../api/reviewAPI";
 import Image from "next/image";
-import CantWrite from "./components/CantWrite";
 
 const Restaurant = (props) => {
   const [resID, setResID] = useState(null);
@@ -46,12 +45,15 @@ const Restaurant = (props) => {
       getAvgRate();
       getReviewAmount();
       getStarAmount();
+      getReviewByFilter(0);
+      getLikedBookmarked();
     }
   }, [resID]);
 
-  const [user_id, setUserID] = useState(null);
+  const NOUSER = "6199008ed3c99ca0a1e5530a";
+  const [user_id, setUserID] = useState(NOUSER);
   const [filter, setFilter] = useState(0);
-  const [resInfo, setResInfo] = useState(null);
+  const [resInfo, setDetail] = useState(null);
   const [statusInfo, setStatus] = useState(null);
   const [isLiked, setLiked] = useState(null);
   const [isBookmarked, setBookmarked] = useState(null);
@@ -61,22 +63,22 @@ const Restaurant = (props) => {
   const [commentAmountInfo, setCommentAmount] = useState(null);
   const [photoAmountInfo, setPhotoAmount] = useState(null);
   const [reviewInfo, setReview] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isUser, setIsUser] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("_token");
     const userData = jwt.decode(token);
     if (userData) {
       setUserID(userData.id);
-      setIsLoggedIn(true);
+      setIsUser(true);
     }
   }, []);
 
   useEffect(() => {
-    if (user_id != null) {
-      getLikedBookmarked();
-      getReviewByFilter(0);
+    if (user_id == null) {
+      setUserID("6199008ed3c99ca0a1e5530a");
     }
+    // getLikedBookmarked();
   }, [user_id]);
 
   const updateInfo = (review) => {
@@ -97,7 +99,7 @@ const Restaurant = (props) => {
   const getRestaurantDetail = () => {
     RestaurantAPI.getRestaurantDetail(resID)
       .then((response) => {
-        setResInfo(response.data);
+        setDetail(response.data);
       })
       .catch((e) => {
         console.log(e);
@@ -270,7 +272,19 @@ const Restaurant = (props) => {
             />
           </LargeSection>
           <LargeSection>
-            {isLoggedIn ? <WriteReview func={updateInfo} /> : <CantWrite />}
+            {isUser ? (
+              <WriteReview func={updateInfo} />
+            ) : (
+              <div
+                style={{
+                  margin: "auto 0",
+                  background: "orange",
+                  display: "flex",
+                }}
+              >
+                Please Login To Review
+              </div>
+            )}
           </LargeSection>
         </div>
         <div>
@@ -299,7 +313,7 @@ const Restaurant = (props) => {
           <Ratings rates={starInfo} />
         </FullSection>
         <FullSection>
-          {isLoggedIn ? <WriteReview func={updateInfo} /> : <CantWrite />}
+          <WriteReview />
         </FullSection>
       </DetailContainer>
 
