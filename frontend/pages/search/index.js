@@ -34,18 +34,19 @@ import {
 const SearchRestaurant = () => {
   const { Option } = Selecter;
   const [status, setStatus] = useState("ALL");
-  const [getRestaurants, setRestaurants] = useState(null);
+  const [restaurant, setRestaurants] = useState(null);
 
   const [searchValue, setSearchValue] = useState({
     filter: "Name",
-    input: "null",
-    price: "0",
+    input: "noInput",
+    price: 0,
     cuisine: "Cuisine",
   });
 
   const onFinish = () => {
-    console.log(searchValue);
-  }
+    console.log("filter", searchValue.input);
+    getRestaurant();
+  };
 
   useEffect(() => {
     getAllRestaurant();
@@ -58,15 +59,21 @@ const SearchRestaurant = () => {
   }, [status]);
 
   useEffect(() => {
-    console.log("getRestaurants", getRestaurants);
-  }, [getRestaurants]);
+    console.log("restaurant", restaurant);
+  }, [restaurant]);
 
   const changeStatus = (e) => {
     setStatus(e.target.value);
   };
 
   const getRestaurant = () => {
-    RestaurantAPI.getRestaurant("name", "V", 0, "Pub", "OPEN")
+    RestaurantAPI.getRestaurant(
+      searchValue.filter,
+      searchValue.input,
+      searchValue.price,
+      searchValue.cuisine,
+      status
+    )
       .then((response) => {
         setRestaurants(response.data);
       })
@@ -163,8 +170,8 @@ const SearchRestaurant = () => {
             />
           </StatusBox>
           <CardContainer>
-            {getRestaurants
-              ? getRestaurants.map((detail, key) => (
+            {restaurant
+              ? restaurant.map((detail, key) => (
                   <Card detail={detail} liked={true} saved={true} key={key} />
                 ))
               : null}

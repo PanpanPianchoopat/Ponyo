@@ -420,10 +420,14 @@ const searchRestaurant = async (key, search, range, type, resStatus) => {
   if (resStatus == "ALL") {
     // NO Search Type & Price
     if (!type && range[0] == 0 && range[1] == 0) {
+      console.log("searchByName");
+      console.log("search", typeof search);
+      console.log("type", type);
       try {
         const Restaurants = await Restaurant.find({
           [key]: { $regex: search, $options: "i" },
         });
+        console.log(Restaurants.length);
         return Restaurants;
       } catch (error) {
         console.log(error);
@@ -506,8 +510,15 @@ const searchRestaurant = async (key, search, range, type, resStatus) => {
 };
 
 export const getRestaurant = async (req, res) => {
-  const { filter, search, priceRange, type, resStatus } = req.params;
+  var { filter, search, priceRange, type, resStatus } = req.params;
   const range = findPriceRange(priceRange);
+
+  if (search == "noInput") {
+    search = "";
+  }
+  if (type == "Cuisine") {
+    type = "";
+  }
 
   try {
     const Restaurants = await searchRestaurant(
