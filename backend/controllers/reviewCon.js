@@ -127,6 +127,11 @@ export const getAllReview = async (req, res) => {
           reviewer: "$user.username",
         },
       },
+      {
+        $sort: {
+          date: -1,
+        },
+      },
     ]);
     res.status(200).json(Reviews);
   } catch (error) {

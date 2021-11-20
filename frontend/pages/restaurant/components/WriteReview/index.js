@@ -39,7 +39,7 @@ const WriteReview = (props) => {
   };
 
   const onFinish = (values) => {
-    const res_id = "617d5b668f7c593a9e729a68";
+    const res_id = "617d07fb8f7c593a9e729a56";
     var image = [];
 
     if (values.pictures != undefined) {
