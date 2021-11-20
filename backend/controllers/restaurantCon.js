@@ -541,7 +541,7 @@ export const checkLikedBookmarked = async (req, res) => {
         },
       },
     ]);
-    // console.log(check[0].check);
+
     res.status(200).json(check[0].check);
   } catch (error) {
     res.status(404).json({ Error: error.message });

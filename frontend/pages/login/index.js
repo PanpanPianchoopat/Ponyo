@@ -30,6 +30,7 @@ import {
 
 const Signin = () => {
   const router = useRouter();
+  const { isLogin } = useAppSelector((state) => state.auth);
 
   const auth = (val) => {
     const credential = {
@@ -37,7 +38,12 @@ const Signin = () => {
       password: val.password,
     };
     dispatch(Login(credential));
-    router.push("/search");
+    if (isLogin) {
+      router.push("/search");
+    } else {
+      console.log("CANNOT LOGIN");
+    }
+    console.log("login", isLogin);
   };
 
   const dispatch = useAppDispatch();
