@@ -184,33 +184,36 @@ const register = () => {
                 </CustomInput>
               </Form.Item>
               <Form.Item
-                name="birthday"
-                label={
-                  <label
-                    style={{
-                      fontSize: "18px",
-                      fontWeight: "bold",
-                      letterSpacing: "3px",
-                      color: "#4c403f",
-                      opacity: "0.5",
-                      marginBottom: "10px",
-                    }}
-                  >
-                    Birthday
-                  </label>
-                }
+                name="confirm"
+                dependencies={["password"]}
+                hasFeedback
                 rules={[
                   {
                     required: true,
-                    message: "Please select your birthday!",
+                    message: "Please confirm your password!",
                   },
+                  ({ getFieldValue }) => ({
+                    validator(_, value) {
+                      if (!value || getFieldValue("password") === value) {
+                        return Promise.resolve();
+                      }
+
+                      return Promise.reject(
+                        new Error(
+                          "The two passwords that you entered do not match!"
+                        )
+                      );
+                    },
+                  }),
                 ]}
               >
-                <CustomDatePicker
-                  placeholder="DD/MM/YYYY"
-                  size="large"
-                  format={"DD/MM/YYYY"}
-                />
+                <CustomInput>
+                  <Info>Confirm password</Info>
+                  <StyleInput
+                    type="password"
+                    placeholder="Confirm your password"
+                  />
+                </CustomInput>
               </Form.Item>
             </LeftSide>
             <RightSide>
@@ -242,36 +245,33 @@ const register = () => {
                 </UploadImage>
               </Form.Item>
               <Form.Item
-                name="confirm"
-                dependencies={["password"]}
-                hasFeedback
+                name="birthday"
+                label={
+                  <label
+                    style={{
+                      fontSize: "18px",
+                      fontWeight: "bold",
+                      letterSpacing: "3px",
+                      color: "#4c403f",
+                      opacity: "0.5",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    Birthday
+                  </label>
+                }
                 rules={[
                   {
                     required: true,
-                    message: "Please confirm your password!",
+                    message: "Please select your birthday!",
                   },
-                  ({ getFieldValue }) => ({
-                    validator(_, value) {
-                      if (!value || getFieldValue("password") === value) {
-                        return Promise.resolve();
-                      }
-
-                      return Promise.reject(
-                        new Error(
-                          "The two passwords that you entered do not match!"
-                        )
-                      );
-                    },
-                  }),
                 ]}
               >
-                <CustomInput style={{ marginTop: "57px" }}>
-                  <Info>Confirm password</Info>
-                  <StyleInput
-                    type="password"
-                    placeholder="Confirm your password"
-                  />
-                </CustomInput>
+                <CustomDatePicker
+                  placeholder="DD/MM/YYYY"
+                  size="large"
+                  format={"DD/MM/YYYY"}
+                />
               </Form.Item>
               <Form.Item name="gender">
                 <>
