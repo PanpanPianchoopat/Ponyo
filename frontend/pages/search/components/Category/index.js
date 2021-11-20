@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import COLORS from "../../../../public/constant/colors";
+import React from "react";
 import {
   CategoryContainer,
   TypeContainer,
@@ -15,32 +14,32 @@ const Category = (props) => {
         <TypeContainer>
           <TypeCircle
             onClick={() => {
-              props.setSelected("Casual dining");
+              props.setSelected("Casual Dining");
             }}
           >
             <TypeImage src="/assets/Category/dining.png" preview={false} />
           </TypeCircle>
-          <TypeName>Casual dining</TypeName>
+          <TypeName>Casual Dining</TypeName>
         </TypeContainer>
         <TypeContainer>
           <TypeCircle
             onClick={() => {
-              props.setSelected("Food trucks");
+              props.setSelected("Food Trucks");
             }}
           >
             <TypeImage src="/assets/Category/food-truck.png" preview={false} />
           </TypeCircle>
-          <TypeName>Food trucks</TypeName>
+          <TypeName>Food Trucks</TypeName>
         </TypeContainer>
         <TypeContainer>
           <TypeCircle
             onClick={() => {
-              props.setSelected("Fast food");
+              props.setSelected("Fast Food");
             }}
           >
             <TypeImage src="/assets/Category/fast-food.png" preview={false} />
           </TypeCircle>
-          <TypeName>Fast food</TypeName>
+          <TypeName>Fast Food</TypeName>
         </TypeContainer>
         <TypeContainer>
           <TypeCircle
@@ -55,12 +54,12 @@ const Category = (props) => {
         <TypeContainer>
           <TypeCircle
             onClick={() => {
-              props.setSelected("Family style");
+              props.setSelected("Family Style");
             }}
           >
             <TypeImage src="/assets/Category/family.png" preview={false} />
           </TypeCircle>
-          <TypeName>Family style</TypeName>
+          <TypeName>Family Style</TypeName>
         </TypeContainer>
         <TypeContainer>
           <TypeCircle

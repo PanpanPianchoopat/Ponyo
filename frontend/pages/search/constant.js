@@ -8,7 +8,7 @@ export const CUISINE_OPTION = [
   "Cuisine",
   "Casual Dining",
   "Food Trucks",
-  "Fast-food",
+  "Fast Food",
   "Café",
   "Family Style",
   "Pub",

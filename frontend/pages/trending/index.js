@@ -14,7 +14,7 @@ const Trending = () => {
   const [familyStyleTrend, setFamilyStyle] = useState([]);
   const [pubTrend, setPub] = useState([]);
   const [buffetTrend, setBuffet] = useState([]);
-
+  
   const [isBest, setIsBest] = useState(false);
   const [isCasual, setIsCasual] = useState(false);
   const [isFoodTruck, setIsfoodTruck] = useState(false);

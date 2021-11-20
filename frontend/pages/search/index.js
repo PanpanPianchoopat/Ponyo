@@ -37,20 +37,17 @@ const SearchRestaurant = () => {
   const [restaurant, setRestaurants] = useState(null);
 
   const [searchValue, setSearchValue] = useState({
-    filter: "Name",
+    filter: "name",
     input: "noInput",
     price: 0,
     cuisine: "Cuisine",
   });
 
   const [selectedCat, setSelectedCat] = useState("");
-
-  useEffect(() => {
-    console.log(selectedCat);
-  }, [selectedCat]);
+  const [bestTrend, setBestTrend] = useState([]);
+  const [isBest, setIsBest] = useState(false);
 
   const onFinish = () => {
-    console.log("filter", searchValue.input);
     getRestaurant();
   };
 
@@ -64,15 +61,27 @@ const SearchRestaurant = () => {
     }
   }, [status]);
 
+
   useEffect(() => {
-    console.log("restaurant", restaurant);
-  }, [restaurant]);
+    if (selectedCat != "") {
+      getRestaurantByType();
+    }
+  }, [selectedCat]);
+
+  useEffect(() => {
+    if (bestTrend != null && bestTrend.length != 0) {
+      setIsBest(true);
+    }
+  }, [bestTrend]);
 
   const changeStatus = (e) => {
     setStatus(e.target.value);
   };
 
   const getRestaurant = () => {
+    if (searchValue.filter == "address") {
+      searchValue.filter = "location.address";
+    }
     RestaurantAPI.getRestaurant(
       searchValue.filter,
       searchValue.input,
@@ -90,6 +99,23 @@ const SearchRestaurant = () => {
 
   const getAllRestaurant = () => {
     RestaurantAPI.getAllRestaurants()
+      .then((response) => {
+        setRestaurants(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    RestaurantAPI.getBestTrending()
+      .then((response) => {
+        setBestTrend(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const getRestaurantByType = () => {
+    RestaurantAPI.getRestaurantByType(selectedCat)
       .then((response) => {
         setRestaurants(response.data);
       })
@@ -117,7 +143,7 @@ const SearchRestaurant = () => {
                 }}
               >
                 {FILTER_OPTION.map((type) => {
-                  return <Option value={type}>{type}</Option>;
+                  return <Option value={type.toLowerCase()}>{type}</Option>;
                 })}
               </Selecter>
               <Search
@@ -188,7 +214,8 @@ const SearchRestaurant = () => {
           <BestRate
             head="Best rated restaurants"
             theme="dark"
-            restaurants={TOP_3}
+            restaurants={bestTrend.length != 0 ? bestTrend : null}
+            isNotNull={isBest}
           />
           <Button variant="yellow">Explore more</Button>
         </BestRateContainer>

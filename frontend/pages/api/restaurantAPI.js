@@ -33,6 +33,10 @@ class RestaurantAPI {
     return http.get(`/restaurant/bestTrending`);
   };
 
+  getRestaurantByType = (type) => { 
+    return http.get(`/restaurant/type/${type}`);
+  };
+
 
 }
 
