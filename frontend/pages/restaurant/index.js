@@ -31,7 +31,6 @@ import { Divider } from "antd";
 import RestaurantAPI from "../api/restaurantAPI";
 import ReviewAPI from "../api/reviewAPI";
 import Image from "next/image";
-import CantWrite from "./components/CantWrite";
 
 const Restaurant = (props) => {
   const [resID, setResID] = useState(null);
