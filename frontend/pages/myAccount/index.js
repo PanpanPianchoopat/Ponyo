@@ -32,6 +32,15 @@ const myAccount = () => {
   //   console.log("EDIT_PROFILE", profile.name);
   // }, [profile]);
 
+  const [restList, setRestList] = useState(<RestList type={FAVOURITE} />);
+  useEffect(() => {
+    if (selectedTab == INTEREST) {
+      setRestList(<RestList type={INTEREST} />);
+    } else if (selectedTab == FAVOURITE) {
+      setRestList(<RestList type={FAVOURITE} />);
+    }
+  }, [selectedTab]);
+
   return (
     <ProfileContainer>
       <ProfilePicture>
@@ -70,13 +79,7 @@ const myAccount = () => {
             My Interests
           </Menu>
         </TabContainer>
-        <List>
-          {selectedTab == FAVOURITE ? (
-            <RestList type={FAVOURITE} />
-          ) : (
-            <RestList type={INTEREST} />
-          )}
-        </List>
+        <List>{restList}</List>
       </ListContainer>
     </ProfileContainer>
   );

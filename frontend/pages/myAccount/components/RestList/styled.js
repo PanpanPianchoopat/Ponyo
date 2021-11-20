@@ -3,6 +3,7 @@ import { Modal } from "antd";
 import COLORS from "../../../../public/constant/colors";
 import { FAVOURITE } from "../../constant";
 import BREAKPOINTS from "../../../../public/constant/breakpoints";
+import { LoadingOutlined } from "@ant-design/icons";
 
 export const CardsWrapper = styled.div`
   display: flex;
@@ -81,4 +82,9 @@ export const EmptyTextContainer = styled.div`
   align-items: center;
   margin: 15px 0;
   color: ${COLORS.LIGHT_GREY};
+`;
+
+export const LoadingIcon = styled(LoadingOutlined)`
+  font-size: 30px;
+  color: ${COLORS.PRIMARY_YELLOW};
 `;
