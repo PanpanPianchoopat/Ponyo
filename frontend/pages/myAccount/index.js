@@ -4,7 +4,7 @@ import { Avatar } from "antd";
 import Button from "../components/Button";
 import RestList from "./components/RestList";
 import EditProfile from "./components/EditProfile";
-import { PROFILE, FAVOURITE, INTEREST, AVATAR_SIZE } from "./constant";
+import { FAVOURITE, INTEREST, AVATAR_SIZE } from "./constant";
 import {
   ProfileContainer,
   ProfilePicture,
@@ -18,14 +18,13 @@ import {
 const myAccount = () => {
   const [selectedTab, setSelectedTab] = useState(FAVOURITE);
   const [popupVisible, setPopupVisible] = useState(false);
-  const [profile, setProfile] = useState(PROFILE);
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem("_token");
     const userData = jwt.decode(token);
     setUserData(userData);
-  }, []);
+  }, [popupVisible]);
 
   // useEffect(() => {
   //   // state change from child

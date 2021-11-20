@@ -21,14 +21,16 @@ import { StyledButton } from "../RestList/components/EditList/styled";
 import UserAPI from "../../../api/userAPI";
 
 const EditProfile = (props) => {
-  console.log(props.info);
   const oldPass = props.info.password;
   const [editProfile, setEditProfile] = useState(props.info);
   const [avatar, setAvatar] = useState(props.info.image);
 
-  const onFinish = (value) => {
+  const onFinish = async (value) => {
     const editPass = value.new_pass !== undefined;
-    const newPassword = editPass ? value.new_pass : oldPass;
+    const newPassword = editPass
+      ? await bcrypt.hash(value.new_pass, 10)
+      : oldPass;
+
     props.setNewProfile({
       username: value.username,
       password: newPassword,
@@ -47,7 +49,7 @@ const EditProfile = (props) => {
     UserAPI.editProfile(props.info.id, data)
       .then((response) => {
         localStorage.setItem("_token", response.data.token);
-        console.log(response.data.token);
+        console.log("Update Success");
       })
       .catch((e) => {
         console.log(e);
@@ -62,7 +64,6 @@ const EditProfile = (props) => {
 
   const handleUpload = (info) => {
     if (info.file.status === "done") {
-      console.log("PIC", info);
       getBase64(info);
     }
   };

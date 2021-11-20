@@ -82,12 +82,11 @@ export const checkUsername = async (req, res) => {
 export const editProfile = async (req, res) => {
   const { user_id } = req.params;
   const { username, password, image } = req.body;
-  const newPassword = await bcrypt.hash(password, 10);
 
   try {
     const updatedProfile = {
       username,
-      password: newPassword,
+      password,
       image,
       _id: user_id,
     };
