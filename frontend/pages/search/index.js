@@ -43,9 +43,15 @@ const SearchRestaurant = () => {
     cuisine: "Cuisine",
   });
 
+  const [selectedCat, setSelectedCat] = useState("");
+
+  useEffect(() => {
+    console.log(selectedCat);
+  }, [selectedCat]);
+
   const onFinish = () => {
     console.log(searchValue);
-  }
+  };
 
   useEffect(() => {
     getAllRestaurant();
@@ -149,7 +155,7 @@ const SearchRestaurant = () => {
             </Search.Group>
           </SearchBar>
         </HeadSection>
-        <Category />
+        <Category setSelected={setSelectedCat} />
         <ContentContainer>
           <ContentName>
             Explore our restaurants
