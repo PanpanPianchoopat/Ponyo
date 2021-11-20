@@ -97,11 +97,13 @@ const Overview = (props) => {
           <RestName>{restaurant ? restaurant.details.name : ""}</RestName>
           <Inline>
             <Status open={isOpen}>{isOpen ? "OPEN" : "CLOSE"}</Status>
-            {isBookmarked ? (
-              <BookmarkActive onClick={toggleBookmark} />
-            ) : (
-              <Bookmark onClick={toggleBookmark} />
-            )}
+            {user_id ? (
+              isBookmarked ? (
+                <BookmarkActive onClick={toggleBookmark} />
+              ) : (
+                <Bookmark onClick={toggleBookmark} />
+              )
+            ) : null}
           </Inline>
         </Line>
         <Line>{restaurant ? restaurant.details.description : ""}</Line>
@@ -123,11 +125,13 @@ const Overview = (props) => {
             />
             <AvgRateText>{avgText}</AvgRateText>
           </div>
-          {isLiked ? (
-            <HeartACtive onClick={toggleLike} />
-          ) : (
-            <Heart onClick={toggleLike} />
-          )}
+          {user_id ? (
+            isLiked ? (
+              <HeartACtive onClick={toggleLike} />
+            ) : (
+              <Heart onClick={toggleLike} />
+            )
+          ) : null}
         </Line>
       </OverviewContainer>
     </>
