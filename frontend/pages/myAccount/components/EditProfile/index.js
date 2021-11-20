@@ -49,7 +49,7 @@ const EditProfile = (props) => {
     UserAPI.editProfile(props.info.id, data)
       .then((response) => {
         localStorage.setItem("_token", response.data.token);
-        console.log("Update Success");
+        console.log("Update Profile Success");
       })
       .catch((e) => {
         console.log(e);
