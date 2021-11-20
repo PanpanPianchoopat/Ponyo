@@ -37,7 +37,7 @@ const Signin = () => {
       password: val.password,
     };
     dispatch(Login(credential));
-    router.push("/restaurant");
+    router.push("/search");
   };
 
   const dispatch = useAppDispatch();

@@ -7,6 +7,9 @@ import BREAKPOINTS from "../../public/constant/breakpoints";
 
 export const Container = styled.div`
   display: flex;
+  width: 100%;
+  position: absolute;
+  top: 0;
 `;
 
 export const ContainerLeft = styled.div`

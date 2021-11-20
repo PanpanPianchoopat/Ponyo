@@ -5,6 +5,7 @@ import Button from "../components/Button";
 import RestList from "./components/RestList";
 import EditProfile from "./components/EditProfile";
 import { FAVOURITE, INTEREST, AVATAR_SIZE } from "./constant";
+import { BsFillPersonFill } from "react-icons/bs";
 import {
   ProfileContainer,
   ProfilePicture,
@@ -13,6 +14,7 @@ import {
   Menu,
   List,
   Popup,
+  DefaultProfile,
 } from "./styled";
 
 const myAccount = () => {
@@ -26,6 +28,17 @@ const myAccount = () => {
     setUserData(userData);
   }, [popupVisible]);
 
+  const [avatar, setAvatar] = useState(
+    <Avatar size={AVATAR_SIZE} src={<DefaultProfile />} />
+  );
+  useEffect(() => {
+    if (userData) {
+      if (userData.image) {
+        setAvatar(<Avatar size={AVATAR_SIZE} src={userData.image} />);
+      }
+    }
+  }, [userData]);
+
   const [restList, setRestList] = useState(<RestList type={FAVOURITE} />);
   useEffect(() => {
     if (selectedTab == INTEREST) {
@@ -38,7 +51,7 @@ const myAccount = () => {
   return (
     <ProfileContainer>
       <ProfilePicture>
-        <Avatar size={AVATAR_SIZE} src={userData ? userData.image : null} />
+        {avatar}
         <h3>{userData ? userData.username : null}</h3>
       </ProfilePicture>
       <Button variant="transparent" onClick={() => setPopupVisible(true)}>

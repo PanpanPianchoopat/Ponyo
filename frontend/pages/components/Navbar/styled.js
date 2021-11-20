@@ -3,11 +3,14 @@ import COLOR from "../../../public/constant/colors";
 import Image from "next/image";
 import BREAKPOINTS from "../../../public/constant/breakpoints";
 
-export const StyledNav = styled.div`
+export const StyledNav = styled.div.attrs((props) => {
+  const display = props.isVisible ? "flex" : "none";
+  return { display };
+})`
   width: 100%;
   height: 80px;
   background: ${COLOR.PRIMARY_DARK};
-  display: flex;
+  display: ${(props) => props.display};
   position: fixed;
   top: 0;
   z-index: 100;
@@ -55,7 +58,10 @@ export const MenuItem = styled.div`
     font-size: 20px;
   }
   @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
-    font-size: 20px;
+    font-size: 16px;
+  }
+  @media (max-width: ${BREAKPOINTS.IPAD_PORTRAIT}) {
+    font-size: 12px;
   }
   @media (max-width: ${BREAKPOINTS.IPHONE_11}) {
     display: none;

@@ -31,6 +31,7 @@ import { Divider } from "antd";
 import RestaurantAPI from "../api/restaurantAPI";
 import ReviewAPI from "../api/reviewAPI";
 import Image from "next/image";
+import CantWrite from "./components/CantWrite";
 
 const Restaurant = (props) => {
   const [resID, setResID] = useState(null);
@@ -50,7 +51,7 @@ const Restaurant = (props) => {
 
   const [user_id, setUserID] = useState(null);
   const [filter, setFilter] = useState(0);
-  const [resInfo, setDetail] = useState(null);
+  const [resInfo, setResInfo] = useState(null);
   const [statusInfo, setStatus] = useState(null);
   const [isLiked, setLiked] = useState(null);
   const [isBookmarked, setBookmarked] = useState(null);
@@ -60,14 +61,14 @@ const Restaurant = (props) => {
   const [commentAmountInfo, setCommentAmount] = useState(null);
   const [photoAmountInfo, setPhotoAmount] = useState(null);
   const [reviewInfo, setReview] = useState(null);
-  const [isUser, setIsUser] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("_token");
     const userData = jwt.decode(token);
     if (userData) {
       setUserID(userData.id);
-      setIsUser(true);
+      setIsLoggedIn(true);
     }
   }, []);
 
@@ -96,7 +97,7 @@ const Restaurant = (props) => {
   const getRestaurantDetail = () => {
     RestaurantAPI.getRestaurantDetail(resID)
       .then((response) => {
-        setDetail(response.data);
+        setResInfo(response.data);
       })
       .catch((e) => {
         console.log(e);
@@ -269,19 +270,7 @@ const Restaurant = (props) => {
             />
           </LargeSection>
           <LargeSection>
-            {isUser ? (
-              <WriteReview func={updateInfo} />
-            ) : (
-              <div
-                style={{
-                  margin: "auto 0",
-                  background: "orange",
-                  display: "flex",
-                }}
-              >
-                Please Login To Review
-              </div>
-            )}
+            {isLoggedIn ? <WriteReview func={updateInfo} /> : <CantWrite />}
           </LargeSection>
         </div>
         <div>
@@ -310,7 +299,7 @@ const Restaurant = (props) => {
           <Ratings rates={starInfo} />
         </FullSection>
         <FullSection>
-          <WriteReview />
+          {isLoggedIn ? <WriteReview func={updateInfo} /> : <CantWrite />}
         </FullSection>
       </DetailContainer>
 

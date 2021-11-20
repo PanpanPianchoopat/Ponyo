@@ -1,25 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyledNav, Logo, MenuItem, StyledImage, Menu } from "./styled";
 import MenuButton from "./components/MenuButton";
 import { SEARCH, TREND } from "./constant";
 import { useRouter } from "next/router";
 
 const Navbar = () => {
-  const [selected, setSelcted] = useState(SEARCH);
+  const [visible, setVisible] = useState(true);
+  const [selected, setSelected] = useState(SEARCH);
   const router = useRouter();
+  const { asPath } = useRouter();
 
   const handleClick = (menu) => {
     if (menu == SEARCH) {
-      setSelcted(SEARCH);
+      setSelected(SEARCH);
       router.push("/search");
     } else if (menu == TREND) {
-      setSelcted(TREND);
+      setSelected(TREND);
       router.push("/trending");
     }
   };
 
+  useEffect(() => {
+    console.log("PATH:", asPath);
+    if (asPath === "/trending") {
+      setVisible(true);
+      setSelected(TREND);
+    } else if (asPath === "/search") {
+      setVisible(true);
+      setSelected(SEARCH);
+    } else if (asPath === "/login" || asPath === "/register") {
+      setVisible(false);
+    } else {
+      setSelected(null);
+    }
+  }, [asPath]);
+
   return (
-    <StyledNav>
+    <StyledNav isVisible={visible}>
       <Logo>
         <StyledImage src="/assets/Logo.svg" layout="fill" />
       </Logo>

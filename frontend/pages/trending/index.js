@@ -1,12 +1,26 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import BestRate from "../components/BestRate";
 import { TOP_3 } from "../components/BestRate/constant";
 import { BackTop } from "antd";
 import { Header, Type } from "./styled";
+import jwt from "jsonwebtoken";
+import HideTrend from "./HideTrend";
 
 const Trending = () => {
+  const [isGuest, setIsGuest] = useState(true);
+  useEffect(() => {
+    const token = localStorage.getItem("_token");
+    const userData = jwt.decode(token);
+    if (userData) {
+      setIsGuest(false);
+    } else {
+      setIsGuest(true);
+    }
+  }, []);
+
   return (
     <>
+      <HideTrend visible={isGuest} />
       <Header>
         <BestRate
           head="Best rated restaurants"
