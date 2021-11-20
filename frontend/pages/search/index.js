@@ -33,19 +33,6 @@ import {
 
 const SearchRestaurant = () => {
   const { Option } = Selecter;
-  const statusOption = ["ALL", "OPEN", "CLOSE"];
-  const filterOption = ["Name", "Address"];
-  const priceOption = ["Price", "0-500", "500-1000", "1000-5000", "5000-10000"];
-  const cuisineOption = [
-    "Cuisine",
-    "Casual Dining",
-    "Food Trucks",
-    "Fast-food",
-    "Café",
-    "Family Style",
-    "Pub",
-    "Buffet",
-  ];
   const [status, setStatus] = useState("ALL");
   const [getRestaurants, setRestaurants] = useState(null);
 
@@ -55,6 +42,10 @@ const SearchRestaurant = () => {
     price: "0",
     cuisine: "Cuisine",
   });
+
+  const onFinish = () => {
+    console.log(searchValue);
+  }
 
   useEffect(() => {
     getAllRestaurant();
@@ -112,7 +103,7 @@ const SearchRestaurant = () => {
                   setSearchValue({ ...searchValue, filter: e });
                 }}
               >
-                {filterOption.map((type) => {
+                {FILTER_OPTION.map((type) => {
                   return <Option value={type}>{type}</Option>;
                 })}
               </Selecter>
@@ -135,7 +126,7 @@ const SearchRestaurant = () => {
                   setSearchValue({ ...searchValue, price: e });
                 }}
               >
-                {priceOption.map((type, index) => {
+                {PRICE_OPTION.map((type, index) => {
                   return <Option value={index.toString()}>{type}</Option>;
                 })}
               </Selecter>
@@ -150,11 +141,11 @@ const SearchRestaurant = () => {
                   setSearchValue({ ...searchValue, cuisine: e });
                 }}
               >
-                {cuisineOption.map((type) => {
+                {CUISINE_OPTION.map((type) => {
                   return <Option value={type}>{type}</Option>;
                 })}
               </Selecter>
-              <StyleButton>SEARCH</StyleButton>
+              <StyleButton onClick={onFinish}>SEARCH</StyleButton>
             </Search.Group>
           </SearchBar>
         </HeadSection>
@@ -166,7 +157,7 @@ const SearchRestaurant = () => {
           </ContentName>
           <StatusBox>
             <Status.Group
-              options={statusOption}
+              options={STATUS_OPTION}
               onChange={changeStatus}
               value={status}
             />
