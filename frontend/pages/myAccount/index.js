@@ -26,11 +26,6 @@ const myAccount = () => {
     setUserData(userData);
   }, [popupVisible]);
 
-  // useEffect(() => {
-  //   // state change from child
-  //   console.log("EDIT_PROFILE", profile.name);
-  // }, [profile]);
-
   const [restList, setRestList] = useState(<RestList type={FAVOURITE} />);
   useEffect(() => {
     if (selectedTab == INTEREST) {

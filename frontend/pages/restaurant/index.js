@@ -33,7 +33,6 @@ import ReviewAPI from "../api/reviewAPI";
 import Image from "next/image";
 
 const Restaurant = (props) => {
-  // const { token, data } = useAppSelector((state) => state.auth);
   const [resID, setResID] = useState(null);
   useEffect(() => {
     setResID(props.router.query.id);
