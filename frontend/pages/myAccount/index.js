@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import jwt from "jsonwebtoken";
-import { Avatar, Modal, Form, Input } from "antd";
+import { Avatar } from "antd";
 import Button from "../components/Button";
 import RestList from "./components/RestList";
-import { PROFILE, FAVOURITE, INTEREST } from "./constant";
 import EditProfile from "./components/EditProfile";
+import { PROFILE, FAVOURITE, INTEREST, AVATAR_SIZE } from "./constant";
 import {
   ProfileContainer,
   ProfilePicture,
@@ -44,7 +44,7 @@ const myAccount = () => {
   return (
     <ProfileContainer>
       <ProfilePicture>
-        <Avatar size={100} src={userData ? userData.image : null} />
+        <Avatar size={AVATAR_SIZE} src={userData ? userData.image : null} />
         <h3>{userData ? userData.username : null}</h3>
       </ProfilePicture>
       <Button variant="transparent" onClick={() => setPopupVisible(true)}>

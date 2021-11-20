@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import bcrypt from "bcryptjs";
 import { Form, Input, Upload, Avatar } from "antd";
-import Button from "../../../components/Button";
-
+import {
+  USERNAME_LEN,
+  PASSWORD_LEN,
+} from "../../../../public/constant/account";
 import { BsFillPencilFill, BsPersonFill } from "react-icons/bs";
 import {
   UploadAvatar,
@@ -85,8 +87,8 @@ const EditProfile = (props) => {
   const validateUsername = (rule, value, callback) => {
     let trimedName = value.trim();
     trimedName = trimedName.replace(/\s+/g, " ");
-    if (trimedName.length < 6 && value != null) {
-      callback("Must contain more than 6 charaters");
+    if (trimedName.length < USERNAME_LEN && value != null) {
+      callback(`Must be at least ${USERNAME_LEN} charaters`);
       setCheckUsername("error");
     } else if (trimedName == props.info.username) {
       callback();
@@ -98,7 +100,7 @@ const EditProfile = (props) => {
             callback();
             setCheckUsername("success");
           } else {
-            callback("This username already has");
+            callback("This username is not available, please try a unique one");
             setCheckUsername("error");
           }
         })
@@ -157,9 +159,9 @@ const EditProfile = (props) => {
             () => ({
               validator(_, value) {
                 if (value != null) {
-                  if (value.length < 6) {
+                  if (value.length < PASSWORD_LEN) {
                     return Promise.reject(
-                      new Error("Must be at least 6 characters")
+                      new Error(`Must be at least ${PASSWORD_LEN} characters`)
                     );
                   }
                 }
