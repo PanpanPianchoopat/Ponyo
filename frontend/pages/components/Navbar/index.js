@@ -1,11 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { StyledNav, Logo, MenuItem, StyledImage, Menu } from "./styled";
+import {
+  StyledNav,
+  Logo,
+  MenuItem,
+  StyledImage,
+  Menu,
+  BackButton,
+} from "./styled";
 import MenuButton from "./components/MenuButton";
 import { SEARCH, TREND } from "./constant";
 import { useRouter } from "next/router";
+import { LeftOutlined } from "@ant-design/icons";
 
 const Navbar = () => {
-  const [visible, setVisible] = useState(true);
+  const [navVisible, setNavVisible] = useState(true);
+  const [menuVisible, setMenuVisible] = useState(true);
   const [selected, setSelected] = useState(SEARCH);
   const router = useRouter();
   const { asPath } = useRouter();
@@ -21,33 +30,45 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    console.log("PATH:", asPath);
     if (asPath === "/trending") {
-      setVisible(true);
+      setNavVisible(true);
       setSelected(TREND);
     } else if (asPath === "/search") {
-      setVisible(true);
+      setNavVisible(true);
       setSelected(SEARCH);
     } else if (asPath === "/login" || asPath === "/register") {
-      setVisible(false);
+      setNavVisible(false);
+    } else if (asPath.startsWith("/restaurant")) {
+      setMenuVisible(false);
     } else {
-      setSelected(null);
+      setNavVisible(true);
+      setMenuVisible(true);
+      setSelected(SEARCH);
     }
   }, [asPath]);
 
   return (
-    <StyledNav isVisible={visible}>
-      <Logo>
-        <StyledImage src="/assets/Logo.svg" layout="fill" />
-      </Logo>
+    <StyledNav isVisible={navVisible}>
+      {menuVisible ? (
+        <Logo>
+          <StyledImage src="/assets/Logo.svg" layout="fill" />
+        </Logo>
+      ) : (
+        <BackButton onClick={() => router.back()}>
+          <LeftOutlined style={{ marginRight: "5px" }} />
+          BACK
+        </BackButton>
+      )}
       <Menu>
         <MenuItem
+          isVisible={menuVisible}
           onClick={() => handleClick(SEARCH)}
           active={selected === SEARCH}
         >
           Search Restaurant
         </MenuItem>
         <MenuItem
+          isVisible={menuVisible}
           onClick={() => handleClick(TREND)}
           active={selected === TREND}
         >
