@@ -19,3 +19,23 @@ export const HamburgerButton = styled(Dropdown)`
     display: unset;
   }
 `;
+
+export const AvatarButton = styled(Dropdown)`
+  position: absolute;
+  right: 1rem;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  display: flex;
+  @media (max-width: ${BREAKPOINTS.HiDPI_LAPTOP}) {
+    width: 40px;
+    height: 40px;
+  }
+  @media (max-width: ${BREAKPOINTS.IPAD_PORTRAIT}) {
+    width: 30px;
+    height: 30px;
+  }
+  @media (max-width: ${BREAKPOINTS.IPHONE_11}) {
+    display: none;
+  }
+`;

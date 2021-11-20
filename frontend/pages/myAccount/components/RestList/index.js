@@ -17,8 +17,10 @@ import {
 import UserAPI from "../../../api/userAPI";
 import { Spin } from "antd";
 import { LOADING } from "./constant";
+import { useRouter } from "next/router";
 
 const RestList = (props) => {
+  const router = useRouter();
   const isFav = props.type == FAVOURITE;
   const isIn = props.type == INTEREST;
   const listHead = isFav
@@ -45,7 +47,9 @@ const RestList = (props) => {
   useEffect(() => {
     const token = localStorage.getItem("_token");
     const userData = jwt.decode(token);
-    setUserID(userData.id);
+    if (userData) {
+      setUserID(userData.id);
+    }
   }, []);
 
   useEffect(() => {
@@ -103,7 +107,9 @@ const RestList = (props) => {
                 <b>Emypty List</b>
                 <p>You haven't {emptyDisplay} any restaurant yet</p>
               </EmptyTextContainer>
-              <Button variant="yellow">Explore</Button>
+              <Button variant="yellow" onClick={() => router.push("/search")}>
+                Explore
+              </Button>
             </EmptyList>
           )
         ) : (

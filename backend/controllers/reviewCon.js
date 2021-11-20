@@ -2,16 +2,13 @@ import express from "express";
 import mongoose from "mongoose";
 const ObjectId = mongoose.Types.ObjectId;
 import Review from "../models/reviewModel.js";
+import { checkUsername } from "./userCon.js";
 
 const router = express.router;
 
 export const addReview = async (req, res) => {
   const { res_id, user_id } = req.params;
   var { reviewText, star, image } = req.body;
-  if (reviewText == "") {
-    reviewText = null;
-  }
-
   const newReview = new Review({
     res_id,
     user_id,
@@ -20,9 +17,20 @@ export const addReview = async (req, res) => {
     star,
     image,
   });
+
   try {
-    await newReview.save();
-    res.status(201).json(newReview);
+    const checkUserReview = await Review.find({
+      user_id: ObjectId(user_id),
+      res_id: res_id,
+    });
+    console.log("check", checkUserReview.length);
+
+    if (checkUserReview.length == 0) {
+      await newReview.save();
+      res.status(201).json(true);
+    } else {
+      res.status(201).json(false);
+    }
   } catch (error) {
     res.status(404).json({ Error: error.message });
   }
@@ -62,7 +70,7 @@ export const deleteReview = async (req, res) => {
 
 export const getAllReview = async (req, res) => {
   const { res_id, user_id } = req.params;
-
+ 
   try {
     const Reviews = await Review.aggregate([
       {
@@ -127,7 +135,13 @@ export const getAllReview = async (req, res) => {
           reviewer: "$user.username",
         },
       },
+      {
+        $sort: {
+          date: -1,
+        },
+      },
     ]);
+
     res.status(200).json(Reviews);
   } catch (error) {
     res.status(404).json({ Error: error.message });
@@ -217,6 +231,11 @@ const getReviewByStar = async (res_id, star, user_id) => {
         reviewer: "$user.username",
       },
     },
+    {
+      $sort: {
+        date: -1,
+      },
+    },
   ]);
   return Reviews;
 };
@@ -283,6 +302,11 @@ const getReviewByComment = async (res_id, user_id) => {
     {
       $addFields: {
         reviewer: "$user.username",
+      },
+    },
+    {
+      $sort: {
+        date: -1,
       },
     },
   ]);
@@ -352,6 +376,11 @@ const getReviewByPhoto = async (res_id, user_id) => {
     {
       $addFields: {
         reviewer: "$user.username",
+      },
+    },
+    {
+      $sort: {
+        date: -1,
       },
     },
   ]);

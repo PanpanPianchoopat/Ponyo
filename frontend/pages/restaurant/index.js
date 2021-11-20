@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { withRouter } from "next/router";
 import jwt from "jsonwebtoken";
-import useAppSelector from "../../hooks/useAppSelector";
 import {
   DetailContainer,
   LargeSection,
@@ -31,10 +31,28 @@ import { Divider } from "antd";
 import RestaurantAPI from "../api/restaurantAPI";
 import ReviewAPI from "../api/reviewAPI";
 import Image from "next/image";
+import CantWrite from "./components/CantWrite";
 
-const Restaurant = () => {
-  // const { token, data } = useAppSelector((state) => state.auth);
-  const [user_id, setUserID] = useState(null);
+const Restaurant = (props) => {
+  const [resID, setResID] = useState(null);
+  useEffect(() => {
+    setResID(props.router.query.id);
+  }, [props.router.query]);
+
+  useEffect(() => {
+    if (resID) {
+      getRestaurantDetail();
+      getRestaurantStatus();
+      getAvgRate();
+      getReviewAmount();
+      getStarAmount();
+      getReviewByFilter(0);
+      getLikedBookmarked();
+    }
+  }, [resID]);
+
+  const NOUSER = "6199008ed3c99ca0a1e5530a";
+  const [user_id, setUserID] = useState(NOUSER);
   const [filter, setFilter] = useState(0);
   const [resInfo, setDetail] = useState(null);
   const [statusInfo, setStatus] = useState(null);
@@ -58,18 +76,10 @@ const Restaurant = () => {
   }, []);
 
   useEffect(() => {
-    getRestaurantDetail();
-    getRestaurantStatus();
-    getAvgRate();
-    getReviewAmount();
-    getStarAmount();
-  }, []);
-
-  useEffect(() => {
-    if (user_id != null) {
-      getLikedBookmarked();
-      getReviewByFilter(0);
+    if (user_id == null) {
+      setUserID("6199008ed3c99ca0a1e5530a");
     }
+    // getLikedBookmarked();
   }, [user_id]);
 
   const updateInfo = (review) => {
@@ -78,8 +88,6 @@ const Restaurant = () => {
       getReviewAmount();
     }
   };
-
-  const res_id = "617d5b668f7c593a9e729a68";
 
   const StarNum = (count) => {
     const stars = [];
@@ -90,7 +98,7 @@ const Restaurant = () => {
   };
 
   const getRestaurantDetail = () => {
-    RestaurantAPI.getRestaurantDetail(res_id)
+    RestaurantAPI.getRestaurantDetail(resID)
       .then((response) => {
         setDetail(response.data);
       })
@@ -100,7 +108,7 @@ const Restaurant = () => {
   };
 
   const getRestaurantStatus = () => {
-    RestaurantAPI.getRestaurantStatus(res_id)
+    RestaurantAPI.getRestaurantStatus(resID)
       .then((response) => {
         setStatus(response.data);
       })
@@ -110,9 +118,12 @@ const Restaurant = () => {
   };
 
   const getAvgRate = () => {
-    ReviewAPI.calReviewRate(res_id)
+    ReviewAPI.calReviewRate(resID)
       .then((response) => {
-        setAvgRate(response.data[0].avgStar);
+        if (response.data[0]) {
+          setAvgRate(response.data[0].avgStar);
+        }
+        setAvgRate("");
       })
       .catch((e) => {
         console.log(e);
@@ -121,7 +132,7 @@ const Restaurant = () => {
 
   const getReviewAmount = () => {
     const star = 0;
-    ReviewAPI.getReviewAmount(res_id, "all", star)
+    ReviewAPI.getReviewAmount(resID, "all", star)
       .then((response) => {
         setRatingAmount(response.data);
       })
@@ -129,7 +140,7 @@ const Restaurant = () => {
         console.log(e);
       });
 
-    ReviewAPI.getReviewAmount(res_id, "comment", star)
+    ReviewAPI.getReviewAmount(resID, "comment", star)
       .then((response) => {
         setCommentAmount(response.data);
       })
@@ -137,7 +148,7 @@ const Restaurant = () => {
         console.log(e);
       });
 
-    ReviewAPI.getReviewAmount(res_id, "photo", star)
+    ReviewAPI.getReviewAmount(resID, "photo", star)
       .then((response) => {
         setPhotoAmount(response.data);
       })
@@ -149,7 +160,7 @@ const Restaurant = () => {
   const getStarAmount = () => {
     const allRating = [];
     for (let star = 5; star >= 1; star--) {
-      ReviewAPI.getStarAmount(res_id, "star", star)
+      ReviewAPI.getStarAmount(resID, "star", star)
         .then((response) => {
           allRating.push(response.data);
           setStarAmount(allRating);
@@ -161,7 +172,7 @@ const Restaurant = () => {
   };
 
   const getLikedBookmarked = () => {
-    RestaurantAPI.getLikedBookmarked("myFavRestaurants", user_id, res_id)
+    RestaurantAPI.getLikedBookmarked("myFavRestaurants", user_id, resID)
       .then((response) => {
         setLiked(response.data);
       })
@@ -169,7 +180,7 @@ const Restaurant = () => {
         console.log(e);
       });
 
-    RestaurantAPI.getLikedBookmarked("myInterestRestaurants", user_id, res_id)
+    RestaurantAPI.getLikedBookmarked("myInterestRestaurants", user_id, resID)
       .then((response) => {
         setBookmarked(response.data);
       })
@@ -182,7 +193,7 @@ const Restaurant = () => {
     const type = ["all", "comment", "photo", "star"];
     setFilter(index);
     if (index == 0) {
-      ReviewAPI.getAllReview(res_id, user_id)
+      ReviewAPI.getAllReview(resID, user_id)
         .then((response) => {
           setReview(response.data);
         })
@@ -191,7 +202,7 @@ const Restaurant = () => {
         });
     } else if (index >= 3) {
       const starFilter = FILTER[index];
-      ReviewAPI.getReviewByFilter(type[3], res_id, user_id, starFilter)
+      ReviewAPI.getReviewByFilter(type[3], resID, user_id, starFilter)
         .then((response) => {
           setReview(response.data);
         })
@@ -200,7 +211,7 @@ const Restaurant = () => {
         });
     } else {
       const starFilter = 0;
-      ReviewAPI.getReviewByFilter(type[index], res_id, user_id, starFilter)
+      ReviewAPI.getReviewByFilter(type[index], resID, user_id, starFilter)
         .then((response) => {
           setReview(response.data);
         })
@@ -262,19 +273,7 @@ const Restaurant = () => {
             />
           </LargeSection>
           <LargeSection>
-            {isUser ? (
-              <WriteReview func={updateInfo} />
-            ) : (
-              <div
-                style={{
-                  margin: "auto 0",
-                  background: "orange",
-                  display: "flex",
-                }}
-              >
-                Please Login To Review
-              </div>
-            )}
+            {isUser ? <WriteReview func={updateInfo} /> : <CantWrite />}
           </LargeSection>
         </div>
         <div>
@@ -303,7 +302,7 @@ const Restaurant = () => {
           <Ratings rates={starInfo} />
         </FullSection>
         <FullSection>
-          <WriteReview />
+          {isUser ? <WriteReview func={updateInfo} /> : <CantWrite />}
         </FullSection>
       </DetailContainer>
 
@@ -348,4 +347,4 @@ const Restaurant = () => {
   );
 };
 
-export default Restaurant;
+export default withRouter(Restaurant);

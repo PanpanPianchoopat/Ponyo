@@ -5,6 +5,9 @@ import BREAKPOINTS from "../../public/constant/breakpoints";
 
 export const Container = styled.div`
   display: flex;
+  position: absolute;
+  top: 0;
+  width: 100%;
 `;
 
 export const ContainerLeft = styled.div`

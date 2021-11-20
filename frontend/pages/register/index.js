@@ -27,6 +27,7 @@ import {
   StyleButton,
   CustomButton,
   UploadImage,
+  ProfileImage,
   CameraIcon,
   PlusIcon,
 } from "./styled";
@@ -60,6 +61,20 @@ const register = () => {
   };
 
   const [gender, setGender] = useState("");
+
+  const [avatar, setAvatar] = useState("");
+
+  function getBase64(info) {
+    const reader = new FileReader();
+    reader.addEventListener("load", () => setAvatar(reader.result));
+    reader.readAsDataURL(info.file.originFileObj);
+  }
+
+  const handleUpload = (info) => {
+    if (info.file.status === "done") {
+      getBase64(info);
+    }
+  };
 
   return (
     <Container>
@@ -184,6 +199,76 @@ const register = () => {
                 </CustomInput>
               </Form.Item>
               <Form.Item
+                name="confirm"
+                dependencies={["password"]}
+                hasFeedback
+                rules={[
+                  {
+                    required: true,
+                    message: "Please confirm your password!",
+                  },
+                  ({ getFieldValue }) => ({
+                    validator(_, value) {
+                      if (!value || getFieldValue("password") === value) {
+                        return Promise.resolve();
+                      }
+
+                      return Promise.reject(
+                        new Error(
+                          "The two passwords that you entered do not match!"
+                        )
+                      );
+                    },
+                  }),
+                ]}
+              >
+                <CustomInput>
+                  <Info>Confirm password</Info>
+                  <StyleInput
+                    type="password"
+                    placeholder="Confirm your password"
+                  />
+                </CustomInput>
+              </Form.Item>
+            </LeftSide>
+            <RightSide>
+              <Form.Item
+                name="profile"
+                label={
+                  <label
+                    style={{
+                      fontSize: "18px",
+                      fontWeight: "bold",
+                      letterSpacing: "3px",
+                      color: "#4c403f",
+                      opacity: "0.5",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    Upload photo
+                  </label>
+                }
+              >
+                <UploadImage
+                  listType="picture-card"
+                  // beforeUpload={() => false}
+                  showUploadList={false}
+                  onChange={(info) => handleUpload(info)}
+                  maxCount={1}
+                >
+                  {avatar ? (
+                    <ProfileImage src={avatar} />
+                  ) : (
+                    <>
+                      <CameraIcon />
+                      <PlusIcon />
+                    </>
+                  )}
+                  {/* <CameraIcon />
+                  <PlusIcon /> */}
+                </UploadImage>
+              </Form.Item>
+              <Form.Item
                 name="birthday"
                 label={
                   <label
@@ -211,67 +296,6 @@ const register = () => {
                   size="large"
                   format={"DD/MM/YYYY"}
                 />
-              </Form.Item>
-            </LeftSide>
-            <RightSide>
-              <Form.Item
-                name="profile"
-                label={
-                  <label
-                    style={{
-                      fontSize: "18px",
-                      fontWeight: "bold",
-                      letterSpacing: "3px",
-                      color: "#4c403f",
-                      opacity: "0.5",
-                      marginBottom: "10px",
-                    }}
-                  >
-                    Upload photo
-                  </label>
-                }
-              >
-                <UploadImage
-                  listType="picture-card"
-                  beforeUpload={() => false}
-                  showUploadList={{ showPreviewIcon: false }}
-                  maxCount={1}
-                >
-                  <CameraIcon />
-                  <PlusIcon />
-                </UploadImage>
-              </Form.Item>
-              <Form.Item
-                name="confirm"
-                dependencies={["password"]}
-                hasFeedback
-                rules={[
-                  {
-                    required: true,
-                    message: "Please confirm your password!",
-                  },
-                  ({ getFieldValue }) => ({
-                    validator(_, value) {
-                      if (!value || getFieldValue("password") === value) {
-                        return Promise.resolve();
-                      }
-
-                      return Promise.reject(
-                        new Error(
-                          "The two passwords that you entered do not match!"
-                        )
-                      );
-                    },
-                  }),
-                ]}
-              >
-                <CustomInput style={{ marginTop: "57px" }}>
-                  <Info>Confirm password</Info>
-                  <StyleInput
-                    type="password"
-                    placeholder="Confirm your password"
-                  />
-                </CustomInput>
               </Form.Item>
               <Form.Item name="gender">
                 <>

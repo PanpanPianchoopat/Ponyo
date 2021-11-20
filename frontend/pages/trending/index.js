@@ -4,6 +4,8 @@ import { TOP_3 } from "../components/BestRate/constant";
 import { BackTop } from "antd";
 import { Header, Type } from "./styled";
 import RestaurantAPI from "../api/restaurantAPI";
+import jwt from "jsonwebtoken";
+import HideTrend from "./HideTrend";
 
 const Trending = () => {
   const [bestTrend, setBestTrend] = useState([]);
@@ -14,7 +16,7 @@ const Trending = () => {
   const [familyStyleTrend, setFamilyStyle] = useState([]);
   const [pubTrend, setPub] = useState([]);
   const [buffetTrend, setBuffet] = useState([]);
-  
+
   const [isBest, setIsBest] = useState(false);
   const [isCasual, setIsCasual] = useState(false);
   const [isFoodTruck, setIsfoodTruck] = useState(false);
@@ -23,6 +25,18 @@ const Trending = () => {
   const [isFamily, setIsFamily] = useState(false);
   const [isPub, setisPub] = useState(false);
   const [isBuffet, setIsBuffet] = useState(false);
+
+  const [isGuest, setIsGuest] = useState(true);
+
+  useEffect(() => {
+    const token = localStorage.getItem("_token");
+    const userData = jwt.decode(token);
+    if (userData) {
+      setIsGuest(false);
+    } else {
+      setIsGuest(true);
+    }
+  }, []);
 
   useEffect(() => {
     getTrending();
@@ -125,6 +139,7 @@ const Trending = () => {
 
   return (
     <>
+      <HideTrend visible={isGuest} />
       <Header>
         <BestRate
           head="Best rated restaurants"

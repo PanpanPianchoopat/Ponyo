@@ -20,6 +20,7 @@ import {
 } from "./styled";
 import RestaurantAPI from "../../api/restaurantAPI";
 import ReviewAPI from "../../api/reviewAPI";
+import { useRouter } from "next/router";
 
 const RestCard = ({ ...props }) => {
   const [resName, setResName] = useState(null);
@@ -63,8 +64,14 @@ const RestCard = ({ ...props }) => {
       });
   };
 
+  const router = useRouter();
+  const goToDetail = () => {
+    router.push({ pathname: "/restaurant", query: { id: props.detail._id } });
+  };
+
   return (
     <RestaurantCard
+      onClick={() => goToDetail()}
       size={props.size}
       headStyle={{ display: props.showRank ? "flex" : "none" }}
       bordered={false}
