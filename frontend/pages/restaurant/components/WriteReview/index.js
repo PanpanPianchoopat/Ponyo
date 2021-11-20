@@ -39,7 +39,7 @@ const WriteReview = (props) => {
   };
 
   const onFinish = (values) => {
-    const res_id = "617d07fb8f7c593a9e729a56";
+    const res_id = "617aeb9ca6287c38c323f851";
     var image = [];
 
     if (values.pictures != undefined) {
@@ -55,8 +55,14 @@ const WriteReview = (props) => {
     ReviewAPI.addReview(user_id, res_id, data)
       .then((response) => {
         console.log(response.data);
-        props.func(true);
-        router.reload();
+        if (response.data) {
+          props.func(true);
+          router.reload();
+        } else {
+          message.warning(
+            "You already review this restaurant, try edit/delete instead"
+          );
+        }
       })
       .catch((e) => {
         console.log("Already review");

@@ -30,7 +30,7 @@ const Overview = (props) => {
   const [avgText, setAvgText] = useState(null);
   const [user_id, setUserID] = useState(null);
 
-  const res_id = "617d07fb8f7c593a9e729a56";
+  const res_id = "617aeb9ca6287c38c323f851";
 
   useEffect(() => {
     const token = localStorage.getItem("_token");
