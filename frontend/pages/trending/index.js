@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import BestRate from "../components/BestRate";
 import { TOP_3 } from "../components/BestRate/constant";
 import { BackTop } from "antd";
 import { Header, Type } from "./styled";
-import { useState, useEffect } from "react";
 import RestaurantAPI from "../api/restaurantAPI";
 
 const Trending = () => {
@@ -18,6 +17,10 @@ const Trending = () => {
   useEffect(() => {
     getTrending();
   }, []);
+
+  // useEffect(() => {
+  //   console.log("casual", cafeTrend);
+  // }, [cafeTrend]);
 
   const getTrending = () => {
     RestaurantAPI.getTrending("Casual Dining")

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   BestRateContianer,
   Underline,
@@ -12,9 +12,15 @@ import { TOP, SECOND, THIRD } from "./constant";
 
 const BestRate = (props) => {
   const isDarkTheme = props.theme === "dark";
-  if (props != null) {
-    console.log(props);
-  }
+  const [restaurantTrend, setRestaurantTrend] = useState(props.restaurants);
+
+  useEffect(() => {
+    setRestaurantTrend(props.restaurants);
+  }, [props.restaurants]);
+
+  useEffect(() => {
+    console.log("restaurantTrend", restaurantTrend);
+  }, [restaurantTrend]);
 
   return (
     <BestRateContianer isDark={isDarkTheme}>
@@ -23,20 +29,20 @@ const BestRate = (props) => {
       <ImageContainer>
         <BigImage>
           <Picture
-            info={props[TOP] ? props[TOP].data[TOP] : null}
+            info={restaurantTrend ? restaurantTrend[TOP] : null}
             isTop={true}
           />
         </BigImage>
         <SmallImageContainer>
           <SmallImage>
             <Picture
-              info={props[SECOND] ? props[SECOND].data[TOP] : null}
+              info={restaurantTrend ? restaurantTrend[SECOND] : null}
               isTop={false}
             />
           </SmallImage>
           <SmallImage>
             <Picture
-              info={props[THIRD] ? props[THIRD].data[TOP] : null}
+              info={restaurantTrend ? restaurantTrend[THIRD] : null}
               isTop={false}
             />
           </SmallImage>

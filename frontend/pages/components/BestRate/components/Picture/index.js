@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Description,
   RestaurantName,
@@ -10,11 +10,16 @@ import {
 
 const Picture = (props) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [trendInfo, setTrendInfo] = useState(props.info);
   const isTop = props.isTop;
 
-  if (props != null) {
-    console.log("picture", props);
-  }
+  useEffect(() => {
+    setTrendInfo(props.info);
+  }, [props.info]);
+
+  useEffect(() => {
+    console.log("cafe", trendInfo);
+  }, [trendInfo]);
 
   return (
     <>
