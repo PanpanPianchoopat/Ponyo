@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "next/router";
 import jwt from "jsonwebtoken";
+
 import {
   DetailContainer,
   LargeSection,
@@ -20,6 +21,7 @@ import {
   FullSection,
   EmptyDisplayContainer,
 } from "./styled";
+import CantWrite from "./components/CantWrite";
 import WriteReview from "./components/WriteReview";
 import Ratings from "./components/Ratings";
 import Carousel from "./components/Carousel";
