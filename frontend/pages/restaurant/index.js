@@ -46,11 +46,15 @@ const Restaurant = () => {
   const [commentAmountInfo, setCommentAmount] = useState(null);
   const [photoAmountInfo, setPhotoAmount] = useState(null);
   const [reviewInfo, setReview] = useState(null);
+  const [isUser, setIsUser] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("_token");
     const userData = jwt.decode(token);
-    setUserID(userData.id);
+    if (userData) {
+      setUserID(userData.id);
+      setIsUser(true);
+    }
   }, []);
 
   useEffect(() => {
@@ -258,7 +262,19 @@ const Restaurant = () => {
             />
           </LargeSection>
           <LargeSection>
-            <WriteReview func={updateInfo} />
+            {isUser ? (
+              <WriteReview func={updateInfo} />
+            ) : (
+              <div
+                style={{
+                  margin: "auto 0",
+                  background: "orange",
+                  display: "flex",
+                }}
+              >
+                Please Login To Review
+              </div>
+            )}
           </LargeSection>
         </div>
         <div>

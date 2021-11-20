@@ -35,7 +35,9 @@ const Overview = (props) => {
   useEffect(() => {
     const token = localStorage.getItem("_token");
     const userData = jwt.decode(token);
-    setUserID(userData.id);
+    if (userData) {
+      setUserID(userData.id);
+    }
   }, []);
 
   useEffect(() => {
