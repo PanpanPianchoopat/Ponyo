@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const ObjectId = mongoose.Types.ObjectId;
 import Restaurant from "../models/restaurantModel.js";
 import User from "../models/userModel.js";
+import Review from "../models/reviewModel.js";
 
 const router = express.router;
 
@@ -213,18 +214,22 @@ const searchWithStatus = async (resStatus, key, search, range, type) => {
     }
   }
   //Search Open Restaurants
-  else if (resStatus == 1) {
+  else if (resStatus == "OPEN") {
     //No Search Type and No Search Price (Open)
     if (!type && range[0] == 0 && range[1] == 0) {
-      const resOpen = await Restaurant.find({
-        [key]: { $regex: search, $options: "i" },
-        openDays: { weekDay: weekDay, dayStatus: 1 },
-        $and: [
-          { "openHours.openTime": { $lte: currentMin } },
-          { "openHours.closeTime": { $gte: currentMin } },
-        ],
-      });
-      return resOpen;
+      try {
+        const resOpen = await Restaurant.find({
+          [key]: { $regex: search, $options: "i" },
+          openDays: { weekDay: weekDay, dayStatus: 1 },
+          $and: [
+            { "openHours.openTime": { $lte: currentMin } },
+            { "openHours.closeTime": { $gte: currentMin } },
+          ],
+        });
+        return resOpen;
+      } catch (error) {
+        console.log("error search status OPEN");
+      }
     }
     //No Search Type (Open)
     else if (!type) {
@@ -254,16 +259,20 @@ const searchWithStatus = async (resStatus, key, search, range, type) => {
     }
     //No Search Price (Open)
     else if (range[0] == 0 && range[1] == 0) {
-      const resOpen = await Restaurant.find({
-        [key]: { $regex: search, $options: "i" },
-        type: type,
-        openDays: { weekDay: weekDay, dayStatus: 1 },
-        $and: [
-          { "openHours.openTime": { $lte: currentMin } },
-          { "openHours.closeTime": { $gte: currentMin } },
-        ],
-      });
-      return resOpen;
+      try {
+        const resOpen = await Restaurant.find({
+          [key]: { $regex: search, $options: "i" },
+          type: type,
+          openDays: { weekDay: weekDay, dayStatus: 1 },
+          $and: [
+            { "openHours.openTime": { $lte: currentMin } },
+            { "openHours.closeTime": { $gte: currentMin } },
+          ],
+        });
+        return resOpen;
+      } catch (error) {
+        console.log("error search OPEN (no price)");
+      }
     } else {
       const resOpen = await Restaurant.find({
         [key]: { $regex: search, $options: "i" },
@@ -402,13 +411,18 @@ const searchWithStatus = async (resStatus, key, search, range, type) => {
 
 const searchRestaurant = async (key, search, range, type, resStatus) => {
   //All (Open & Close)
-  if (resStatus == 2) {
+  if (resStatus == "ALL") {
     // NO Search Type & Price
     if (!type && range[0] == 0 && range[1] == 0) {
-      const Restaurants = await Restaurant.find({
-        [key]: { $regex: search, $options: "i" },
-      });
-      return Restaurants;
+      try {
+        const Restaurants = await Restaurant.find({
+          [key]: { $regex: search, $options: "i" },
+        });
+
+        return Restaurants;
+      } catch (error) {
+        console.log(error);
+      }
     }
     // NO Search Type
     else if (!type) {
@@ -463,21 +477,39 @@ const searchRestaurant = async (key, search, range, type, resStatus) => {
     }
   }
   // Open Restaurant
-  else if (resStatus == 1) {
-    const Restaurants = await searchWithStatus(1, key, search, range, type);
+  else if (resStatus == "OPEN") {
+    const Restaurants = await searchWithStatus(
+      "OPEN",
+      key,
+      search,
+      range,
+      type
+    );
     return Restaurants;
   }
   // Close Restaurant
   else {
-    const Restaurants = await searchWithStatus(0, key, search, range, type);
+    const Restaurants = await searchWithStatus(
+      "CLOSE",
+      key,
+      search,
+      range,
+      type
+    );
     return Restaurants;
   }
 };
 
 export const getRestaurant = async (req, res) => {
-  const { filter } = req.params;
-  const { search, priceRange, type, resStatus } = req.body;
+  var { filter, search, priceRange, type, resStatus } = req.params;
   const range = findPriceRange(priceRange);
+
+  if (search == "noInput") {
+    search = "";
+  }
+  if (type == "Cuisine") {
+    type = "";
+  }
 
   try {
     const Restaurants = await searchRestaurant(
@@ -511,6 +543,105 @@ export const getRestaurantStatus = async (req, res) => {
   try {
     const resOpen = await searchWithStatus(2, "_id", res_id, "", "");
     res.status(200).json(resOpen);
+  } catch (error) {
+    res.status(404).json({ Error: error.message });
+  }
+};
+
+export const getTrending = async (req, res) => {
+  const { type } = req.params;
+
+  try {
+    const trendingRes = await Restaurant.aggregate([
+      {
+        $match: {
+          type: type,
+        },
+      },
+      {
+        $project: {
+          name: 1,
+          description: 1,
+          res_id_string: {
+            $convert: {
+              input: "$_id",
+              to: "string",
+              onError: "",
+              onNull: "",
+            },
+          },
+          image: 1,
+        },
+      },
+      {
+        $lookup: {
+          from: "reviews",
+          localField: "res_id_string",
+          foreignField: "res_id",
+          as: "review",
+        },
+      },
+      {
+        $unwind: "$review",
+      },
+      {
+        $group: {
+          _id: { res_id: "$_id", type: type },
+          count: { $sum: 1 },
+          data: { $push: "$$ROOT" },
+        },
+      },
+      { $sort: { count: -1 } },
+      { $limit: 3 },
+    ]);
+
+    res.status(200).json(trendingRes);
+  } catch (error) {
+    res.status(404).json({ Error: error.message });
+  }
+};
+
+export const getBestTrending = async (req, res) => {
+  try {
+    const bestTrendingRes = await Restaurant.aggregate([
+      {
+        $project: {
+          name: 1,
+          description: 1,
+          res_id_string: {
+            $convert: {
+              input: "$_id",
+              to: "string",
+              onError: "",
+              onNull: "",
+            },
+          },
+          image: 1,
+        },
+      },
+      {
+        $lookup: {
+          from: "reviews",
+          localField: "res_id_string",
+          foreignField: "res_id",
+          as: "review",
+        },
+      },
+      {
+        $unwind: "$review",
+      },
+      {
+        $group: {
+          _id: { res_id: "$_id" },
+          count: { $sum: 1 },
+          data: { $push: "$$ROOT" },
+        },
+      },
+      { $sort: { count: -1 } },
+      { $limit: 3 },
+    ]);
+
+    res.status(200).json(bestTrendingRes);
   } catch (error) {
     res.status(404).json({ Error: error.message });
   }

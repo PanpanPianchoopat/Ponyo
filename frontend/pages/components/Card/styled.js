@@ -112,7 +112,7 @@ export const Ranking = styled.div.attrs((props) => {
 `;
 
 export const Status = styled.div.attrs((props) => {
-  const bgColor = props.status ? "#72C19A" : COLORS.PRIMARY_RED;
+  const bgColor = props.status ? "#72C19A" : "#EE2744";
   return { bgColor };
 })`
   display: flex;

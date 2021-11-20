@@ -79,7 +79,9 @@ const RestCard = ({ ...props }) => {
       cover={
         <CoverContainer customSize={props.size}>
           <IconWrapper>
-            <Status status={resStatus}>{resStatus ? "OPEN" : "CLOSE"}</Status>
+            {props.detail ? (
+              <Status status={resStatus}>{resStatus ? "OPEN" : "CLOSE"}</Status>
+            ) : null}
           </IconWrapper>
           <CoverPhoto src={resPicture} />
         </CoverContainer>

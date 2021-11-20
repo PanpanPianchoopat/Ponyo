@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import COLORS from "../../public/constant/colors";
 import Button from "../components/Button";
 import BestRate from "../components/BestRate";
@@ -7,6 +7,13 @@ import Card from "../components/Card";
 import { SAMPLE_DATA } from "../components/Card/constant";
 import { BackTop } from "antd";
 import Category from "./components/Category";
+import {
+  STATUS_OPTION,
+  FILTER_OPTION,
+  PRICE_OPTION,
+  CUISINE_OPTION,
+} from "./constant";
+import RestaurantAPI from "../api/restaurantAPI";
 import {
   Container,
   HeadSection,
@@ -26,67 +33,162 @@ import {
 
 const SearchRestaurant = () => {
   const { Option } = Selecter;
-  const statusOption = ["ALL", "OPEN", "CLOSE"];
   const [status, setStatus] = useState("ALL");
+  const [restaurant, setRestaurants] = useState(null);
+
+  const [searchValue, setSearchValue] = useState({
+    filter: "name",
+    input: "noInput",
+    price: 0,
+    cuisine: "Cuisine",
+  });
+
+  const [selectedCat, setSelectedCat] = useState("");
+  const [bestTrend, setBestTrend] = useState([]);
+  const [isBest, setIsBest] = useState(false);
+
+  const onFinish = () => {
+    getRestaurant();
+  };
+
+  useEffect(() => {
+    getAllRestaurant();
+  }, []);
+
+  useEffect(() => {
+    if (status != null) {
+      getRestaurant();
+    }
+  }, [status]);
+
+
+  useEffect(() => {
+    if (selectedCat != "") {
+      getRestaurantByType();
+    }
+  }, [selectedCat]);
+
+  useEffect(() => {
+    if (bestTrend != null && bestTrend.length != 0) {
+      setIsBest(true);
+    }
+  }, [bestTrend]);
 
   const changeStatus = (e) => {
     setStatus(e.target.value);
+  };
+
+  const getRestaurant = () => {
+    if (searchValue.filter == "address") {
+      searchValue.filter = "location.address";
+    }
+    RestaurantAPI.getRestaurant(
+      searchValue.filter,
+      searchValue.input,
+      searchValue.price,
+      searchValue.cuisine,
+      status
+    )
+      .then((response) => {
+        setRestaurants(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const getAllRestaurant = () => {
+    RestaurantAPI.getAllRestaurants()
+      .then((response) => {
+        setRestaurants(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    RestaurantAPI.getBestTrending()
+      .then((response) => {
+        setBestTrend(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const getRestaurantByType = () => {
+    RestaurantAPI.getRestaurantByType(selectedCat)
+      .then((response) => {
+        setRestaurants(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   return (
     <>
       <Container>
         <HeadSection>
-          {/* <Name>PONYO</Name> */}
-          <NameImage
-            src="/assets/ponyoName.svg"
-            preview={false}
-          />
+          <NameImage src="/assets/ponyoName.svg" preview={false} />
           <SearchBar>
             <Search.Group compact>
               <Selecter
                 bordered={false}
                 size="large"
-                defaultValue="name"
+                defaultValue="Name"
                 dropdownStyle={{
                   backgroundColor: COLORS.PRIMARY_LIGHT,
                 }}
+                onChange={(e) => {
+                  setSearchValue({ ...searchValue, filter: e });
+                }}
               >
-                <Option value="name">Name</Option>
-                <Option value="option2">Option2</Option>
-                <Option value="option3">Option3</Option>
+                {FILTER_OPTION.map((type) => {
+                  return <Option value={type.toLowerCase()}>{type}</Option>;
+                })}
               </Selecter>
-              <Search bordered={false} size="large" placeholder="Search" />
+              <Search
+                bordered={false}
+                size="large"
+                placeholder="Search"
+                onChange={(e) => {
+                  setSearchValue({ ...searchValue, input: e.target.value });
+                }}
+              />
               <Selecter
                 bordered={false}
                 size="large"
-                defaultValue="price"
+                defaultValue="Price"
                 dropdownStyle={{
                   backgroundColor: COLORS.PRIMARY_LIGHT,
                 }}
+                onChange={(e) => {
+                  setSearchValue({ ...searchValue, price: e });
+                }}
               >
-                <Option value="price">Price</Option>
-                <Option value="option2">Option2</Option>
-                <Option value="option3">Option3</Option>
+                {PRICE_OPTION.map((type, index) => {
+                  return <Option value={index.toString()}>{type}</Option>;
+                })}
               </Selecter>
               <Selecter
                 bordered={false}
                 size="large"
-                defaultValue="cusine"
+                defaultValue="Cuisine"
                 dropdownStyle={{
                   backgroundColor: COLORS.PRIMARY_LIGHT,
                 }}
+                onChange={(e) => {
+                  setSearchValue({ ...searchValue, cuisine: e });
+                }}
               >
-                <Option value="cusine">Cuisine</Option>
-                <Option value="option2">Option2</Option>
-                <Option value="option3">Option3</Option>
+                {CUISINE_OPTION.map((type) => {
+                  return <Option value={type}>{type}</Option>;
+                })}
               </Selecter>
-              <StyleButton>SEARCH</StyleButton>
+              <StyleButton onClick={onFinish}>SEARCH</StyleButton>
             </Search.Group>
           </SearchBar>
         </HeadSection>
-        <Category />
-
+        <Category setSelected={setSelectedCat} />
         <ContentContainer>
           <ContentName>
             Explore our restaurants
@@ -94,15 +196,17 @@ const SearchRestaurant = () => {
           </ContentName>
           <StatusBox>
             <Status.Group
-              options={statusOption}
+              options={STATUS_OPTION}
               onChange={changeStatus}
               value={status}
             />
           </StatusBox>
           <CardContainer>
-            {SAMPLE_DATA.map((detail, key) => (
-              <Card detail={detail} liked={true} saved={true} key={key} />
-            ))}
+            {restaurant
+              ? restaurant.map((detail, key) => (
+                  <Card detail={detail} liked={true} saved={true} key={key} />
+                ))
+              : null}
           </CardContainer>
           <Button variant="yellow">Explore more</Button>
         </ContentContainer>
@@ -110,7 +214,8 @@ const SearchRestaurant = () => {
           <BestRate
             head="Best rated restaurants"
             theme="dark"
-            restaurants={TOP_3}
+            restaurants={bestTrend.length != 0 ? bestTrend : null}
+            isNotNull={isBest}
           />
           <Button variant="yellow">Explore more</Button>
         </BestRateContainer>
