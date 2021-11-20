@@ -55,7 +55,8 @@ export const login = async (req, res) => {
         password: user.password,
         image: user.image,
       },
-      "PonyoSecret"
+      "PonyoSecret",
+      { expiresIn: "60s" }
     );
     res.status(200).json({ token: token });
   } else {
