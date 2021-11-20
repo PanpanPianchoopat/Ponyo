@@ -272,19 +272,7 @@ const Restaurant = (props) => {
             />
           </LargeSection>
           <LargeSection>
-            {isUser ? (
-              <WriteReview func={updateInfo} />
-            ) : (
-              <div
-                style={{
-                  margin: "auto 0",
-                  background: "orange",
-                  display: "flex",
-                }}
-              >
-                Please Login To Review
-              </div>
-            )}
+            {isUser ? <WriteReview func={updateInfo} /> : <CantWrite />}
           </LargeSection>
         </div>
         <div>
@@ -313,7 +301,7 @@ const Restaurant = (props) => {
           <Ratings rates={starInfo} />
         </FullSection>
         <FullSection>
-          <WriteReview />
+          {isUser ? <WriteReview func={updateInfo} /> : <CantWrite />}
         </FullSection>
       </DetailContainer>
 

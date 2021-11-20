@@ -46,8 +46,11 @@ export const Menu = styled.div`
   align-items: center;
 `;
 
-export const MenuItem = styled.div`
-  display: flex;
+export const MenuItem = styled.div.attrs((props) => {
+  const display = props.isVisible ? "flex" : "none";
+  return { display };
+})`
+  display: ${(props) => props.display};
   align-self: center;
   font-size: 24px;
   color: ${(props) =>
@@ -65,5 +68,28 @@ export const MenuItem = styled.div`
   }
   @media (max-width: ${BREAKPOINTS.IPHONE_11}) {
     display: none;
+  }
+`;
+
+export const BackButton = styled.button`
+  border: none;
+  background: none;
+  height: 100%;
+  width: 100px;
+  font-size: 18px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+  @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
+    font-size: 14px;
+  }
+  @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
+    font-size: 11px;
+    width: 60px;
   }
 `;
