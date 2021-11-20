@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { Dropdown } from "antd";
 import BREAKPOINTS from "../../../../../public/constant/breakpoints.js";
-import { Avatar } from "antd";
 
 export const LoginButton = styled.div`
   position: absolute;
@@ -21,12 +20,13 @@ export const HamburgerButton = styled(Dropdown)`
   }
 `;
 
-export const MyButton = styled(Avatar)`
+export const AvatarButton = styled(Dropdown)`
   position: absolute;
   right: 1rem;
-  cursor: pointer;
   width: 50px;
   height: 50px;
+  cursor: pointer;
+  display: flex;
   @media (max-width: ${BREAKPOINTS.HiDPI_LAPTOP}) {
     width: 40px;
     height: 40px;

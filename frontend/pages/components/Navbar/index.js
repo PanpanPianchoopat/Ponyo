@@ -1,22 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyledNav, Logo, MenuItem, StyledImage, Menu } from "./styled";
 import MenuButton from "./components/MenuButton";
 import { SEARCH, TREND } from "./constant";
 import { useRouter } from "next/router";
 
 const Navbar = () => {
-  const [selected, setSelcted] = useState(SEARCH);
+  const [selected, setSelected] = useState(SEARCH);
   const router = useRouter();
+  const { asPath } = useRouter();
 
   const handleClick = (menu) => {
     if (menu == SEARCH) {
-      setSelcted(SEARCH);
+      setSelected(SEARCH);
       router.push("/search");
     } else if (menu == TREND) {
-      setSelcted(TREND);
+      setSelected(TREND);
       router.push("/trending");
     }
   };
+
+  useEffect(() => {
+    if (asPath === "/trending") {
+      setSelected(TREND);
+    } else if (asPath === "/search") {
+      setSelected(SEARCH);
+    } else {
+      setSelected(null);
+    }
+  }, [asPath]);
 
   return (
     <StyledNav>

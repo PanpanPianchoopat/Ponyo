@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { MenuOutlined } from "@ant-design/icons";
-import { LoginButton, HamburgerButton, MyButton } from "./styled";
+import { LoginButton, HamburgerButton, AvatarButton } from "./styled";
 import Button from "../../../Button";
 import { Menu, Avatar } from "antd";
 import { useRouter } from "next/router";
 import jwt from "jsonwebtoken";
 import { BsFillPersonFill } from "react-icons/bs";
+import { LOGIN_MENU } from "./constant";
 
 const MenuButton = () => {
   const router = useRouter();
@@ -18,24 +19,20 @@ const MenuButton = () => {
   );
   const DropdownForLogin = (
     <Menu>
-      <Menu.Item key="1">Search Restaurant</Menu.Item>
-      <Menu.Item key="2" onClick={() => router.push("/trending")}>
-        Discover Trending
-      </Menu.Item>
-      <Menu.Item key="3" onClick={() => router.push("/myAccount")}>
-        My Account
-      </Menu.Item>
-      <Menu.Item key="4">Logout</Menu.Item>
+      {LOGIN_MENU.map((item) => (
+        <Menu.Item key={item.key} onClick={() => router.push(item.path)}>
+          {item.name}
+        </Menu.Item>
+      ))}
+      <Menu.Item key="logout">Log out</Menu.Item>
     </Menu>
   );
 
-  const [userID, setUserID] = useState(null);
   const [profile, setProfile] = useState(<BsFillPersonFill />);
   useEffect(() => {
     const token = localStorage.getItem("_token");
     const userData = jwt.decode(token);
     if (userData) {
-      setUserID(userData.id);
       if (userData.image) {
         setProfile(userData.image);
       }
@@ -67,7 +64,14 @@ const MenuButton = () => {
         </>
       ) : (
         <>
-          <MyButton src={profile} />
+          <AvatarButton
+            destroyPopupOnHide={true}
+            overlay={DropdownForLogin}
+            placement="bottomRight"
+            arrow
+          >
+            <Avatar src={profile} />
+          </AvatarButton>
           <HamburgerButton
             destroyPopupOnHide={true}
             overlay={DropdownForLogin}
