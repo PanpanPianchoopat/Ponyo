@@ -64,15 +64,15 @@ const register = () => {
 
   const [avatar, setAvatar] = useState("");
 
-  function getBase64(e) {
+  function getBase64(info) {
     const reader = new FileReader();
     reader.addEventListener("load", () => setAvatar(reader.result));
-    reader.readAsDataURL(e.file.originFileObj);
+    reader.readAsDataURL(info.file.originFileObj);
   }
 
-  const handleUpload = (e) => {
-    if (e.file.status === "done") {
-      getBase64(e);
+  const handleUpload = (info) => {
+    if (info.file.status === "done") {
+      getBase64(info);
     }
   };
 
@@ -251,12 +251,19 @@ const register = () => {
               >
                 <UploadImage
                   listType="picture-card"
-                  beforeUpload={() => false}
+                  // beforeUpload={() => false}
                   showUploadList={false}
-                  onChange={handleUpload}
+                  onChange={(info) => handleUpload(info)}
                   maxCount={1}
                 >
-                  {avatar ? <ProfileImage src={avatar} /> : <CameraIcon />}
+                  {avatar ? (
+                    <ProfileImage src={avatar} />
+                  ) : (
+                    <>
+                      <CameraIcon />
+                      <PlusIcon />
+                    </>
+                  )}
                   {/* <CameraIcon />
                   <PlusIcon /> */}
                 </UploadImage>
