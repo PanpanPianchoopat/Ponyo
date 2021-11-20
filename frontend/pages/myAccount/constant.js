@@ -1,6 +1,8 @@
 export const FAVOURITE = 0;
 export const INTEREST = 1;
 
+export const AVATAR_SIZE = 100;
+
 export const PROFILE = {
   name: "Aang The Last Air Bender",
   password: "Aang1234",

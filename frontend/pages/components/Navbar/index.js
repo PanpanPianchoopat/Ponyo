@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { StyledNav, Logo, MenuItem, StyledImage, Menu } from "./styled";
 import MenuButton from "./components/MenuButton";
+import { SEARCH, TREND } from "./constant";
 
 const Navbar = () => {
-  const [selected, setSelcted] = useState("list");
+  const [selected, setSelcted] = useState(SEARCH);
 
   return (
     <StyledNav>
@@ -12,15 +13,12 @@ const Navbar = () => {
       </Logo>
       <Menu>
         <MenuItem
-          onClick={() => setSelcted("list")}
-          active={selected === "list"}
+          onClick={() => setSelcted(SEARCH)}
+          active={selected === SEARCH}
         >
           Search Restaurant
         </MenuItem>
-        <MenuItem
-          onClick={() => setSelcted("trend")}
-          active={selected === "trend"}
-        >
+        <MenuItem onClick={() => setSelcted(TREND)} active={selected === TREND}>
           Discover Trending
         </MenuItem>
         <MenuButton />

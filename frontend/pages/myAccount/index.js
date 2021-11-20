@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import jwt from "jsonwebtoken";
-import { Avatar, Modal, Form, Input } from "antd";
+import { Avatar } from "antd";
 import Button from "../components/Button";
 import RestList from "./components/RestList";
-import { PROFILE, FAVOURITE, INTEREST } from "./constant";
 import EditProfile from "./components/EditProfile";
+import { PROFILE, FAVOURITE, INTEREST, AVATAR_SIZE } from "./constant";
 import {
   ProfileContainer,
   ProfilePicture,
@@ -32,10 +32,19 @@ const myAccount = () => {
   //   console.log("EDIT_PROFILE", profile.name);
   // }, [profile]);
 
+  const [restList, setRestList] = useState(<RestList type={FAVOURITE} />);
+  useEffect(() => {
+    if (selectedTab == INTEREST) {
+      setRestList(<RestList type={INTEREST} />);
+    } else if (selectedTab == FAVOURITE) {
+      setRestList(<RestList type={FAVOURITE} />);
+    }
+  }, [selectedTab]);
+
   return (
     <ProfileContainer>
       <ProfilePicture>
-        <Avatar size={100} src={userData ? userData.image : null} />
+        <Avatar size={AVATAR_SIZE} src={userData ? userData.image : null} />
         <h3>{userData ? userData.username : null}</h3>
       </ProfilePicture>
       <Button variant="transparent" onClick={() => setPopupVisible(true)}>
@@ -70,13 +79,7 @@ const myAccount = () => {
             My Interests
           </Menu>
         </TabContainer>
-        <List>
-          {selectedTab == FAVOURITE ? (
-            <RestList type={FAVOURITE} />
-          ) : (
-            <RestList type={INTEREST} />
-          )}
-        </List>
+        <List>{restList}</List>
       </ListContainer>
     </ProfileContainer>
   );

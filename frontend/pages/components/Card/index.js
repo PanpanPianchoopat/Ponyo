@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { EditOutlined } from "@ant-design/icons";
+import { MAX_NAME_LEN, MAX_DES_LEN, MAX_LOCATION_LEN } from "./constant";
 import {
   RestaurantCard,
   IconWrapper,
@@ -43,7 +43,6 @@ const RestCard = ({ ...props }) => {
     getAvgRate(props.detail._id);
   }, [props.detail]);
 
-
   const getRestaurantStatus = (res_id) => {
     RestaurantAPI.getRestaurantStatus(res_id)
       .then((response) => {
@@ -73,9 +72,7 @@ const RestCard = ({ ...props }) => {
       cover={
         <CoverContainer customSize={props.size}>
           <IconWrapper>
-            {resStatus ? (
-              <Status status={resStatus}>{resStatus ? "OPEN" : "CLOSE"}</Status>
-            ) : null}
+            <Status status={resStatus}>{resStatus ? "OPEN" : "CLOSE"}</Status>
           </IconWrapper>
           <CoverPhoto src={resPicture} />
         </CoverContainer>
@@ -86,15 +83,15 @@ const RestCard = ({ ...props }) => {
         <LeftSection>
           <RestaurantName>
             {resName
-              ? resName.length > 20
-                ? `${resName.substring(0, 20)}...`
+              ? resName.length > MAX_NAME_LEN
+                ? `${resName.substring(0, MAX_NAME_LEN)}...`
                 : resName
               : null}
           </RestaurantName>
           <Description>
             {description
-              ? description.length > 60
-                ? `${description.substring(0, 60)}...`
+              ? description.length > MAX_DES_LEN
+                ? `${description.substring(0, MAX_DES_LEN)}...`
                 : description
               : null}
           </Description>
@@ -113,7 +110,9 @@ const RestCard = ({ ...props }) => {
       {location ? (
         <Location>
           <PinIcon />
-          {location.length > 25 ? `${location.substring(0, 25)}...` : location}
+          {location.length > MAX_LOCATION_LEN
+            ? `${location.substring(0, MAX_LOCATION_LEN)}...`
+            : location}
         </Location>
       ) : null}
     </RestaurantCard>

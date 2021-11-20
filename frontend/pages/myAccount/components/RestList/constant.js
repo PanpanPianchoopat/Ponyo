@@ -1,3 +1,6 @@
+import { LoadingIcon } from "./styled";
+export const LOADING = <LoadingIcon spin />;
+
 export const FAV_LIST = [
   {
     rank: 1,

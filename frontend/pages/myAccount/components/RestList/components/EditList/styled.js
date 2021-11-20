@@ -98,3 +98,10 @@ export const ButtonGroup = styled.div`
 export const StyledButton = styled(Button)`
   width: 100px;
 `;
+
+export const EmptyListDisplay = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1rem;
+`;
