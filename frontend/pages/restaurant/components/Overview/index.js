@@ -25,12 +25,17 @@ const Overview = (props) => {
   const commentCount = props.commentAmount;
   const bookmarked = props.isBookmarked;
   const liked = props.isLiked;
+  const [resID, setResID] = useState(null);
   const [isBookmarked, setBookmark] = useState(bookmarked);
   const [isLiked, setIsLiked] = useState(liked);
   const [avgText, setAvgText] = useState(null);
   const [user_id, setUserID] = useState(null);
 
-  const res_id = "617aeb9ca6287c38c323f851";
+  useEffect(() => {
+    if (props.info) {
+      setResID(props.info.details._id);
+    }
+  }, [props.info]);
 
   useEffect(() => {
     const token = localStorage.getItem("_token");
@@ -67,7 +72,7 @@ const Overview = (props) => {
 
   const manageRestaurantList = (key, isDeleteFromList) => {
     if (!isDeleteFromList) {
-      UserAPI.addRestaurantToList(key, user_id, res_id)
+      UserAPI.addRestaurantToList(key, user_id, resID)
         .then((response) => {
           console.log(response.data);
         })
@@ -75,7 +80,7 @@ const Overview = (props) => {
           console.log(e);
         });
     } else {
-      UserAPI.removeResFromList(key, user_id, res_id)
+      UserAPI.removeResFromList(key, user_id, resID)
         .then((response) => {
           console.log(response.data);
         })
