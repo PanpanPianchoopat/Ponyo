@@ -27,6 +27,7 @@ import {
   StyleButton,
   CustomButton,
   UploadImage,
+  ProfileImage,
   CameraIcon,
   PlusIcon,
 } from "./styled";
@@ -60,6 +61,20 @@ const register = () => {
   };
 
   const [gender, setGender] = useState("");
+
+  const [avatar, setAvatar] = useState("");
+
+  function getBase64(e) {
+    const reader = new FileReader();
+    reader.addEventListener("load", () => setAvatar(reader.result));
+    reader.readAsDataURL(e.file.originFileObj);
+  }
+
+  const handleUpload = (e) => {
+    if (e.file.status === "done") {
+      getBase64(e);
+    }
+  };
 
   return (
     <Container>
@@ -237,11 +252,13 @@ const register = () => {
                 <UploadImage
                   listType="picture-card"
                   beforeUpload={() => false}
-                  showUploadList={{ showPreviewIcon: false }}
+                  showUploadList={false}
+                  onChange={handleUpload}
                   maxCount={1}
                 >
-                  <CameraIcon />
-                  <PlusIcon />
+                  {avatar ? <ProfileImage src={avatar} /> : <CameraIcon />}
+                  {/* <CameraIcon />
+                  <PlusIcon /> */}
                 </UploadImage>
               </Form.Item>
               <Form.Item

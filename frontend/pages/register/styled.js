@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import COLORS from "../../public/constant/colors";
 import Image from "next/image";
-import { DatePicker, Upload } from "antd";
+import { DatePicker, Upload, Avatar } from "antd";
 import { CameraFilled, PlusCircleFilled } from "@ant-design/icons";
 import BREAKPOINTS from "../../public/constant/breakpoints";
 
@@ -249,6 +249,11 @@ export const UploadImage = styled(Upload)`
   .ant-upload-list-item-info::before {
     left: 0;
   }
+`;
+
+export const ProfileImage = styled(Avatar)`
+  width: 100%;
+  height: 100%;
 `;
 
 export const CameraIcon = styled(CameraFilled)`
