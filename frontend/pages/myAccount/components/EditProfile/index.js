@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import bcrypt from "bcryptjs";
 import { Form, Input, Upload, Avatar } from "antd";
-import Button from "../../../components/Button";
-
+import {
+  USERNAME_LEN,
+  PASSWORD_LEN,
+} from "../../../../public/constant/account";
 import { BsFillPencilFill, BsPersonFill } from "react-icons/bs";
 import {
   UploadAvatar,
@@ -19,14 +21,16 @@ import { StyledButton } from "../RestList/components/EditList/styled";
 import UserAPI from "../../../api/userAPI";
 
 const EditProfile = (props) => {
-  console.log(props.info);
   const oldPass = props.info.password;
   const [editProfile, setEditProfile] = useState(props.info);
   const [avatar, setAvatar] = useState(props.info.image);
 
-  const onFinish = (value) => {
+  const onFinish = async (value) => {
     const editPass = value.new_pass !== undefined;
-    const newPassword = editPass ? value.new_pass : oldPass;
+    const newPassword = editPass
+      ? await bcrypt.hash(value.new_pass, 10)
+      : oldPass;
+
     props.setNewProfile({
       username: value.username,
       password: newPassword,
@@ -45,7 +49,7 @@ const EditProfile = (props) => {
     UserAPI.editProfile(props.info.id, data)
       .then((response) => {
         localStorage.setItem("_token", response.data.token);
-        console.log(response.data.token);
+        console.log("Update Profile Success");
       })
       .catch((e) => {
         console.log(e);
@@ -60,7 +64,6 @@ const EditProfile = (props) => {
 
   const handleUpload = (info) => {
     if (info.file.status === "done") {
-      console.log("PIC", info);
       getBase64(info);
     }
   };
@@ -85,8 +88,8 @@ const EditProfile = (props) => {
   const validateUsername = (rule, value, callback) => {
     let trimedName = value.trim();
     trimedName = trimedName.replace(/\s+/g, " ");
-    if (trimedName.length < 6 && value != null) {
-      callback("Must contain more than 6 charaters");
+    if (trimedName.length < USERNAME_LEN && value != null) {
+      callback(`Must be at least ${USERNAME_LEN} charaters`);
       setCheckUsername("error");
     } else if (trimedName == props.info.username) {
       callback();
@@ -98,7 +101,7 @@ const EditProfile = (props) => {
             callback();
             setCheckUsername("success");
           } else {
-            callback("This username already has");
+            callback("This username is not available, please try a unique one");
             setCheckUsername("error");
           }
         })
@@ -157,9 +160,9 @@ const EditProfile = (props) => {
             () => ({
               validator(_, value) {
                 if (value != null) {
-                  if (value.length < 6) {
+                  if (value.length < PASSWORD_LEN) {
                     return Promise.reject(
-                      new Error("Must be at least 6 characters")
+                      new Error(`Must be at least ${PASSWORD_LEN} characters`)
                     );
                   }
                 }

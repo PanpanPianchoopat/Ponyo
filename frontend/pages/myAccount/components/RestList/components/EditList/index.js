@@ -14,23 +14,15 @@ import {
   DeleteWarning,
   ButtonGroup,
   StyledButton,
+  EmptyListDisplay,
 } from "./styled";
-
+import Image from "next/image";
 import { List, arrayMove, arrayRemove } from "react-movable";
 import UserAPI from "../../../../../api/userAPI";
 
 const EditList = (props) => {
   const [favList, setFavList] = useState(props.list);
   const user_id = "618e861f44657266888550c3";
-
-  useEffect(() => {
-    // if there's a change in fav list, reorder the rankings
-    for (var i = 0; i < favList.length; i++) {
-      favList[i].rank = i + 1;
-    }
-    console.log("NEW_LIST", favList);
-    props.updateList(favList); //send new list back to parent
-  }, [favList]);
 
   const handleChange = (oldIndex, newIndex) => {
     setFavList(arrayMove(favList, oldIndex, newIndex));
@@ -48,7 +40,7 @@ const EditList = (props) => {
     }
     // Keep only id
     for (var i = 0; i < favList.length; i++) {
-      idFavList[i] = favList[i]._id
+      idFavList[i] = favList[i]._id;
     }
     console.log("NEW_LIST", idFavList);
     editMyFavList(user_id, idFavList);
@@ -68,40 +60,51 @@ const EditList = (props) => {
 
   return (
     <PopupContainer>
-      Drag and drop to rearrange
-      <List
-        values={favList}
-        onChange={({ oldIndex, newIndex }) => handleChange(oldIndex, newIndex)}
-        renderList={({ children, props }) => (
-          <EdittableList {...props}>{children}</EdittableList>
-        )}
-        renderItem={({ value, index, props }) => (
-          <li {...props}>
-            <ItemCard>
-              <RankingIcon />
-              <Ranking> {index + 1}</Ranking>
-              <CardImage src={value.image[1]} />
-              <CardDetail>
-                <TextContainer>
-                  {value.name}
-                  <Description>{value.description}</Description>
-                </TextContainer>
-                <DeleteWarning
-                  title={`Are you sure to remove '${value.name}' from the list?`}
-                  placement="topRight"
-                  onConfirm={() => handleDelete(index)}
-                  okText="Yes"
-                  cancelText="No"
-                >
-                  <DeleteButton>
-                    <BinIcon />
-                  </DeleteButton>
-                </DeleteWarning>
-              </CardDetail>
-            </ItemCard>
-          </li>
-        )}
-      />
+      {favList.length > 0 ? (
+        <>
+          <p>Drag and drop to rearrange</p>
+          <List
+            values={favList}
+            onChange={({ oldIndex, newIndex }) =>
+              handleChange(oldIndex, newIndex)
+            }
+            renderList={({ children, props }) => (
+              <EdittableList {...props}>{children}</EdittableList>
+            )}
+            renderItem={({ value, index, props }) => (
+              <li {...props}>
+                <ItemCard>
+                  <RankingIcon />
+                  <Ranking> {index + 1}</Ranking>
+                  <CardImage src={value.image[1]} />
+                  <CardDetail>
+                    <TextContainer>
+                      {value.name}
+                      <Description>{value.description}</Description>
+                    </TextContainer>
+                    <DeleteWarning
+                      title={`Are you sure to remove '${value.name}' from the list?`}
+                      placement="topRight"
+                      onConfirm={() => handleDelete(index)}
+                      okText="Yes"
+                      cancelText="No"
+                    >
+                      <DeleteButton>
+                        <BinIcon />
+                      </DeleteButton>
+                    </DeleteWarning>
+                  </CardDetail>
+                </ItemCard>
+              </li>
+            )}
+          />
+        </>
+      ) : (
+        <EmptyListDisplay>
+          <Image src="/assets/redBowl.svg" width={100} height={100} />
+          <p>Empty List</p>
+        </EmptyListDisplay>
+      )}
       <ButtonGroup>
         <StyledButton
           variant="transparent"

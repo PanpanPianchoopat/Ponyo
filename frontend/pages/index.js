@@ -14,23 +14,6 @@ function Home() {
 
       <main className={styles.main}>
         {/* <Carousel slides={SAMPLE_IMAGE} /> */}
-        <div style={{ display: "flex", flexWrap: "wrap" }}>
-          <Card
-            detail={SAMPLE_DATA[1]}
-            liked={SAMPLE_DATA[1].liked}
-            saved={SAMPLE_DATA[1].saved}
-          />
-          <Card
-            detail={SAMPLE_DATA[0]}
-            liked={SAMPLE_DATA[0].liked}
-            saved={SAMPLE_DATA[0].saved}
-          />
-          <Card
-            detail={SAMPLE_DATA[1]}
-            liked={SAMPLE_DATA[1].liked}
-            saved={SAMPLE_DATA[1].saved}
-          />
-        </div>
       </main>
       <footer></footer>
     </div>

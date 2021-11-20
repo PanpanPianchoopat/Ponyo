@@ -14,9 +14,9 @@ import {
   EmptyList,
   EmptyTextContainer,
 } from "./styled";
-import { Router } from "next/dist/client/router";
 import UserAPI from "../../../api/userAPI";
-import { useRouter } from "next/router";
+import { Spin } from "antd";
+import { LOADING } from "./constant";
 
 const RestList = (props) => {
   const isFav = props.type == FAVOURITE;
@@ -27,14 +27,20 @@ const RestList = (props) => {
     ? "My Interest"
     : null;
   const [user_id, setUserID] = useState(null);
-  const [favList, setFavList] = useState(null);
-  const [inList, setInList] = useState(null);
-  const REST_LIST = isFav ? favList : inList;
   const emptyDisplay = isFav ? "liked" : "saved";
   const isLarge = isFav ? "large" : "";
   const [popupVisible, setPopupVisible] = useState(false);
   const [edittedList, setEdittedList] = useState(null);
-  const router = useRouter();
+  const [edittable, setEdittable] = useState(false);
+  useEffect(() => {
+    const isEdittable =
+      props.type == FAVOURITE && edittedList && edittedList.length > 0;
+    if (isEdittable) {
+      setEdittable(true);
+    } else {
+      setEdittable(false);
+    }
+  }, [props.type, edittedList]);
 
   useEffect(() => {
     const token = localStorage.getItem("_token");
@@ -44,37 +50,36 @@ const RestList = (props) => {
 
   useEffect(() => {
     if (user_id != null) {
+      setEdittedList(null);
       getMyRestaurantList();
     }
-  }, [user_id]);
+  }, [props.type, user_id]);
 
   const getMyRestaurantList = () => {
-    UserAPI.getMyRestaurantList("myFavRestaurants", user_id)
-      .then((response) => {
-        setFavList(response.data);
-        setEdittedList(response.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-
-    UserAPI.getMyRestaurantList("myInterestRestaurants", user_id)
-      .then((response) => {
-        setInList(response.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    if (props.type == FAVOURITE) {
+      UserAPI.getMyRestaurantList("myFavRestaurants", user_id)
+        .then((response) => {
+          setEdittedList(response.data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } else if (props.type == INTEREST) {
+      UserAPI.getMyRestaurantList("myInterestRestaurants", user_id)
+        .then((response) => {
+          setEdittedList(response.data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
   };
 
   return (
     <>
       <HeaderWrapper headerType={props.type}>
         <ListHeader>{listHead}</ListHeader>
-        <EditButton
-          visible={REST_LIST && REST_LIST.length >= 1}
-          onClick={() => setPopupVisible(true)}
-        >
+        <EditButton visible={edittable} onClick={() => setPopupVisible(true)}>
           Edit List
         </EditButton>
       </HeaderWrapper>
@@ -101,7 +106,9 @@ const RestList = (props) => {
               <Button variant="yellow">Explore</Button>
             </EmptyList>
           )
-        ) : null}
+        ) : (
+          <Spin indicator={LOADING} />
+        )}
       </CardsWrapper>
 
       <Popup
