@@ -31,11 +31,6 @@ const EditProfile = (props) => {
       ? await bcrypt.hash(value.new_pass, 10)
       : oldPass;
 
-    props.setNewProfile({
-      username: value.username,
-      password: newPassword,
-      image: avatar,
-    });
     updateProfile(value.username, newPassword);
     props.popupVisible(false);
   };
@@ -50,6 +45,7 @@ const EditProfile = (props) => {
       .then((response) => {
         localStorage.setItem("_token", response.data.token);
         console.log("Update Profile Success");
+        props.setNewProfile(data);
       })
       .catch((e) => {
         console.log(e);
@@ -71,7 +67,6 @@ const EditProfile = (props) => {
   const [checkOldPass, setCheckOldPass] = useState(null);
   const validateOldPass = async (rule, value, callback) => {
     const isPasswordValid = await bcrypt.compare(value, oldPass);
-
     if (!value) {
       callback("Need password to edit profile");
       setCheckOldPass("warning");

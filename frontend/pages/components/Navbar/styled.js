@@ -55,7 +55,10 @@ export const MenuItem = styled.div`
     font-size: 20px;
   }
   @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
-    font-size: 20px;
+    font-size: 16px;
+  }
+  @media (max-width: ${BREAKPOINTS.IPAD_PORTRAIT}) {
+    font-size: 12px;
   }
   @media (max-width: ${BREAKPOINTS.IPHONE_11}) {
     display: none;
