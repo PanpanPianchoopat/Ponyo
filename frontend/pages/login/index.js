@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import useAppSelector from "../../hooks/useAppSelector";
 import useAppDispatch from "../../hooks/useAppDispatch";
 
@@ -32,18 +32,20 @@ const Signin = () => {
   const router = useRouter();
   const { isLogin } = useAppSelector((state) => state.auth);
 
+  useEffect(() => {
+    if (isLogin) {
+      router.push("/search");
+    } else {
+      console.log("CANNOT LOGIN");
+    }
+  }, [isLogin]);
+
   const auth = (val) => {
     const credential = {
       email: val.email,
       password: val.password,
     };
     dispatch(Login(credential));
-    if (isLogin) {
-      router.push("/search");
-    } else {
-      console.log("CANNOT LOGIN");
-    }
-    console.log("login", isLogin);
   };
 
   const dispatch = useAppDispatch();

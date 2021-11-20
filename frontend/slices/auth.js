@@ -24,10 +24,18 @@ export const Login = createAsyncThunk("User/Login", async (credential) => {
         headers: { "content-type": "application/json" },
       }
     );
-    localStorage.setItem("_token", response.data.token);
-    return response.data;
+
+    console.log(response);
+    if (response.data.status) {
+      localStorage.setItem("_token", response.data.token);
+      return response.data;
+    } else {
+      localStorage.setItem("_token", "");
+      return null;
+    }
   } catch (err) {
     localStorage.setItem("_token", "");
+    console.log(err);
     return "";
   }
 });
@@ -36,11 +44,11 @@ const authSlice = createSlice({
   name: "authSlice",
   initialState,
   reducers: {
-    setAuthState(state, action) {
-      state.data = jwt.decode(action.payload.token);
-      state.isLogin = true;
-      state.token = action.payload.token;
-    },
+    // setAuthState(state, action) {
+    //   state.data = jwt.decode(action.payload.token);
+    //   state.isLogin = true;
+    //   state.token = action.payload.token;
+    // },
   },
   extraReducers: (builder) => {
     builder
@@ -50,13 +58,17 @@ const authSlice = createSlice({
         }
       })
       .addCase(Login.fulfilled, (state, action) => {
-        state.token = action.payload.token;
-        state.data = jwt.decode(action.payload.token);
-        state.isLogin = true;
-        state.loading = false;
-        state.hasError = false;
+        console.log(action.payload);
+        if (action.payload != null) {
+          state.token = action.payload.token;
+          state.data = jwt.decode(action.payload.token);
+          state.isLogin = true;
+          state.loading = false;
+          state.hasError = false;
+        }
       })
       .addCase(Login.rejected, (state) => {
+        state.isLogin = false;
         state.loading = false;
         state.hasError = true;
       });

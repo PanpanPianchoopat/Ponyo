@@ -58,9 +58,9 @@ export const login = async (req, res) => {
       "PonyoSecret",
       { expiresIn: "60s" }
     );
-    res.status(200).json({ token: token });
+    res.status(200).json({ status: true, token: token });
   } else {
-    res.status(404).json({ Error: "Login Failed" });
+    res.status(200).json({ status: false, token: null });
   }
 };
 
