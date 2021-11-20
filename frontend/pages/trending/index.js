@@ -6,6 +6,7 @@ import { Header, Type } from "./styled";
 import RestaurantAPI from "../api/restaurantAPI";
 
 const Trending = () => {
+  const [bestTrend, setBestTrend] = useState([]);
   const [casualTrend, setCasual] = useState([]);
   const [foodTrucksTrend, setFoodTrucks] = useState([]);
   const [fastFoodTrend, setFastFood] = useState([]);
@@ -14,6 +15,7 @@ const Trending = () => {
   const [pubTrend, setPub] = useState([]);
   const [buffetTrend, setBuffet] = useState([]);
 
+  const [isBest, setIsBest] = useState(false);
   const [isCasual, setIsCasual] = useState(false);
   const [isFoodTruck, setIsfoodTruck] = useState(false);
   const [isFastFood, setIsFastFood] = useState(false);
@@ -27,6 +29,9 @@ const Trending = () => {
   }, []);
 
   useEffect(() => {
+    if (bestTrend != null && bestTrend.length != 0) {
+      setIsBest(true);
+    }
     if (casualTrend != null && casualTrend.length != 0) {
       setIsCasual(true);
     }
@@ -49,6 +54,7 @@ const Trending = () => {
       setIsBuffet(true);
     }
   }, [
+    bestTrend,
     casualTrend,
     foodTrucksTrend,
     fastFoodTrend,
@@ -59,6 +65,13 @@ const Trending = () => {
   ]);
 
   const getTrending = () => {
+    RestaurantAPI.getBestTrending()
+      .then((response) => {
+        setBestTrend(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
     RestaurantAPI.getTrending("Casual Dining")
       .then((response) => {
         setCasual(response.data);
@@ -116,7 +129,8 @@ const Trending = () => {
         <BestRate
           head="Best rated restaurants"
           theme="dark"
-          restaurants={TOP_3}
+          restaurants={bestTrend.length != 0 ? bestTrend : null}
+          isNotNull={isBest}
         />
       </Header>
       <Type>

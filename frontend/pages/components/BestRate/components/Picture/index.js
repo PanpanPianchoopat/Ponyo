@@ -7,7 +7,7 @@ import {
   Rating,
   StarIcon,
 } from "./styled";
-import reviewAPI from "../../../../api/reviewAPI";
+import ReviewAPI from "../../../../api/reviewAPI";
 
 const Picture = (props) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -17,25 +17,24 @@ const Picture = (props) => {
 
   useEffect(() => {
     setTrendInfo(props.info);
-    getRestaurantRate();
   }, [props.info]);
 
- 
-
   useEffect(() => {
-    console.log("star", rate);
-  }, [rate]);
+    if (trendInfo != null) {
+      getRestaurantRate();
+    }
+  }, [trendInfo]);
 
-  // const getRestaurantRate = () => {
-  //   ReviewAPI.calReviewRate(trendInfo._id)
-  //     .then((response) => {
-  //       console.log("res", response.data);
-  //       setRate(response.data);
-  //     })
-  //     .catch((e) => {
-  //       console.log(e);
-  //     });
-  // };
+  const getRestaurantRate = () => {
+    ReviewAPI.calReviewRate(trendInfo._id)
+      .then((response) => {
+        console.log("res", response.data);
+        setRate(response.data[0]);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
   return (
     <>
@@ -52,10 +51,10 @@ const Picture = (props) => {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       />
-      {/* <Rating>
+      <Rating>
         <StarIcon />
-        {props.info.rate}
-      </Rating> */}
+        {rate ? rate.avgStar : 0}
+      </Rating>
     </>
   );
 };
