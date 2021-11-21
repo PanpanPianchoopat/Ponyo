@@ -41,7 +41,7 @@
   letter-spacing: 0.4em;
   color: rgba(255, 255, 255, 0.5);
   animation: in 4s ease-out forwards infinite;
-  animation-delay: 2s;
+  animation-delay: 0.5s;
 }
 
 @media (max-width: 1920px) {
