@@ -39,7 +39,7 @@ const WriteReview = (props) => {
   };
 
   const onFinish = (values) => {
-    const res_id = "617aeb9ca6287c38c323f851";
+    const resID = props.resID;
     var image = [];
 
     if (values.pictures != undefined) {
@@ -52,7 +52,7 @@ const WriteReview = (props) => {
       image: image,
     };
 
-    ReviewAPI.addReview(user_id, res_id, data)
+    ReviewAPI.addReview(user_id, resID, data)
       .then((response) => {
         console.log(response.data);
         if (response.data) {

@@ -274,7 +274,11 @@ const Restaurant = (props) => {
             />
           </LargeSection>
           <LargeSection>
-            {isUser ? <WriteReview func={updateInfo} /> : <CantWrite />}
+            {isUser ? (
+              <WriteReview func={updateInfo} resID={resID} />
+            ) : (
+              <CantWrite />
+            )}
           </LargeSection>
         </div>
         <div>
