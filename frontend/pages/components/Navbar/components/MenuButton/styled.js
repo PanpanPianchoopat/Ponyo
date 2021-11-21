@@ -27,6 +27,8 @@ export const AvatarButton = styled(Dropdown)`
   height: 50px;
   cursor: pointer;
   display: flex;
+  align-items: center;
+  justify-content: center;
   @media (max-width: ${BREAKPOINTS.HiDPI_LAPTOP}) {
     width: 40px;
     height: 40px;
