@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Form } from "antd";
 import Button from "../../components/Button";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import UserAPI from "../api/userAPI.js";
 import {
   Container,
@@ -34,6 +35,7 @@ import {
 
 const register = () => {
   const [form] = Form.useForm();
+  const router = useRouter();
   const onFinish = (values) => {
     var profile = null;
 
@@ -53,7 +55,9 @@ const register = () => {
 
     UserAPI.register(data)
       .then((response) => {
-        console.log(response.data);
+        if(response.data.status){
+          router.push("/login");
+        }
       })
       .catch((e) => {
         console.log("Already has username or email");
