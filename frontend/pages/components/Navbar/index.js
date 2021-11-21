@@ -11,6 +11,7 @@ import MenuButton from "./components/MenuButton";
 import { SEARCH, TREND } from "./constant";
 import { useRouter } from "next/router";
 import { LeftOutlined } from "@ant-design/icons";
+import jwt from "jsonwebtoken";
 
 const Navbar = () => {
   const [navVisible, setNavVisible] = useState(true);
@@ -29,6 +30,7 @@ const Navbar = () => {
     }
   };
 
+  const [isGuest, setIsGuest] = useState(true);
   useEffect(() => {
     if (asPath === "/trending") {
       setNavVisible(true);
@@ -43,7 +45,14 @@ const Navbar = () => {
     } else {
       setNavVisible(true);
       setMenuVisible(true);
-      setSelected(SEARCH);
+      setSelected(null);
+    }
+    const token = localStorage.getItem("_token");
+    const userData = jwt.decode(token);
+    if (userData) {
+      setIsGuest(false);
+    } else {
+      setIsGuest(true);
     }
   }, [asPath]);
 
@@ -74,7 +83,7 @@ const Navbar = () => {
         >
           Discover Trending
         </MenuItem>
-        <MenuButton />
+        <MenuButton isGuest={isGuest} setIsGuest={setIsGuest} />
       </Menu>
     </StyledNav>
   );

@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { MenuOutlined } from "@ant-design/icons";
-import { LoginButton, HamburgerButton, AvatarButton } from "./styled";
+import {
+  LoginButton,
+  HamburgerButton,
+  AvatarButton,
+  DynamicButton,
+} from "./styled";
 import Button from "../../../Button";
 import { Menu, Avatar } from "antd";
 import { useRouter } from "next/router";
@@ -8,15 +13,25 @@ import jwt from "jsonwebtoken";
 import { BsFillPersonFill } from "react-icons/bs";
 import { LOGIN_MENU } from "./constant";
 
-const MenuButton = () => {
+const MenuButton = (props) => {
   const router = useRouter();
-  const [loggedIn, setLoggedIn] = useState(false);
+
   const DropdownForGuest = (
     <Menu>
-      <Menu.Item key="1">Search Restaurant</Menu.Item>
-      <Menu.Item key="2">Login</Menu.Item>
+      <Menu.Item key="1" onClick={() => router.push("/search")}>
+        Search Restaurant
+      </Menu.Item>
+      <Menu.Item key="2" onClick={() => router.push("/login")}>
+        Login
+      </Menu.Item>
     </Menu>
   );
+
+  const handleLogout = () => {
+    props.setIsGuest(true);
+    localStorage.clear();
+  };
+
   const DropdownForLogin = (
     <Menu>
       {LOGIN_MENU.map((item) => (
@@ -24,64 +39,56 @@ const MenuButton = () => {
           {item.name}
         </Menu.Item>
       ))}
-      <Menu.Item key="logout">Log out</Menu.Item>
+      <Menu.Item key="logout" onClick={() => handleLogout()}>
+        Log out
+      </Menu.Item>
     </Menu>
   );
 
-  const [profile, setProfile] = useState(<BsFillPersonFill />);
+  const [avatar, setAvatar] = useState(<Avatar icon={<BsFillPersonFill />} />);
   useEffect(() => {
     const token = localStorage.getItem("_token");
     const userData = jwt.decode(token);
     if (userData) {
       if (userData.image) {
-        setProfile(userData.image);
+        setAvatar(<Avatar src={userData.image} />);
       }
-      setLoggedIn(true);
     }
-  }, []);
+  }, [props.isGuest]);
 
   return (
     <>
-      {!loggedIn ? (
-        <>
-          <LoginButton>
-            <Button
-              variant="red"
-              outline="round"
-              onClick={() => router.push("/login")}
-            >
-              Login
-            </Button>
-          </LoginButton>
-          <HamburgerButton
-            destroyPopupOnHide={true}
-            overlay={DropdownForGuest}
-            placement="bottomRight"
-            arrow
+      <DynamicButton isVisible={props.isGuest}>
+        <LoginButton>
+          <Button
+            variant="red"
+            outline="round"
+            onClick={() => router.push("/login")}
           >
-            <MenuOutlined />
-          </HamburgerButton>
-        </>
-      ) : (
-        <>
-          <AvatarButton
-            destroyPopupOnHide={true}
-            overlay={DropdownForLogin}
-            placement="bottomRight"
-            arrow
-          >
-            <Avatar src={profile} />
-          </AvatarButton>
-          <HamburgerButton
-            destroyPopupOnHide={true}
-            overlay={DropdownForLogin}
-            placement="bottomRight"
-            arrow
-          >
-            <MenuOutlined />
-          </HamburgerButton>
-        </>
-      )}
+            Login
+          </Button>
+        </LoginButton>
+        <HamburgerButton
+          overlay={DropdownForGuest}
+          placement="bottomRight"
+          arrow
+        >
+          <MenuOutlined />
+        </HamburgerButton>
+      </DynamicButton>
+
+      <DynamicButton isVisible={!props.isGuest}>
+        <AvatarButton overlay={DropdownForLogin} placement="bottomRight" arrow>
+          {avatar}
+        </AvatarButton>
+        <HamburgerButton
+          overlay={DropdownForLogin}
+          placement="bottomRight"
+          arrow
+        >
+          <MenuOutlined />
+        </HamburgerButton>
+      </DynamicButton>
     </>
   );
 };
