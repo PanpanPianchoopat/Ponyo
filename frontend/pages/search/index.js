@@ -29,6 +29,7 @@ import {
   StatusBox,
   Status,
   CardContainer,
+  Loading,
   SmileIcon,
   BestRateContainer,
 } from "./styled";
@@ -222,10 +223,10 @@ const SearchRestaurant = () => {
                 <Card detail={detail} liked={true} saved={true} key={key} />
               ))
             ) : (
-              <p>
+              <Loading>
                 <Spin indicator={<SmileIcon spin />} />
                 loading
-              </p>
+              </Loading>
             )}
           </CardContainer>
         </ContentContainer>

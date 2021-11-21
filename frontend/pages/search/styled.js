@@ -183,9 +183,14 @@ export const CardContainer = styled.div`
   }
 `;
 
+export const Loading = styled.p`
+  font-size: 20px;
+`;
+
 export const SmileIcon = styled(SmileOutlined)`
   color: ${COLORS.PRIMARY_YELLOW};
-  margin-right: 5px;
+  margin-right: 10px;
+  font-size: 50px;
 `;
 
 export const BestRateContainer = styled.div`

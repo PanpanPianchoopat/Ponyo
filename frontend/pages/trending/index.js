@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import BestRate from "../../components/BestRate";
-import { BackTop } from "antd";
-import { Header } from "./styled";
+import { BackTop, Spin } from "antd";
+import { Header, Loading, SmileIcon } from "./styled";
 import RestaurantAPI from "../api/restaurantAPI";
 import jwt from "jsonwebtoken";
 import HideTrend from "./components/HideTrend";
@@ -140,12 +140,19 @@ const Trending = () => {
     <>
       <HideTrend visible={isGuest} />
       <Header>
-        <BestRate
-          head="Best rated restaurants"
-          theme="dark"
-          restaurants={bestTrend.length != 0 ? bestTrend : null}
-          isNotNull={isBest}
-        />
+        {isBest == true ? (
+          <BestRate
+            head="Best rated restaurants"
+            theme="dark"
+            restaurants={bestTrend.length != 0 ? bestTrend : null}
+            isNotNull={isBest}
+          />
+        ) : (
+          <Loading>
+            <Spin indicator={<SmileIcon spin />} />
+            loading
+          </Loading>
+        )}
       </Header>
       <div>
         <BestRate
