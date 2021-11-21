@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import jwt from "jsonwebtoken";
+import { Divider } from "antd";
+import UserAPI from "../../../api/userAPI";
+import { message } from "antd";
 import {
   OverviewContainer,
   RestName,
@@ -15,8 +18,6 @@ import {
   Heart,
   HeartACtive,
 } from "./styled";
-import { Divider } from "antd";
-import UserAPI from "../../../api/userAPI";
 
 const Overview = (props) => {
   const restaurant = props.info;
@@ -56,13 +57,15 @@ const Overview = (props) => {
   }, [props.avgRate]);
 
   function toggleBookmark() {
-    setBookmark(!isBookmarked);
-    manageRestaurantList("myInterestRestaurants", isBookmarked);
+    if (user_id) {
+      manageRestaurantList("myInterestRestaurants", isBookmarked);
+    }
   }
 
   function toggleLike() {
-    setIsLiked(!isLiked);
-    manageRestaurantList("myFavRestaurants", isLiked);
+    if (user_id) {
+      manageRestaurantList("myFavRestaurants", isLiked);
+    }
   }
 
   const changeBookLike = () => {
@@ -74,7 +77,23 @@ const Overview = (props) => {
     if (!isDeleteFromList) {
       UserAPI.addRestaurantToList(key, user_id, resID)
         .then((response) => {
-          console.log(response.data);
+          if (key == "myFavRestaurants") {
+            if (response.data.status) {
+              setIsLiked(!isLiked);
+            } else {
+              message.warning(
+                "Your favorite list is full, Try to delete some restaurant"
+              );
+            }
+          } else {
+            if (response.data.status) {
+              setBookmark(!isBookmarked);
+            } else {
+              message.warning(
+                "Your interest list is full, Try to delete some restaurant"
+              );
+            }
+          }
         })
         .catch((e) => {
           console.log(e);
@@ -82,7 +101,13 @@ const Overview = (props) => {
     } else {
       UserAPI.removeResFromList(key, user_id, resID)
         .then((response) => {
-          console.log(response.data);
+          if (response.data.status) {
+            setIsLiked(!isLiked);
+          } else {
+            message.warning(
+              "Your favorite list is full, try to delete some restaurant"
+            );
+          }
         })
         .catch((e) => {
           console.log(e);
