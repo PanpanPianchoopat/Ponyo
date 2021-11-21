@@ -2,6 +2,7 @@ import styled from "styled-components";
 import COLORS from "../../public/constant/colors";
 import BREAKPOINTS from "../../public/constant/breakpoints";
 import { Input, Select, Radio, Image } from "antd";
+import { SmileOutlined } from "@ant-design/icons";
 
 export const Container = styled.div`
   display: flex;
@@ -113,6 +114,14 @@ export const ContentName = styled.div`
   font-weight: bold;
   letter-spacing: 5px;
   margin-top: 70px;
+  @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
+    font-size: 26px;
+    margin-top: 50px;
+  }
+  @media (max-width: ${BREAKPOINTS.IPHONE_11}) {
+    font-size: 16px;
+    margin-top: 30px;
+  }
 `;
 
 export const Underline = styled.hr`
@@ -122,6 +131,7 @@ export const Underline = styled.hr`
   border-radius: 10px;
   @media (max-width: ${BREAKPOINTS.IPHONE_11}) {
     width: 50px;
+    margin: 10px auto 25px auto;
   }
 `;
 
@@ -154,11 +164,28 @@ export const Status = styled(Radio)``;
 export const CardContainer = styled.div`
   width: 80%;
   margin: 30px 0 50px 0;
-  height: auto;
+  height: 800px;
+  overflow-y: scroll;
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
-  // background: ${COLORS.PRIMARY_BLUE};
+  @media (max-width: ${BREAKPOINTS.DESKTOP_FULL_HD}) {
+    height: 650px;
+  }
+  @media (max-width: ${BREAKPOINTS.HiDPI_LAPTOP}) {
+    height: 500px;
+  }
+  @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
+    height: 400px;
+  }
+  @media (max-width: ${BREAKPOINTS.IPHONE_11}) {
+    height: auto;
+  }
+`;
+
+export const SmileIcon = styled(SmileOutlined)`
+  color: ${COLORS.PRIMARY_YELLOW};
+  margin-right: 5px;
 `;
 
 export const BestRateContainer = styled.div`

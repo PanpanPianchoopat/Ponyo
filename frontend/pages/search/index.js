@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import COLORS from "../../public/constant/colors";
 import Button from "../components/Button";
 import BestRate from "../components/BestRate";
-import { TOP_3 } from "../components/BestRate/constant";
+
 import Card from "../components/Card";
-import { SAMPLE_DATA } from "../components/Card/constant";
-import { BackTop } from "antd";
+import { BackTop, Spin } from "antd";
+
 import Category from "./components/Category";
 import { useRouter } from "next/router";
 import {
@@ -29,6 +29,7 @@ import {
   StatusBox,
   Status,
   CardContainer,
+  SmileIcon,
   BestRateContainer,
 } from "./styled";
 
@@ -126,10 +127,6 @@ const SearchRestaurant = () => {
       });
   };
 
-  const handleClick = () => {
-    router.push("/trending");
-  };
-
   return (
     <>
       <Container>
@@ -220,11 +217,16 @@ const SearchRestaurant = () => {
             />
           </StatusBox>
           <CardContainer>
-            {restaurant
-              ? restaurant.map((detail, key) => (
-                  <Card detail={detail} liked={true} saved={true} key={key} />
-                ))
-              : null}
+            {restaurant ? (
+              restaurant.map((detail, key) => (
+                <Card detail={detail} liked={true} saved={true} key={key} />
+              ))
+            ) : (
+              <p>
+                <Spin indicator={<SmileIcon spin />} />
+                loading
+              </p>
+            )}
           </CardContainer>
         </ContentContainer>
         <BestRateContainer>
@@ -234,7 +236,7 @@ const SearchRestaurant = () => {
             restaurants={bestTrend.length != 0 ? bestTrend : null}
             isNotNull={isBest}
           />
-          <Button variant="yellow" onClick={handleClick}>
+          <Button variant="yellow" onClick={() => router.push("/trending")}>
             Explore more
           </Button>
         </BestRateContainer>
