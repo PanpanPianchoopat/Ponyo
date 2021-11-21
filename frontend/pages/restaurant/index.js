@@ -225,25 +225,24 @@ const Restaurant = (props) => {
     switch (filter) {
       case REVIEW_FILTER.COMMENT:
         return commentAmountInfo ? commentAmountInfo : 0;
-        break;
+
       case REVIEW_FILTER.PHOTO:
         return photoAmountInfo ? photoAmountInfo : 0;
-        break;
+
       case REVIEW_FILTER.FIVE_STAR:
         return starInfo ? starInfo[REVIEW_FILTER.FIVE_STAR_INFO] : 0;
-        break;
+
       case REVIEW_FILTER.FOUR_STAR:
         return starInfo ? starInfo[REVIEW_FILTER.FOUR_STAR_INFO] : 0;
-        break;
+
       case REVIEW_FILTER.THREE_STAR:
         return starInfo ? starInfo[REVIEW_FILTER.THREE_STAR_INFO] : 0;
-        break;
+
       case REVIEW_FILTER.TWO_STAR:
         return starInfo ? starInfo[REVIEW_FILTER.TWO_STAR_INFO] : 0;
-        break;
       case REVIEW_FILTER.ONE_STAR:
         return starInfo ? starInfo[REVIEW_FILTER.ONE_STAR_INFO] : 0;
-        break;
+
       default:
         return reviewAmountInfo ? reviewAmountInfo : 0;
     }

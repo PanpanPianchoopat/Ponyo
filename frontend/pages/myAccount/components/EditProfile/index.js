@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import bcrypt from "bcryptjs";
-import { Form, Input, Upload, Avatar } from "antd";
+import { Form, Input, Upload, Avatar, message } from "antd";
 import {
   USERNAME_LEN,
   PASSWORD_LEN,
@@ -44,7 +44,7 @@ const EditProfile = (props) => {
     UserAPI.editProfile(props.info.id, data)
       .then((response) => {
         localStorage.setItem("_token", response.data.token);
-        console.log("Update Profile Success");
+        message.success("Saved changes");
         props.setNewProfile(data);
       })
       .catch((e) => {
@@ -65,17 +65,23 @@ const EditProfile = (props) => {
   };
 
   const [checkOldPass, setCheckOldPass] = useState(null);
-  const validateOldPass = async (rule, value, callback) => {
-    const isPasswordValid = await bcrypt.compare(value, oldPass);
+  const validateOldPass = (rule, value, callback) => {
     if (!value) {
       callback("Need password to edit profile");
       setCheckOldPass("warning");
-    } else if (isPasswordValid) {
-      callback();
-      setCheckOldPass("success");
     } else {
-      callback("Wrong password");
-      setCheckOldPass("error");
+      bcrypt.compare(value, oldPass, function (err, isMatch) {
+        if (err) {
+          throw err;
+        }
+        if (isMatch) {
+          callback();
+          setCheckOldPass("success");
+        } else {
+          callback("Wrong password");
+          setCheckOldPass("error");
+        }
+      });
     }
   };
 
