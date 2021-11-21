@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import jwt from "jsonwebtoken";
 import Button from "../../../../components/Button";
 import Card from "../../../../components/Card";
-import { FAVOURITE, INTEREST } from "../../constant";
+import { FAVOURITE, INTEREST } from "../../../../public/constant/myAccount";
 import EditList from "./components/EditList";
 import Image from "next/image";
 import UserAPI from "../../../api/userAPI";
 import { Spin } from "antd";
-import { LOADING } from "./constant";
 import { useRouter } from "next/router";
+import { LoadingIcon } from "./styled";
 import {
   HeaderWrapper,
   CardsWrapper,
@@ -21,6 +21,7 @@ import {
 
 const RestList = (props) => {
   const router = useRouter();
+  const LOADING = <LoadingIcon spin />;
   const isFav = props.type == FAVOURITE;
   const isIn = props.type == INTEREST;
   const listHead = isFav

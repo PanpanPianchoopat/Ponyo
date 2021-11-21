@@ -8,7 +8,11 @@ import {
   Upload,
   Checkbox,
 } from "antd";
-import { REST_TYPE, MAX_IMAGE, DAYS_OF_WEEK } from "./constant";
+import {
+  REST_TYPE,
+  MAX_IMAGE,
+  DAYS_OF_WEEK,
+} from "../../public/constant/addRestaurant";
 import { UploadOutlined } from "@ant-design/icons";
 import RestaurantAPI from "../api/restaurantAPI.js";
 

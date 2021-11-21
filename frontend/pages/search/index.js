@@ -13,7 +13,7 @@ import {
   FILTER_OPTION,
   PRICE_OPTION,
   CUISINE_OPTION,
-} from "./constant";
+} from "../../public/constant/search";
 import RestaurantAPI from "../api/restaurantAPI";
 import {
   Container,

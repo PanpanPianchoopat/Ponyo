@@ -4,7 +4,11 @@ import { Avatar } from "antd";
 import Button from "../../components/Button";
 import RestList from "./components/RestList";
 import EditProfile from "./components/EditProfile";
-import { FAVOURITE, INTEREST, AVATAR_SIZE } from "./constant";
+import {
+  FAVOURITE,
+  INTEREST,
+  AVATAR_SIZE,
+} from "../../public/constant/myAccount";
 import {
   ProfileContainer,
   ProfilePicture,

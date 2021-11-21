@@ -28,7 +28,11 @@ import Carousel from "./components/Carousel";
 import Overview from "./components/Overview";
 import Detail from "./components/Detail";
 import Review from "./components/Review";
-import { FILTER, KEY_FILTER, REVIEW_FILTER } from "./constant";
+import {
+  FILTER,
+  KEY_FILTER,
+  REVIEW_FILTER,
+} from "../../public/constant/restaurant";
 import { Divider } from "antd";
 import RestaurantAPI from "../api/restaurantAPI";
 import ReviewAPI from "../api/reviewAPI";

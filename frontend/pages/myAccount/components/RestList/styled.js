@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Modal } from "antd";
 import COLORS from "../../../../public/constant/colors";
-import { FAVOURITE } from "../../constant";
+import { FAVOURITE } from "../../../../public/constant/myAccount";
 import BREAKPOINTS from "../../../../public/constant/breakpoints";
 import { LoadingOutlined } from "@ant-design/icons";
 
