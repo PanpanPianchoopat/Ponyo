@@ -1,9 +1,10 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-import Card from "./components/Card";
-import { SAMPLE_DATA } from "./components/Card/constant";
+import { useRouter } from "next/router";
+import Button from "./components/Button";
 
 function Home() {
+  const router = useRouter();
   return (
     <div className={styles.container}>
       <Head>
@@ -13,9 +14,16 @@ function Home() {
       </Head>
 
       <main className={styles.main}>
-        {/* <Carousel slides={SAMPLE_IMAGE} /> */}
+        <h1 className={styles.h1}>Welcome to Ponyo</h1>
+        <img className={styles.img} src="/assets/ponyoName.svg" />
+        <Button
+          variant="yellow"
+          size="large"
+          onClick={() => router.push("/search")}
+        >
+          Go To Website
+        </Button>
       </main>
-      <footer></footer>
     </div>
   );
 }
