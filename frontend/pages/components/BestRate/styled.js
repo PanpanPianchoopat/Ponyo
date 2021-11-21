@@ -78,3 +78,5 @@ export const SmallImage = styled.div`
   flex-direction: column;
   position: relative;
 `;
+
+export default BestRateContianer;

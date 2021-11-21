@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import COLORS from "../../public/constant/colors";
-import BREAKPOINTS from "../../public/constant/breakpoints";
 import { Modal } from "antd";
 import { BsFillPersonFill } from "react-icons/bs";
 
@@ -62,9 +61,6 @@ export const Popup = styled(Modal)`
     font-size: 24px;
     margin: 10px 0;
   }
-  .ant-modal-body {
-    // padding: 0 20px;
-  }
 `;
 
 export const DefaultProfile = styled(BsFillPersonFill)`
@@ -73,3 +69,6 @@ export const DefaultProfile = styled(BsFillPersonFill)`
   width: 100%;
   height: 100%;
 `;
+
+
+export const ProfileContainer;

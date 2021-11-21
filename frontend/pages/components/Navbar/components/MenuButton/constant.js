@@ -3,3 +3,5 @@ export const LOGIN_MENU = [
   { key: "2", name: "Discover Trending", path: "/trending" },
   { key: "3", name: "My Account", path: "/myAccount" },
 ];
+
+export default LOGIN_MENU;

@@ -79,3 +79,5 @@ export const StarIcon = styled(StarFilled)`
   color: white;
   margin-right: 5px;
 `;
+
+export default Description;

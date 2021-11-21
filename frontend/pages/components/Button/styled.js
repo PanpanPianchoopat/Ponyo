@@ -57,3 +57,5 @@ export const StyledButton = styled.button.attrs((props) => {
     font-size: 0.7rem;
   }
 `;
+
+export default StyledButton;

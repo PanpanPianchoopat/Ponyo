@@ -256,3 +256,5 @@ export const PinIcon = styled(BsFillGeoAltFill)`
     font-size: 10px;
   }
 `;
+
+export default RestaurantCard;

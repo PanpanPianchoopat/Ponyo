@@ -93,3 +93,5 @@ export const BackButton = styled.button`
     width: 60px;
   }
 `;
+
+export default StyledNav;

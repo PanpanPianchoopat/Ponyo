@@ -40,3 +40,5 @@ export const Count = styled.small`
   font-size: 0.5rem;
   margin-left: 10px;
 `;
+
+export default RatingContainer;

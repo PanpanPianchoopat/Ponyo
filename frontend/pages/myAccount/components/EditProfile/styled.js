@@ -73,3 +73,5 @@ export const ButtonGroup = styled.div`
   justify-content: center;
   margin-top: 20px;
 `;
+
+export default FormItem;

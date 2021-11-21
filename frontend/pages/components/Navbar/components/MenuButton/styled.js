@@ -45,3 +45,5 @@ export const AvatarButton = styled(Dropdown)`
     display: none;
   }
 `;
+
+export default DynamicButton;

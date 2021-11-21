@@ -88,3 +88,5 @@ export const LoadingIcon = styled(LoadingOutlined)`
   font-size: 30px;
   color: ${COLORS.PRIMARY_YELLOW};
 `;
+
+export default CardsWrapper;

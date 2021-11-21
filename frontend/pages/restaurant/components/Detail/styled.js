@@ -59,3 +59,5 @@ export const Direction = styled.a`
     color: white;
   }
 `;
+
+export default InnerContainer;

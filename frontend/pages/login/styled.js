@@ -136,3 +136,5 @@ export const StyleInput = styled.input`
     width: 42vw;
   }
 `;
+
+export default Container;

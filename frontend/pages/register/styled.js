@@ -269,3 +269,5 @@ export const PlusIcon = styled(PlusCircleFilled)`
   background: white;
   border-radius: 100px;
 `;
+
+export default Container;

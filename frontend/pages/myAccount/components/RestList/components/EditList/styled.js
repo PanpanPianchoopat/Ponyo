@@ -69,7 +69,6 @@ export const DeleteButton = styled.button`
   margin: auto 10px auto auto;
   border: 0;
   background: ${COLORS.PRIMARY_LIGHT};
-  //background: black;
   width: 40px;
   height: fit-content;
 `;
@@ -105,3 +104,5 @@ export const EmptyListDisplay = styled.div`
   align-items: center;
   font-size: 1rem;
 `;
+
+export default PopupContainer;

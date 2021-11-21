@@ -15,3 +15,5 @@ export const ButtonGroup = styled.div`
 export const StyledButton = styled(Button)`
   width: 100px;
 `;
+
+export default EditContainer;
