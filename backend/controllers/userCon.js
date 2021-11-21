@@ -39,7 +39,7 @@ export const login = async (req, res) => {
   });
 
   if (!user) {
-    res.status(404).json({ Error: "Invalid User" });
+    res.status(200).json({ status: false, token: null });
   }
 
   const isPasswordValid = await bcrypt.compare(

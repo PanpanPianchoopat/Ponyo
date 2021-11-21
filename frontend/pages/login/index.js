@@ -4,8 +4,7 @@ import useAppDispatch from "../../hooks/useAppDispatch";
 
 import { Login } from "../../slices/auth";
 import { useRouter } from "next/router";
-
-import { Form, Input } from "antd";
+import { Form } from "antd";
 import Button from "../components/Button";
 import Link from "next/link";
 import { AiOutlineUser, AiOutlineLock } from "react-icons/ai";
@@ -30,9 +29,11 @@ import {
 
 const Signin = () => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const { isLogin } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
+    console.log("isLogin", isLogin);
     if (isLogin) {
       router.push("/search");
     } else {
@@ -47,8 +48,6 @@ const Signin = () => {
     };
     dispatch(Login(credential));
   };
-
-  const dispatch = useAppDispatch();
 
   return (
     <Container>

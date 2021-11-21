@@ -44,11 +44,11 @@ const authSlice = createSlice({
   name: "authSlice",
   initialState,
   reducers: {
-    // setAuthState(state, action) {
-    //   state.data = jwt.decode(action.payload.token);
-    //   state.isLogin = true;
-    //   state.token = action.payload.token;
-    // },
+    setAuthState(state, action) {
+      state.data = null;
+      state.isLogin = false;
+      state.token = "";
+    },
   },
   extraReducers: (builder) => {
     builder

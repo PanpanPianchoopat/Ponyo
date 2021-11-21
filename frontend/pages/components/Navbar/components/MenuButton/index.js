@@ -1,20 +1,33 @@
 import React, { useState, useEffect } from "react";
-import { MenuOutlined } from "@ant-design/icons";
-import {
-  LoginButton,
-  HamburgerButton,
-  AvatarButton,
-  DynamicButton,
-} from "./styled";
-import Button from "../../../Button";
-import { Menu, Avatar } from "antd";
+
 import { useRouter } from "next/router";
 import jwt from "jsonwebtoken";
-import { BsFillPersonFill } from "react-icons/bs";
+import useAppDispatch from "../../../../../hooks/useAppDispatch";
+import { setAuthState } from "../../../../../slices/auth";
+
 import { LOGIN_MENU } from "./constant";
+
+import { MenuOutlined } from "@ant-design/icons";
+import { Menu, Avatar } from "antd";
+import Button from "../../../Button";
+import { BsFillPersonFill } from "react-icons/bs";
+import {
+  LoginButton,
+  AvatarButton,
+  DynamicButton,
+  HamburgerButton,
+} from "./styled";
 
 const MenuButton = (props) => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
+
+  const handleLogout = () => {
+    dispatch(setAuthState());
+    props.setIsGuest(true);
+    localStorage.clear();
+    router.push("/search");
+  };
 
   const DropdownForGuest = (
     <Menu>
@@ -26,11 +39,6 @@ const MenuButton = (props) => {
       </Menu.Item>
     </Menu>
   );
-
-  const handleLogout = () => {
-    props.setIsGuest(true);
-    localStorage.clear();
-  };
 
   const DropdownForLogin = (
     <Menu>

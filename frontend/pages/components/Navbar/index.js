@@ -35,9 +35,11 @@ const Navbar = () => {
     if (asPath === "/trending") {
       setNavVisible(true);
       setSelected(TREND);
+      setMenuVisible(true);
     } else if (asPath === "/search") {
       setNavVisible(true);
       setSelected(SEARCH);
+      setMenuVisible(true);
     } else if (asPath === "/login" || asPath === "/register") {
       setNavVisible(false);
     } else if (asPath.startsWith("/restaurant")) {
