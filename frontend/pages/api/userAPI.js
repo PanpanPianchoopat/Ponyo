@@ -30,7 +30,6 @@ class userAPI {
   };
 
   editMyFavList = (user_id, myFavRestaurants) => {
-    console.log("data", myFavRestaurants);
     return http.patch(`/user/editfav/${user_id}`, myFavRestaurants);
   };
 }

@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
-
+import jwt from "jsonwebtoken";
+import Image from "next/image";
+import { List, arrayMove, arrayRemove } from "react-movable";
+import UserAPI from "../../../../../api/userAPI";
 import {
   PopupContainer,
   EdittableList,
@@ -17,13 +20,18 @@ import {
   StyledButton,
   EmptyListDisplay,
 } from "./styled";
-import Image from "next/image";
-import { List, arrayMove, arrayRemove } from "react-movable";
-import UserAPI from "../../../../../api/userAPI";
 
 const EditList = (props) => {
   const [favList, setFavList] = useState(props.list);
-  const user_id = "618d4337965a69dd7993e643";
+  const [user_id, setUserID] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem("_token");
+    const userData = jwt.decode(token);
+    if (userData) {
+      setUserID(userData.id);
+    }
+  }, []);
 
   const handleChange = (oldIndex, newIndex) => {
     setFavList(arrayMove(favList, oldIndex, newIndex));
