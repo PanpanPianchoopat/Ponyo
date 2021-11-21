@@ -28,7 +28,6 @@ app.use("/user", userRoutes);
 app.use("/restaurant", RestaurantRoutes);
 app.use("/review", ReviewRoutes);
 
-
 app.get("/", (req, res) => {
   res.send("Hello to Ponyo API");
 });
