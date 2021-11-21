@@ -7,4 +7,4 @@ export const Header = styled.div`
   background: ${COLORS.PRIMARY_DARK};
 `;
 
-export const Type = styled.div``;
+export default Header;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import BestRate from "../components/BestRate";
 import { BackTop } from "antd";
-import { Header, Type } from "./styled";
+import { Header } from "./styled";
 import RestaurantAPI from "../api/restaurantAPI";
 import jwt from "jsonwebtoken";
 import HideTrend from "./components/HideTrend";
@@ -147,55 +147,55 @@ const Trending = () => {
           isNotNull={isBest}
         />
       </Header>
-      <Type>
+      <div>
         <BestRate
           head="Casual dining"
           restaurants={casualTrend.length != 0 ? casualTrend : null}
           isNotNull={isCasual}
         />
-      </Type>
-      <Type>
+      </div>
+      <div>
         <BestRate
           head="Food trucks"
           restaurants={foodTrucksTrend.length ? foodTrucksTrend : null}
           isNotNull={isFoodTruck}
         />
-      </Type>
-      <Type>
+      </div>
+      <div>
         <BestRate
           head="Fast food"
           restaurants={fastFoodTrend ? fastFoodTrend : null}
           isNotNull={isFastFood}
         />
-      </Type>
-      <Type>
+      </div>
+      <div>
         <BestRate
           head="Café"
           restaurants={cafeTrend ? cafeTrend : null}
           isNotNull={isCafe}
         />
-      </Type>
-      <Type>
+      </div>
+      <div>
         <BestRate
           head="Family style"
           restaurants={familyStyleTrend ? familyStyleTrend : null}
           isNotNull={isFamily}
         />
-      </Type>
-      <Type>
+      </div>
+      <div>
         <BestRate
           head="Pub"
           restaurants={pubTrend ? pubTrend : null}
           isNotNull={isPub}
         />
-      </Type>
-      <Type>
+      </div>
+      <div>
         <BestRate
           head="Buffet"
           restaurants={buffetTrend ? buffetTrend : null}
           isNotNull={isBuffet}
         />
-      </Type>
+      </div>
       <BackTop />
     </>
   );

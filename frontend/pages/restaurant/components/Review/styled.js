@@ -3,7 +3,6 @@ import BREAKPOINTS from "../../../../public/constant/breakpoints";
 import COLORS from "../../../../public/constant/colors";
 import { Avatar, Rate } from "antd";
 import { HeartOutlined, HeartFilled } from "@ant-design/icons";
-import Button from "../../../components/Button";
 
 export const ReviewContainer = styled.div.attrs((props) => {
   const isVisible = props.visible ? "flex" : "none";
@@ -122,3 +121,5 @@ export const LikeNum = styled.b`
   color: ${COLORS.LIGHT_GREY};
   margin-left: 5px;
 `;
+
+export default ReviewContainer;

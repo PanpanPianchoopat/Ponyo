@@ -12,3 +12,5 @@ export const Shadow = styled.div.attrs((props) => {
   z-index: 100;
   position: fixed;
 `;
+
+export default Shadow;

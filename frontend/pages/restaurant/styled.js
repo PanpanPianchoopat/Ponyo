@@ -195,3 +195,5 @@ export const EmptyDisplayContainer = styled.div`
   align-items: center;
   color: ${COLORS.DARK_GREY};
 `;
+
+export default HeadSection;

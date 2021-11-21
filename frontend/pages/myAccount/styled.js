@@ -70,5 +70,4 @@ export const DefaultProfile = styled(BsFillPersonFill)`
   height: 100%;
 `;
 
-
-export const ProfileContainer;
+export default ProfileContainer;

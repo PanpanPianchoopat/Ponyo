@@ -84,3 +84,5 @@ export const ButtonGroup = styled.div`
   justify-content: space-between;
   margin: 0 auto;
 `;
+
+export default WriteReviewInnnerContainer;

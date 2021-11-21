@@ -72,3 +72,5 @@ export const SlideImage = styled.img`
     height: 200px;
   }
 `;
+
+export default CarouselContainer;

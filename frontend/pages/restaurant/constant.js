@@ -15,3 +15,5 @@ export const REVIEW_FILTER = {
   TWO_STAR_INFO: 3,
   ONE_STAR_INFO: 4,
 };
+
+export default FILTER;

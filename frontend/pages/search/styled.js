@@ -197,3 +197,5 @@ export const BestRateContainer = styled.div`
   padding-bottom: 80px;
   background: ${COLORS.PRIMARY_DARK};
 `;
+
+export default Container;

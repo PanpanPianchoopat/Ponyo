@@ -69,3 +69,5 @@ export const TypeImage = styled(Image)`
     width: 35px;
   }
 `;
+
+export default CategoryContainer;
