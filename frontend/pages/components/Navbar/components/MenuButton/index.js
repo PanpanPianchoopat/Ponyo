@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { MenuOutlined } from "@ant-design/icons";
-import {
-  LoginButton,
-  HamburgerButton,
-  AvatarButton,
-  DynamicButton,
-} from "./styled";
-import Button from "../../../Button";
-import { Menu, Avatar } from "antd";
+
 import { useRouter } from "next/router";
 import jwt from "jsonwebtoken";
-import { BsFillPersonFill } from "react-icons/bs";
-import { LOGIN_MENU } from "./constant";
-import Link from "next/link";
 import useAppDispatch from "../../../../../hooks/useAppDispatch";
 import { setAuthState } from "../../../../../slices/auth";
+
+import { LOGIN_MENU } from "./constant";
+
+import { MenuOutlined } from "@ant-design/icons";
+import { Menu, Avatar } from "antd";
+import Button from "../../../Button";
+import { BsFillPersonFill } from "react-icons/bs";
+import {
+  LoginButton,
+  AvatarButton,
+  DynamicButton,
+  HamburgerButton,
+} from "./styled";
 
 const MenuButton = (props) => {
   const router = useRouter();
@@ -66,11 +68,13 @@ const MenuButton = (props) => {
     <>
       <DynamicButton isVisible={props.isGuest}>
         <LoginButton>
-          <Link href="/login">
-            <Button variant="red" outline="round">
-              Login
-            </Button>
-          </Link>
+          <Button
+            variant="red"
+            outline="round"
+            onClick={() => router.push("/login")}
+          >
+            Login
+          </Button>
         </LoginButton>
         <HamburgerButton
           overlay={DropdownForGuest}

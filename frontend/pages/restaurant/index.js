@@ -78,9 +78,8 @@ const Restaurant = (props) => {
 
   useEffect(() => {
     if (user_id == null) {
-      setUserID("6199008ed3c99ca0a1e5530a");
+      setUserID(NOUSER);
     }
-    // getLikedBookmarked();
   }, [user_id]);
 
   const updateInfo = (review) => {
