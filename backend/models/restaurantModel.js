@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const restaurantSchema = mongoose.Schema({
   name: { type: String, required: true, unique: true },
-  type: { type: String },
+  type: { type: String, required: true },
   description: { type: String, required: true },
   location: {
     address: { type: String, required: true },
@@ -10,15 +10,15 @@ const restaurantSchema = mongoose.Schema({
   },
   phone: { type: String, required: true },
   priceRange: {
-    min: { type: Number },
-    max: { type: Number },
+    min: { type: Number, required: true },
+    max: { type: Number, required: true },
   },
   openDays: { type: Array, required: true },
   openHours: {
     openTime: { type: Number, required: true },
     closeTime: { type: Number, required: true },
   },
-  image: { type: Array, required: true },
+  imageFile: { type: Array, required: true },
 });
 
 const Restaurant = mongoose.model("Restaurant", restaurantSchema);

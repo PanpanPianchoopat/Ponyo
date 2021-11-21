@@ -6,9 +6,7 @@ const userSchema = mongoose.Schema({
   password: { type: String, required: true },
   dateOfBirth: { type: Date, required: true },
   gender: { type: String, required: true },
-  image: { type: String },
-  myFavRestaurants: { type: Array },
-  myInterestRestaurants: { type: Array },
+  imageFile: { type: String, required: true },
 });
 
 const User = mongoose.model("User", userSchema);
