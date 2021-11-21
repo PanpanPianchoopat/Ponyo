@@ -7,6 +7,7 @@ import Card from "../components/Card";
 import { SAMPLE_DATA } from "../components/Card/constant";
 import { BackTop } from "antd";
 import Category from "./components/Category";
+import { useRouter } from "next/router";
 import {
   STATUS_OPTION,
   FILTER_OPTION,
@@ -46,6 +47,8 @@ const SearchRestaurant = () => {
   const [selectedCat, setSelectedCat] = useState("");
   const [bestTrend, setBestTrend] = useState([]);
   const [isBest, setIsBest] = useState(false);
+
+  const router = useRouter();
 
   const onFinish = () => {
     getRestaurant();
@@ -121,6 +124,10 @@ const SearchRestaurant = () => {
       .catch((e) => {
         console.log(e);
       });
+  };
+
+  const handleClick = () => {
+    router.push("/trending");
   };
 
   return (
@@ -219,7 +226,6 @@ const SearchRestaurant = () => {
                 ))
               : null}
           </CardContainer>
-          <Button variant="yellow">Explore more</Button>
         </ContentContainer>
         <BestRateContainer>
           <BestRate
@@ -228,7 +234,9 @@ const SearchRestaurant = () => {
             restaurants={bestTrend.length != 0 ? bestTrend : null}
             isNotNull={isBest}
           />
-          <Button variant="yellow">Explore more</Button>
+          <Button variant="yellow" onClick={handleClick}>
+            Explore more
+          </Button>
         </BestRateContainer>
       </Container>
       <BackTop />
