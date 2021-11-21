@@ -24,10 +24,6 @@ const EditReview = (props) => {
     }
   }, []);
 
-  useEffect(() => {
-    console.log("CHANGE", reviewPics);
-  }, [reviewPics]);
-
   function getBase64(info) {
     const reader = new FileReader();
     reader.addEventListener("load", () =>
@@ -51,7 +47,6 @@ const EditReview = (props) => {
   };
 
   const handleSave = (value) => {
-    console.log("SAVE", value);
     props.setRate(value.rate);
     props.setText(value.review);
     props.setVisible(false);

@@ -67,7 +67,6 @@ const Review = (props) => {
     ReviewAPI.addLikeReview(review_id, user_id, like)
       .then((response) => {
         setAddLikeReview(response.data);
-        console.log(response.data);
       })
       .catch((e) => {
         console.log(e);

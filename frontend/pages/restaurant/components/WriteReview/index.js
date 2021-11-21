@@ -54,7 +54,6 @@ const WriteReview = (props) => {
 
     ReviewAPI.addReview(user_id, resID, data)
       .then((response) => {
-        console.log(response.data);
         if (response.data) {
           props.func(true);
           router.reload();
@@ -65,15 +64,10 @@ const WriteReview = (props) => {
         }
       })
       .catch((e) => {
-        console.log("Already review");
         message.warning(
           "You already review this restaurant, try edit/delete instead"
         );
       });
-  };
-
-  const onFinishFailed = (error) => {
-    console.log("Failed:", error);
   };
 
   return (
@@ -83,7 +77,6 @@ const WriteReview = (props) => {
         <Form
           form={form}
           onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
           initialValues={{
             star: 0,
             review: "",
