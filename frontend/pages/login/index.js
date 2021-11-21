@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useAppSelector from "../../hooks/useAppSelector";
 import useAppDispatch from "../../hooks/useAppDispatch";
 
 import { Login, setSubmitState } from "../../slices/auth";
 import { useRouter } from "next/router";
-import { Form } from "antd";
+import { Form, message } from "antd";
 import Button from "../components/Button";
 import Link from "next/link";
 import { AiOutlineUser, AiOutlineLock } from "react-icons/ai";
@@ -28,6 +28,8 @@ import {
 } from "./styled";
 
 const Signin = () => {
+  const initialRender = useRef(true);
+  const [validateState, setValidateState] = useState(null);
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { isLogin, isSubmit } = useAppSelector((state) => state.auth);
@@ -35,15 +37,22 @@ const Signin = () => {
   useEffect(() => {
     if (isSubmit) {
       if (isLogin) {
+        setValidateState("success");
         router.push("/search");
       } else {
         dispatch(setSubmitState());
-        console.log("CANNOT LOGIN");
+        if (initialRender.current) {
+          initialRender.current = false;
+        } else {
+          setValidateState("error");
+          message.error("Invalid email/password");
+        }
       }
     }
   }, [isSubmit]);
 
   const auth = (val) => {
+    setValidateState("validating");
     const credential = {
       email: val.email,
       password: val.password,
@@ -80,6 +89,8 @@ const Signin = () => {
         >
           <Form.Item
             name="email"
+            validateStatus={validateState}
+            hasFeedback
             rules={[
               {
                 required: true,
@@ -99,6 +110,8 @@ const Signin = () => {
             </CustomInput>
           </Form.Item>
           <Form.Item
+            validateStatus={validateState}
+            hasFeedback
             name="password"
             rules={[
               {
