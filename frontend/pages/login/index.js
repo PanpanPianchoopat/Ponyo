@@ -130,7 +130,7 @@ const Signin = () => {
           <Form.Item>
             <MarginBox>
               <Button variant="red" size="large">
-                Log in
+                SIGN IN
               </Button>
             </MarginBox>
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+
 import {
   PopupContainer,
   EdittableList,
@@ -22,7 +23,7 @@ import UserAPI from "../../../../../api/userAPI";
 
 const EditList = (props) => {
   const [favList, setFavList] = useState(props.list);
-  const user_id = "618e861f44657266888550c3";
+  const user_id = "618d4337965a69dd7993e643";
 
   const handleChange = (oldIndex, newIndex) => {
     setFavList(arrayMove(favList, oldIndex, newIndex));
@@ -42,16 +43,17 @@ const EditList = (props) => {
     for (var i = 0; i < favList.length; i++) {
       idFavList[i] = favList[i]._id;
     }
-    console.log("NEW_LIST", idFavList);
+
     editMyFavList(user_id, idFavList);
-    props.updateList(favList);
-    props.setVisible(false);
   };
 
   const editMyFavList = (user_id, edittedList) => {
     UserAPI.editMyFavList(user_id, edittedList)
       .then((response) => {
-        console.log("edit", response.data);
+        if (response.data.status) {
+          props.updateList(favList);
+          props.setVisible(false);
+        }
       })
       .catch((e) => {
         console.log(e);

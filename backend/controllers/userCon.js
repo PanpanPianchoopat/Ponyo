@@ -23,10 +23,10 @@ export const register = async (req, res) => {
       $or: [{ username: username }, { email: email }],
     });
     if (checkUser.length != 0) {
-      res.status(409).json({ Error: "Already has username or email" });
+      res.status(201).json({ status: false });
     } else {
       await newUser.save();
-      res.status(201).json(newUser);
+      res.status(201).json({ status: true });
     }
   } catch (error) {
     res.status(409).json({ Error: "error.message" });
@@ -129,6 +129,8 @@ const countRestuarant = async (key, id) => {
 
 export const addRestaurantToList = async (req, res) => {
   const { key, user_id, res_id } = req.params;
+  const FAV_MAX = 5;
+  const IN_MAX = 50;
 
   if (!mongoose.Types.ObjectId.isValid(user_id))
     return res.status(404).send(`No review with id: ${user_id}`);
@@ -136,24 +138,26 @@ export const addRestaurantToList = async (req, res) => {
   const countList = await countRestuarant(key, user_id);
 
   if (key == "myFavRestaurants") {
-    if (countList < 5) {
+    if (countList < FAV_MAX) {
       await User.updateOne(
         { _id: user_id },
         { $addToSet: { myFavRestaurants: res_id } }
       );
-      res.status(200).json({ Message: "Update Success" });
+      res.status(200).json({ status: true, Message: "Update Success" });
     } else {
-      res.status(404).json({ Error: "Full Favorite List" });
+      res.status(200).json({ status: false, Message: "Full Favorite List" });
     }
   } else {
-    if (countList < 50) {
+    if (countList < IN_MAX) {
       await User.updateOne(
         { _id: user_id },
         { $addToSet: { myInterestRestaurants: res_id } }
       );
-      res.status(200).json({ Message: "Update Success" });
+      res.status(200).json({ status: true, Message: "Update Success" });
     } else {
-      res.status(404).json({ Error: "Full interesting restaurant List" });
+      res
+        .status(200)
+        .json({ status: false, Message: "Full interesting restaurant List" });
     }
   }
 };
@@ -209,7 +213,6 @@ export const removeResFromList = async (req, res) => {
       { _id: ObjectId(user_id) },
       { $pull: { [key]: res_id } }
     );
-    // await User.updateOne({ _id: ObjectId(user_id) }, { $pull: { [key]: null } });
     res.status(200).json("List deleted successfully.");
   } catch (error) {
     res.status(404).json({ Error: error.message });
@@ -226,7 +229,7 @@ export const editMyFavList = async (req, res) => {
   try {
     const updatedList = { _id: user_id, myFavRestaurants: myFavRestaurants };
     await User.findByIdAndUpdate(user_id, updatedList, { new: true });
-    res.status(200).json(updatedList);
+    res.status(200).json({ status: true });
   } catch (error) {
     res.status(404).json({ Error: error.message });
   }
