@@ -61,7 +61,6 @@ const SearchRestaurant = () => {
     }
   }, [status]);
 
-
   useEffect(() => {
     if (selectedCat != "") {
       getRestaurantByType();
@@ -142,8 +141,12 @@ const SearchRestaurant = () => {
                   setSearchValue({ ...searchValue, filter: e });
                 }}
               >
-                {FILTER_OPTION.map((type) => {
-                  return <Option value={type.toLowerCase()}>{type}</Option>;
+                {FILTER_OPTION.map((type, index) => {
+                  return (
+                    <Option value={type.toLowerCase()} key={index}>
+                      {type}
+                    </Option>
+                  );
                 })}
               </Selecter>
               <Search
@@ -166,7 +169,11 @@ const SearchRestaurant = () => {
                 }}
               >
                 {PRICE_OPTION.map((type, index) => {
-                  return <Option value={index.toString()}>{type}</Option>;
+                  return (
+                    <Option value={index.toString()} key={index}>
+                      {type}
+                    </Option>
+                  );
                 })}
               </Selecter>
               <Selecter
@@ -180,8 +187,12 @@ const SearchRestaurant = () => {
                   setSearchValue({ ...searchValue, cuisine: e });
                 }}
               >
-                {CUISINE_OPTION.map((type) => {
-                  return <Option value={type}>{type}</Option>;
+                {CUISINE_OPTION.map((type, index) => {
+                  return (
+                    <Option value={type} key={index}>
+                      {type}
+                    </Option>
+                  );
                 })}
               </Selecter>
               <StyleButton onClick={onFinish}>SEARCH</StyleButton>

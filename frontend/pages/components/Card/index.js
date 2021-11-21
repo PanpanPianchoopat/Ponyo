@@ -79,9 +79,9 @@ const RestCard = ({ ...props }) => {
       cover={
         <CoverContainer customSize={props.size}>
           <IconWrapper>
-            {props.detail ? (
+            {props.detail && (
               <Status status={resStatus}>{resStatus ? "OPEN" : "CLOSE"}</Status>
-            ) : null}
+            )}
           </IconWrapper>
           <CoverPhoto src={resPicture} />
         </CoverContainer>
@@ -91,39 +91,37 @@ const RestCard = ({ ...props }) => {
       <DetailContainer size={props.size}>
         <LeftSection>
           <RestaurantName>
-            {resName
-              ? resName.length > MAX_NAME_LEN
-                ? `${resName.substring(0, MAX_NAME_LEN)}...`
-                : resName
-              : null}
+            {resName && resName.length > MAX_NAME_LEN
+              ? `${resName.substring(0, MAX_NAME_LEN)}...`
+              : resName}
           </RestaurantName>
           <Description>
-            {description
-              ? description.length > MAX_DES_LEN
-                ? `${description.substring(0, MAX_DES_LEN)}...`
-                : description
-              : null}
+            {description && description.length > MAX_DES_LEN
+              ? `${description.substring(0, MAX_DES_LEN)}...`
+              : description}
           </Description>
         </LeftSection>
         <RightSection>
           <PriceRange>
             ฿{minPrice} - {maxPrice}
           </PriceRange>
-          <Rating>
-            <Star />
-            {rating}
-          </Rating>
+          {rating > 0 && (
+            <Rating>
+              <Star />
+              {rating}
+            </Rating>
+          )}
         </RightSection>
       </DetailContainer>
 
-      {location ? (
+      {location && (
         <Location>
           <PinIcon />
           {location.length > MAX_LOCATION_LEN
             ? `${location.substring(0, MAX_LOCATION_LEN)}...`
             : location}
         </Location>
-      ) : null}
+      )}
     </RestaurantCard>
   );
 };
