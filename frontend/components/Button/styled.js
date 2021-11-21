@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import COLORS from "../../../public/constant/colors";
-import BREAKPOINTS from "../../../public/constant/breakpoints";
+import COLORS from "../../public/constant/colors";
+import BREAKPOINTS from "../../public/constant/breakpoints";
 
 export const StyledButton = styled.button.attrs((props) => {
   const customColor = props.customColor;

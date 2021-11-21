@@ -11,7 +11,7 @@ import {
   CameraIcon,
 } from "./styled";
 import { Form, Divider, message } from "antd";
-import Button from "../../../components/Button";
+import Button from "../../../../components/Button";
 import ReviewAPI from "../../../api/reviewAPI";
 import { useRouter } from "next/router";
 

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import COLORS from "../../../public/constant/colors";
+import COLORS from "../../public/constant/colors";
 
 export const LockContainer = styled.div`
   display: flex;

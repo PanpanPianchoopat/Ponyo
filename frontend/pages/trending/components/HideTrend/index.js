@@ -1,7 +1,7 @@
 import React from "react";
 import { Shadow } from "./styled";
-import Lock from "../../../components/Lock";
-import { TREND } from "../../../components/Lock/constant";
+import Lock from "../../../../components/Lock";
+import { TREND } from "../../../../components/Lock/constant";
 
 const HideTrend = (props) => {
   return (

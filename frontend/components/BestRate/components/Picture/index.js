@@ -7,7 +7,7 @@ import {
   Rating,
   StarIcon,
 } from "./styled";
-import ReviewAPI from "../../../../api/reviewAPI";
+import ReviewAPI from "../../../../pages/api/reviewAPI";
 
 const Picture = (props) => {
   const [isHovered, setIsHovered] = useState(false);

@@ -18,8 +18,8 @@ import {
   Status,
   PinIcon,
 } from "./styled";
-import RestaurantAPI from "../../api/restaurantAPI";
-import ReviewAPI from "../../api/reviewAPI";
+import RestaurantAPI from "../../pages/api/restaurantAPI";
+import ReviewAPI from "../../pages/api/reviewAPI";
 import { useRouter } from "next/router";
 
 const RestCard = ({ ...props }) => {

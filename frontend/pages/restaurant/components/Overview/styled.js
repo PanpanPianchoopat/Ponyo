@@ -90,3 +90,5 @@ export const HeartACtive = styled(HeartFilled)`
   font-size: 25px;
   color: ${COLORS.PRIMARY_RED};
 `;
+
+export default OverviewContainer;

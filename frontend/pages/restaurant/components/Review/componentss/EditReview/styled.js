@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Button from "../../../../../components/Button";
+import Button from "../../../../../../components/Button";
 
 export const EditContainer = styled.div`
   padding: 10px;

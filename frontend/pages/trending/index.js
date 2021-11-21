@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import BestRate from "../components/BestRate";
+import BestRate from "../../components/BestRate";
 import { BackTop } from "antd";
 import { Header } from "./styled";
 import RestaurantAPI from "../api/restaurantAPI";

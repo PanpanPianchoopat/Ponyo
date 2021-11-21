@@ -2,7 +2,7 @@ import { Provider as ReduxProvider } from "react-redux";
 import store from "../store";
 import "../styles/globals.css";
 import "antd/dist/antd.css";
-import Navbar from "./components/Navbar";
+import Navbar from "../components/Navbar";
 
 const App = ({ Component, pageProps }) => {
   return (

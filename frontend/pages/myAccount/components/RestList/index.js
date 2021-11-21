@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import jwt from "jsonwebtoken";
-import Card from "../../../components/Card";
+import Button from "../../../../components/Button";
+import Card from "../../../../components/Card";
 import { FAVOURITE, INTEREST } from "../../constant";
 import EditList from "./components/EditList";
 import Image from "next/image";
-import Button from "../../../components/Button";
+import UserAPI from "../../../api/userAPI";
+import { Spin } from "antd";
+import { LOADING } from "./constant";
+import { useRouter } from "next/router";
 import {
   HeaderWrapper,
   CardsWrapper,
@@ -14,10 +18,6 @@ import {
   EmptyList,
   EmptyTextContainer,
 } from "./styled";
-import UserAPI from "../../../api/userAPI";
-import { Spin } from "antd";
-import { LOADING } from "./constant";
-import { useRouter } from "next/router";
 
 const RestList = (props) => {
   const router = useRouter();

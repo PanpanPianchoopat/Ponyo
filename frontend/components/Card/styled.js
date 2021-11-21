@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { Card } from "antd";
 import { StarFilled } from "@ant-design/icons";
-import COLORS from "../../../public/constant/colors";
-import BREAKPOINTS from "../../../public/constant/breakpoints";
+import COLORS from "../../public/constant/colors";
+import BREAKPOINTS from "../../public/constant/breakpoints";
 import { BsFillGeoAltFill } from "react-icons/bs";
 
 export const RestaurantCard = styled(Card).attrs((props) => {

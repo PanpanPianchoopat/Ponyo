@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import COLOR from "../../../public/constant/colors";
 import Image from "next/image";
-import BREAKPOINTS from "../../../public/constant/breakpoints";
+import BREAKPOINTS from "../../public/constant/breakpoints";
+import COLOR from "../../public/constant/colors";
 
 export const StyledNav = styled.div.attrs((props) => {
   const display = props.isVisible ? "flex" : "none";

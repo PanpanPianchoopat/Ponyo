@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
-
 import { useRouter } from "next/router";
 import jwt from "jsonwebtoken";
-import useAppDispatch from "../../../../../hooks/useAppDispatch";
-import { setAuthState } from "../../../../../slices/auth";
-
+import useAppDispatch from "../../../../hooks/useAppDispatch";
+import { setAuthState } from "../../../../slices/auth";
 import { LOGIN_MENU } from "./constant";
 import { MenuOutlined } from "@ant-design/icons";
 import { Menu, Avatar } from "antd";

@@ -3,7 +3,7 @@ import COLORS from "../../../../../../public/constant/colors";
 import { BsFillBookmarkFill } from "react-icons/bs";
 import { DeleteOutlined } from "@ant-design/icons";
 import { Popconfirm } from "antd";
-import Button from "../../../../../components/Button";
+import Button from "../../../../../../components/Button";
 
 export const PopupContainer = styled.div`
   width: 100%;

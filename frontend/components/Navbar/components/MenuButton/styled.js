@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Dropdown } from "antd";
-import BREAKPOINTS from "../../../../../public/constant/breakpoints.js";
+import BREAKPOINTS from "../../../../public/constant/breakpoints.js";
 
 export const DynamicButton = styled.div.attrs((props) => {
   const display = props.isVisible ? "inline" : "none";

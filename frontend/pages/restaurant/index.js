@@ -21,7 +21,7 @@ import {
   FullSection,
   EmptyDisplayContainer,
 } from "./styled";
-import { TREND, REVIEW } from "../components/Lock/constant";
+
 import WriteReview from "./components/WriteReview";
 import Ratings from "./components/Ratings";
 import Carousel from "./components/Carousel";
@@ -33,7 +33,8 @@ import { Divider } from "antd";
 import RestaurantAPI from "../api/restaurantAPI";
 import ReviewAPI from "../api/reviewAPI";
 import Image from "next/image";
-import Lock from "../components/Lock";
+import Lock from "../../components/Lock";
+import { REVIEW } from "../../components/Lock/constant";
 
 const Restaurant = (props) => {
   const [resID, setResID] = useState(null);

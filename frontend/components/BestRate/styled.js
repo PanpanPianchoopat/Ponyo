@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import COLORS from "../../../public/constant/colors";
-import BREAKPOINTS from "../../../public/constant/breakpoints";
+import COLORS from "../../public/constant/colors";
+import BREAKPOINTS from "../../public/constant/breakpoints";
 
 export const BestRateContianer = styled.div.attrs((props) => {
   const bgColor = props.isDark ? COLORS.PRIMARY_DARK : "white";

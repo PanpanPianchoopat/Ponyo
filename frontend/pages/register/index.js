@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form } from "antd";
-import Button from "../components/Button";
+import Button from "../../components/Button";
 import Link from "next/link";
 import UserAPI from "../api/userAPI.js";
 import {

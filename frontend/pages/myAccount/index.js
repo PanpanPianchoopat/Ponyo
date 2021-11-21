@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import jwt from "jsonwebtoken";
 import { Avatar } from "antd";
-import Button from "../components/Button";
+import Button from "../../components/Button";
 import RestList from "./components/RestList";
 import EditProfile from "./components/EditProfile";
 import { FAVOURITE, INTEREST, AVATAR_SIZE } from "./constant";
-import { BsFillPersonFill } from "react-icons/bs";
 import {
   ProfileContainer,
   ProfilePicture,

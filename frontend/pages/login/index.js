@@ -5,7 +5,7 @@ import useAppDispatch from "../../hooks/useAppDispatch";
 import { Login, setSubmitState } from "../../slices/auth";
 import { useRouter } from "next/router";
 import { Form, message } from "antd";
-import Button from "../components/Button";
+import Button from "../../components/Button";
 import Link from "next/link";
 import { AiOutlineUser, AiOutlineLock } from "react-icons/ai";
 import {

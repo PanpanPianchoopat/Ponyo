@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import COLORS from "../../public/constant/colors";
-import Button from "../components/Button";
-import BestRate from "../components/BestRate";
+import Button from "../../components/Button";
+import BestRate from "../../components/BestRate";
 
-import Card from "../components/Card";
+import Card from "../../components/Card";
 import { BackTop, Spin } from "antd";
 
 import Category from "./components/Category";

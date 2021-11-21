@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import COLORS from "../../../../../public/constant/colors";
 import { StarFilled } from "@ant-design/icons";
-import BREAKPOINTS from "../../../../../public/constant/breakpoints";
+import BREAKPOINTS from "../../../../public/constant/breakpoints";
+import COLORS from "../../../../public/constant/colors";
 
 export const Description = styled.div.attrs((props) => {
   const showDescription = props.isHovered ? 1 : 0;
