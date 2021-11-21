@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import useAppSelector from "../../hooks/useAppSelector";
 import useAppDispatch from "../../hooks/useAppDispatch";
 
-import { Login } from "../../slices/auth";
+import { Login, setSubmitState } from "../../slices/auth";
 import { useRouter } from "next/router";
 import { Form } from "antd";
 import Button from "../components/Button";
@@ -30,16 +30,18 @@ import {
 const Signin = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { isLogin } = useAppSelector((state) => state.auth);
+  const { isLogin, isSubmit } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
-    console.log("isLogin", isLogin);
-    if (isLogin) {
-      router.push("/search");
-    } else {
-      console.log("CANNOT LOGIN");
+    if (isSubmit) {
+      if (isLogin) {
+        router.push("/search");
+      } else {
+        dispatch(setSubmitState());
+        console.log("CANNOT LOGIN");
+      }
     }
-  }, [isLogin]);
+  }, [isSubmit]);
 
   const auth = (val) => {
     const credential = {

@@ -38,27 +38,27 @@ export const login = async (req, res) => {
     email: req.body.email,
   });
 
-  if (!user) {
-    res.status(200).json({ status: false, token: null });
-  }
-
-  const isPasswordValid = await bcrypt.compare(
-    req.body.password,
-    user.password
-  );
-
-  if (isPasswordValid) {
-    const token = jwt.sign(
-      {
-        id: user._id,
-        username: user.username,
-        password: user.password,
-        image: user.image,
-      },
-      "PonyoSecret",
-      { expiresIn: "60s" }
+  if (user) {
+    const isPasswordValid = await bcrypt.compare(
+      req.body.password,
+      user.password
     );
-    res.status(200).json({ status: true, token: token });
+
+    if (isPasswordValid) {
+      const token = jwt.sign(
+        {
+          id: user._id,
+          username: user.username,
+          password: user.password,
+          image: user.image,
+        },
+        "PonyoSecret",
+        { expiresIn: "60s" }
+      );
+      res.status(200).json({ status: true, token: token });
+    } else {
+      res.status(200).json({ status: false, token: null });
+    }
   } else {
     res.status(200).json({ status: false, token: null });
   }

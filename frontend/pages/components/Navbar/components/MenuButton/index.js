@@ -6,7 +6,6 @@ import useAppDispatch from "../../../../../hooks/useAppDispatch";
 import { setAuthState } from "../../../../../slices/auth";
 
 import { LOGIN_MENU } from "./constant";
-
 import { MenuOutlined } from "@ant-design/icons";
 import { Menu, Avatar } from "antd";
 import Button from "../../../Button";

@@ -8,6 +8,7 @@ const initialState = {
   hasError: false,
   token: "",
   isLogin: false,
+  isSubmit: false,
   data: null,
   userData: {},
 };
@@ -25,7 +26,6 @@ export const Login = createAsyncThunk("User/Login", async (credential) => {
       }
     );
 
-    console.log(response);
     if (response.data.status) {
       localStorage.setItem("_token", response.data.token);
       return response.data;
@@ -35,7 +35,6 @@ export const Login = createAsyncThunk("User/Login", async (credential) => {
     }
   } catch (err) {
     localStorage.setItem("_token", "");
-    console.log(err);
     return "";
   }
 });
@@ -48,6 +47,10 @@ const authSlice = createSlice({
       state.data = null;
       state.isLogin = false;
       state.token = "";
+      state.isSubmit = false;
+    },
+    setSubmitState(state, action) {
+      state.isSubmit = false;
     },
   },
   extraReducers: (builder) => {
@@ -55,10 +58,11 @@ const authSlice = createSlice({
       .addCase(Login.pending, (state) => {
         if (state.loading === false) {
           state.loading = true;
+          state.isSubmit = true;
         }
       })
       .addCase(Login.fulfilled, (state, action) => {
-        console.log(action.payload);
+        state.isSubmit = true;
         if (action.payload != null) {
           state.token = action.payload.token;
           state.data = jwt.decode(action.payload.token);
@@ -75,5 +79,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { setAuthState } = authSlice.actions;
+export const { setAuthState, setSubmitState } = authSlice.actions;
 export default authSlice.reducer;
