@@ -21,7 +21,7 @@ import {
   FullSection,
   EmptyDisplayContainer,
 } from "./styled";
-import CantWrite from "./components/CantWrite";
+import { TREND, REVIEW } from "../components/Lock/constant";
 import WriteReview from "./components/WriteReview";
 import Ratings from "./components/Ratings";
 import Carousel from "./components/Carousel";
@@ -33,6 +33,7 @@ import { Divider } from "antd";
 import RestaurantAPI from "../api/restaurantAPI";
 import ReviewAPI from "../api/reviewAPI";
 import Image from "next/image";
+import Lock from "../components/Lock";
 
 const Restaurant = (props) => {
   const [resID, setResID] = useState(null);
@@ -275,7 +276,7 @@ const Restaurant = (props) => {
             {isUser ? (
               <WriteReview func={updateInfo} resID={resID} />
             ) : (
-              <CantWrite />
+              <Lock type={REVIEW} />
             )}
           </LargeSection>
         </div>
@@ -305,7 +306,7 @@ const Restaurant = (props) => {
           <Ratings rates={starInfo} />
         </FullSection>
         <FullSection>
-          {isUser ? <WriteReview func={updateInfo} /> : <CantWrite />}
+          {isUser ? <WriteReview func={updateInfo} /> : <Lock type={REVIEW} />}
         </FullSection>
       </DetailContainer>
 

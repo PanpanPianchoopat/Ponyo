@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import COLORS from "../../../../public/constant/colors";
+import COLORS from "../../../public/constant/colors";
 
 export const LockContainer = styled.div`
   display: flex;
@@ -8,8 +8,11 @@ export const LockContainer = styled.div`
   align-items: center;
 `;
 
-export const LockText = styled.b`
+export const LockText = styled.div`
   font-size: 1rem;
+  width: 200px;
+  display: flex;
+  text-align: center;
   color: ${COLORS.PRIMARY_YELLOW};
-  margin: 10px 0;
+  margin: 20px 0;
 `;

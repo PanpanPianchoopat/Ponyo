@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import BestRate from "../components/BestRate";
-import { TOP_3 } from "../components/BestRate/constant";
 import { BackTop } from "antd";
 import { Header, Type } from "./styled";
 import RestaurantAPI from "../api/restaurantAPI";
 import jwt from "jsonwebtoken";
-import HideTrend from "./HideTrend";
+import HideTrend from "./components/HideTrend";
 
 const Trending = () => {
   const [bestTrend, setBestTrend] = useState([]);
