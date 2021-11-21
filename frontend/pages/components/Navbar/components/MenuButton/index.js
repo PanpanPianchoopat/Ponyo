@@ -12,9 +12,20 @@ import { useRouter } from "next/router";
 import jwt from "jsonwebtoken";
 import { BsFillPersonFill } from "react-icons/bs";
 import { LOGIN_MENU } from "./constant";
+import Link from "next/link";
+import useAppDispatch from "../../../../../hooks/useAppDispatch";
+import { setAuthState } from "../../../../../slices/auth";
 
 const MenuButton = (props) => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
+
+  const handleLogout = () => {
+    dispatch(setAuthState());
+    props.setIsGuest(true);
+    localStorage.clear();
+    router.push("/search");
+  };
 
   const DropdownForGuest = (
     <Menu>
@@ -26,11 +37,6 @@ const MenuButton = (props) => {
       </Menu.Item>
     </Menu>
   );
-
-  const handleLogout = () => {
-    props.setIsGuest(true);
-    localStorage.clear();
-  };
 
   const DropdownForLogin = (
     <Menu>
@@ -60,13 +66,11 @@ const MenuButton = (props) => {
     <>
       <DynamicButton isVisible={props.isGuest}>
         <LoginButton>
-          <Button
-            variant="red"
-            outline="round"
-            onClick={() => router.push("/login")}
-          >
-            Login
-          </Button>
+          <Link href="/login">
+            <Button variant="red" outline="round">
+              Login
+            </Button>
+          </Link>
         </LoginButton>
         <HamburgerButton
           overlay={DropdownForGuest}
