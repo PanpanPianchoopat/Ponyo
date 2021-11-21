@@ -33,7 +33,7 @@ app.get("/", (req, res) => {
 });
 
 const CONNECTION_URL =
-  "mongodb+srv://admin:admin@ponyo.romjl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+  "mongodb+srv://admin:admin@ponyo.ih38y.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 const PORT = process.env.PORT || 8080;
 
 mongoose
