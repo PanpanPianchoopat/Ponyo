@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import COLORS from "../../public/constant/colors";
 import Button from "../components/Button";
 import BestRate from "../components/BestRate";
-import { TOP_3 } from "../components/BestRate/constant";
+
 import Card from "../components/Card";
 import { SAMPLE_DATA } from "../components/Card/constant";
 import { BackTop } from "antd";
