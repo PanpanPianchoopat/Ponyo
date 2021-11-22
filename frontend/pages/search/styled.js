@@ -183,7 +183,7 @@ export const CardContainer = styled.div`
   }
 `;
 
-export const Loading = styled.p`
+export const Loading = styled.div`
   font-size: 20px;
 `;
 
