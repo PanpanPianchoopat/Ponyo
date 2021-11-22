@@ -103,10 +103,6 @@ const Overview = (props) => {
         .then((response) => {
           if (response.data.status) {
             setIsLiked(!isLiked);
-          } else {
-            message.warning(
-              "Your favorite list is full, try to delete some restaurant"
-            );
           }
         })
         .catch((e) => {

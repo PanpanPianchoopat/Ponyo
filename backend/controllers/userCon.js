@@ -127,41 +127,6 @@ const countRestuarant = async (key, id) => {
   return count[0].numRes;
 };
 
-export const addRestaurantToList = async (req, res) => {
-  const { key, user_id, res_id } = req.params;
-  const FAV_MAX = 5;
-  const IN_MAX = 50;
-
-  if (!mongoose.Types.ObjectId.isValid(user_id))
-    return res.status(404).send(`No review with id: ${user_id}`);
-
-  const countList = await countRestuarant(key, user_id);
-
-  if (key == "myFavRestaurants") {
-    if (countList < FAV_MAX) {
-      await User.updateOne(
-        { _id: user_id },
-        { $addToSet: { myFavRestaurants: res_id } }
-      );
-      res.status(200).json({ status: true, Message: "Update Success" });
-    } else {
-      res.status(200).json({ status: false, Message: "Full Favorite List" });
-    }
-  } else {
-    if (countList < IN_MAX) {
-      await User.updateOne(
-        { _id: user_id },
-        { $addToSet: { myInterestRestaurants: res_id } }
-      );
-      res.status(200).json({ status: true, Message: "Update Success" });
-    } else {
-      res
-        .status(200)
-        .json({ status: false, Message: "Full interesting restaurant List" });
-    }
-  }
-};
-
 export const getMyRestaurantList = async (req, res) => {
   const { key, user_id } = req.params;
   try {
@@ -201,6 +166,41 @@ export const getMyRestaurantList = async (req, res) => {
   }
 };
 
+export const addRestaurantToList = async (req, res) => {
+  const { key, user_id, res_id } = req.params;
+  const FAV_MAX = 5;
+  const IN_MAX = 50;
+
+  if (!mongoose.Types.ObjectId.isValid(user_id))
+    return res.status(404).send(`No review with id: ${user_id}`);
+
+  const countList = await countRestuarant(key, user_id);
+
+  if (key == "myFavRestaurants") {
+    if (countList < FAV_MAX) {
+      await User.updateOne(
+        { _id: user_id },
+        { $addToSet: { myFavRestaurants: res_id } }
+      );
+      res.status(200).json({ status: true, Message: "Update Success" });
+    } else {
+      res.status(200).json({ status: false, Message: "Full Favorite List" });
+    }
+  } else {
+    if (countList < IN_MAX) {
+      await User.updateOne(
+        { _id: user_id },
+        { $addToSet: { myInterestRestaurants: res_id } }
+      );
+      res.status(200).json({ status: true, Message: "Update Success" });
+    } else {
+      res
+        .status(200)
+        .json({ status: false, Message: "Full interesting restaurant List" });
+    }
+  }
+};
+
 //Favorite and Interest
 export const removeResFromList = async (req, res) => {
   const { key, user_id, res_id } = req.params;
@@ -213,7 +213,9 @@ export const removeResFromList = async (req, res) => {
       { _id: ObjectId(user_id) },
       { $pull: { [key]: res_id } }
     );
-    res.status(200).json("List deleted successfully.");
+    res
+      .status(200)
+      .json({ status: true, Message: "List deleted successfully" });
   } catch (error) {
     res.status(404).json({ Error: error.message });
   }
