@@ -86,6 +86,9 @@ const SearchRestaurant = () => {
     if (searchValue.filter == "address") {
       searchValue.filter = "location.address";
     }
+    if (searchValue.input == "") {
+      searchValue.input = "noInput";
+    }
     RestaurantAPI.getRestaurant(
       searchValue.filter,
       searchValue.input,
