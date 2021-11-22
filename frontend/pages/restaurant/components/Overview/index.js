@@ -57,13 +57,14 @@ const Overview = (props) => {
   }, [props.avgRate]);
 
   function toggleBookmark() {
-    if (user_id) {
+    if (resID) {
       manageRestaurantList("myInterestRestaurants", isBookmarked);
     }
   }
 
   function toggleLike() {
-    if (user_id) {
+    if (resID) {
+      console.log("user", resID);
       manageRestaurantList("myFavRestaurants", isLiked);
     }
   }

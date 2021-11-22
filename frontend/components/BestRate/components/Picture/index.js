@@ -28,7 +28,6 @@ const Picture = (props) => {
   const getRestaurantRate = () => {
     ReviewAPI.calReviewRate(trendInfo._id)
       .then((response) => {
-        console.log("res", response.data);
         setRate(response.data[0]);
       })
       .catch((e) => {

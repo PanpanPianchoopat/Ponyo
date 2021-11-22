@@ -16,14 +16,9 @@ const BestRate = (props) => {
   const [countTrend, setCountTrend] = useState(0);
 
   useEffect(() => {
-    console.log(props.head, " ", "countTrend", countTrend);
-  }, [countTrend]);
-
-  useEffect(() => {
     if (props.isNotNull && props.restaurants.length > 0) {
       setRestaurantTrend(props.restaurants);
       setCountTrend(props.restaurants.length);
-      console.log(props.head, " ", props.restaurants[0].data[0]._id);
     }
   }, [props]);
 
