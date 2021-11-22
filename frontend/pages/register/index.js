@@ -339,7 +339,7 @@ const register = () => {
               </Button>
             </Center>
             <Description>
-              Not the first time here?
+              Already has an account?
               <Link href="/login">
                 <Path>LOGIN!</Path>
               </Link>
