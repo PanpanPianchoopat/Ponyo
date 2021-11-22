@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import jwt from "jsonwebtoken";
 import { Form } from "antd";
 import Button from "../../components/Button";
 import Link from "next/link";
@@ -42,6 +43,14 @@ const register = () => {
   const [checkBirthday, setCheckBirthday] = useState(null);
   const [gender, setGender] = useState("Other");
   const [avatar, setAvatar] = useState("");
+
+  useEffect(() => {
+    const token = localStorage.getItem("_token");
+    const userData = jwt.decode(token);
+    if (userData) {
+      router.push("/search");
+    }
+  }, []);
 
   const onFinish = (values) => {
     var profile = null;

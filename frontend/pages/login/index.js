@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import useAppSelector from "../../hooks/useAppSelector";
 import useAppDispatch from "../../hooks/useAppDispatch";
-
+import jwt from "jsonwebtoken";
 import { Login, setSubmitState } from "../../slices/auth";
 import { useRouter } from "next/router";
 import { Form, message } from "antd";
@@ -35,6 +35,14 @@ const Signin = () => {
   const { isLogin, isSubmit } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
+    const token = localStorage.getItem("_token");
+    const userData = jwt.decode(token);
+    if (userData) {
+      router.push("/search")
+    }
+  }, []);
+
+  useEffect(() => {
     if (isSubmit) {
       if (isLogin) {
         setValidateState("success");
@@ -61,89 +69,89 @@ const Signin = () => {
   };
 
   return (
-    <Container>
-      <ContainerLeft>
-        <Logo>
-          <LogoImage src="/assets/Logo.svg" width={150} height={150} />
-        </Logo>
-        <Content>
-          <p>I love you as much as</p>
-          <p>
-            <BoldContent>PONYO</BoldContent>
-            loves HAM
-          </p>
-        </Content>
-        <Wave>
-          <WaveImage src="/assets/ponyoWave.svg" layout="fill" />
-        </Wave>
-      </ContainerLeft>
-      <ContainerRight>
-        <Header>LOGIN</Header>
-        <Form
-          name="normal_login"
-          className="login-form"
-          initialValues={{
-            remember: true,
-          }}
-          onFinish={auth}
-        >
-          <Form.Item
-            name="email"
-            validateStatus={validateState}
-            hasFeedback
-            rules={[
-              {
-                required: true,
-                message: "Please input your Username!",
-              },
-              {
-                type: "email",
-                message: "The input is not valid E-mail!",
-              },
-            ]}
+      <Container>
+        <ContainerLeft>
+          <Logo>
+            <LogoImage src="/assets/Logo.svg" width={150} height={150} />
+          </Logo>
+          <Content>
+            <p>I love you as much as</p>
+            <p>
+              <BoldContent>PONYO</BoldContent>
+              loves HAM
+            </p>
+          </Content>
+          <Wave>
+            <WaveImage src="/assets/ponyoWave.svg" layout="fill" />
+          </Wave>
+        </ContainerLeft>
+        <ContainerRight>
+          <Header>LOGIN</Header>
+          <Form
+            name="normal_login"
+            className="login-form"
+            initialValues={{
+              remember: true,
+            }}
+            onFinish={auth}
           >
-            <CustomInput>
-              <Icon>
-                <AiOutlineUser size={18} />
-              </Icon>
-              <StyleInput type="text" placeholder="Email" />
-            </CustomInput>
-          </Form.Item>
-          <Form.Item
-            validateStatus={validateState}
-            hasFeedback
-            name="password"
-            rules={[
-              {
-                required: true,
-                message: "Please input your Password!",
-              },
-            ]}
-          >
-            <CustomInput>
-              <Icon>
-                <AiOutlineLock size={18} />
-              </Icon>
-              <StyleInput type="password" placeholder="Password" />
-            </CustomInput>
-          </Form.Item>
-          <Form.Item>
-            <MarginBox>
-              <Button variant="red" size="large">
-                LOGIN
-              </Button>
-            </MarginBox>
+            <Form.Item
+              name="email"
+              validateStatus={validateState}
+              hasFeedback
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your Username!",
+                },
+                {
+                  type: "email",
+                  message: "The input is not valid E-mail!",
+                },
+              ]}
+            >
+              <CustomInput>
+                <Icon>
+                  <AiOutlineUser size={18} />
+                </Icon>
+                <StyleInput type="text" placeholder="Email" />
+              </CustomInput>
+            </Form.Item>
+            <Form.Item
+              validateStatus={validateState}
+              hasFeedback
+              name="password"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your Password!",
+                },
+              ]}
+            >
+              <CustomInput>
+                <Icon>
+                  <AiOutlineLock size={18} />
+                </Icon>
+                <StyleInput type="password" placeholder="Password" />
+              </CustomInput>
+            </Form.Item>
+            <Form.Item>
+              <MarginBox>
+                <Button variant="red" size="large">
+                  LOGIN
+                </Button>
+              </MarginBox>
 
-            <Description>
-              Have no account yet?
-              <Link href="/register">
-                <Path>REGISTER</Path>
-              </Link>
-            </Description>
-          </Form.Item>
-        </Form>
-      </ContainerRight>
-    </Container>
+              <Description>
+                Have no account yet?
+                <Link href="/register">
+                  <Path>REGISTER</Path>
+                </Link>
+              </Description>
+            </Form.Item>
+          </Form>
+        </ContainerRight>
+      </Container>
   );
 };
 
