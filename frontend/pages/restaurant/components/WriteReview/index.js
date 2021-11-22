@@ -46,13 +46,16 @@ const WriteReview = (props) => {
       image = photoArray(values.pictures.fileList);
     }
 
-    if (values.star > 0) {
+    if (image.length > 5) {
+      message.warning("You can upload images only up to 5");
+    } else if (values.star == 0) {
+      message.warning("You have to rate this restaurant");
+    } else {
       const data = {
         reviewText: values.review,
         star: values.star,
         image: image,
       };
-
       ReviewAPI.addReview(user_id, resID, data)
         .then((response) => {
           if (response.data) {
@@ -69,8 +72,6 @@ const WriteReview = (props) => {
             "You already review this restaurant, try edit/delete instead"
           );
         });
-    } else {
-      message.warning("You have to rate this restaurant");
     }
   };
 
