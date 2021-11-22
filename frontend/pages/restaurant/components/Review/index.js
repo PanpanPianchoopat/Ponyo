@@ -152,14 +152,16 @@ const Review = (props) => {
                 })
               : []}
           </Line>
-          <Line>
-            {isLiked ? (
-              <ActiveLikeButton onClick={() => handleClick(review._id)} />
-            ) : (
-              <LikeButton onClick={() => handleClick(review._id)} />
-            )}
-            <LikeNum>{likeCount}</LikeNum>
-          </Line>
+          {user_id ? (
+            <Line>
+              {isLiked ? (
+                <ActiveLikeButton onClick={() => handleClick(review._id)} />
+              ) : (
+                <LikeButton onClick={() => handleClick(review._id)} />
+              )}
+              <LikeNum>{likeCount}</LikeNum>
+            </Line>
+          ) : null}
         </CommentSection>
       </ReviewContainer>
       <Modal
