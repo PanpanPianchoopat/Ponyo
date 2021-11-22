@@ -64,6 +64,25 @@ const register = () => {
       });
   };
 
+  const [currentYear, setCurrentYear] = useState(null);
+  const [checkBirthday, setCheckBirthday] = useState(null);
+  const validateBirthday = (rule, value, callback) => {
+    if (!value) {
+      callback("Please select your birthday");
+      setCheckBirthday("error");
+    } else {
+      setCurrentYear(new Date().getFullYear());
+      if (currentYear - value.format("YYYY") >= 15) {
+        callback();
+        setCheckBirthday("success");
+        console.log("pass");
+      } else {
+        callback("Must be 15 years of age or older");
+        setCheckBirthday("error");
+      }
+    }
+  };
+
   const [gender, setGender] = useState("");
 
   const [avatar, setAvatar] = useState("");
@@ -288,11 +307,13 @@ const register = () => {
                     Birthday
                   </label>
                 }
+                validateStatus={checkBirthday}
                 rules={[
-                  {
-                    required: true,
-                    message: "Please select your birthday!",
-                  },
+                  // {
+                  //   required: true,
+                  //   message: "Please select your birthday!",
+                  // },
+                  { validator: validateBirthday },
                 ]}
               >
                 <CustomDatePicker
