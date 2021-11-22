@@ -551,6 +551,11 @@ export const getRestaurantStatus = async (req, res) => {
 export const getTrending = async (req, res) => {
   const { type } = req.params;
 
+  var today = new Date();
+  var first = today.getDate() - today.getDay();
+  var firstDayWeek = new Date(today.setDate(first - 6));
+  var lastDayWeek = new Date(today.setDate(first + 2));
+
   try {
     const trendingRes = await Restaurant.aggregate([
       {
@@ -585,6 +590,14 @@ export const getTrending = async (req, res) => {
         $unwind: "$review",
       },
       {
+        $match: {
+          "review.date": {
+            $lt: lastDayWeek,
+            $gt: firstDayWeek,
+          },
+        },
+      },
+      {
         $group: {
           _id: { res_id: "$_id", type: type },
           count: { $sum: 1 },
@@ -602,6 +615,11 @@ export const getTrending = async (req, res) => {
 };
 
 export const getBestTrending = async (req, res) => {
+  var today = new Date();
+  var first = today.getDate() - today.getDay();
+  var firstDayWeek = new Date(today.setDate(first - 6));
+  var lastDayWeek = new Date(today.setDate(first + 2));
+
   try {
     const bestTrendingRes = await Restaurant.aggregate([
       {
@@ -629,6 +647,14 @@ export const getBestTrending = async (req, res) => {
       },
       {
         $unwind: "$review",
+      },
+      {
+        $match: {
+          "review.date": {
+            $lt: lastDayWeek,
+            $gt: firstDayWeek,
+          },
+        },
       },
       {
         $group: {
