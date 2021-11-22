@@ -253,23 +253,4 @@ export const editMyFavList = async (req, res) => {
   }
 };
 
-export const getAllUser = async (req, res) => {
-  try {
-    const Users = await User.find(
-      {},
-      {
-        email: 1,
-        username: 1,
-        password: 1,
-        myFavRestaurants: 1,
-        myInterestRestaurants: 1,
-      }
-    );
-
-    res.status(200).json(Users);
-  } catch (error) {
-    res.status(404).json({ Error: error.message });
-  }
-};
-
 export default router;
