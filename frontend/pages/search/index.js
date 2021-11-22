@@ -38,6 +38,7 @@ const SearchRestaurant = () => {
   const { Option } = Selecter;
   const [status, setStatus] = useState("ALL");
   const [restaurant, setRestaurants] = useState(null);
+  const [checkSearch, setCheckSearch] = useState(null);
 
   const [searchValue, setSearchValue] = useState({
     filter: "name",
@@ -54,6 +55,7 @@ const SearchRestaurant = () => {
 
   const onFinish = () => {
     getRestaurant();
+    setCheckSearch("search");
   };
 
   useEffect(() => {
@@ -62,13 +64,18 @@ const SearchRestaurant = () => {
 
   useEffect(() => {
     if (status != null) {
-      getRestaurant();
+      if (checkSearch == "search") {
+        getRestaurant();
+      } else {
+        getRestaurantByType();
+      }
     }
   }, [status]);
 
   useEffect(() => {
     if (selectedCat != "") {
       getRestaurantByType();
+      setCheckSearch("type");
     }
   }, [selectedCat]);
 
@@ -83,6 +90,8 @@ const SearchRestaurant = () => {
   };
 
   const getRestaurant = () => {
+    setRestaurants(null);
+    setSelectedCat("");
     if (searchValue.filter == "address") {
       searchValue.filter = "location.address";
     }
@@ -122,9 +131,16 @@ const SearchRestaurant = () => {
   };
 
   const getRestaurantByType = () => {
-    RestaurantAPI.getRestaurantByType(selectedCat)
+    RestaurantAPI.getRestaurant(
+      searchValue.filter,
+      "noInput",
+      0,
+      selectedCat,
+      status
+    )
       .then((response) => {
         setRestaurants(response.data);
+        
       })
       .catch((e) => {
         console.log(e);
