@@ -78,7 +78,7 @@ const Signin = () => {
         </Wave>
       </ContainerLeft>
       <ContainerRight>
-        <Header>Sign in</Header>
+        <Header>LOGIN</Header>
         <Form
           name="normal_login"
           className="login-form"
@@ -130,14 +130,14 @@ const Signin = () => {
           <Form.Item>
             <MarginBox>
               <Button variant="red" size="large">
-                SIGN IN
+                LOGIN
               </Button>
             </MarginBox>
 
             <Description>
               First time here?
               <Link href="/register">
-                <Path>Sign up!</Path>
+                <Path>REGISTER.</Path>
               </Link>
             </Description>
           </Form.Item>
