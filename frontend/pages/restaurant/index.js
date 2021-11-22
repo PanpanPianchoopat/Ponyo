@@ -40,6 +40,21 @@ import {
 
 const Restaurant = (props) => {
   const [resID, setResID] = useState(null);
+  const NOUSER = "6199008ed3c99ca0a1e5530a";
+  const [user_id, setUserID] = useState(NOUSER);
+  const [filter, setFilter] = useState(0);
+  const [resInfo, setDetail] = useState(null);
+  const [statusInfo, setStatus] = useState(null);
+  const [isLiked, setLiked] = useState(null);
+  const [isBookmarked, setBookmarked] = useState(null);
+  const [avgRate, setAvgRate] = useState(null);
+  const [starInfo, setStarAmount] = useState(null);
+  const [reviewAmountInfo, setRatingAmount] = useState(null);
+  const [commentAmountInfo, setCommentAmount] = useState(null);
+  const [photoAmountInfo, setPhotoAmount] = useState(null);
+  const [reviewInfo, setReview] = useState(null);
+  const [isUser, setIsUser] = useState(false);
+
   useEffect(() => {
     setResID(props.router.query.id);
   }, [props.router.query]);
@@ -55,21 +70,6 @@ const Restaurant = (props) => {
       getLikedBookmarked();
     }
   }, [resID]);
-
-  const NOUSER = "6199008ed3c99ca0a1e5530a";
-  const [user_id, setUserID] = useState(NOUSER);
-  const [filter, setFilter] = useState(0);
-  const [resInfo, setDetail] = useState(null);
-  const [statusInfo, setStatus] = useState(null);
-  const [isLiked, setLiked] = useState(null);
-  const [isBookmarked, setBookmarked] = useState(null);
-  const [avgRate, setAvgRate] = useState(null);
-  const [starInfo, setStarAmount] = useState(null);
-  const [reviewAmountInfo, setRatingAmount] = useState(null);
-  const [commentAmountInfo, setCommentAmount] = useState(null);
-  const [photoAmountInfo, setPhotoAmount] = useState(null);
-  const [reviewInfo, setReview] = useState(null);
-  const [isUser, setIsUser] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("_token");
@@ -197,6 +197,7 @@ const Restaurant = (props) => {
   const getReviewByFilter = (index) => {
     const type = ["all", "comment", "photo", "star"];
     setFilter(index);
+    setReview(null);
     if (index == 0) {
       ReviewAPI.getAllReview(resID, user_id)
         .then((response) => {
