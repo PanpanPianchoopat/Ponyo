@@ -55,7 +55,7 @@ const register = () => {
 
     UserAPI.register(data)
       .then((response) => {
-        if(response.data.status){
+        if (response.data.status) {
           router.push("/login");
         }
       })
@@ -98,7 +98,7 @@ const register = () => {
         </Wave>
       </ContainerLeft>
       <ContainerRight>
-        <Header>Sign up</Header>
+        <Header>REGISTER</Header>
         <Form
           form={form}
           initialValues={{
@@ -335,13 +335,13 @@ const register = () => {
           <Form.Item>
             <Center>
               <Button variant="red" size="large">
-                SIGN UP
+                REGISTER
               </Button>
             </Center>
             <Description>
               Not the first time here?
               <Link href="/login">
-                <Path>Sign in!</Path>
+                <Path>LOGIN!</Path>
               </Link>
             </Description>
           </Form.Item>

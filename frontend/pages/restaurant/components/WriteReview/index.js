@@ -46,28 +46,32 @@ const WriteReview = (props) => {
       image = photoArray(values.pictures.fileList);
     }
 
-    const data = {
-      reviewText: values.review,
-      star: values.star,
-      image: image,
-    };
+    if (values.star > 0) {
+      const data = {
+        reviewText: values.review,
+        star: values.star,
+        image: image,
+      };
 
-    ReviewAPI.addReview(user_id, resID, data)
-      .then((response) => {
-        if (response.data) {
-          props.func(true);
-          router.reload();
-        } else {
+      ReviewAPI.addReview(user_id, resID, data)
+        .then((response) => {
+          if (response.data) {
+            props.func(true);
+            router.reload();
+          } else {
+            message.warning(
+              "You already review this restaurant, try edit/delete instead"
+            );
+          }
+        })
+        .catch((e) => {
           message.warning(
             "You already review this restaurant, try edit/delete instead"
           );
-        }
-      })
-      .catch((e) => {
-        message.warning(
-          "You already review this restaurant, try edit/delete instead"
-        );
-      });
+        });
+    } else {
+      message.warning("You have to rate this restaurant");
+    }
   };
 
   return (

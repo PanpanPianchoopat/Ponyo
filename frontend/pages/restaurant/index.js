@@ -1,7 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "next/router";
 import jwt from "jsonwebtoken";
-
+import WriteReview from "./components/WriteReview";
+import Ratings from "./components/Ratings";
+import Carousel from "./components/Carousel";
+import Overview from "./components/Overview";
+import Detail from "./components/Detail";
+import Review from "./components/Review";
+import { Divider } from "antd";
+import RestaurantAPI from "../api/restaurantAPI";
+import ReviewAPI from "../api/reviewAPI";
+import Image from "next/image";
+import Lock from "../../components/Lock";
+import { REVIEW } from "../../components/Lock/constant";
+import {
+  FILTER,
+  KEY_FILTER,
+  REVIEW_FILTER,
+} from "../../public/constant/restaurant";
 import {
   DetailContainer,
   LargeSection,
@@ -21,24 +37,6 @@ import {
   FullSection,
   EmptyDisplayContainer,
 } from "./styled";
-
-import WriteReview from "./components/WriteReview";
-import Ratings from "./components/Ratings";
-import Carousel from "./components/Carousel";
-import Overview from "./components/Overview";
-import Detail from "./components/Detail";
-import Review from "./components/Review";
-import {
-  FILTER,
-  KEY_FILTER,
-  REVIEW_FILTER,
-} from "../../public/constant/restaurant";
-import { Divider } from "antd";
-import RestaurantAPI from "../api/restaurantAPI";
-import ReviewAPI from "../api/reviewAPI";
-import Image from "next/image";
-import Lock from "../../components/Lock";
-import { REVIEW } from "../../components/Lock/constant";
 
 const Restaurant = (props) => {
   const [resID, setResID] = useState(null);
@@ -128,8 +126,9 @@ const Restaurant = (props) => {
       .then((response) => {
         if (response.data[0]) {
           setAvgRate(response.data[0].avgStar);
+        } else {
+          setAvgRate("");
         }
-        setAvgRate("");
       })
       .catch((e) => {
         console.log(e);
