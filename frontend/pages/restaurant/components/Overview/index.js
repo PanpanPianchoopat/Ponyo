@@ -64,7 +64,6 @@ const Overview = (props) => {
 
   function toggleLike() {
     if (resID) {
-      console.log("user", resID);
       manageRestaurantList("myFavRestaurants", isLiked);
     }
   }
@@ -81,6 +80,7 @@ const Overview = (props) => {
           if (key == "myFavRestaurants") {
             if (response.data.status) {
               setIsLiked(!isLiked);
+              message.success("Add restaurant to favorite list successfully");
             } else {
               message.warning(
                 "Your favorite list is full, Try to delete some restaurant"
@@ -89,6 +89,7 @@ const Overview = (props) => {
           } else {
             if (response.data.status) {
               setBookmark(!isBookmarked);
+              message.success("Add restaurant to interest list successfully");
             } else {
               message.warning(
                 "Your interest list is full, Try to delete some restaurant"
@@ -102,8 +103,24 @@ const Overview = (props) => {
     } else {
       UserAPI.removeResFromList(key, user_id, resID)
         .then((response) => {
-          if (response.data.status) {
-            setIsLiked(!isLiked);
+          if (key == "myFavRestaurants") {
+            if (response.data.status) {
+              setIsLiked(!isLiked);
+              message.success(
+                "Remove restaurant to favorite list successfully"
+              );
+            } else {
+              message.success("Error to remove restaurant from favorite list");
+            }
+          } else {
+            if (response.data.status) {
+              setBookmark(!isBookmarked);
+              message.success(
+                "Remove restaurant from interest list successfully"
+              );
+            } else {
+              message.success("Error to remove restaurant from interest list");
+            }
           }
         })
         .catch((e) => {

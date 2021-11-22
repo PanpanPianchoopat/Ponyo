@@ -217,7 +217,7 @@ export const removeResFromList = async (req, res) => {
       .status(200)
       .json({ status: true, Message: "List deleted successfully" });
   } catch (error) {
-    res.status(404).json({ Error: error.message });
+    res.status(404).json({ status: true, Message: "Error" });
   }
 };
 
