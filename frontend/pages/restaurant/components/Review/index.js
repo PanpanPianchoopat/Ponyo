@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import {
   ReviewContainer,
   ProfilePic,
+  DefaultProfileImage,
   ReviewHead,
   HeadLine,
   EditButton,
@@ -108,10 +109,10 @@ const Review = (props) => {
     <>
       <ReviewContainer visible={showReview}>
         <Line>
-          {review ? (
+          {review && review.user.image ? (
             <ProfilePic src={<img src={review.user.image} />} />
           ) : (
-            <p>none</p>
+            <ProfilePic icon={<DefaultProfileImage />} />
           )}
           <ReviewHead>
             <HeadLine>

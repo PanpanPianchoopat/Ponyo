@@ -3,6 +3,7 @@ import BREAKPOINTS from "../../../../public/constant/breakpoints";
 import COLORS from "../../../../public/constant/colors";
 import { Avatar, Rate } from "antd";
 import { HeartOutlined, HeartFilled } from "@ant-design/icons";
+import { BsFillPersonFill } from "react-icons/bs";
 
 export const ReviewContainer = styled.div.attrs((props) => {
   const isVisible = props.visible ? "flex" : "none";
@@ -25,6 +26,13 @@ export const ProfilePic = styled(Avatar)`
   width: 50px;
   height: 50px;
   margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const DefaultProfileImage = styled(BsFillPersonFill)`
+  font-size: 25px;
 `;
 
 export const ReviewHead = styled.div`

@@ -135,9 +135,9 @@ const Signin = () => {
             </MarginBox>
 
             <Description>
-              First time here?
+              Have no account yet?
               <Link href="/register">
-                <Path>REGISTER.</Path>
+                <Path>REGISTER</Path>
               </Link>
             </Description>
           </Form.Item>
