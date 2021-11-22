@@ -29,7 +29,7 @@ const Overview = (props) => {
   const [resID, setResID] = useState(null);
   const [isBookmarked, setBookmark] = useState(bookmarked);
   const [isLiked, setIsLiked] = useState(liked);
-  const [avgText, setAvgText] = useState(null);
+  const [avgRate, setAvgRate] = useState(null);
   const [user_id, setUserID] = useState(null);
 
   useEffect(() => {
@@ -37,6 +37,12 @@ const Overview = (props) => {
       setResID(props.info.details._id);
     }
   }, [props.info]);
+
+  useEffect(() => {
+    if (props.avgRate != null) {
+      setAvgRate(props.avgRate);
+    }
+  }, [props.avgRate]);
 
   useEffect(() => {
     const token = localStorage.getItem("_token");
@@ -49,12 +55,6 @@ const Overview = (props) => {
   useEffect(() => {
     changeBookLike();
   }, [bookmarked, liked]);
-
-  useEffect(() => {
-    if (props.avgRate != null) {
-      setAvgText(props.avgRate);
-    }
-  }, [props.avgRate]);
 
   function toggleBookmark() {
     if (resID) {
@@ -157,12 +157,12 @@ const Overview = (props) => {
         <Line>
           <div>
             <AverageRate
-              defaultValue={avgText}
-              value={avgText}
+              defaultValue={avgRate}
+              value={avgRate}
               allowHalf
               disabled
             />
-            <AvgRateText>{avgText}</AvgRateText>
+            <AvgRateText>{avgRate}</AvgRateText>
           </div>
           {user_id ? (
             isLiked ? (
