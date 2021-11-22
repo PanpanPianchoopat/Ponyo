@@ -75,7 +75,6 @@ const register = () => {
       if (currentYear - value.format("YYYY") >= 15) {
         callback();
         setCheckBirthday("success");
-        console.log("pass");
       } else {
         callback("Must be 15 years of age or older");
         setCheckBirthday("error");
@@ -83,7 +82,16 @@ const register = () => {
     }
   };
 
-  const [gender, setGender] = useState("");
+  const [gender, setGender] = useState(null);
+  const validateGender = (callback) => {
+    if (!gender) {
+      callback("Please select your gender");
+      setCheckBirthday("error");
+    } else {
+      callback();
+      setCheckBirthday("success");
+    }
+  };
 
   const [avatar, setAvatar] = useState("");
 
@@ -268,7 +276,7 @@ const register = () => {
                       marginBottom: "10px",
                     }}
                   >
-                    Upload photo
+                    Upload photo (optional)
                   </label>
                 }
               >
@@ -322,7 +330,7 @@ const register = () => {
                   format={"DD/MM/YYYY"}
                 />
               </Form.Item>
-              <Form.Item name="gender">
+              <Form.Item name="gender" rule={[{ validator: validateGender }]}>
                 <>
                   <Info>Gender</Info>
                   <StyleButton>
