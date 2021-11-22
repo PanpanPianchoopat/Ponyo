@@ -203,4 +203,27 @@ export const BestRateContainer = styled.div`
   background: ${COLORS.PRIMARY_DARK};
 `;
 
+export const EmptyDisplayContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: ${COLORS.DARK_GREY};
+  overflow: hiden;
+`;
+
+export const Warning = styled.div`
+  font-size: 36px;
+  font-weight: bold;
+  letter-spacing: 5px;
+  color: #ed2643;
+  opacity: 0.5;
+`;
+
+export const NotFoundText = styled.div`
+  font-size: 25px;
+  letter-spacing: 3px;
+  opacity: 0.5;
+`;
+
 export default Container;
