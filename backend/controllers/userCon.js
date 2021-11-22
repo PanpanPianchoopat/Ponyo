@@ -80,6 +80,22 @@ export const checkUsername = async (req, res) => {
   }
 };
 
+export const checkEmail = async (req, res) => {
+  const { email } = req.params;
+  try {
+    const checkEmail = await User.find({
+      email: email,
+    });
+    if (checkEmail.length == 0) {
+      res.status(201).json(true);
+    } else {
+      res.status(201).json(false);
+    }
+  } catch (error) {
+    res.status(404).json({ Error: error.message });
+  }
+};
+
 export const editProfile = async (req, res) => {
   const { user_id } = req.params;
   const { username, password, image } = req.body;

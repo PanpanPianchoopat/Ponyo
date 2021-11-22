@@ -13,6 +13,10 @@ class userAPI {
     return http.get(`/user/checkUsername/${username}`);
   };
 
+  checkEmail = (email) => {
+    return http.get(`/user/checkEmail/${email}`);
+  };
+
   editProfile = (user_id, data) => {
     return http.patch(`/user/editProfile/${user_id}`, data);
   };

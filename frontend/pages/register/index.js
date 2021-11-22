@@ -36,6 +36,13 @@ import {
 const register = () => {
   const [form] = Form.useForm();
   const router = useRouter();
+  const [currentYear, setCurrentYear] = useState(null);
+  const [checkEmail, setCheckEmail] = useState(false);
+  const [checkUsername, setCheckUsername] = useState(false);
+  const [checkBirthday, setCheckBirthday] = useState(null);
+  const [gender, setGender] = useState("Other");
+  const [avatar, setAvatar] = useState("");
+
   const onFinish = (values) => {
     var profile = null;
 
@@ -52,7 +59,6 @@ const register = () => {
       gender: gender,
       image: profile,
     };
-
     UserAPI.register(data)
       .then((response) => {
         if (response.data.status) {
@@ -64,8 +70,41 @@ const register = () => {
       });
   };
 
-  const [currentYear, setCurrentYear] = useState(null);
-  const [checkBirthday, setCheckBirthday] = useState(null);
+  const validateEmail = (rule, value, callback) => {
+    UserAPI.checkEmail(value)
+      .then((response) => {
+        if (response.data) {
+          setCheckEmail("success");
+          callback();
+        } else {
+          setCheckEmail("error");
+          callback("Email is already exists");
+        }
+      })
+      .catch((e) => {
+        setCheckEmail("error");
+        callback("Email is already exists");
+      });
+  };
+
+  const validateUsername = (rule, value, callback) => {
+    UserAPI.checkUsername(value)
+      .then((response) => {
+        console.log(response.data);
+        if (response.data) {
+          setCheckUsername("success");
+          callback();
+        } else {
+          setCheckUsername("error");
+          callback("Username is already exists");
+        }
+      })
+      .catch((e) => {
+        setCheckUsername("error");
+        callback("Username is already exists");
+      });
+  };
+
   const validateBirthday = (rule, value, callback) => {
     if (!value) {
       callback("Please select your birthday");
@@ -82,7 +121,6 @@ const register = () => {
     }
   };
 
-  const [gender, setGender] = useState(null);
   const validateGender = (callback) => {
     if (!gender) {
       callback("Please select your gender");
@@ -92,8 +130,6 @@ const register = () => {
       setCheckBirthday("success");
     }
   };
-
-  const [avatar, setAvatar] = useState("");
 
   function getBase64(info) {
     const reader = new FileReader();
@@ -148,6 +184,7 @@ const register = () => {
                     required: true,
                     message: "Please input your E-mail!",
                   },
+                  { validator: validateEmail },
                 ]}
               >
                 <CustomInput>
@@ -163,6 +200,7 @@ const register = () => {
                     message: "Please input your username!",
                     whitespace: true,
                   },
+                  { validator: validateUsername },
                   () => ({
                     validator(_, value) {
                       if (value.length >= 6) {
@@ -295,8 +333,6 @@ const register = () => {
                       <PlusIcon />
                     </>
                   )}
-                  {/* <CameraIcon />
-                  <PlusIcon /> */}
                 </UploadImage>
               </Form.Item>
               <Form.Item
@@ -316,13 +352,7 @@ const register = () => {
                   </label>
                 }
                 validateStatus={checkBirthday}
-                rules={[
-                  // {
-                  //   required: true,
-                  //   message: "Please select your birthday!",
-                  // },
-                  { validator: validateBirthday },
-                ]}
+                rules={[{ validator: validateBirthday }]}
               >
                 <CustomDatePicker
                   placeholder="DD/MM/YYYY"

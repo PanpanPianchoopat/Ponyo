@@ -2,6 +2,7 @@ import express from "express";
 import {
   register,
   login,
+  checkEmail,
   checkUsername,
   editProfile,
   addRestaurantToList,
@@ -15,6 +16,7 @@ const router = express.Router();
 router.post("/register", register);
 router.post("/login", login);
 router.get("/checkUsername/:username", checkUsername);
+router.get("/checkEmail/:email", checkEmail);
 router.patch("/editProfile/:user_id", editProfile);
 router.post("/add/:key/:user_id/:res_id", addRestaurantToList);
 router.post("/delete/:key/:user_id/:res_id", removeResFromList);
