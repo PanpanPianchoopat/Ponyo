@@ -32,8 +32,11 @@ app.get("/", (req, res) => {
   res.send("Hello to Ponyo API");
 });
 
+// US
 // const CONNECTION_URL =
-//   "mongodb+srv://admin:admin@ponyo.ih38y.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+//   "mongodb+srv://admin:admin@ponyo.ypzuk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+
+// JAPAN
 const CONNECTION_URL =
   "mongodb+srv://admin:admin@ponyo.u3d9v.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 const PORT = process.env.PORT || 8080;

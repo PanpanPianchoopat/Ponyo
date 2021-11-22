@@ -2,7 +2,6 @@ import express from "express";
 import mongoose from "mongoose";
 const ObjectId = mongoose.Types.ObjectId;
 import Review from "../models/reviewModel.js";
-import { checkUsername } from "./userCon.js";
 
 const router = express.router;
 
@@ -70,7 +69,7 @@ export const deleteReview = async (req, res) => {
 
 export const getAllReview = async (req, res) => {
   const { res_id, user_id } = req.params;
- 
+
   try {
     const Reviews = await Review.aggregate([
       {

@@ -54,6 +54,7 @@ const Restaurant = (props) => {
   const [photoAmountInfo, setPhotoAmount] = useState(null);
   const [reviewInfo, setReview] = useState(null);
   const [isUser, setIsUser] = useState(false);
+  const [isGetStar, setIsGetStar] = useState(false);
 
   useEffect(() => {
     setResID(props.router.query.id);
@@ -162,10 +163,12 @@ const Restaurant = (props) => {
       });
   };
 
-  const getStarAmount = () => {
+  const getStarAmount = async () => {
     const allRating = [];
-    for (let star = 5; star >= 1; star--) {
-      ReviewAPI.getStarAmount(resID, "star", star)
+    var star = 5;
+
+    while (star >= 1) {
+      await ReviewAPI.getStarAmount(resID, "star", star)
         .then((response) => {
           allRating.push(response.data);
           setStarAmount(allRating);
@@ -173,6 +176,7 @@ const Restaurant = (props) => {
         .catch((e) => {
           console.log(e);
         });
+      star--;
     }
   };
 
