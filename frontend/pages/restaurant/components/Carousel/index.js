@@ -1,4 +1,6 @@
 import React from "react";
+import { Slider, SlideContent, SlideImage, CarouselContainer } from "./styled";
+import { SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -9,8 +11,6 @@ import SwiperCore, {
   Autoplay,
   EffectCoverflow,
 } from "swiper";
-import { Slider, SlideContent, SlideImage, CarouselContainer } from "./styled";
-import { SwiperSlide } from "swiper/react";
 
 SwiperCore.use([Navigation, Pagination, Autoplay, EffectCoverflow]);
 

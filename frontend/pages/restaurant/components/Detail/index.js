@@ -1,5 +1,6 @@
 import React from "react";
 import { Divider } from "antd";
+import { FaDirections } from "react-icons/fa";
 import {
   InnerContainer,
   SectionHeader,
@@ -9,7 +10,7 @@ import {
   Direction,
   PhoneIcon,
 } from "./styled";
-import { FaDirections } from "react-icons/fa";
+
 
 const Detail = (props) => {
   const detail = props.detail;

@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { MAX_NAME_LEN, MAX_DES_LEN, MAX_LOCATION_LEN } from "./constant";
+import RestaurantAPI from "../../pages/api/restaurantAPI";
+import ReviewAPI from "../../pages/api/reviewAPI";
+import { useRouter } from "next/router";
 import {
   RestaurantCard,
   IconWrapper,
@@ -18,9 +21,6 @@ import {
   Status,
   PinIcon,
 } from "./styled";
-import RestaurantAPI from "../../pages/api/restaurantAPI";
-import ReviewAPI from "../../pages/api/reviewAPI";
-import { useRouter } from "next/router";
 
 const RestCard = ({ ...props }) => {
   const [resName, setResName] = useState(null);

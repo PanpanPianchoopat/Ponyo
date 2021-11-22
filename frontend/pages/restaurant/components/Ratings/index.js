@@ -1,4 +1,6 @@
 import React from "react";
+import { Progress } from "antd";
+import colors from "../../../../public/constant/colors";
 import {
   RatingContainer,
   RestaurantRate,
@@ -7,8 +9,6 @@ import {
   NumContainer,
   Count,
 } from "./styled";
-import { Progress } from "antd";
-import colors from "../../../../public/constant/colors";
 
 function getSum(values) {
   let sum = 0;

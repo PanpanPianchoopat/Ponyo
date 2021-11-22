@@ -2,10 +2,9 @@ import React, { useState, useEffect } from "react";
 import COLORS from "../../public/constant/colors";
 import Button from "../../components/Button";
 import BestRate from "../../components/BestRate";
-
+import RestaurantAPI from "../api/restaurantAPI";
 import Card from "../../components/Card";
 import { BackTop, Spin } from "antd";
-
 import Category from "./components/Category";
 import { useRouter } from "next/router";
 import {
@@ -14,7 +13,6 @@ import {
   PRICE_OPTION,
   CUISINE_OPTION,
 } from "../../public/constant/search";
-import RestaurantAPI from "../api/restaurantAPI";
 import {
   Container,
   HeadSection,
