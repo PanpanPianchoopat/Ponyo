@@ -22,7 +22,6 @@ export const addReview = async (req, res) => {
       user_id: ObjectId(user_id),
       res_id: res_id,
     });
-    console.log("check", checkUserReview.length);
 
     if (checkUserReview.length == 0) {
       await newReview.save();
@@ -64,7 +63,7 @@ export const deleteReview = async (req, res) => {
 
   await Review.findByIdAndRemove(review_id);
 
-  res.json({ message: "Review deleted successfully." });
+  res.json({ status: true, message: "Review deleted successfully." });
 };
 
 export const getAllReview = async (req, res) => {

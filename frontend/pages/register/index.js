@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import jwt from "jsonwebtoken";
-import { Form } from "antd";
+import { Form, message } from "antd";
 import Button from "../../components/Button";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -41,8 +41,8 @@ const register = () => {
   const [checkEmail, setCheckEmail] = useState(false);
   const [checkUsername, setCheckUsername] = useState(false);
   const [checkBirthday, setCheckBirthday] = useState(null);
-  const [gender, setGender] = useState("Other");
-  const [avatar, setAvatar] = useState("");
+  const [gender, setGender] = useState(null);
+  const [avatar, setAvatar] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem("_token");
@@ -53,30 +53,28 @@ const register = () => {
   }, []);
 
   const onFinish = (values) => {
-    var profile = null;
-
     const dateOfBirth = values.birthday.format("YYYY-MM-DD");
-    if (values.profile != undefined) {
-      profile = values.profile.fileList[0].thumbUrl;
+    if (gender) {
+      const data = {
+        username: values.username,
+        email: values.email,
+        password: values.password,
+        dateOfBirth: dateOfBirth,
+        gender: gender,
+        image: avatar,
+      };
+      UserAPI.register(data)
+        .then((response) => {
+          if (response.data.status) {
+            router.push("/login");
+          }
+        })
+        .catch((e) => {
+          console.log("Already has username or email");
+        });
+    } else {
+      message.error("Gender is required");
     }
-
-    const data = {
-      username: values.username,
-      email: values.email,
-      password: values.password,
-      dateOfBirth: dateOfBirth,
-      gender: gender,
-      image: profile,
-    };
-    UserAPI.register(data)
-      .then((response) => {
-        if (response.data.status) {
-          router.push("/login");
-        }
-      })
-      .catch((e) => {
-        console.log("Already has username or email");
-      });
   };
 
   const validateEmail = (rule, value, callback) => {
@@ -99,7 +97,7 @@ const register = () => {
   const validateUsername = (rule, value, callback) => {
     UserAPI.checkUsername(value)
       .then((response) => {
-        console.log(response.data);
+        console.log("?", response.data);
         if (response.data) {
           setCheckUsername("success");
           callback();
@@ -120,12 +118,17 @@ const register = () => {
       setCheckBirthday("error");
     } else {
       setCurrentYear(new Date().getFullYear());
-      if (currentYear - value.format("YYYY") >= 15) {
-        callback();
-        setCheckBirthday("success");
-      } else {
-        callback("Must be 15 years of age or older");
+      if (currentYear - value.format("YYYY") > 120) {
+        callback("Your age must be less than 120 years old");
         setCheckBirthday("error");
+      } else {
+        if (currentYear - value.format("YYYY") >= 15) {
+          callback();
+          setCheckBirthday("success");
+        } else {
+          callback("Must be 15 years of age or older");
+          setCheckBirthday("error");
+        }
       }
     }
   };
@@ -147,8 +150,17 @@ const register = () => {
   }
 
   const handleUpload = (info) => {
-    if (info.file.status === "done") {
-      getBase64(info);
+    const isValidFile =
+      info.file.type === "image/jpeg" || info.file.type === "image/png";
+    const doneUploading = info.file.status === "done";
+    if (isValidFile) {
+      if (doneUploading) {
+        getBase64(info);
+      }
+    } else {
+      if (doneUploading) {
+        message.error("Invalid file type, profile image must be jpeg or png");
+      }
     }
   };
 
@@ -329,7 +341,6 @@ const register = () => {
               >
                 <UploadImage
                   listType="picture-card"
-                  // beforeUpload={() => false}
                   showUploadList={false}
                   onChange={(info) => handleUpload(info)}
                   maxCount={1}
@@ -374,6 +385,7 @@ const register = () => {
                   <Info>Gender</Info>
                   <StyleButton>
                     <CustomButton
+                      isActive={gender === "male"}
                       type="button"
                       value="Male"
                       onClick={() => {
@@ -381,6 +393,7 @@ const register = () => {
                       }}
                     />
                     <CustomButton
+                      isActive={gender === "female"}
                       type="button"
                       value="Female"
                       onClick={() => {
@@ -388,6 +401,7 @@ const register = () => {
                       }}
                     />
                     <CustomButton
+                      isActive={gender === "other"}
                       type="button"
                       value="Other"
                       onClick={() => {
