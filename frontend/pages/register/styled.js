@@ -203,10 +203,13 @@ export const StyleButton = styled.div`
   }
 `;
 
-export const CustomButton = styled.input`
+export const CustomButton = styled.input.attrs((props) => {
+  const activeStyle = props.isActive ? "#ecd89d" : "white";
+  return { activeStyle };
+})`
   width: 30%;
   border-radius: 5px;
-  background: white;
+  background: ${(props) => props.activeStyle};
   border: 0;
   color: black;
   padding: 5px 20px;
@@ -215,9 +218,6 @@ export const CustomButton = styled.input`
   }
   &:active {
     transform: translateY(2px);
-  }
-  &:focus {
-    background: #ecd89d;
   }
   @media (max-width: ${BREAKPOINTS.IPAD_PORTRAIT}) {
     width: 40%;
