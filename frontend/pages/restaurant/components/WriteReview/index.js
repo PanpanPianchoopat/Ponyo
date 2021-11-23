@@ -1,5 +1,8 @@
 import React, { useRef, useState, useEffect } from "react";
 import jwt from "jsonwebtoken";
+import ReviewAPI from "../../../api/reviewAPI";
+import { useRouter } from "next/router";
+import Button from "../../../../components/Button";
 import {
   StyledRate,
   SectionHeader,
@@ -11,9 +14,8 @@ import {
   CameraIcon,
 } from "./styled";
 import { Form, Divider, message } from "antd";
-import Button from "../../../../components/Button";
-import ReviewAPI from "../../../api/reviewAPI";
-import { useRouter } from "next/router";
+
+
 
 const WriteReview = (props) => {
   const [form] = Form.useForm();

@@ -21,7 +21,7 @@ import {
 import ReviewAPI from "../../../api/reviewAPI";
 import { Divider, Modal, Popconfirm } from "antd";
 import { BsPencil, BsTrash } from "react-icons/bs";
-import EditReview from "./componentss/EditReview";
+import EditReview from "./components/EditReview";
 
 const Review = (props) => {
   const [isLiked, setIsLiked] = useState(props.review.likeReview);

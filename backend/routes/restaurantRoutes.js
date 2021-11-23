@@ -3,7 +3,6 @@ import {
   addRestaurant,
   getAllRestaurants,
   getRestaurantDetail,
-  getRestuarantByType,
   getRestaurantStatus,
   getRestaurant,
   checkLikedBookmarked,
@@ -19,7 +18,7 @@ router.get(
   "/search/:filter/:search/:priceRange/:type/:resStatus",
   getRestaurant
 );
-router.get("/type/:type", getRestuarantByType);
+
 router.get("/detail/:res_id", getRestaurantDetail);
 router.get("/status/:res_id", getRestaurantStatus);
 router.get("/checkList/:key/:user_id/:res_id", checkLikedBookmarked);

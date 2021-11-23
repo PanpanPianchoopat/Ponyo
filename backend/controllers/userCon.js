@@ -80,6 +80,22 @@ export const checkUsername = async (req, res) => {
   }
 };
 
+export const checkEmail = async (req, res) => {
+  const { email } = req.params;
+  try {
+    const checkEmail = await User.find({
+      email: email,
+    });
+    if (checkEmail.length == 0) {
+      res.status(201).json(true);
+    } else {
+      res.status(201).json(false);
+    }
+  } catch (error) {
+    res.status(404).json({ Error: error.message });
+  }
+};
+
 export const editProfile = async (req, res) => {
   const { user_id } = req.params;
   const { username, password, image } = req.body;
@@ -232,25 +248,6 @@ export const editMyFavList = async (req, res) => {
     const updatedList = { _id: user_id, myFavRestaurants: myFavRestaurants };
     await User.findByIdAndUpdate(user_id, updatedList, { new: true });
     res.status(200).json({ status: true });
-  } catch (error) {
-    res.status(404).json({ Error: error.message });
-  }
-};
-
-export const getAllUser = async (req, res) => {
-  try {
-    const Users = await User.find(
-      {},
-      {
-        email: 1,
-        username: 1,
-        password: 1,
-        myFavRestaurants: 1,
-        myInterestRestaurants: 1,
-      }
-    );
-
-    res.status(200).json(Users);
   } catch (error) {
     res.status(404).json({ Error: error.message });
   }

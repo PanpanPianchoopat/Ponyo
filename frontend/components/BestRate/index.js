@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import Picture from "./components/Picture";
+import { TOP, SECOND, THIRD } from "./constant";
 import {
   BestRateContianer,
   Underline,
@@ -8,8 +10,6 @@ import {
   SmallImageContainer,
   SmallImage,
 } from "./styled";
-import Picture from "./components/Picture";
-import { TOP, SECOND, THIRD } from "./constant";
 
 const BestRate = (props) => {
   const isDarkTheme = props.theme === "dark";

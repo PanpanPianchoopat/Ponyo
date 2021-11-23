@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import jwt from "jsonwebtoken";
 import { Form } from "antd";
 import Button from "../../components/Button";
 import Link from "next/link";
@@ -36,6 +37,21 @@ import {
 const register = () => {
   const [form] = Form.useForm();
   const router = useRouter();
+  const [currentYear, setCurrentYear] = useState(null);
+  const [checkEmail, setCheckEmail] = useState(false);
+  const [checkUsername, setCheckUsername] = useState(false);
+  const [checkBirthday, setCheckBirthday] = useState(null);
+  const [gender, setGender] = useState("Other");
+  const [avatar, setAvatar] = useState("");
+
+  useEffect(() => {
+    const token = localStorage.getItem("_token");
+    const userData = jwt.decode(token);
+    if (userData) {
+      router.push("/search");
+    }
+  }, []);
+
   const onFinish = (values) => {
     var profile = null;
 
@@ -52,7 +68,6 @@ const register = () => {
       gender: gender,
       image: profile,
     };
-
     UserAPI.register(data)
       .then((response) => {
         if (response.data.status) {
@@ -64,9 +79,66 @@ const register = () => {
       });
   };
 
-  const [gender, setGender] = useState("");
+  const validateEmail = (rule, value, callback) => {
+    UserAPI.checkEmail(value)
+      .then((response) => {
+        if (response.data) {
+          setCheckEmail("success");
+          callback();
+        } else {
+          setCheckEmail("error");
+          callback("Email is already exists");
+        }
+      })
+      .catch((e) => {
+        setCheckEmail("error");
+        callback("Email is already exists");
+      });
+  };
 
-  const [avatar, setAvatar] = useState("");
+  const validateUsername = (rule, value, callback) => {
+    UserAPI.checkUsername(value)
+      .then((response) => {
+        console.log(response.data);
+        if (response.data) {
+          setCheckUsername("success");
+          callback();
+        } else {
+          setCheckUsername("error");
+          callback("Username is already exists");
+        }
+      })
+      .catch((e) => {
+        setCheckUsername("error");
+        callback("Username is already exists");
+      });
+  };
+
+  const validateBirthday = (rule, value, callback) => {
+    if (!value) {
+      callback("Please select your birthday");
+      setCheckBirthday("error");
+    } else {
+      setCurrentYear(new Date().getFullYear());
+      if (currentYear - value.format("YYYY") >= 15) {
+        callback();
+        setCheckBirthday("success");
+      } else {
+        callback("Must be 15 years of age or older");
+        setCheckBirthday("error");
+      }
+    }
+  };
+
+  const validateGender = (callback) => {
+    if (!gender) {
+      callback("Please select your gender");
+      setCheckBirthday("error");
+    } else {
+      callback();
+      setCheckBirthday("success");
+    }
+  };
 
   function getBase64(info) {
     const reader = new FileReader();
@@ -121,6 +193,7 @@ const register = () => {
                     required: true,
                     message: "Please input your E-mail!",
                   },
+                  { validator: validateEmail },
                 ]}
               >
                 <CustomInput>
@@ -136,6 +209,7 @@ const register = () => {
                     message: "Please input your username!",
                     whitespace: true,
                   },
+                  { validator: validateUsername },
                   () => ({
                     validator(_, value) {
                       if (value.length >= 6) {
@@ -249,7 +323,7 @@ const register = () => {
                       marginBottom: "10px",
                     }}
                   >
-                    Upload photo
+                    Upload photo (optional)
                   </label>
                 }
               >
@@ -268,8 +342,6 @@ const register = () => {
                       <PlusIcon />
                     </>
                   )}
-                  {/* <CameraIcon />
-                  <PlusIcon /> */}
                 </UploadImage>
               </Form.Item>
               <Form.Item
@@ -288,12 +360,8 @@ const register = () => {
                     Birthday
                   </label>
                 }
-                rules={[
-                  {
-                    required: true,
-                    message: "Please select your birthday!",
-                  },
-                ]}
+                validateStatus={checkBirthday}
+                rules={[{ validator: validateBirthday }]}
               >
                 <CustomDatePicker
                   placeholder="DD/MM/YYYY"
@@ -301,7 +369,7 @@ const register = () => {
                   format={"DD/MM/YYYY"}
                 />
               </Form.Item>
-              <Form.Item name="gender">
+              <Form.Item name="gender" rule={[{ validator: validateGender }]}>
                 <>
                   <Info>Gender</Info>
                   <StyleButton>

@@ -4,6 +4,7 @@ import { Avatar } from "antd";
 import Button from "../../components/Button";
 import RestList from "./components/RestList";
 import EditProfile from "./components/EditProfile";
+import { useRouter } from "next/router";
 import {
   FAVOURITE,
   INTEREST,
@@ -24,12 +25,16 @@ const myAccount = () => {
   const [selectedTab, setSelectedTab] = useState(FAVOURITE);
   const [popupVisible, setPopupVisible] = useState(false);
   const [userData, setUserData] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
     const token = localStorage.getItem("_token");
     const userData = jwt.decode(token);
     setUserData(userData);
-  }, [popupVisible]);
+    if (!userData) {
+      router.push("/error");
+    }
+  }, []);
 
   const [avatar, setAvatar] = useState(
     <Avatar size={AVATAR_SIZE} src={<DefaultProfile />} />

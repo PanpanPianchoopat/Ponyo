@@ -146,6 +146,7 @@ const Overview = (props) => {
           </Inline>
         </Line>
         <Line>{restaurant ? restaurant.details.description : ""}</Line>
+        <Line>{restaurant ? `(${restaurant.details.type})` : ""}</Line>
         <PriceRange>
           ฿{restaurant ? restaurant.details.priceRange.min : "0"} - ฿
           {restaurant ? restaurant.details.priceRange.max : "0"}

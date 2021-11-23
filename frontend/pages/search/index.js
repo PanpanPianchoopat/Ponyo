@@ -2,19 +2,18 @@ import React, { useState, useEffect } from "react";
 import COLORS from "../../public/constant/colors";
 import Button from "../../components/Button";
 import BestRate from "../../components/BestRate";
-
+import RestaurantAPI from "../api/restaurantAPI";
 import Card from "../../components/Card";
 import { BackTop, Spin } from "antd";
-
 import Category from "./components/Category";
 import { useRouter } from "next/router";
+import Image from "next/image";
 import {
   STATUS_OPTION,
   FILTER_OPTION,
   PRICE_OPTION,
   CUISINE_OPTION,
 } from "../../public/constant/search";
-import RestaurantAPI from "../api/restaurantAPI";
 import {
   Container,
   HeadSection,
@@ -32,6 +31,9 @@ import {
   Loading,
   SmileIcon,
   BestRateContainer,
+  EmptyDisplayContainer,
+  Warning,
+  NotFoundText,
 } from "./styled";
 
 const SearchRestaurant = () => {
@@ -107,6 +109,7 @@ const SearchRestaurant = () => {
     )
       .then((response) => {
         setRestaurants(response.data);
+        console.log("res", restaurant);
       })
       .catch((e) => {
         console.log(e);
@@ -238,9 +241,17 @@ const SearchRestaurant = () => {
           </StatusBox>
           <CardContainer>
             {restaurant ? (
-              restaurant.map((detail, key) => (
-                <Card detail={detail} liked={true} saved={true} key={key} />
-              ))
+              restaurant.length > 0 ? (
+                restaurant.map((detail, key) => (
+                  <Card detail={detail} liked={true} saved={true} key={key} />
+                ))
+              ) : (
+                <EmptyDisplayContainer>
+                  <Image src="/assets/redBowl.svg" width={300} height={250} />
+                  <Warning>Opps!!</Warning>
+                  <NotFoundText>Sorry, No result found</NotFoundText>
+                </EmptyDisplayContainer>
+              )
             ) : (
               <Loading>
                 <Spin indicator={<SmileIcon spin />} />

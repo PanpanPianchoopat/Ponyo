@@ -100,7 +100,7 @@ export const addRestaurant = async (req, res) => {
 
   try {
     await newRestaurant.save();
-    res.status(201).json(newRestaurant);
+    res.status(201).json(true);
   } catch (error) {
     res.status(404).json({ Error: error.message });
   }
@@ -519,18 +519,6 @@ export const getRestaurant = async (req, res) => {
       type,
       resStatus
     );
-    res.status(200).json(Restaurants);
-  } catch (error) {
-    res.status(404).json({ Error: error.message });
-  }
-};
-
-export const getRestuarantByType = async (req, res) => {
-  const { type } = req.params;
-  try {
-    const Restaurants = await Restaurant.find({
-      type: type,
-    });
     res.status(200).json(Restaurants);
   } catch (error) {
     res.status(404).json({ Error: error.message });

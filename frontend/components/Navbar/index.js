@@ -1,4 +1,9 @@
 import React, { useState, useEffect } from "react";
+import jwt from "jsonwebtoken";
+import MenuButton from "./components/MenuButton";
+import { SEARCH, TREND } from "./constant";
+import { useRouter } from "next/router";
+import { LeftOutlined } from "@ant-design/icons";
 import {
   StyledNav,
   Logo,
@@ -7,11 +12,6 @@ import {
   Menu,
   BackButton,
 } from "./styled";
-import MenuButton from "./components/MenuButton";
-import { SEARCH, TREND } from "./constant";
-import { useRouter } from "next/router";
-import { LeftOutlined } from "@ant-design/icons";
-import jwt from "jsonwebtoken";
 
 const Navbar = () => {
   const [navVisible, setNavVisible] = useState(true);

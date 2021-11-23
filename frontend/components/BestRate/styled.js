@@ -62,6 +62,7 @@ export const BigImage = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
+  cursor: pointer;
 `;
 
 export const SmallImageContainer = styled.div`
@@ -77,6 +78,7 @@ export const SmallImage = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
+  cursor: pointer;
 `;
 
 export default BestRateContianer;

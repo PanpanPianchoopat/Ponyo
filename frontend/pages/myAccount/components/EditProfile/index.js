@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import bcrypt from "bcryptjs";
 import { Form, Input, Upload, Avatar, message } from "antd";
+import { StyledButton } from "../RestList/components/EditList/styled";
+import { BsFillPencilFill, BsPersonFill } from "react-icons/bs";
+import UserAPI from "../../../api/userAPI";
 import {
   USERNAME_LEN,
   PASSWORD_LEN,
 } from "../../../../public/constant/account";
-import { BsFillPencilFill, BsPersonFill } from "react-icons/bs";
 import {
   UploadAvatar,
   FormItem,
@@ -17,8 +19,6 @@ import {
   PasswordField,
   ButtonGroup,
 } from "./styled";
-import { StyledButton } from "../RestList/components/EditList/styled";
-import UserAPI from "../../../api/userAPI";
 
 const EditProfile = (props) => {
   const oldPass = props.info.password;
