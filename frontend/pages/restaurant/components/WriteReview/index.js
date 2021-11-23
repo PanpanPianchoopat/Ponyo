@@ -13,9 +13,7 @@ import {
   PlusIcon,
   CameraIcon,
 } from "./styled";
-import { Form, Divider, message } from "antd";
-
-
+import { Form, Divider, message, Popconfirm } from "antd";
 
 const WriteReview = (props) => {
   const [form] = Form.useForm();
@@ -38,6 +36,10 @@ const WriteReview = (props) => {
       i++;
     }
     return image;
+  };
+
+  const clearValue = () => {
+    form.resetFields();
   };
 
   const onFinish = (values) => {
@@ -109,9 +111,19 @@ const WriteReview = (props) => {
           </Form.Item>
           <Form.Item>
             <ButtonGroup>
-              <Button variant="transparent" outline="round" type="button">
-                Cancel
-              </Button>
+              <Popconfirm
+                title="Are you sure to delete your review?"
+                placement="topRight"
+                onConfirm={clearValue}
+              >
+                <Button
+                  variant="transparent"
+                  outline="round"
+                  type="button"
+                >
+                  Cancel
+                </Button>
+              </Popconfirm>
               <Button variant="red" outline="round" type="submit">
                 Submit
               </Button>

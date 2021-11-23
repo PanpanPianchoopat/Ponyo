@@ -96,7 +96,6 @@ const Review = (props) => {
     // remove review from database and reduce total number of review by 1
     ReviewAPI.deleteReview(props.review._id)
       .then((response) => {
-        console.log(response.data);
         if (response.data.status) {
           setShowReview(false);
           message.success("Delete successfully");
