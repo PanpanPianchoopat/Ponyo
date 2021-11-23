@@ -10,6 +10,8 @@ import {
   StyledInput,
   ButtonGroup,
   UploadImage,
+  UploadInfo,
+  FullList,
   PlusIcon,
   CameraIcon,
 } from "./styled";
@@ -19,6 +21,8 @@ const WriteReview = (props) => {
   const [form] = Form.useForm();
   const router = useRouter();
   const [user_id, setUserID] = useState(null);
+  const [imageList, setImageList] = useState([]);
+  const [uploadCount, setUploadCount] = useState(0);
 
   useEffect(() => {
     const token = localStorage.getItem("_token");
@@ -28,37 +32,35 @@ const WriteReview = (props) => {
     }
   }, []);
 
-  const photoArray = (fileList) => {
-    var i = 0;
-    const image = [];
-    while (i < fileList.length) {
-      image[i] = fileList[i].thumbUrl;
-      i++;
+  const photoArray = (imageList) => {
+    const images = [];
+    for (let i = 0; i < imageList.length; i++) {
+      images[i] = imageList[i].url;
     }
-    return image;
+    return images;
   };
 
   const clearValue = () => {
+    console.log("CLEAR");
     form.resetFields();
+    setImageList([]);
   };
 
   const onFinish = (values) => {
     const resID = props.resID;
-    var image = [];
+    var reviewPhotos = [];
 
-    if (values.pictures != undefined) {
-      image = photoArray(values.pictures.fileList);
+    if (imageList) {
+      reviewPhotos = photoArray(imageList);
     }
 
-    if (image.length > 5) {
-      message.warning("You can upload images only up to 5");
-    } else if (values.star == 0) {
+    if (values.star == 0) {
       message.warning("You have to rate this restaurant");
     } else {
       const data = {
         reviewText: values.review,
         star: values.star,
-        image: image,
+        image: reviewPhotos,
       };
       ReviewAPI.addReview(user_id, resID, data)
         .then((response) => {
@@ -79,6 +81,44 @@ const WriteReview = (props) => {
     }
   };
 
+  function getBase64(info) {
+    const reader = new FileReader();
+    reader.addEventListener("load", () =>
+      setImageList([
+        ...imageList,
+        {
+          uid: info.file.uid,
+          name: info.file.name,
+          status: "done",
+          url: reader.result,
+        },
+      ])
+    );
+    reader.readAsDataURL(info.file.originFileObj);
+  }
+
+  const handleChange = (info) => {
+    const isValidFile =
+      info.file.type === "image/jpeg" || info.file.type === "image/png";
+    const doneUploading = info.file.status === "done";
+    if (doneUploading) {
+      setUploadCount(uploadCount + 1);
+      if (isValidFile) {
+        getBase64(info);
+      } else {
+        message.error("Invalid file type, review image must be jpeg or png");
+      }
+    }
+  };
+
+  const removeImage = (info) => {
+    if (info.type === "image/jpeg" || info.type === "image/png") {
+      const newList = imageList.filter((image) => image.uid !== info.uid);
+      setImageList(newList);
+    }
+    setUploadCount(uploadCount - 1);
+  };
+
   return (
     <>
       <WriteReviewInnnerContainer>
@@ -96,15 +136,27 @@ const WriteReview = (props) => {
           </Form.Item>
           <Divider />
           <Form.Item name="pictures">
-            <UploadImage
-              listType="picture-card"
-              beforeUpload={() => false}
-              showUploadList={{ showPreviewIcon: false }}
-              multiple
-            >
-              <CameraIcon />
-              <PlusIcon />
-            </UploadImage>
+            <>
+              <UploadImage
+                listType="picture-card"
+                defaultFileList={imageList}
+                showUploadList={{ showPreviewIcon: false }}
+                onChange={(info) => handleChange(info)}
+                onRemove={(info) => removeImage(info)}
+                multiple
+                maxCount={5}
+              >
+                <CameraIcon />
+                <PlusIcon />
+              </UploadImage>
+              <UploadInfo>
+                Invalid images won't be upload, valid file count (
+                {imageList.length}/5)
+              </UploadInfo>
+              <FullList visible={uploadCount == 5}>
+                Reach maximum upload of 5 files
+              </FullList>
+            </>
           </Form.Item>
           <Form.Item name="review">
             <StyledInput placeholder="Share you experience..." type="text" />
@@ -116,11 +168,7 @@ const WriteReview = (props) => {
                 placement="topRight"
                 onConfirm={clearValue}
               >
-                <Button
-                  variant="transparent"
-                  outline="round"
-                  type="button"
-                >
+                <Button variant="transparent" outline="round" type="button">
                   Cancel
                 </Button>
               </Popconfirm>

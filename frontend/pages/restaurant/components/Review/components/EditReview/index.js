@@ -9,7 +9,6 @@ import {
   PlusIcon,
 } from "../../../WriteReview/styled";
 
-
 const EditReview = (props) => {
   const [newReview] = Form.useForm();
 
