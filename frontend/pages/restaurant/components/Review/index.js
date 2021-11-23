@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
 import jwt from "jsonwebtoken";
+import { message } from "antd";
+import ReviewAPI from "../../../api/reviewAPI";
+import { Divider, Modal, Popconfirm } from "antd";
+import { BsPencil, BsTrash } from "react-icons/bs";
+import EditReview from "./components/EditReview";
 import {
   ReviewContainer,
   ProfilePic,
@@ -18,10 +23,6 @@ import {
   ReviewPic,
   LikeNum,
 } from "./styled";
-import ReviewAPI from "../../../api/reviewAPI";
-import { Divider, Modal, Popconfirm } from "antd";
-import { BsPencil, BsTrash } from "react-icons/bs";
-import EditReview from "./components/EditReview";
 
 const Review = (props) => {
   const [isLiked, setIsLiked] = useState(props.review.likeReview);
@@ -38,6 +39,7 @@ const Review = (props) => {
   const [isSave, setSaveReview] = useState(false);
   const [reviewImage, setReviewImage] = useState(review ? review.image : null);
   const [user_id, setUserID] = useState(null);
+  const [showReview, setShowReview] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem("_token");
@@ -90,15 +92,15 @@ const Review = (props) => {
       });
   };
 
-  const [showReview, setShowReview] = useState(true);
-
   function handleDelete() {
     // remove review from database and reduce total number of review by 1
-
     ReviewAPI.deleteReview(props.review._id)
       .then((response) => {
         console.log(response.data);
-        setShowReview(false);
+        if (response.data.status) {
+          setShowReview(false);
+          message.success("Delete successfully");
+        }
       })
       .catch((e) => {
         console.log(e);
