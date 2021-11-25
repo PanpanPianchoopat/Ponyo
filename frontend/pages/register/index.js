@@ -41,6 +41,7 @@ const register = () => {
   const [checkEmail, setCheckEmail] = useState(false);
   const [checkUsername, setCheckUsername] = useState(false);
   const [checkBirthday, setCheckBirthday] = useState(null);
+  const [checkGender, setCheckGender] = useState(null);
   const [gender, setGender] = useState(null);
   const [avatar, setAvatar] = useState(null);
 
@@ -97,7 +98,6 @@ const register = () => {
   const validateUsername = (rule, value, callback) => {
     UserAPI.checkUsername(value)
       .then((response) => {
-        console.log("?", response.data);
         if (response.data) {
           setCheckUsername("success");
           callback();
@@ -133,13 +133,13 @@ const register = () => {
     }
   };
 
-  const validateGender = (callback) => {
+  const validateGender = (rule, value, callback) => {
     if (!gender) {
       callback("Please select your gender");
-      setCheckBirthday("error");
+      setCheckGender("error");
     } else {
       callback();
-      setCheckBirthday("success");
+      setCheckGender("success");
     }
   };
 
@@ -380,7 +380,7 @@ const register = () => {
                   format={"DD/MM/YYYY"}
                 />
               </Form.Item>
-              <Form.Item name="gender" rule={[{ validator: validateGender }]}>
+              <Form.Item name="gender" rules={[{ validator: validateGender }]}>
                 <>
                   <Info>Gender</Info>
                   <StyleButton>

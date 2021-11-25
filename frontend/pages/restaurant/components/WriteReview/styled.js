@@ -54,6 +54,22 @@ export const UploadImage = styled(Upload)`
   }
 `;
 
+export const UploadInfo = styled.p`
+  color: ${COLORS.DARK_GREY};
+  font-size: 10px;
+  margin: 10px 0 0 0;
+`;
+
+export const FullList = styled.p.attrs((props) => {
+  const displayStyle = props.visible ? "unset" : "none";
+  return { displayStyle };
+})`
+  display: ${(props) => props.displayStyle};
+  color: ${COLORS.PRIMARY_RED};
+  font-size: 10px;
+  margin-top: 0;
+`;
+
 export const CameraIcon = styled(CameraFilled)`
   font-size: 25px;
   color: #2e3840;
