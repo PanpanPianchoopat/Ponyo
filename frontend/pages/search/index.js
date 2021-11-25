@@ -109,7 +109,6 @@ const SearchRestaurant = () => {
     )
       .then((response) => {
         setRestaurants(response.data);
-        console.log("res", restaurant);
       })
       .catch((e) => {
         console.log(e);

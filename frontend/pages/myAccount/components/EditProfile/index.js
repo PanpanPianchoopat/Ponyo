@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import bcrypt from "bcryptjs";
-import { Form, Input, Upload, Avatar, message } from "antd";
+import { Form, message } from "antd";
 import { StyledButton } from "../RestList/components/EditList/styled";
-import { BsFillPencilFill, BsPersonFill } from "react-icons/bs";
+import { BsFillPencilFill } from "react-icons/bs";
 import UserAPI from "../../../api/userAPI";
+import { useRouter } from "next/router";
 import {
   USERNAME_LEN,
   PASSWORD_LEN,
@@ -24,6 +25,7 @@ const EditProfile = (props) => {
   const oldPass = props.info.password;
   const [editProfile, setEditProfile] = useState(props.info);
   const [avatar, setAvatar] = useState(props.info.image);
+  const router = useRouter();
 
   const onFinish = async (value) => {
     const editPass = value.new_pass !== undefined;
@@ -50,6 +52,7 @@ const EditProfile = (props) => {
           localStorage.setItem("_token", response.data.token);
           message.success("Saved changes");
           props.setNewProfile(data);
+          router.reload();
         }
       })
       .catch((e) => {
