@@ -38,7 +38,7 @@ app.get("/", (req, res) => {
 
 // JAPAN
 const CONNECTION_URL =
-  "mongodb+srv://admin:admin@ponyo.u3d9v.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+  "mongodb+srv://admin:admin@ponyo-review.u3d9v.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 const PORT = process.env.PORT || 8080;
 
 mongoose
