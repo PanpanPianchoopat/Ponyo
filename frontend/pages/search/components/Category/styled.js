@@ -25,7 +25,8 @@ export const TypeContainer = styled.div`
 `;
 
 export const TypeCircle = styled.div.attrs((props) => {
-  const activeStyle = props.isActive ? "#FFF0AA" : "black";
+  const activeStyle =
+    props.isActive && props.check === "type" ? "#FFF0AA" : "black";
   return { activeStyle };
 })`
   height: 90px;
