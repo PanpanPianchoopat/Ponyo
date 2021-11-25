@@ -35,17 +35,22 @@ const EditProfile = (props) => {
     props.popupVisible(false);
   };
 
+  useEffect(() => {}, [props]);
   const updateProfile = (username, password) => {
-    const data = {
+    var data = {
       username: username,
       password: password,
       image: avatar,
     };
+
     UserAPI.editProfile(props.info.id, data)
       .then((response) => {
-        localStorage.setItem("_token", response.data.token);
-        message.success("Saved changes");
-        props.setNewProfile(data);
+        if (response.data.status) {
+          data.id = props.info.id;
+          localStorage.setItem("_token", response.data.token);
+          message.success("Saved changes");
+          props.setNewProfile(data);
+        }
       })
       .catch((e) => {
         console.log(e);
