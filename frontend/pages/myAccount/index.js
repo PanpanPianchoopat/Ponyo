@@ -39,6 +39,7 @@ const myAccount = () => {
   const [avatar, setAvatar] = useState(
     <Avatar size={AVATAR_SIZE} src={<DefaultProfile />} />
   );
+
   useEffect(() => {
     if (userData) {
       if (userData.image) {
@@ -72,11 +73,7 @@ const myAccount = () => {
         footer={null}
         destroyOnClose={true}
       >
-        <EditProfile
-          info={userData}
-          setNewProfile={setUserData}
-          popupVisible={setPopupVisible}
-        />
+        <EditProfile info={userData} popupVisible={setPopupVisible} />
       </Popup>
 
       <ListContainer>
