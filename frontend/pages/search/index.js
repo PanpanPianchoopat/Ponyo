@@ -36,10 +36,10 @@ import {
   NotFoundText,
 } from "./styled";
 
-const SearchRestaurant = () => {
+function SearchRestaurant({ restaurants, trending }) {
   const { Option } = Selecter;
   const [status, setStatus] = useState("ALL");
-  const [restaurant, setRestaurants] = useState(null);
+  const [restaurant, setRestaurants] = useState(restaurants);
   const [checkSearch, setCheckSearch] = useState("search");
 
   const [searchValue, setSearchValue] = useState({
@@ -50,19 +50,14 @@ const SearchRestaurant = () => {
   });
 
   const [selectedCat, setSelectedCat] = useState("");
-  const [bestTrend, setBestTrend] = useState([]);
-  const [isBest, setIsBest] = useState(false);
 
   const router = useRouter();
 
   const onFinish = () => {
+    setRestaurants(null);
     getRestaurant();
     setCheckSearch("search");
   };
-
-  useEffect(() => {
-    getAllRestaurant();
-  }, []);
 
   useEffect(() => {
     if (status != null) {
@@ -80,12 +75,6 @@ const SearchRestaurant = () => {
       setCheckSearch("type");
     }
   }, [selectedCat]);
-
-  useEffect(() => {
-    if (bestTrend != null && bestTrend.length != 0) {
-      setIsBest(true);
-    }
-  }, [bestTrend]);
 
   const changeStatus = (e) => {
     setStatus(e.target.value);
@@ -115,24 +104,8 @@ const SearchRestaurant = () => {
       });
   };
 
-  const getAllRestaurant = () => {
-    RestaurantAPI.getAllRestaurants()
-      .then((response) => {
-        setRestaurants(response.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-    RestaurantAPI.getBestTrending()
-      .then((response) => {
-        setBestTrend(response.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
-
   const getRestaurantByType = () => {
+    setRestaurants(null);
     RestaurantAPI.getRestaurant(
       searchValue.filter,
       "noInput",
@@ -142,7 +115,6 @@ const SearchRestaurant = () => {
     )
       .then((response) => {
         setRestaurants(response.data);
-        
       })
       .catch((e) => {
         console.log(e);
@@ -225,7 +197,7 @@ const SearchRestaurant = () => {
             </Search.Group>
           </SearchBar>
         </HeadSection>
-        <Category setSelected={setSelectedCat} check={checkSearch}/>
+        <Category setSelected={setSelectedCat} check={checkSearch} />
         <ContentContainer>
           <ContentName>
             Explore our restaurants
@@ -263,8 +235,8 @@ const SearchRestaurant = () => {
           <BestRate
             head="Best rated restaurants"
             theme="dark"
-            restaurants={bestTrend.length != 0 ? bestTrend : null}
-            isNotNull={isBest}
+            restaurants={trending && (trending.length > 0 ? trending : null)}
+            isNotNull={trending ? true : false}
           />
           <Button variant="yellow" onClick={() => router.push("/trending")}>
             Explore more
@@ -274,6 +246,14 @@ const SearchRestaurant = () => {
       <BackTop />
     </>
   );
-};
+}
+
+export async function getServerSideProps() {
+  const res = await fetch("http://localhost:8080/restaurant/");
+  const restaurants = await res.json();
+  const res2 = await fetch("http://localhost:8080/restaurant/bestTrending");
+  const trending = await res2.json();
+  return { props: { restaurants, trending } };
+}
 
 export default SearchRestaurant;
