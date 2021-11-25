@@ -40,7 +40,7 @@ const SearchRestaurant = () => {
   const { Option } = Selecter;
   const [status, setStatus] = useState("ALL");
   const [restaurant, setRestaurants] = useState(null);
-  const [checkSearch, setCheckSearch] = useState(null);
+  const [checkSearch, setCheckSearch] = useState("search");
 
   const [searchValue, setSearchValue] = useState({
     filter: "name",
