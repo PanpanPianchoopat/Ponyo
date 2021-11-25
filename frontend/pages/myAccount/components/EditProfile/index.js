@@ -2,7 +2,11 @@ import React, { useState, useEffect } from "react";
 import bcrypt from "bcryptjs";
 import { Form, Input, Upload, Avatar, message } from "antd";
 import { StyledButton } from "../RestList/components/EditList/styled";
-import { BsFillPencilFill, BsPersonFill } from "react-icons/bs";
+import {
+  BsFillPencilFill,
+  BsPersonFill,
+  BsReverseLayoutTextWindowReverse,
+} from "react-icons/bs";
 import UserAPI from "../../../api/userAPI";
 import {
   USERNAME_LEN,
@@ -19,6 +23,7 @@ import {
   PasswordField,
   ButtonGroup,
 } from "./styled";
+import router from "next/router";
 
 const EditProfile = (props) => {
   const oldPass = props.info.password;
@@ -48,8 +53,7 @@ const EditProfile = (props) => {
         if (response.data.status) {
           data.id = props.info.id;
           localStorage.setItem("_token", response.data.token);
-          message.success("Saved changes");
-          props.setNewProfile(data);
+          router.reload();
         }
       })
       .catch((e) => {
