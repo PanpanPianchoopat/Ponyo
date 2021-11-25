@@ -171,13 +171,13 @@ const Restaurant = (props) => {
       await ReviewAPI.getStarAmount(resID, "star", star)
         .then((response) => {
           allRating.push(response.data);
-          setStarAmount(allRating);
         })
         .catch((e) => {
           console.log(e);
         });
       star--;
     }
+    setStarAmount(allRating);
   };
 
   const getLikedBookmarked = () => {

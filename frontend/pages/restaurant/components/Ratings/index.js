@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Progress } from "antd";
 import colors from "../../../../public/constant/colors";
 import {
@@ -19,8 +19,19 @@ function getSum(values) {
 }
 
 const Ratings = (props) => {
-  const rates = props.rates;
-  const total = getSum(rates ? rates : []);
+  const [rates, setRate] = useState(null);
+  const [total, setTotal] = useState([]);
+
+  useEffect(() => {
+    
+    setRate(props.rates);
+    if (props.rates != null) {
+      const totalStar = getSum(props.rates);
+      setTotal(totalStar);
+    }
+  }, [props]);
+
+
   return (
     <>
       <RatingContainer>
