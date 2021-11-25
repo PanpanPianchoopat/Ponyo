@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   CategoryContainer,
   TypeContainer,
@@ -8,12 +8,17 @@ import {
 } from "./styled";
 
 const Category = (props) => {
+  const [selected, setSelected] = useState(null);
+
   return (
     <>
       <CategoryContainer>
         <TypeContainer>
           <TypeCircle
+            isActive={selected === "Casual Dining"}
+            check={props.check}
             onClick={() => {
+              setSelected("Casual Dining");
               props.setSelected("Casual Dining");
             }}
           >
@@ -23,7 +28,10 @@ const Category = (props) => {
         </TypeContainer>
         <TypeContainer>
           <TypeCircle
+            isActive={selected === "Food Trucks"}
+            check={props.check}
             onClick={() => {
+              setSelected("Food Trucks");
               props.setSelected("Food Trucks");
             }}
           >
@@ -33,7 +41,10 @@ const Category = (props) => {
         </TypeContainer>
         <TypeContainer>
           <TypeCircle
+            isActive={selected === "Fast Food"}
+            check={props.check}
             onClick={() => {
+              setSelected("Fast Food");
               props.setSelected("Fast Food");
             }}
           >
@@ -43,7 +54,10 @@ const Category = (props) => {
         </TypeContainer>
         <TypeContainer>
           <TypeCircle
+            isActive={selected === "Café"}
+            check={props.check}
             onClick={() => {
+              setSelected("Café");
               props.setSelected("Café");
             }}
           >
@@ -53,7 +67,10 @@ const Category = (props) => {
         </TypeContainer>
         <TypeContainer>
           <TypeCircle
+            isActive={selected === "Family Style"}
+            check={props.check}
             onClick={() => {
+              setSelected("Family Style");
               props.setSelected("Family Style");
             }}
           >
@@ -63,7 +80,10 @@ const Category = (props) => {
         </TypeContainer>
         <TypeContainer>
           <TypeCircle
+            isActive={selected === "Pub"}
+            check={props.check}
             onClick={() => {
+              setSelected("Pub");
               props.setSelected("Pub");
             }}
           >
@@ -73,7 +93,10 @@ const Category = (props) => {
         </TypeContainer>
         <TypeContainer>
           <TypeCircle
+            isActive={selected === "Buffet"}
+            check={props.check}
             onClick={() => {
+              setSelected("Buffet");
               props.setSelected("Buffet");
             }}
           >

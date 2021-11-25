@@ -101,14 +101,14 @@ export const editProfile = async (req, res) => {
   const { username, password, image } = req.body;
 
   try {
-    const updatedProfile = {
+    const editedProfile = {
       username,
       password,
       image,
       _id: user_id,
     };
 
-    await User.findByIdAndUpdate(user_id, updatedProfile, { new: true });
+    await User.findByIdAndUpdate(user_id, editedProfile, { new: true });
 
     const token = jwt.sign(
       {
@@ -119,7 +119,7 @@ export const editProfile = async (req, res) => {
       },
       "PonyoSecret"
     );
-    res.status(200).json({ token: token });
+    res.status(200).json({ status: true, token: token });
   } catch (error) {
     res.status(404).json({ Error: error.message });
   }

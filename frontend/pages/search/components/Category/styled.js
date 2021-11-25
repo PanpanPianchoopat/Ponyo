@@ -24,7 +24,11 @@ export const TypeContainer = styled.div`
   width: 12%;
 `;
 
-export const TypeCircle = styled.div`
+export const TypeCircle = styled.div.attrs((props) => {
+  const activeStyle =
+    props.isActive && props.check === "type" ? "#FFF0AA" : "black";
+  return { activeStyle };
+})`
   height: 90px;
   width: 90px;
   background-color: ${COLORS.PRIMARY_YELLOW};
@@ -32,8 +36,14 @@ export const TypeCircle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0px 0px 20px black;
+  box-shadow: 0px 0px 20px ${(props) => props.activeStyle};
   cursor: pointer;
+  &:active {
+    transform: translateY(2px);
+  }
+  &:hover {
+    filter: brightness(0.7);
+  }
   @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
     height: 70px;
     width: 70px;

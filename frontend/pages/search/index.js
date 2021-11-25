@@ -226,7 +226,7 @@ const SearchRestaurant = () => {
             </Search.Group>
           </SearchBar>
         </HeadSection>
-        <Category setSelected={setSelectedCat} />
+        <Category setSelected={setSelectedCat} check={checkSearch}/>
         <ContentContainer>
           <ContentName>
             Explore our restaurants
