@@ -23,6 +23,7 @@ import {
   ReviewPic,
   LikeNum,
 } from "./styled";
+import router from "next/router";
 
 const Review = (props) => {
   const [isLiked, setIsLiked] = useState(props.review.likeReview);
@@ -98,7 +99,7 @@ const Review = (props) => {
       .then((response) => {
         if (response.data.status) {
           setShowReview(false);
-          message.success("Delete successfully");
+          router.reload();
         }
       })
       .catch((e) => {
