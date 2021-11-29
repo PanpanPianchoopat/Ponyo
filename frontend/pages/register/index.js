@@ -168,7 +168,7 @@ const register = () => {
     <Container>
       <ContainerLeft>
         <Logo>
-          <LogoImage src="/assets/Logo.svg" width={150} height={150} />
+          <LogoImage src="/assets/logo.svg" width={150} height={150} />
         </Logo>
         <Content>
           <p>I love you as much as</p>
