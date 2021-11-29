@@ -70,7 +70,7 @@ const EditList = (props) => {
 
   return (
     <PopupContainer>
-      {favList.length > 0 ? (
+      {favList && favList.length > 0 ? (
         <>
           <p>Drag and drop to rearrange</p>
           <List

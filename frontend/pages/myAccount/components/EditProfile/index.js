@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from "react";
 import bcrypt from "bcryptjs";
-import { Form, message } from "antd";
+import { Form } from "antd";
 import { StyledButton } from "../RestList/components/EditList/styled";
-import {
-  BsFillPencilFill,
-  BsPersonFill,
-  BsReverseLayoutTextWindowReverse,
-} from "react-icons/bs";
+import { BsFillPencilFill } from "react-icons/bs";
 import UserAPI from "../../../api/userAPI";
 import { useRouter } from "next/router";
 import {
@@ -24,12 +20,13 @@ import {
   PasswordField,
   ButtonGroup,
 } from "./styled";
-import router from "next/router";
 
 const EditProfile = (props) => {
-  const oldPass = props.info.password;
-  const [editProfile, setEditProfile] = useState(props.info);
-  const [avatar, setAvatar] = useState(props.info.image);
+  const oldPass = props.info ? props.info.password : null;
+  const [editProfile, setEditProfile] = useState(
+    props.info ? props.info : null
+  );
+  const [avatar, setAvatar] = useState(props.info ? props.info.image : null);
   const router = useRouter();
 
   const onFinish = async (value) => {
@@ -128,7 +125,7 @@ const EditProfile = (props) => {
       <Form
         labelCol={{ span: 9 }}
         onFinish={onFinish}
-        initialValues={{ username: editProfile.username }}
+        initialValues={{ username: editProfile ? editProfile.username : "" }}
       >
         <Form.Item name="avatar">
           <ImageWrapper>
