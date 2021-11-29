@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { PhoneFilled } from "@ant-design/icons";
-import COLORS from "../../../../public/constant/colors";
-import BREAKPOINTS from "../../../../public/constant/breakpoints";
+import COLORS from "../../../public/constant/colors";
+import BREAKPOINTS from "../../../public/constant/breakpoints";
 import { BsFillGeoAltFill } from "react-icons/bs";
 
 export const InnerContainer = styled.div`

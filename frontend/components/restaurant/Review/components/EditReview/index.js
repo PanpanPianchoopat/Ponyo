@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useCallback } from "react";
-import { Form, message } from "antd";
+import React, { useEffect, useState } from "react";
+import { Form } from "antd";
 import { Rating } from "../../styled";
 import { EditContainer, ButtonGroup, StyledButton } from "./styled";
 import {
@@ -8,6 +8,7 @@ import {
   CameraIcon,
   PlusIcon,
 } from "../../../WriteReview/styled";
+import router from "next/router";
 
 const EditReview = (props) => {
   const [newReview] = Form.useForm();
@@ -56,6 +57,7 @@ const EditReview = (props) => {
     }
     props.setPhotos(newPicList);
     props.setSave(true);
+    router.reload();
   };
 
   return (

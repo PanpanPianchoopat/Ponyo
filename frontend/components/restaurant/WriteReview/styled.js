@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Rate, Upload } from "antd";
-import COLORS from "../../../../public/constant/colors";
-import BREAKPOINTS from "../../../../public/constant/breakpoints";
+import COLORS from "../../../public/constant/colors";
+import BREAKPOINTS from "../../../public/constant/breakpoints";
 import { CameraFilled, PlusCircleFilled } from "@ant-design/icons";
 
 export const WriteReviewInnnerContainer = styled.div`

@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import BREAKPOINTS from "../../../../public/constant/breakpoints";
-import COLORS from "../../../../public/constant/colors";
+import BREAKPOINTS from "../../../public/constant/breakpoints";
+import COLORS from "../../../public/constant/colors";
 import { Avatar, Rate } from "antd";
 import { HeartOutlined, HeartFilled } from "@ant-design/icons";
 import { BsFillPersonFill } from "react-icons/bs";

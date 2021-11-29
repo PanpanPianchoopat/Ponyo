@@ -41,53 +41,45 @@ export const Underline = styled.hr`
   }
 `;
 
-export const DetailContainer = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
+export const DetailWrapper = styled.div`
+  display: grid;
   background: ${COLORS.PRIMARY_LIGHT};
   padding: 0 5vw;
+  gap: 15px;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-areas:
+    "overview overview overview detail detail"
+    "overview overview overview detail detail"
+    "review review review detail detail"
+    "review review review rating rating"
+    "review review review rating rating";
   @media (max-width: ${BREAKPOINTS.IPAD_PORTRAIT}) {
+    display: flex;
     flex-direction: column;
   }
 `;
 
-export const LargeSection = styled.div`
-  width: 54vw;
-  background: white;
-  padding: 5px;
+export const SectionWrapper = styled.div`
   display: flex;
+  background: white;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 5px;
-  @media (max-width: ${BREAKPOINTS.IPAD_PORTRAIT}) {
-    display: none;
-  }
 `;
 
-export const SmallSection = styled.div`
-  width: 34vw;
-  background: white;
-  padding: 5px;
-  display: flex;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 5px;
-  @media (max-width: ${BREAKPOINTS.IPAD_PORTRAIT}) {
-    display: none;
-  }
+export const OverviewWrapper = styled(SectionWrapper)`
+  grid-area: overview;
 `;
 
-export const FullSection = styled.div`
-  width: 100%;
-  background: white;
-  padding: 5px;
-  display: flex;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 5px;
-  display: none;
-  margin: 10px 0;
-  @media (max-width: ${BREAKPOINTS.IPAD_PORTRAIT}) {
-    display: flex;
-  }
+export const RestDetailWrapper = styled(SectionWrapper)`
+  grid-area: detail;
+`;
+
+export const WriteReviewWrapper = styled(SectionWrapper)`
+  grid-area: review;
+`;
+
+export const RatingsWrapper = styled(SectionWrapper)`
+  grid-area: rating;
 `;
 
 export const ReviewContainer = styled.div`

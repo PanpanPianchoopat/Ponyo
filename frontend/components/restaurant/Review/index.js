@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import jwt from "jsonwebtoken";
-import { message } from "antd";
-import ReviewAPI from "../../../api/reviewAPI";
+import ReviewAPI from "../../../pages/api/reviewAPI";
 import { Divider, Modal, Popconfirm } from "antd";
 import { BsPencil, BsTrash } from "react-icons/bs";
 import EditReview from "./components/EditReview";

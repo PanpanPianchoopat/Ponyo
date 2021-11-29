@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Swiper } from "swiper/react";
-import COLORS from "../../../../public/constant/colors";
-import BREAKPOINTS from "../../../../public/constant/breakpoints";
+import COLORS from "../../../public/constant/colors";
+import BREAKPOINTS from "../../../public/constant/breakpoints";
 
 export const CarouselContainer = styled.div`
   width: 100%;

@@ -66,7 +66,7 @@ const RestCard = ({ ...props }) => {
 
   const router = useRouter();
   const goToDetail = () => {
-    router.push({ pathname: "/restaurant", query: { id: props.detail._id } });
+    router.push(`/restaurant/${props.detail._id}`);
   };
 
   return (
