@@ -1,10 +1,10 @@
 import axios from "axios";
 
 export default axios.create({
-  baseURL: "http://localhost:8080/",
+  baseURL: "https://ponyo-restaurant-review.herokuapp.com",
   headers: {
     "Content-type": "application/json",
   },
 });
 
-export const BASE_URL = "http://localhost:8080";
+export const BASE_URL = "https://ponyo-restaurant-review.herokuapp.com";

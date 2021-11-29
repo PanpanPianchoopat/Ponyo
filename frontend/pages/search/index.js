@@ -249,9 +249,13 @@ function SearchRestaurant({ restaurants, trending }) {
 }
 
 export async function getServerSideProps() {
-  const res = await fetch("http://localhost:8080/restaurant/");
+  const res = await fetch(
+    "https://ponyo-restaurant-review.herokuapp.com/restaurant/"
+  );
   const restaurants = await res.json();
-  const res2 = await fetch("http://localhost:8080/restaurant/bestTrending");
+  const res2 = await fetch(
+    "https://ponyo-restaurant-review.herokuapp.com/restaurant/bestTrending"
+  );
   const trending = await res2.json();
   return { props: { restaurants, trending } };
 }

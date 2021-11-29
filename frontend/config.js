@@ -13,11 +13,11 @@ export const apiEndpoints = {
 const AR_API = () => {
   switch (environment) {
     case "development":
-      return "http://localhost:8080";
+      return "https://ponyo-restaurant-review.herokuapp.com";
     case "production":
-      return "http://localhost:8080";
+      return "https://ponyo-restaurant-review.herokuapp.com";
     default:
-      return "http://localhost:8080";
+      return "https://ponyo-restaurant-review.herokuapp.com";
   }
 };
 
