@@ -17,18 +17,17 @@ const BestRate = (props) => {
   const [countTrend, setCountTrend] = useState(0);
 
   useEffect(() => {
-    if (props.isNotNull && props.restaurants.length > 0) {
-      setRestaurantTrend(props.restaurants);
-      setCountTrend(props.restaurants.length);
+    if (props.restaurants) {
+      if (props.isNotNull && props.restaurants.length > 0) {
+        setRestaurantTrend(props.restaurants);
+        setCountTrend(props.restaurants.length);
+      }
     }
   }, [props]);
 
   const router = useRouter();
   const goToDetail = (index) => {
-    router.push({
-      pathname: "/restaurant",
-      query: { id: restaurantTrend[index].data[0]._id },
-    });
+    router.push(`/restaurant/${restaurantTrend[index].data[0]._id}`);
   };
 
   return (
