@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Rate } from "antd";
-import BREAKPOINTS from "../../../../public/constant/breakpoints";
-import COLORS from "../../../../public/constant/colors";
+import BREAKPOINTS from "../../../public/constant/breakpoints";
+import COLORS from "../../../public/constant/colors";
 
 export const RatingContainer = styled.div`
   display: flex;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import jwt from "jsonwebtoken";
 import { Divider } from "antd";
-import UserAPI from "../../../api/userAPI";
+import UserAPI from "../../../pages/api/userAPI";
 import { message } from "antd";
 import {
   OverviewContainer,

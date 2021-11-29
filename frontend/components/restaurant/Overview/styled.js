@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import COLORS from "../../../../public/constant/colors";
-import BREAKPOINTS from "../../../../public/constant/breakpoints";
+import COLORS from "../../../public/constant/colors";
+import BREAKPOINTS from "../../../public/constant/breakpoints";
 import { BsBookmark, BsBookmarkFill } from "react-icons/bs";
 import { Rate } from "antd";
 import { HeartOutlined, HeartFilled } from "@ant-design/icons";

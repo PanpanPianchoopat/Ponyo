@@ -6,3 +6,5 @@ export default axios.create({
     "Content-type": "application/json",
   },
 });
+
+export const BASE_URL = "http://localhost:8080";

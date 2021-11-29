@@ -1,27 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { withRouter } from "next/router";
+import { BASE_URL } from "../api/http-common";
 import jwt from "jsonwebtoken";
-import WriteReview from "./components/WriteReview";
-import Ratings from "./components/Ratings";
-import Carousel from "./components/Carousel";
-import Overview from "./components/Overview";
-import Detail from "./components/Detail";
-import Review from "./components/Review";
+import WriteReview from "../../components/restaurant/WriteReview";
+import Ratings from "../../components/restaurant/Ratings";
+import Carousel from "../../components/restaurant/Carousel";
+import Overview from "../../components/restaurant/Overview";
+import Detail from "../../components/restaurant/Detail";
+import Review from "../../components/restaurant/Review";
 import { Divider } from "antd";
 import RestaurantAPI from "../api/restaurantAPI";
 import ReviewAPI from "../api/reviewAPI";
 import Image from "next/image";
 import Lock from "../../components/Lock";
 import { REVIEW } from "../../components/Lock/constant";
+import { FILTER, REVIEW_FILTER } from "../../public/constant/restaurant";
+import { DUMMY_USER_ID } from "../../public/constant/account";
 import {
-  FILTER,
-  KEY_FILTER,
-  REVIEW_FILTER,
-} from "../../public/constant/restaurant";
-import {
-  DetailContainer,
-  LargeSection,
-  SmallSection,
   Name,
   Underline,
   HeadSection,
@@ -34,14 +28,16 @@ import {
   Star,
   Number,
   ReviewsContainer,
-  FullSection,
   EmptyDisplayContainer,
+  DetailWrapper,
+  OverviewWrapper,
+  WriteReviewWrapper,
+  RestDetailWrapper,
+  RatingsWrapper,
 } from "./styled";
 
-const Restaurant = (props) => {
-  const [resID, setResID] = useState(null);
-  const NOUSER = "6199008ed3c99ca0a1e5530a";
-  const [user_id, setUserID] = useState(NOUSER);
+function Restaurant({ resID }) {
+  const [user_id, setUserID] = useState(DUMMY_USER_ID);
   const [filter, setFilter] = useState(0);
   const [resInfo, setDetail] = useState(null);
   const [statusInfo, setStatus] = useState(null);
@@ -54,23 +50,6 @@ const Restaurant = (props) => {
   const [photoAmountInfo, setPhotoAmount] = useState(null);
   const [reviewInfo, setReview] = useState(null);
   const [isUser, setIsUser] = useState(false);
-  const [isGetStar, setIsGetStar] = useState(false);
-
-  useEffect(() => {
-    setResID(props.router.query.id);
-  }, [props.router.query]);
-
-  useEffect(() => {
-    if (resID) {
-      getRestaurantDetail();
-      getRestaurantStatus();
-      getAvgRate();
-      getReviewAmount();
-      getStarAmount();
-      getReviewByFilter(0);
-      getLikedBookmarked();
-    }
-  }, [resID]);
 
   useEffect(() => {
     const token = localStorage.getItem("_token");
@@ -82,9 +61,13 @@ const Restaurant = (props) => {
   }, []);
 
   useEffect(() => {
-    if (user_id == null) {
-      setUserID(NOUSER);
-    }
+    getRestaurantDetail();
+    getRestaurantStatus();
+    getAvgRate();
+    getReviewAmount();
+    getStarAmount();
+    getReviewByFilter(0);
+    getLikedBookmarked();
   }, [user_id]);
 
   const updateInfo = (review) => {
@@ -268,36 +251,8 @@ const Restaurant = (props) => {
         <Carousel slides={resInfo ? resInfo.details.image : []} />
       </HeadSection>
 
-      <DetailContainer>
-        <div>
-          <LargeSection style={{ marginBottom: "15px" }}>
-            <Overview
-              info={resInfo}
-              status={statusInfo}
-              avgRate={avgRate}
-              ratingAmount={reviewAmountInfo}
-              commentAmount={commentAmountInfo}
-              isLiked={isLiked}
-              isBookmarked={isBookmarked}
-            />
-          </LargeSection>
-          <LargeSection>
-            {isUser ? (
-              <WriteReview func={updateInfo} resID={resID} />
-            ) : (
-              <Lock type={REVIEW} />
-            )}
-          </LargeSection>
-        </div>
-        <div>
-          <SmallSection style={{ marginBottom: "15px" }}>
-            <Detail detail={resInfo} />
-          </SmallSection>
-          <SmallSection>
-            <Ratings rates={starInfo} />
-          </SmallSection>
-        </div>
-        <FullSection>
+      <DetailWrapper>
+        <OverviewWrapper>
           <Overview
             info={resInfo}
             status={statusInfo}
@@ -307,17 +262,21 @@ const Restaurant = (props) => {
             isLiked={isLiked}
             isBookmarked={isBookmarked}
           />
-        </FullSection>
-        <FullSection>
+        </OverviewWrapper>
+        <RestDetailWrapper>
           <Detail detail={resInfo} />
-        </FullSection>
-        <FullSection>
+        </RestDetailWrapper>
+        <WriteReviewWrapper>
+          {isUser ? (
+            <WriteReview func={updateInfo} resID={resID} />
+          ) : (
+            <Lock type={REVIEW} />
+          )}
+        </WriteReviewWrapper>
+        <RatingsWrapper>
           <Ratings rates={starInfo} />
-        </FullSection>
-        <FullSection>
-          {isUser ? <WriteReview func={updateInfo} /> : <Lock type={REVIEW} />}
-        </FullSection>
-      </DetailContainer>
+        </RatingsWrapper>
+      </DetailWrapper>
 
       <ReviewContainer>
         <ReviewInnerContainer>
@@ -358,6 +317,13 @@ const Restaurant = (props) => {
       </ReviewContainer>
     </>
   );
-};
+}
 
-export default withRouter(Restaurant);
+export async function getServerSideProps(context) {
+  const res = await fetch(`${BASE_URL}/restaurant/detail/${context.params.id}`);
+  const restaurant = await res.json();
+  const resID = restaurant.details._id;
+  return { props: { resID } };
+}
+
+export default Restaurant;

@@ -1,8 +1,8 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import jwt from "jsonwebtoken";
-import ReviewAPI from "../../../api/reviewAPI";
+import ReviewAPI from "../../../pages/api/reviewAPI";
 import { useRouter } from "next/router";
-import Button from "../../../../components/Button";
+import Button from "../../Button";
 import {
   StyledRate,
   SectionHeader,

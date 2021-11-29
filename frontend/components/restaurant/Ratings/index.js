@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Progress } from "antd";
-import colors from "../../../../public/constant/colors";
+import COLORS from "../../../public/constant/colors";
 import {
   RatingContainer,
   RestaurantRate,
@@ -23,14 +23,12 @@ const Ratings = (props) => {
   const [total, setTotal] = useState([]);
 
   useEffect(() => {
-    
     setRate(props.rates);
     if (props.rates != null) {
       const totalStar = getSum(props.rates);
       setTotal(totalStar);
     }
   }, [props]);
-
 
   return (
     <>
@@ -47,7 +45,7 @@ const Ratings = (props) => {
                       percent={(num / total) * 100}
                       showInfo={false}
                       strokeWidth={4}
-                      strokeColor={colors.PRIMARY_BLUE}
+                      strokeColor={COLORS.PRIMARY_BLUE}
                     />
                     <Count>{num}</Count>
                   </NumContainer>
