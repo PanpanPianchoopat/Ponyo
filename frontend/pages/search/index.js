@@ -36,8 +36,9 @@ import {
   NotFoundText,
 } from "./styled";
 
-function SearchRestaurant({ restaurants, trending }) {
+function SearchRestaurant({ restaurants }) {
   const { Option } = Selecter;
+  const [trending, setTrending] = useState([]);
   const [status, setStatus] = useState("ALL");
   const [restaurant, setRestaurants] = useState(restaurants);
   const [checkSearch, setCheckSearch] = useState("search");
@@ -52,6 +53,16 @@ function SearchRestaurant({ restaurants, trending }) {
   const [selectedCat, setSelectedCat] = useState("");
 
   const router = useRouter();
+
+  useEffect(() => {
+    RestaurantAPI.getBestTrending()
+      .then((response) => {
+        setTrending(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
 
   const onFinish = () => {
     setRestaurants(null);
@@ -248,16 +259,12 @@ function SearchRestaurant({ restaurants, trending }) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const res = await fetch(
     "https://ponyo-restaurant-review.herokuapp.com/restaurant/"
   );
   const restaurants = await res.json();
-  const res2 = await fetch(
-    "https://ponyo-restaurant-review.herokuapp.com/restaurant/bestTrending"
-  );
-  const trending = await res2.json();
-  return { props: { restaurants, trending } };
+  return { props: { restaurants } };
 }
 
 export default SearchRestaurant;
