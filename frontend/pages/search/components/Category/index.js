@@ -22,7 +22,7 @@ const Category = (props) => {
               props.setSelected("Casual Dining");
             }}
           >
-            <TypeImage src="/assets/Category/dining.png" preview={false} />
+            <TypeImage src="/assets/Category/dining.png" />
           </TypeCircle>
           <TypeName>Casual Dining</TypeName>
         </TypeContainer>
@@ -35,7 +35,7 @@ const Category = (props) => {
               props.setSelected("Food Trucks");
             }}
           >
-            <TypeImage src="/assets/Category/food-truck.png" preview={false} />
+            <TypeImage src="/assets/Category/food-truck.png" />
           </TypeCircle>
           <TypeName>Food Trucks</TypeName>
         </TypeContainer>
@@ -48,7 +48,7 @@ const Category = (props) => {
               props.setSelected("Fast Food");
             }}
           >
-            <TypeImage src="/assets/Category/fast-food.png" preview={false} />
+            <TypeImage src="/assets/Category/fast-food.png" />
           </TypeCircle>
           <TypeName>Fast Food</TypeName>
         </TypeContainer>
@@ -61,7 +61,7 @@ const Category = (props) => {
               props.setSelected("Café");
             }}
           >
-            <TypeImage src="/assets/Category/cafe.png" preview={false} />
+            <TypeImage src="/assets/Category/cafe.png" />
           </TypeCircle>
           <TypeName>Café</TypeName>
         </TypeContainer>
@@ -74,7 +74,7 @@ const Category = (props) => {
               props.setSelected("Family Style");
             }}
           >
-            <TypeImage src="/assets/Category/family.png" preview={false} />
+            <TypeImage src="/assets/Category/family.png" />
           </TypeCircle>
           <TypeName>Family Style</TypeName>
         </TypeContainer>
@@ -87,7 +87,7 @@ const Category = (props) => {
               props.setSelected("Pub");
             }}
           >
-            <TypeImage src="/assets/Category/pub.png" preview={false} />
+            <TypeImage src="/assets/Category/pub.png" />
           </TypeCircle>
           <TypeName>Pub</TypeName>
         </TypeContainer>
@@ -100,7 +100,7 @@ const Category = (props) => {
               props.setSelected("Buffet");
             }}
           >
-            <TypeImage src="/assets/Category/buffet.png" preview={false} />
+            <TypeImage src="/assets/Category/buffet.png" />
           </TypeCircle>
           <TypeName>Buffet</TypeName>
         </TypeContainer>

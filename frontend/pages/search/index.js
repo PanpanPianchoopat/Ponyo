@@ -32,6 +32,7 @@ import {
   SmileIcon,
   BestRateContainer,
   EmptyDisplayContainer,
+  EmptyIcon,
   Warning,
   NotFoundText,
 } from "./styled";
@@ -136,7 +137,7 @@ function SearchRestaurant({ restaurants }) {
     <>
       <Container>
         <HeadSection>
-          <NameImage src="/assets/ponyoName.svg" preview={false} />
+          <NameImage src="/assets/ponyoName.svg" />
           <SearchBar>
             <Search.Group compact>
               <Selecter
@@ -229,7 +230,7 @@ function SearchRestaurant({ restaurants }) {
                 ))
               ) : (
                 <EmptyDisplayContainer>
-                  <Image src="/assets/redBowl.svg" width={300} height={250} />
+                  <EmptyIcon src="/assets/redBowl.svg" />
                   <Warning>Opps!!</Warning>
                   <NotFoundText>Sorry, No result found</NotFoundText>
                 </EmptyDisplayContainer>

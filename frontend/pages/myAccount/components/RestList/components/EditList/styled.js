@@ -105,4 +105,8 @@ export const EmptyListDisplay = styled.div`
   font-size: 1rem;
 `;
 
+export const EmptyIcon = styled.img`
+  width: 120px;
+`;
+
 export default PopupContainer;

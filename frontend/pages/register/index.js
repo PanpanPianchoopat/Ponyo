@@ -178,7 +178,7 @@ const register = () => {
           </p>
         </Content>
         <Wave>
-          <WaveImage src="/assets/ponyoWave.svg" layout="fill" />
+          <WaveImage src="/assets/ponyoWave.svg" />
         </Wave>
       </ContainerLeft>
       <ContainerRight>

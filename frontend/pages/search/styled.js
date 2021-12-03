@@ -18,22 +18,19 @@ export const HeadSection = styled.div`
   align-items: center;
 `;
 
-export const NameImage = styled(Image)`
-  object-fit: contain;
+export const NameImage = styled.img`
   width: 700px;
-  padding: 60px 0 50px 0;
-  -webkit-user-drag: none;
-  -khtml-user-drag: none;
-  -moz-user-drag: none;
-  -o-user-drag: none;
+  padding: 50px 0;
   user-drag: none;
-  @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
+  @media (max-width: ${BREAKPOINTS.HiDPI_LAPTOP}) {
+    padding: 40px 0;
     width: 600px;
   }
-  @media (max-width: ${BREAKPOINTS.IPAD_PORTRAIT}) {
-    width: 400px;
+  @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
+    width: 500px;
+    padding: 30px 0;
   }
-  @media (max-width: ${BREAKPOINTS.IPHONE_11}) {
+  @media (max-width: ${BREAKPOINTS.IPAD_PORTRAIT}) {
     width: 300px;
   }
 `;
@@ -210,6 +207,14 @@ export const EmptyDisplayContainer = styled.div`
   align-items: center;
   color: ${COLORS.DARK_GREY};
   overflow: hiden;
+`;
+
+export const EmptyIcon = styled.img`
+  width: 180px;
+  margin-bottom: 20px;
+  @media (max-width: ${BREAKPOINTS.IPHONE_11}) {
+    width: 140px;
+  }
 `;
 
 export const Warning = styled.div`

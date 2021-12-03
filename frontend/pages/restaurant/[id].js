@@ -10,7 +10,6 @@ import Review from "../../components/restaurant/Review";
 import { Divider } from "antd";
 import RestaurantAPI from "../api/restaurantAPI";
 import ReviewAPI from "../api/reviewAPI";
-import Image from "next/image";
 import Lock from "../../components/Lock";
 import { REVIEW } from "../../components/Lock/constant";
 import { FILTER, REVIEW_FILTER } from "../../public/constant/restaurant";
@@ -29,6 +28,7 @@ import {
   Number,
   ReviewsContainer,
   EmptyDisplayContainer,
+  EmptyIcon,
   DetailWrapper,
   OverviewWrapper,
   WriteReviewWrapper,
@@ -307,7 +307,7 @@ function Restaurant({ resID }) {
                 })
               ) : (
                 <EmptyDisplayContainer>
-                  <Image src="/assets/redBowl.svg" width={200} height={150} />
+                  <EmptyIcon src="/assets/redBowl.svg" />
                   <p>No review yet</p>
                 </EmptyDisplayContainer>
               )

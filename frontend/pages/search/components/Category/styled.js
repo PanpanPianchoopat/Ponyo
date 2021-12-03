@@ -65,19 +65,9 @@ export const TypeName = styled.div`
   }
 `;
 
-export const TypeImage = styled(Image)`
-  object-fit: contain;
-  width: 50px;
-  height: 50px;
-  -webkit-user-drag: none;
-  -khtml-user-drag: none;
-  -moz-user-drag: none;
-  -o-user-drag: none;
+export const TypeImage = styled.img`
+  width: 60%;
   user-drag: none;
-  @media (max-width: ${BREAKPOINTS.IPAD_PORTRAIT}) {
-    height: 35px;
-    width: 35px;
-  }
 `;
 
 export default CategoryContainer;

@@ -188,4 +188,9 @@ export const EmptyDisplayContainer = styled.div`
   color: ${COLORS.DARK_GREY};
 `;
 
+export const EmptyIcon = styled.img`
+  width: 140px;
+  margin-bottom: 15px;
+`;
+
 export default HeadSection;

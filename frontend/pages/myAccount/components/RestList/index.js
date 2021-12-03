@@ -4,7 +4,6 @@ import Button from "../../../../components/Button";
 import Card from "../../../../components/Card";
 import { FAVOURITE, INTEREST } from "../../../../public/constant/myAccount";
 import EditList from "./components/EditList";
-import Image from "next/image";
 import UserAPI from "../../../api/userAPI";
 import { Spin } from "antd";
 import { useRouter } from "next/router";
@@ -16,6 +15,7 @@ import {
   EditButton,
   Popup,
   EmptyList,
+  EmptyIcon,
   EmptyTextContainer,
 } from "./styled";
 
@@ -103,7 +103,7 @@ const RestList = (props) => {
             ))
           ) : (
             <EmptyList>
-              <Image src="/assets/whiteBowl.svg" width={180} height={180} />
+              <EmptyIcon src="/assets/whiteBowl.svg" />
               <EmptyTextContainer>
                 <b>Emypty List</b>
                 <p>You haven't {emptyDisplay} any restaurant yet</p>

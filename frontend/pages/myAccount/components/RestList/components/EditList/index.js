@@ -19,6 +19,7 @@ import {
   ButtonGroup,
   StyledButton,
   EmptyListDisplay,
+  EmptyIcon,
 } from "./styled";
 
 const EditList = (props) => {
@@ -111,7 +112,7 @@ const EditList = (props) => {
         </>
       ) : (
         <EmptyListDisplay>
-          <Image src="/assets/redBowl.svg" width={100} height={100} />
+          <EmptyIcon src="/assets/redBowl.svg" />
           <p>Empty List</p>
         </EmptyListDisplay>
       )}
