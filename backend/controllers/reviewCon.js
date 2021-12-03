@@ -1,8 +1,6 @@
-import express from "express";
 import mongoose from "mongoose";
 import Review from "../models/reviewModel.js";
 const ObjectId = mongoose.Types.ObjectId;
-const router = express.router;
 
 export const addReview = async (req, res) => {
   const { resID, userID } = req.params;

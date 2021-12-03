@@ -1,4 +1,3 @@
-import express from "express";
 import mongoose from "mongoose";
 import Restaurant from "../models/restaurantModel.js";
 import User from "../models/userModel.js";
@@ -15,7 +14,6 @@ const dayStatus = (closingDay) => {
       i++;
     }
   }
-
   return status;
 };
 
@@ -194,7 +192,7 @@ const searchWithStatus = async (resStatus, key, search, range, type) => {
   const currentMin = convertToMin(hour, minutes);
 
   //tag
-  if (resStatus == 2) {
+  if (resStatus == "TAG") {
     const resOpen = await Restaurant.find({
       _id: search,
       openDays: { weekDay: weekDay, dayStatus: 1 },
@@ -412,92 +410,67 @@ const searchWithStatus = async (resStatus, key, search, range, type) => {
 };
 
 const searchRestaurant = async (key, search, range, type, resStatus) => {
-  //All (Open & Close)
-  if (resStatus == "ALL") {
-    // NO Search Type & Price
-    if (!type && range[0] == 0 && range[1] == 0) {
-      try {
-        const Restaurants = await Restaurant.find({
-          [key]: { $regex: search, $options: "i" },
-        });
+  // NO Search Type & Price
+  if (!type && range[0] == 0 && range[1] == 0) {
+    try {
+      const Restaurants = await Restaurant.find({
+        [key]: { $regex: search, $options: "i" },
+      });
 
-        return Restaurants;
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    // NO Search Type
-    else if (!type) {
-      const Restaurants = await Restaurant.find({
-        [key]: { $regex: search, $options: "i" },
-        $or: [
-          {
-            $and: [
-              { "priceRange.min": { $gte: range[0] } },
-              { "priceRange.min": { $lte: range[1] } },
-            ],
-          },
-          {
-            $and: [
-              { "priceRange.max": { $gte: range[0] } },
-              { "priceRange.max": { $lte: range[1] } },
-            ],
-          },
-        ],
-      });
       return Restaurants;
-    }
-    // NO Search Price Range
-    else if (range[0] == 0 && range[1] == 0) {
-      const Restaurants = await Restaurant.find({
-        [key]: { $regex: search, $options: "i" },
-        type: type,
-      });
-      return Restaurants;
-    }
-    // Search with Everything
-    else {
-      const Restaurants = await Restaurant.find({
-        [key]: { $regex: search, $options: "i" },
-        $or: [
-          {
-            $and: [
-              { "priceRange.min": { $gte: range[0] } },
-              { "priceRange.min": { $lte: range[1] } },
-            ],
-          },
-          {
-            $and: [
-              { "priceRange.max": { $gte: range[0] } },
-              { "priceRange.max": { $lte: range[1] } },
-            ],
-          },
-        ],
-        type: type,
-      });
-      return Restaurants;
+    } catch (error) {
+      console.log(error);
     }
   }
-  // Open Restaurant
-  else if (resStatus == "OPEN") {
-    const Restaurants = await searchWithStatus(
-      "OPEN",
-      key,
-      search,
-      range,
-      type
-    );
+  // NO Search Type
+  else if (!type) {
+    const Restaurants = await Restaurant.find({
+      [key]: { $regex: search, $options: "i" },
+      $or: [
+        {
+          $and: [
+            { "priceRange.min": { $gte: range[0] } },
+            { "priceRange.min": { $lte: range[1] } },
+          ],
+        },
+        {
+          $and: [
+            { "priceRange.max": { $gte: range[0] } },
+            { "priceRange.max": { $lte: range[1] } },
+          ],
+        },
+      ],
+    });
     return Restaurants;
   }
-  // Close Restaurant
+  // NO Search Price Range
+  else if (range[0] == 0 && range[1] == 0) {
+    const Restaurants = await Restaurant.find({
+      [key]: { $regex: search, $options: "i" },
+      type: type,
+    });
+    return Restaurants;
+  }
+  // Search with Everything
   else {
-    const Restaurants = await searchWithStatus(
-      "CLOSE",
-      key,
-      search,
-      range,
-      type
-    );
+    const Restaurants = await Restaurant.find({
+      [key]: { $regex: search, $options: "i" },
+      $or: [
+        {
+          $and: [
+            { "priceRange.min": { $gte: range[0] } },
+            { "priceRange.min": { $lte: range[1] } },
+          ],
+        },
+        {
+          $and: [
+            { "priceRange.max": { $gte: range[0] } },
+            { "priceRange.max": { $lte: range[1] } },
+          ],
+        },
+      ],
+      type: type,
+    });
     return Restaurants;
   }
 };
@@ -512,16 +485,40 @@ export const getRestaurant = async (req, res) => {
   if (type == "Cuisine") {
     type = "";
   }
-
   try {
-    const Restaurants = await searchRestaurant(
-      filter,
-      search,
-      range,
-      type,
-      resStatus
-    );
-    res.status(200).json(Restaurants);
+    //All (Open & Close)
+    if (resStatus == "ALL") {
+      const Restaurants = await searchRestaurant(
+        filter,
+        search,
+        range,
+        type,
+        resStatus
+      );
+      res.status(200).json(Restaurants);
+    }
+    // Open Restaurant
+    else if (resStatus == "OPEN") {
+      const Restaurants = await searchWithStatus(
+        "OPEN",
+        filter,
+        search,
+        range,
+        type
+      );
+      return Restaurants;
+    }
+    // Close Restaurant
+    else {
+      const Restaurants = await searchWithStatus(
+        "CLOSE",
+        filter,
+        search,
+        range,
+        type
+      );
+      return Restaurants;
+    }
   } catch (error) {
     res.status(404).json({ Error: error.message });
   }
@@ -531,7 +528,7 @@ export const getRestaurantStatus = async (req, res) => {
   const { resID } = req.params;
 
   try {
-    const resOpen = await searchWithStatus(2, "_id", resID, "", "");
+    const resOpen = await searchWithStatus("TAG", "_id", resID, "", "");
     res.status(200).json(resOpen);
   } catch (error) {
     res.status(404).json({ Error: error.message });
