@@ -1,10 +1,17 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Button from "../components/Button";
+import { Spin } from "antd";
 
 function Home() {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const goToSearch = () => {
+    setLoading(true);
+    router.push("/search");
+  };
   return (
     <div className={styles.container}>
       <Head>
@@ -16,13 +23,16 @@ function Home() {
       <main className={styles.main}>
         <h1 className={styles.h1}>Welcome to Ponyo</h1>
         <img className={styles.img} src="/assets/ponyoName.svg" />
-        <Button
-          variant="yellow"
-          size="large"
-          onClick={() => router.push("/search")}
-        >
+        <Button variant="yellow" size="large" onClick={goToSearch}>
           Go To Website
         </Button>
+        {loading === true ? (
+          <div className={styles.loading}>
+            <Spin />
+          </div>
+        ) : (
+          ""
+        )}
       </main>
     </div>
   );
