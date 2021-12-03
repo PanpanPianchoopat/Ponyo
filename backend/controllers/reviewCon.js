@@ -6,11 +6,11 @@ import Review from "../models/reviewModel.js";
 const router = express.router;
 
 export const addReview = async (req, res) => {
-  const { res_id, user_id } = req.params;
+  const { resID, userID } = req.params;
   var { reviewText, star, image } = req.body;
   const newReview = new Review({
-    res_id,
-    user_id,
+    resID,
+    userID,
     date: new Date(),
     reviewText,
     star,
@@ -19,8 +19,8 @@ export const addReview = async (req, res) => {
 
   try {
     const checkUserReview = await Review.find({
-      user_id: ObjectId(user_id),
-      res_id: res_id,
+      userID: ObjectId(userID),
+      resID: resID,
     });
 
     if (checkUserReview.length == 0) {
@@ -35,53 +35,57 @@ export const addReview = async (req, res) => {
 };
 
 export const editReview = async (req, res) => {
-  const { review_id } = req.params;
+  const { reviewID } = req.params;
   const { reviewText, star, image } = req.body;
   const date = new Date();
 
-  if (!mongoose.Types.ObjectId.isValid(review_id))
-    return res.status(404).send(`No review with id: ${review_id}`);
+  if (!mongoose.Types.ObjectId.isValid(reviewID))
+    return res.status(404).send(`No review with id: ${reviewID}`);
 
   const updatedReview = {
     reviewText,
     star,
     image,
     date: new Date(),
-    _id: review_id,
+    _id: reviewID,
   };
 
-  await Review.findByIdAndUpdate(review_id, updatedReview, { new: true });
+  await Review.findByIdAndUpdate(reviewID, updatedReview, { new: true });
 
   res.status(200).json({ Message: "Updated Success" });
 };
 
 export const deleteReview = async (req, res) => {
-  const { review_id } = req.params;
+  const { reviewID } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(review_id))
-    return res.status(404).send(`No post with id: ${review_id}`);
+  if (!mongoose.Types.ObjectId.isValid(reviewID))
+    return res.status(404).send(`No post with id: ${reviewID}`);
 
-  await Review.findByIdAndRemove(review_id);
+  await Review.findByIdAndRemove(reviewID);
 
   res.json({ status: true, message: "Review deleted successfully." });
 };
 
 export const getAllReview = async (req, res) => {
-  const { res_id, user_id } = req.params;
+  const { resID, userID } = req.params;
 
   try {
     const Reviews = await Review.aggregate([
       {
         $match: {
-          res_id: res_id,
+          resID: resID,
         },
       },
-
+      {
+        $sort: {
+          date: -1,
+        },
+      },
       {
         $project: {
-          user_id_ob: {
+          userID_ob: {
             $convert: {
-              input: "$user_id",
+              input: "$userID",
               to: "objectId",
               onError: "",
               onNull: "",
@@ -93,21 +97,20 @@ export const getAllReview = async (req, res) => {
               date: "$date",
             },
           },
-
           reviewer: 1,
           reviewText: 1,
           star: 1,
           image: 1,
           editDelete: {
             $cond: {
-              if: { $strcasecmp: ["$user_id", user_id] },
+              if: { $strcasecmp: ["$userID", userID] },
               then: false,
               else: true,
             },
           },
           likeReview: {
             $cond: {
-              if: { $in: [user_id, "$like"] },
+              if: { $in: [userID, "$like"] },
               then: true,
               else: false,
             },
@@ -120,7 +123,7 @@ export const getAllReview = async (req, res) => {
       {
         $lookup: {
           from: "users",
-          localField: "user_id_ob",
+          localField: "userID_ob",
           foreignField: "_id",
           as: "user",
         },
@@ -133,13 +136,7 @@ export const getAllReview = async (req, res) => {
           reviewer: "$user.username",
         },
       },
-      {
-        $sort: {
-          date: -1,
-        },
-      },
     ]);
-
     res.status(200).json(Reviews);
   } catch (error) {
     res.status(404).json({ Error: error.message });
@@ -147,17 +144,17 @@ export const getAllReview = async (req, res) => {
 };
 
 export const getReviewByFilter = async (req, res) => {
-  const { res_id, filter, user_id, star } = req.params;
+  const { resID, filter, userID, star } = req.params;
 
   try {
     if (filter == "star") {
-      const Reviews = await getReviewByStar(res_id, star, user_id);
+      const Reviews = await getReviewByStar(resID, star, userID);
       res.status(200).json(Reviews);
     } else if (filter == "comment") {
-      const Reviews = await getReviewByComment(res_id, user_id);
+      const Reviews = await getReviewByComment(resID, userID);
       res.status(200).json(Reviews);
     } else if (filter == "photo") {
-      const Reviews = await getReviewByPhoto(res_id, user_id);
+      const Reviews = await getReviewByPhoto(resID, userID);
       res.status(200).json(Reviews);
     }
   } catch (error) {
@@ -165,20 +162,25 @@ export const getReviewByFilter = async (req, res) => {
   }
 };
 
-const getReviewByStar = async (res_id, star, user_id) => {
+const getReviewByStar = async (resID, star, userID) => {
   const starInt = Number(star);
   const Reviews = await Review.aggregate([
     {
       $match: {
-        res_id: res_id,
+        resID: resID,
         star: starInt,
       },
     },
     {
+      $sort: {
+        date: -1,
+      },
+    },
+    {
       $project: {
-        user_id_ob: {
+        userID_ob: {
           $convert: {
-            input: "$user_id",
+            input: "$userID",
             to: "objectId",
             onError: "",
             onNull: "",
@@ -196,14 +198,14 @@ const getReviewByStar = async (res_id, star, user_id) => {
         image: 1,
         editDelete: {
           $cond: {
-            if: { $strcasecmp: ["$user_id", user_id] },
+            if: { $strcasecmp: ["$userID", userID] },
             then: false,
             else: true,
           },
         },
         likeReview: {
           $cond: {
-            if: { $in: [user_id, "$like"] },
+            if: { $in: [userID, "$like"] },
             then: true,
             else: false,
           },
@@ -216,7 +218,7 @@ const getReviewByStar = async (res_id, star, user_id) => {
     {
       $lookup: {
         from: "users",
-        localField: "user_id_ob",
+        localField: "userID_ob",
         foreignField: "_id",
         as: "user",
       },
@@ -229,34 +231,34 @@ const getReviewByStar = async (res_id, star, user_id) => {
         reviewer: "$user.username",
       },
     },
-    {
-      $sort: {
-        date: -1,
-      },
-    },
+    
   ]);
   return Reviews;
 };
 
-const getReviewByComment = async (res_id, user_id) => {
+const getReviewByComment = async (resID, userID) => {
   const Reviews = await Review.aggregate([
     {
       $match: {
-        res_id: res_id,
+        resID: resID,
         reviewText: { $exists: true, $ne: "" },
       },
     },
     {
+      $sort: {
+        date: -1,
+      },
+    },
+    {
       $project: {
-        user_id_ob: {
+        userID_ob: {
           $convert: {
-            input: "$user_id",
+            input: "$userID",
             to: "objectId",
             onError: "",
             onNull: "",
           },
         },
-        // date:1,
         date: {
           $dateToString: {
             format: "%d/%m/%Y",
@@ -269,14 +271,14 @@ const getReviewByComment = async (res_id, user_id) => {
         image: 1,
         editDelete: {
           $cond: {
-            if: { $strcasecmp: ["$user_id", user_id] },
+            if: { $strcasecmp: ["$userID", userID] },
             then: false,
             else: true,
           },
         },
         likeReview: {
           $cond: {
-            if: { $in: [user_id, "$like"] },
+            if: { $in: [userID, "$like"] },
             then: true,
             else: false,
           },
@@ -289,7 +291,7 @@ const getReviewByComment = async (res_id, user_id) => {
     {
       $lookup: {
         from: "users",
-        localField: "user_id_ob",
+        localField: "userID_ob",
         foreignField: "_id",
         as: "user",
       },
@@ -302,35 +304,35 @@ const getReviewByComment = async (res_id, user_id) => {
         reviewer: "$user.username",
       },
     },
-    {
-      $sort: {
-        date: -1,
-      },
-    },
+    
   ]);
 
   return Reviews;
 };
 
-const getReviewByPhoto = async (res_id, user_id) => {
+const getReviewByPhoto = async (resID, userID) => {
   const Reviews = await Review.aggregate([
     {
       $match: {
-        res_id: res_id,
+        resID: resID,
         image: { $exists: true, $ne: [] },
       },
     },
     {
+      $sort: {
+        date: -1,
+      },
+    },
+    {
       $project: {
-        user_id_ob: {
+        userID_ob: {
           $convert: {
-            input: "$user_id",
+            input: "$userID",
             to: "objectId",
             onError: "",
             onNull: "",
           },
         },
-        // date:1,
         date: {
           $dateToString: {
             format: "%d/%m/%Y",
@@ -343,14 +345,14 @@ const getReviewByPhoto = async (res_id, user_id) => {
         image: 1,
         editDelete: {
           $cond: {
-            if: { $strcasecmp: ["$user_id", user_id] },
+            if: { $strcasecmp: ["$userID", userID] },
             then: false,
             else: true,
           },
         },
         likeReview: {
           $cond: {
-            if: { $in: [user_id, "$like"] },
+            if: { $in: [userID, "$like"] },
             then: true,
             else: false,
           },
@@ -363,7 +365,7 @@ const getReviewByPhoto = async (res_id, user_id) => {
     {
       $lookup: {
         from: "users",
-        localField: "user_id_ob",
+        localField: "userID_ob",
         foreignField: "_id",
         as: "user",
       },
@@ -376,23 +378,19 @@ const getReviewByPhoto = async (res_id, user_id) => {
         reviewer: "$user.username",
       },
     },
-    {
-      $sort: {
-        date: -1,
-      },
-    },
+    
   ]);
   return Reviews;
 };
 
 export const getReviewAmount = async (req, res) => {
-  const { res_id, typeReview, star } = req.params;
+  const { resID, typeReview, star } = req.params;
 
   try {
     //Find number of all review (All rating)
     if (typeReview == "all") {
       const amountRate = await Review.find({
-        res_id: res_id,
+        resID: resID,
       }).count();
       res.status(200).json(amountRate);
       return amountRate;
@@ -400,7 +398,7 @@ export const getReviewAmount = async (req, res) => {
     //Find number of review with comment
     else if (typeReview == "comment") {
       const amountComment = await Review.find({
-        res_id: res_id,
+        resID: resID,
         reviewText: { $exists: true, $ne: "" },
       }).count();
       res.status(200).json(amountComment);
@@ -409,7 +407,7 @@ export const getReviewAmount = async (req, res) => {
     //Find number of review with star
     else if (typeReview == "star") {
       const amountStar = await Review.find({
-        res_id: res_id,
+        resID: resID,
         star: star,
       }).count();
       res.status(200).json(amountStar);
@@ -418,7 +416,7 @@ export const getReviewAmount = async (req, res) => {
     //Find number of review with photo
     else if (typeReview == "photo") {
       const amountPhoto = await Review.find({
-        res_id: res_id,
+        resID: resID,
         image: { $exists: true, $ne: [] },
       }).count();
       res.status(200).json(amountPhoto);
@@ -430,12 +428,12 @@ export const getReviewAmount = async (req, res) => {
 };
 
 export const calReviewRate = async (req, res) => {
-  const { res_id } = req.params;
+  const { resID } = req.params;
   try {
     const avgStar = await Review.aggregate([
       {
         $match: {
-          res_id: res_id,
+          resID: resID,
         },
       },
       {
@@ -458,18 +456,18 @@ export const calReviewRate = async (req, res) => {
 };
 
 export const addLikeReview = async (req, res) => {
-  const { review_id, user_id, like } = req.params;
+  const { reviewID, userID, like } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(review_id))
-    return res.status(404).send(`No review with id: ${review_id}`);
+  if (!mongoose.Types.ObjectId.isValid(reviewID))
+    return res.status(404).send(`No review with id: ${reviewID}`);
 
   try {
     if (like == "true") {
       await Review.findByIdAndUpdate(
-        review_id,
+        reviewID,
         {
           $push: {
-            like: user_id,
+            like: userID,
           },
         },
         { new: true }
@@ -477,8 +475,8 @@ export const addLikeReview = async (req, res) => {
       res.status(200).json({ Message: "add Success" });
     } else {
       await Review.findByIdAndUpdate(
-        review_id,
-        { $pull: { like: user_id } },
+        reviewID,
+        { $pull: { like: userID } },
         { new: true }
       );
       res.status(200).json({ Message: "remove Success" });

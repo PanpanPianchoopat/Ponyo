@@ -19,9 +19,9 @@ router.get(
   getRestaurant
 );
 
-router.get("/detail/:res_id", getRestaurantDetail);
-router.get("/status/:res_id", getRestaurantStatus);
-router.get("/checkList/:key/:user_id/:res_id", checkLikedBookmarked);
+router.get("/detail/:resID", getRestaurantDetail);
+router.get("/status/:resID", getRestaurantStatus);
+router.get("/checkList/:key/:userID/:resID", checkLikedBookmarked);
 router.get("/trending/:type", getTrending);
 router.get("/bestTrending", getBestTrending);
 

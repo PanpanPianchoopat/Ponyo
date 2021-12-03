@@ -97,7 +97,7 @@ export const checkEmail = async (req, res) => {
 };
 
 export const editProfile = async (req, res) => {
-  const { user_id } = req.params;
+  const { userID } = req.params;
   const { username, password, image } = req.body;
 
   try {
@@ -105,14 +105,14 @@ export const editProfile = async (req, res) => {
       username,
       password,
       image,
-      _id: user_id,
+      _id: userID,
     };
 
-    await User.findByIdAndUpdate(user_id, editedProfile, { new: true });
+    await User.findByIdAndUpdate(userID, editedProfile, { new: true });
 
     const token = jwt.sign(
       {
-        id: user_id,
+        id: userID,
         username: username,
         password: password,
         image: image,
@@ -144,11 +144,11 @@ const countRestuarant = async (key, id) => {
 };
 
 export const getMyRestaurantList = async (req, res) => {
-  const { key, user_id } = req.params;
+  const { key, userID } = req.params;
   try {
     const listId = await User.find(
       {
-        _id: ObjectId(user_id),
+        _id: ObjectId(userID),
       },
       { [key]: 1 }
     );
@@ -183,20 +183,20 @@ export const getMyRestaurantList = async (req, res) => {
 };
 
 export const addRestaurantToList = async (req, res) => {
-  const { key, user_id, res_id } = req.params;
+  const { key, userID, resID } = req.params;
   const FAV_MAX = 5;
   const IN_MAX = 50;
 
-  if (!mongoose.Types.ObjectId.isValid(user_id))
-    return res.status(404).send(`No review with id: ${user_id}`);
+  if (!mongoose.Types.ObjectId.isValid(userID))
+    return res.status(404).send(`No review with id: ${userID}`);
 
-  const countList = await countRestuarant(key, user_id);
+  const countList = await countRestuarant(key, userID);
 
   if (key == "myFavRestaurants") {
     if (countList < FAV_MAX) {
       await User.updateOne(
-        { _id: user_id },
-        { $addToSet: { myFavRestaurants: res_id } }
+        { _id: userID },
+        { $addToSet: { myFavRestaurants: resID } }
       );
       res.status(200).json({ status: true, Message: "Update Success" });
     } else {
@@ -205,8 +205,8 @@ export const addRestaurantToList = async (req, res) => {
   } else {
     if (countList < IN_MAX) {
       await User.updateOne(
-        { _id: user_id },
-        { $addToSet: { myInterestRestaurants: res_id } }
+        { _id: userID },
+        { $addToSet: { myInterestRestaurants: resID } }
       );
       res.status(200).json({ status: true, Message: "Update Success" });
     } else {
@@ -219,15 +219,15 @@ export const addRestaurantToList = async (req, res) => {
 
 //Favorite and Interest
 export const removeResFromList = async (req, res) => {
-  const { key, user_id, res_id } = req.params;
+  const { key, userID, resID } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(user_id))
+  if (!mongoose.Types.ObjectId.isValid(userID))
     return res.status(404).send(`No post with id: ${id}`);
 
   try {
     await User.updateOne(
-      { _id: ObjectId(user_id) },
-      { $pull: { [key]: res_id } }
+      { _id: ObjectId(userID) },
+      { $pull: { [key]: resID } }
     );
     res
       .status(200)
@@ -238,19 +238,20 @@ export const removeResFromList = async (req, res) => {
 };
 
 export const editMyFavList = async (req, res) => {
-  const { user_id } = req.params;
+  const { userID } = req.params;
   const myFavRestaurants = req.body;
 
-  if (!mongoose.Types.ObjectId.isValid(user_id))
-    return res.status(404).send(`No post with id: ${user_id}`);
+  if (!mongoose.Types.ObjectId.isValid(userID))
+    return res.status(404).send(`No post with id: ${userID}`);
 
   try {
-    const updatedList = { _id: user_id, myFavRestaurants: myFavRestaurants };
-    await User.findByIdAndUpdate(user_id, updatedList, { new: true });
+    const updatedList = { _id: userID, myFavRestaurants: myFavRestaurants };
+    await User.findByIdAndUpdate(userID, updatedList, { new: true });
     res.status(200).json({ status: true });
   } catch (error) {
     res.status(404).json({ Error: error.message });
   }
 };
+
 
 export default router;
