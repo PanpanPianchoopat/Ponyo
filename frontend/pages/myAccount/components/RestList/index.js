@@ -29,7 +29,7 @@ const RestList = (props) => {
     : isIn
     ? "My Interest"
     : null;
-  const [user_id, setUserID] = useState(null);
+  const [userID, setUserID] = useState(null);
   const emptyDisplay = isFav ? "liked" : "saved";
   const isLarge = isFav ? "large" : "";
   const [popupVisible, setPopupVisible] = useState(false);
@@ -54,15 +54,15 @@ const RestList = (props) => {
   }, []);
 
   useEffect(() => {
-    if (user_id != null) {
+    if (userID != null) {
       setEdittedList(null);
       getMyRestaurantList();
     }
-  }, [props.type, user_id]);
+  }, [props.type, userID]);
 
   const getMyRestaurantList = () => {
     if (props.type == FAVOURITE) {
-      UserAPI.getMyRestaurantList("myFavRestaurants", user_id)
+      UserAPI.getMyRestaurantList("myFavRestaurants", userID)
         .then((response) => {
           setEdittedList(response.data);
         })
@@ -70,7 +70,7 @@ const RestList = (props) => {
           console.log(e);
         });
     } else if (props.type == INTEREST) {
-      UserAPI.getMyRestaurantList("myInterestRestaurants", user_id)
+      UserAPI.getMyRestaurantList("myInterestRestaurants", userID)
         .then((response) => {
           setEdittedList(response.data);
         })

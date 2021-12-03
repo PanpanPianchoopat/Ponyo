@@ -38,7 +38,7 @@ const Review = (props) => {
   );
   const [isSave, setSaveReview] = useState(false);
   const [reviewImage, setReviewImage] = useState(review ? review.image : null);
-  const [user_id, setUserID] = useState(null);
+  const [userID, setUserID] = useState(null);
   const [showReview, setShowReview] = useState(true);
 
   useEffect(() => {
@@ -55,19 +55,19 @@ const Review = (props) => {
     }
   }, [isSave]);
 
-  const handleClick = (review_id) => {
+  const handleClick = (reviewID) => {
     if (isLiked) {
       setLikeCount(likeCount - 1);
-      likeReview(review_id, false);
+      likeReview(reviewID, false);
     } else {
       setLikeCount(likeCount + 1);
-      likeReview(review_id, true);
+      likeReview(reviewID, true);
     }
     setIsLiked(!isLiked);
   };
 
-  const likeReview = (review_id, like) => {
-    ReviewAPI.addLikeReview(review_id, user_id, like)
+  const likeReview = (reviewID, like) => {
+    ReviewAPI.addLikeReview(reviewID, userID, like)
       .then((response) => {
         setAddLikeReview(response.data);
       })
@@ -153,7 +153,7 @@ const Review = (props) => {
                 })
               : []}
           </Line>
-          {user_id ? (
+          {userID ? (
             <Line>
               {isLiked ? (
                 <ActiveLikeButton onClick={() => handleClick(review._id)} />

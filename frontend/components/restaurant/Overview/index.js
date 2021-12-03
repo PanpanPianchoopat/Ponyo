@@ -30,7 +30,7 @@ const Overview = (props) => {
   const [isBookmarked, setBookmark] = useState(bookmarked);
   const [isLiked, setIsLiked] = useState(liked);
   const [avgRate, setAvgRate] = useState(null);
-  const [user_id, setUserID] = useState(null);
+  const [userID, setUserID] = useState(null);
 
   useEffect(() => {
     if (props.info) {
@@ -75,7 +75,7 @@ const Overview = (props) => {
 
   const manageRestaurantList = (key, isDeleteFromList) => {
     if (!isDeleteFromList) {
-      UserAPI.addRestaurantToList(key, user_id, resID)
+      UserAPI.addRestaurantToList(key, userID, resID)
         .then((response) => {
           if (key == "myFavRestaurants") {
             if (response.data.status) {
@@ -101,7 +101,7 @@ const Overview = (props) => {
           console.log(e);
         });
     } else {
-      UserAPI.removeResFromList(key, user_id, resID)
+      UserAPI.removeResFromList(key, userID, resID)
         .then((response) => {
           if (key == "myFavRestaurants") {
             if (response.data.status) {
@@ -136,7 +136,7 @@ const Overview = (props) => {
           <RestName>{restaurant ? restaurant.details.name : ""}</RestName>
           <Inline>
             <Status open={isOpen}>{isOpen ? "OPEN" : "CLOSE"}</Status>
-            {user_id ? (
+            {userID ? (
               isBookmarked ? (
                 <BookmarkActive onClick={toggleBookmark} />
               ) : (
@@ -165,7 +165,7 @@ const Overview = (props) => {
             />
             <AvgRateText>{avgRate}</AvgRateText>
           </div>
-          {user_id ? (
+          {userID ? (
             isLiked ? (
               <HeartACtive onClick={toggleLike} />
             ) : (

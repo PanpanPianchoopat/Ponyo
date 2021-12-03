@@ -17,24 +17,24 @@ class userAPI {
     return http.get(`/user/checkEmail/${email}`);
   };
 
-  editProfile = (user_id, data) => {
-    return http.patch(`/user/editProfile/${user_id}`, data);
+  editProfile = (userID, data) => {
+    return http.patch(`/user/editProfile/${userID}`, data);
   };
 
-  addRestaurantToList = (key, user_id, res_id) => {
-    return http.post(`/user/add/${key}/${user_id}/${res_id}`);
+  addRestaurantToList = (key, userID, resID) => {
+    return http.post(`/user/add/${key}/${userID}/${resID}`);
   };
 
-  removeResFromList = (key, user_id, res_id) => {
-    return http.post(`/user/delete/${key}/${user_id}/${res_id}`);
+  removeResFromList = (key, userID, resID) => {
+    return http.post(`/user/delete/${key}/${userID}/${resID}`);
   };
 
-  getMyRestaurantList = (key, user_id) => {
-    return http.get(`/user/list/${key}/${user_id}`);
+  getMyRestaurantList = (key, userID) => {
+    return http.get(`/user/list/${key}/${userID}`);
   };
 
-  editMyFavList = (user_id, myFavRestaurants) => {
-    return http.patch(`/user/editfav/${user_id}`, myFavRestaurants);
+  editMyFavList = (userID, myFavRestaurants) => {
+    return http.patch(`/user/editfav/${userID}`, myFavRestaurants);
   };
 }
 

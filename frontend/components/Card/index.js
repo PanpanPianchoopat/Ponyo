@@ -44,8 +44,8 @@ const RestCard = ({ ...props }) => {
     getAvgRate(props.detail._id);
   }, [props.detail]);
 
-  const getRestaurantStatus = (res_id) => {
-    RestaurantAPI.getRestaurantStatus(res_id)
+  const getRestaurantStatus = (resID) => {
+    RestaurantAPI.getRestaurantStatus(resID)
       .then((response) => {
         setResStatus(response.data);
       })
@@ -54,8 +54,8 @@ const RestCard = ({ ...props }) => {
       });
   };
 
-  const getAvgRate = (res_id) => {
-    ReviewAPI.calReviewRate(res_id)
+  const getAvgRate = (resID) => {
+    ReviewAPI.calReviewRate(resID)
       .then((response) => {
         setRating(response.data[0].avgStar);
       })

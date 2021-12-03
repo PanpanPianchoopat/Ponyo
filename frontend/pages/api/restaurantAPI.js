@@ -5,16 +5,16 @@ class RestaurantAPI {
     return http.post("/restaurant", data);
   };
 
-  getRestaurantDetail = (res_id) => {
-    return http.get(`/restaurant/detail/${res_id}`);
+  getRestaurantDetail = (resID) => {
+    return http.get(`/restaurant/detail/${resID}`);
   };
 
-  getRestaurantStatus = (res_id) => {
-    return http.get(`/restaurant/status/${res_id}`);
+  getRestaurantStatus = (resID) => {
+    return http.get(`/restaurant/status/${resID}`);
   };
 
-  getLikedBookmarked = (key, user_id, res_id) => {
-    return http.get(`/restaurant/checkList/${key}/${user_id}/${res_id}`);
+  getLikedBookmarked = (key, userID, resID) => {
+    return http.get(`/restaurant/checkList/${key}/${userID}/${resID}`);
   };
 
   getAllRestaurants = () => {

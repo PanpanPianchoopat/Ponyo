@@ -24,7 +24,7 @@ import {
 
 const EditList = (props) => {
   const [favList, setFavList] = useState(props.list);
-  const [user_id, setUserID] = useState(null);
+  const [userID, setUserID] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem("_token");
@@ -53,11 +53,11 @@ const EditList = (props) => {
       idFavList[i] = favList[i]._id;
     }
 
-    editMyFavList(user_id, idFavList);
+    editMyFavList(userID, idFavList);
   };
 
-  const editMyFavList = (user_id, edittedList) => {
-    UserAPI.editMyFavList(user_id, edittedList)
+  const editMyFavList = (userID, edittedList) => {
+    UserAPI.editMyFavList(userID, edittedList)
       .then((response) => {
         if (response.data.status) {
           props.updateList(favList);

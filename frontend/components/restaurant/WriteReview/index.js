@@ -20,7 +20,7 @@ import { Form, Divider, message, Popconfirm } from "antd";
 const WriteReview = (props) => {
   const [form] = Form.useForm();
   const router = useRouter();
-  const [user_id, setUserID] = useState(null);
+  const [userID, setUserID] = useState(null);
   const [imageList, setImageList] = useState([]);
   const [uploadCount, setUploadCount] = useState(0);
 
@@ -62,7 +62,7 @@ const WriteReview = (props) => {
         star: values.star,
         image: reviewPhotos,
       };
-      ReviewAPI.addReview(user_id, resID, data)
+      ReviewAPI.addReview(userID, resID, data)
         .then((response) => {
           if (response.data) {
             props.func(true);

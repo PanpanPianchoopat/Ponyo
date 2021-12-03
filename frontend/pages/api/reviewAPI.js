@@ -1,40 +1,40 @@
 import http from "./http-common";
 
 class ReviewAPI {
-  addReview = (user_id, res_id, data) => {
-    return http.post(`/review/add/${res_id}/${user_id}`, data);
+  addReview = (userID, resID, data) => {
+    return http.post(`/review/add/${resID}/${userID}`, data);
   };
 
-  calReviewRate = (res_id) => {
-    return http.get(`/review/rate/${res_id}`);
+  calReviewRate = (resID) => {
+    return http.get(`/review/rate/${resID}`);
   };
 
-  getReviewAmount = (res_id, typeReview, star) => {
-    return http.get(`/review/amount/${res_id}/${typeReview}/${star}`);
+  getReviewAmount = (resID, typeReview, star) => {
+    return http.get(`/review/amount/${resID}/${typeReview}/${star}`);
   };
 
-  getStarAmount = (res_id, typeReview, star) => {
-    return http.get(`/review/amount/${res_id}/${typeReview}/${star}`);
+  getStarAmount = (resID, typeReview, star) => {
+    return http.get(`/review/amount/${resID}/${typeReview}/${star}`);
   };
 
-  getAllReview = (res_id, user_id) => {
-    return http.get(`/review/all/${res_id}/${user_id}`);
+  getAllReview = (resID, userID) => {
+    return http.get(`/review/all/${resID}/${userID}`);
   };
 
-  getReviewByFilter = (filter, res_id, user_id, star) => {
-    return http.get(`/review/filter/${filter}/${res_id}/${user_id}/${star}`);
+  getReviewByFilter = (filter, resID, userID, star) => {
+    return http.get(`/review/filter/${filter}/${resID}/${userID}/${star}`);
   };
 
-  addLikeReview = (review_id, user_id, like) => {
-    return http.patch(`/review/like/${review_id}/${user_id}/${like}`);
+  addLikeReview = (reviewID, userID, like) => {
+    return http.patch(`/review/like/${reviewID}/${userID}/${like}`);
   };
 
-  editReview = (review_id, data) => {
-    return http.patch(`/review/edit/${review_id}`,data);
+  editReview = (reviewID, data) => {
+    return http.patch(`/review/edit/${reviewID}`,data);
   };
 
-  deleteReview = (review_id) => {
-    return http.delete(`/review/delete/${review_id}`);
+  deleteReview = (reviewID) => {
+    return http.delete(`/review/delete/${reviewID}`);
   };
 
 }

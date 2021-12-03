@@ -37,7 +37,7 @@ import {
 } from "./styled";
 
 function Restaurant({ resID }) {
-  const [user_id, setUserID] = useState(DUMMY_USER_ID);
+  const [userID, setUserID] = useState(DUMMY_USER_ID);
   const [filter, setFilter] = useState(0);
   const [resInfo, setDetail] = useState(null);
   const [statusInfo, setStatus] = useState(null);
@@ -68,7 +68,7 @@ function Restaurant({ resID }) {
     getStarAmount();
     getReviewByFilter(0);
     getLikedBookmarked();
-  }, [user_id]);
+  }, [userID]);
 
   const updateInfo = (review) => {
     if (review) {
@@ -164,7 +164,7 @@ function Restaurant({ resID }) {
   };
 
   const getLikedBookmarked = () => {
-    RestaurantAPI.getLikedBookmarked("myFavRestaurants", user_id, resID)
+    RestaurantAPI.getLikedBookmarked("myFavRestaurants", userID, resID)
       .then((response) => {
         setLiked(response.data);
       })
@@ -172,7 +172,7 @@ function Restaurant({ resID }) {
         console.log(e);
       });
 
-    RestaurantAPI.getLikedBookmarked("myInterestRestaurants", user_id, resID)
+    RestaurantAPI.getLikedBookmarked("myInterestRestaurants", userID, resID)
       .then((response) => {
         setBookmarked(response.data);
       })
@@ -186,7 +186,7 @@ function Restaurant({ resID }) {
     setFilter(index);
     setReview(null);
     if (index == 0) {
-      ReviewAPI.getAllReview(resID, user_id)
+      ReviewAPI.getAllReview(resID, userID)
         .then((response) => {
           setReview(response.data);
         })
@@ -195,7 +195,7 @@ function Restaurant({ resID }) {
         });
     } else if (index >= 3) {
       const starFilter = FILTER[index];
-      ReviewAPI.getReviewByFilter(type[3], resID, user_id, starFilter)
+      ReviewAPI.getReviewByFilter(type[3], resID, userID, starFilter)
         .then((response) => {
           setReview(response.data);
         })
@@ -204,7 +204,7 @@ function Restaurant({ resID }) {
         });
     } else {
       const starFilter = 0;
-      ReviewAPI.getReviewByFilter(type[index], resID, user_id, starFilter)
+      ReviewAPI.getReviewByFilter(type[index], resID, userID, starFilter)
         .then((response) => {
           setReview(response.data);
         })
