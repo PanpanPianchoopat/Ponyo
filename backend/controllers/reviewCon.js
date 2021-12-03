@@ -1,8 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
-const ObjectId = mongoose.Types.ObjectId;
 import Review from "../models/reviewModel.js";
-
+const ObjectId = mongoose.Types.ObjectId;
 const router = express.router;
 
 export const addReview = async (req, res) => {
@@ -52,7 +51,7 @@ export const editReview = async (req, res) => {
 
   await Review.findByIdAndUpdate(reviewID, updatedReview, { new: true });
 
-  res.status(200).json({ Message: "Updated Success" });
+  res.status(200).json({ status: true, Message: "Updated Success" });
 };
 
 export const deleteReview = async (req, res) => {
@@ -231,7 +230,6 @@ const getReviewByStar = async (resID, star, userID) => {
         reviewer: "$user.username",
       },
     },
-    
   ]);
   return Reviews;
 };
@@ -304,7 +302,6 @@ const getReviewByComment = async (resID, userID) => {
         reviewer: "$user.username",
       },
     },
-    
   ]);
 
   return Reviews;
@@ -378,7 +375,6 @@ const getReviewByPhoto = async (resID, userID) => {
         reviewer: "$user.username",
       },
     },
-    
   ]);
   return Reviews;
 };
@@ -472,14 +468,14 @@ export const addLikeReview = async (req, res) => {
         },
         { new: true }
       );
-      res.status(200).json({ Message: "add Success" });
+      res.status(200).json({ Message: "Add Success" });
     } else {
       await Review.findByIdAndUpdate(
         reviewID,
         { $pull: { like: userID } },
         { new: true }
       );
-      res.status(200).json({ Message: "remove Success" });
+      res.status(200).json({ Message: "Remove Success" });
     }
   } catch (error) {
     res.status(404).json({ Error: error.message });

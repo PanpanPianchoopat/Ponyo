@@ -121,7 +121,7 @@ export const editProfile = async (req, res) => {
     );
     res.status(200).json({ status: true, token: token });
   } catch (error) {
-    res.status(404).json({ Error: error.message });
+    res.status(404).json({ status: false, Error: error.message });
   }
 };
 
@@ -188,7 +188,7 @@ export const addRestaurantToList = async (req, res) => {
   const IN_MAX = 50;
 
   if (!mongoose.Types.ObjectId.isValid(userID))
-    return res.status(404).send(`No review with id: ${userID}`);
+    return res.status(404).send(`No user with id: ${userID}`);
 
   const countList = await countRestuarant(key, userID);
 
@@ -222,7 +222,7 @@ export const removeResFromList = async (req, res) => {
   const { key, userID, resID } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(userID))
-    return res.status(404).send(`No post with id: ${id}`);
+    return res.status(404).send(`No user with id: ${userID}`);
 
   try {
     await User.updateOne(
@@ -233,7 +233,7 @@ export const removeResFromList = async (req, res) => {
       .status(200)
       .json({ status: true, Message: "List deleted successfully" });
   } catch (error) {
-    res.status(404).json({ status: true, Message: "Error" });
+    res.status(404).json({ status: false, Message: "Error" });
   }
 };
 
@@ -242,16 +242,15 @@ export const editMyFavList = async (req, res) => {
   const myFavRestaurants = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(userID))
-    return res.status(404).send(`No post with id: ${userID}`);
+    return res.status(404).send(`No user with id: ${userID}`);
 
   try {
     const updatedList = { _id: userID, myFavRestaurants: myFavRestaurants };
     await User.findByIdAndUpdate(userID, updatedList, { new: true });
     res.status(200).json({ status: true });
   } catch (error) {
-    res.status(404).json({ Error: error.message });
+    res.status(404).json({ status: false, Error: error.message });
   }
 };
-
 
 export default router;

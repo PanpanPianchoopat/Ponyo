@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 import Restaurant from "../models/restaurantModel.js";
 import User from "../models/userModel.js";
 const ObjectId = mongoose.Types.ObjectId;
-const router = express.router;
 
 const dayStatus = (closingDay) => {
   const status = [1, 1, 1, 1, 1, 1, 1];
@@ -117,7 +116,6 @@ export const getAllRestaurants = async (req, res) => {
 const convertDay = (week) => {
   var i = 0;
   var j = 0;
-  var closeDay = "";
   const array = [];
 
   for (i = 0; i <= 6; i++) {
@@ -211,6 +209,7 @@ const searchWithStatus = async (resStatus, key, search, range, type) => {
       return true;
     }
   }
+
   //Search Open Restaurants
   else if (resStatus == "OPEN") {
     //No Search Type and No Search Price (Open)
@@ -229,6 +228,7 @@ const searchWithStatus = async (resStatus, key, search, range, type) => {
         console.log("error search status OPEN");
       }
     }
+
     //No Search Type (Open)
     else if (!type) {
       const resOpen = await Restaurant.find({
@@ -255,6 +255,7 @@ const searchWithStatus = async (resStatus, key, search, range, type) => {
       });
       return resOpen;
     }
+
     //No Search Price (Open)
     else if (range[0] == 0 && range[1] == 0) {
       try {
@@ -298,6 +299,7 @@ const searchWithStatus = async (resStatus, key, search, range, type) => {
       return resOpen;
     }
   }
+
   //Search Close Restaurants
   else {
     //no type and no price (close)
@@ -316,6 +318,7 @@ const searchWithStatus = async (resStatus, key, search, range, type) => {
       });
       return resClose;
     }
+
     //no search type (close)
     else if (!type) {
       const resClose = await Restaurant.find({
@@ -352,6 +355,7 @@ const searchWithStatus = async (resStatus, key, search, range, type) => {
       });
       return resClose;
     }
+
     //no search price (close)
     else if (range[0] == 0 && range[1] == 0) {
       const resClose = await Restaurant.find({
