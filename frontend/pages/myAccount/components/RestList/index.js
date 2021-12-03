@@ -17,6 +17,8 @@ import {
   EmptyList,
   EmptyIcon,
   EmptyTextContainer,
+  Loading,
+  SmileIcon,
 } from "./styled";
 
 const RestList = (props) => {
@@ -35,6 +37,7 @@ const RestList = (props) => {
   const [popupVisible, setPopupVisible] = useState(false);
   const [edittedList, setEdittedList] = useState(null);
   const [edittable, setEdittable] = useState(false);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const isEdittable =
       props.type == FAVOURITE && edittedList && edittedList.length > 0;
@@ -80,6 +83,11 @@ const RestList = (props) => {
     }
   };
 
+  const goToSearch = () => {
+    setLoading(true);
+    router.push("/search");
+  };
+
   return (
     <>
       <HeaderWrapper headerType={props.type}>
@@ -103,12 +111,21 @@ const RestList = (props) => {
             ))
           ) : (
             <EmptyList>
-              <EmptyIcon src="/assets/whiteBowl.svg" />
-              <EmptyTextContainer>
-                <b>Emypty List</b>
-                <p>You haven't {emptyDisplay} any restaurant yet</p>
-              </EmptyTextContainer>
-              <Button variant="yellow" onClick={() => router.push("/search")}>
+              {loading === true ? (
+                <Loading>
+                  <Spin indicator={<SmileIcon spin />} />
+                  loading
+                </Loading>
+              ) : (
+                <EmptyList>
+                  <EmptyIcon src="/assets/whiteBowl.svg" />
+                  <EmptyTextContainer>
+                    <b>Emypty List</b>
+                    <p>You haven't {emptyDisplay} any restaurant yet</p>
+                  </EmptyTextContainer>
+                </EmptyList>
+              )}
+              <Button variant="yellow" onClick={goToSearch}>
                 Explore
               </Button>
             </EmptyList>

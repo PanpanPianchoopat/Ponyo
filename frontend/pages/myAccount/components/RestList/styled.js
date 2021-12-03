@@ -3,7 +3,7 @@ import { Modal } from "antd";
 import COLORS from "../../../../public/constant/colors";
 import { FAVOURITE } from "../../../../public/constant/myAccount";
 import BREAKPOINTS from "../../../../public/constant/breakpoints";
-import { LoadingOutlined } from "@ant-design/icons";
+import { LoadingOutlined, SmileOutlined } from "@ant-design/icons";
 
 export const CardsWrapper = styled.div`
   display: flex;
@@ -91,6 +91,17 @@ export const EmptyTextContainer = styled.div`
 export const LoadingIcon = styled(LoadingOutlined)`
   font-size: 30px;
   color: ${COLORS.PRIMARY_YELLOW};
+`;
+
+export const Loading = styled.div`
+  font-size: 20px;
+  margin-bottom: 50px;
+`;
+
+export const SmileIcon = styled(SmileOutlined)`
+  color: ${COLORS.PRIMARY_YELLOW};
+  margin-right: 10px;
+  font-size: 40px;
 `;
 
 export default CardsWrapper;
