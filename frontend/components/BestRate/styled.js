@@ -63,6 +63,9 @@ export const BigImage = styled.div`
   flex-direction: column;
   position: relative;
   cursor: pointer;
+  &:active {
+    filter: brightness(0.5);
+  }
 `;
 
 export const SmallImageContainer = styled.div`
@@ -79,6 +82,9 @@ export const SmallImage = styled.div`
   flex-direction: column;
   position: relative;
   cursor: pointer;
+  &:active {
+    filter: brightness(0.5);
+  }
 `;
 
 export default BestRateContianer;

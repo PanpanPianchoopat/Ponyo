@@ -25,6 +25,9 @@ export const RestaurantCard = styled(Card).attrs((props) => {
   width: ${(props) => props.custom_width};
   height: ${(props) => props.custom_height};
   cursor: pointer;
+  &:active {
+    filter: brightness(0.7);
+  }
   .ant-card-body {
     padding: 20px;
   }
