@@ -99,11 +99,12 @@ export const LogoImage = styled.img`
 
 export const WaveImage = styled.img`
   position: absolute;
-  width: 120%;
-  bottom: -40%;
+  width: 110%;
+  bottom: -60%;
   left: -40%;
   @media (max-width: ${BREAKPOINTS.DESKTOP_FULL_HD}) {
-    bottom: -25%;
+    width: 120%;
+    bottom: -30%;
   }
   @media (max-width: ${BREAKPOINTS.HiDPI_LAPTOP}) {
     bottom: -20%;
