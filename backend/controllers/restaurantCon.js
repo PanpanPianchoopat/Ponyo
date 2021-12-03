@@ -1,10 +1,8 @@
 import express from "express";
 import mongoose from "mongoose";
-const ObjectId = mongoose.Types.ObjectId;
 import Restaurant from "../models/restaurantModel.js";
 import User from "../models/userModel.js";
-import Review from "../models/reviewModel.js";
-
+const ObjectId = mongoose.Types.ObjectId;
 const router = express.router;
 
 const dayStatus = (closingDay) => {
@@ -144,9 +142,9 @@ const convertOpenHours = (minTime) => {
 };
 
 export const getRestaurantDetail = async (req, res) => {
-  const { res_id } = req.params;
+  const { resID } = req.params;
   try {
-    const Restaurants = await Restaurant.findById(res_id);
+    const Restaurants = await Restaurant.findById(resID);
     const closeDay = convertDay(Restaurants.openDays);
     const openTime = convertOpenHours(Restaurants.openHours.openTime);
     const closeTime = convertOpenHours(Restaurants.openHours.closeTime);
@@ -526,10 +524,10 @@ export const getRestaurant = async (req, res) => {
 };
 
 export const getRestaurantStatus = async (req, res) => {
-  const { res_id } = req.params;
+  const { resID } = req.params;
 
   try {
-    const resOpen = await searchWithStatus(2, "_id", res_id, "", "");
+    const resOpen = await searchWithStatus(2, "_id", resID, "", "");
     res.status(200).json(resOpen);
   } catch (error) {
     res.status(404).json({ Error: error.message });
@@ -540,9 +538,9 @@ export const getTrending = async (req, res) => {
   const { type } = req.params;
 
   var today = new Date();
-  var first = today.getDate() - today.getDay();
-  var firstDayWeek = new Date(today.setDate(first - 6));
-  var lastDayWeek = new Date(today.setDate(first + 2));
+  var getDate = today.getDate();
+  var firstDayWeek = new Date(today.setDate(getDate - 7));
+  var lastDayWeek = new Date();
 
   try {
     const trendingRes = await Restaurant.aggregate([
@@ -555,7 +553,7 @@ export const getTrending = async (req, res) => {
         $project: {
           name: 1,
           description: 1,
-          res_id_string: {
+          resID_string: {
             $convert: {
               input: "$_id",
               to: "string",
@@ -569,8 +567,8 @@ export const getTrending = async (req, res) => {
       {
         $lookup: {
           from: "reviews",
-          localField: "res_id_string",
-          foreignField: "res_id",
+          localField: "resID_string",
+          foreignField: "resID",
           as: "review",
         },
       },
@@ -587,7 +585,7 @@ export const getTrending = async (req, res) => {
       },
       {
         $group: {
-          _id: { res_id: "$_id", type: type },
+          _id: { resID: "$_id", type: type },
           count: { $sum: 1 },
           data: { $push: "$$ROOT" },
         },
@@ -604,9 +602,9 @@ export const getTrending = async (req, res) => {
 
 export const getBestTrending = async (req, res) => {
   var today = new Date();
-  var first = today.getDate() - today.getDay();
-  var firstDayWeek = new Date(today.setDate(first - 4));
-  var lastDayWeek = new Date(today.setDate(first + 5));
+  var getDate = today.getDate();
+  var firstDayWeek = new Date(today.setDate(getDate - 7));
+  var lastDayWeek = new Date();
 
   try {
     const bestTrendingRes = await Restaurant.aggregate([
@@ -614,7 +612,7 @@ export const getBestTrending = async (req, res) => {
         $project: {
           name: 1,
           description: 1,
-          res_id_string: {
+          resID_string: {
             $convert: {
               input: "$_id",
               to: "string",
@@ -628,8 +626,8 @@ export const getBestTrending = async (req, res) => {
       {
         $lookup: {
           from: "reviews",
-          localField: "res_id_string",
-          foreignField: "res_id",
+          localField: "resID_string",
+          foreignField: "resID",
           as: "review",
         },
       },
@@ -645,12 +643,18 @@ export const getBestTrending = async (req, res) => {
         },
       },
       {
+        $addFields: {
+          reviewDate: "$review.date",
+        },
+      },
+      {
         $group: {
-          _id: { res_id: "$_id" },
+          _id: { resID: "$_id" },
           count: { $sum: 1 },
           data: { $push: "$$ROOT" },
         },
       },
+
       { $sort: { count: -1 } },
       { $limit: 3 },
     ]);
@@ -662,14 +666,14 @@ export const getBestTrending = async (req, res) => {
 };
 
 export const checkLikedBookmarked = async (req, res) => {
-  const { key, user_id, res_id } = req.params;
+  const { key, userID, resID } = req.params;
   const searchKey = "$" + key;
 
   try {
     const check = await User.aggregate([
       {
         $match: {
-          _id: ObjectId(user_id),
+          _id: ObjectId(userID),
         },
       },
       {
@@ -677,7 +681,7 @@ export const checkLikedBookmarked = async (req, res) => {
           check: {
             $cond: {
               if: {
-                $in: [res_id, searchKey],
+                $in: [resID, searchKey],
               },
               then: true,
               else: false,
