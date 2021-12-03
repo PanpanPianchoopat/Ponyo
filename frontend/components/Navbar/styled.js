@@ -30,13 +30,14 @@ export const StyledNav = styled.div.attrs((props) => {
 export const Logo = styled.div`
   width: 10%;
   position: relative;
+  margin-left: 1rem;
+  @media (max-width: ${BREAKPOINTS.IPAD_PORTRAIT}) {
+    margin-left: 10px;
+  }
 `;
 
-export const StyledImage = styled(Image)`
-  object-fit: contain;
-  width: 100% !important;
-  position: relative !important;
-  height: unset !important;
+export const StyledImage = styled.img`
+  height: 100%;
 `;
 
 export const Menu = styled.div`

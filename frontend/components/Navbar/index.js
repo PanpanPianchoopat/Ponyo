@@ -62,7 +62,7 @@ const Navbar = () => {
     <StyledNav isVisible={navVisible}>
       {menuVisible ? (
         <Logo>
-          <StyledImage src="/assets/logo.png" layout="fill" />
+          <StyledImage src="/assets/logo.png" />
         </Logo>
       ) : (
         <BackButton onClick={() => router.back()}>

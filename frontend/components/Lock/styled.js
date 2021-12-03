@@ -8,6 +8,10 @@ export const LockContainer = styled.div`
   align-items: center;
 `;
 
+export const LockIcon = styled.img`
+  width: 40%;
+`;
+
 export const LockText = styled.div`
   font-size: 1rem;
   width: 200px;

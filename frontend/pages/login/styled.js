@@ -19,6 +19,7 @@ export const ContainerLeft = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-end;
+  overflow: hidden;
   @media (max-width: ${BREAKPOINTS.IPAD_PORTRAIT}) {
     width: 0%;
   }
@@ -80,6 +81,7 @@ export const BoldContent = styled.b`
 `;
 
 export const Logo = styled.div`
+  position: relative;
   display: flex;
   justify-content: center;
   width: 100%;
@@ -92,16 +94,28 @@ export const Wave = styled.div`
   height: 40%;
 `;
 
-export const LogoImage = styled(Image)`
-  object-fit: contain;
-  position: relative;
+export const LogoImage = styled.img`
+  width: 40%;
 `;
 
-export const WaveImage = styled(Image)`
-  object-fit: contain;
-  position: relative;
-  top: 150px !important;
-  left: -250px !important;
+export const WaveImage = styled.img`
+  position: absolute;
+  width: 120%;
+  bottom: -40%;
+  left: -40%;
+  @media (max-width: ${BREAKPOINTS.DESKTOP_FULL_HD}) {
+    bottom: -25%;
+  }
+  @media (max-width: ${BREAKPOINTS.HiDPI_LAPTOP}) {
+    bottom: -20%;
+  }
+  @media (max-width: ${BREAKPOINTS.MDPI_LAPTOP}) {
+    bottom: -10%;
+  }
+  @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
+    width: 130%;
+    bottom: -5%;
+  }
 `;
 
 export const Icon = styled.i`

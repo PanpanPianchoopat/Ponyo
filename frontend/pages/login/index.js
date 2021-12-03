@@ -72,7 +72,7 @@ const Signin = () => {
     <Container>
       <ContainerLeft>
         <Logo>
-          <LogoImage src="/assets/logo.svg" width={150} height={150} />
+          <LogoImage src="/assets/logo.svg" />
         </Logo>
         <Content>
           <p>I love you as much as</p>
@@ -82,7 +82,7 @@ const Signin = () => {
           </p>
         </Content>
         <Wave>
-          <WaveImage src="/assets/ponyoWave.svg" layout="fill" />
+          <WaveImage src="/assets/ponyoWave.svg" />
         </Wave>
       </ContainerLeft>
       <ContainerRight>

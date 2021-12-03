@@ -93,17 +93,28 @@ export const Wave = styled.div`
   width: 100%;
   height: 40%;
 `;
-
-export const LogoImage = styled(Image)`
-  object-fit: contain;
-  position: relative;
+export const LogoImage = styled.img`
+  width: 40%;
 `;
 
-export const WaveImage = styled(Image)`
-  object-fit: contain;
-  position: relative;
-  top: 150px !important;
-  left: -250px !important;
+export const WaveImage = styled.img`
+  position: absolute;
+  width: 120%;
+  bottom: -40%;
+  left: -40%;
+  @media (max-width: ${BREAKPOINTS.DESKTOP_FULL_HD}) {
+    bottom: -25%;
+  }
+  @media (max-width: ${BREAKPOINTS.HiDPI_LAPTOP}) {
+    bottom: -20%;
+  }
+  @media (max-width: ${BREAKPOINTS.MDPI_LAPTOP}) {
+    bottom: -10%;
+  }
+  @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
+    width: 130%;
+    bottom: -5%;
+  }
 `;
 
 export const FormContainer = styled.div`
