@@ -1,3 +1,8 @@
+/*******************************************************************************
+ * This file is the path that will redirect to the functions in restaurantCon.js
+ *******************************************************************************
+ */
+
 import express from "express";
 import {
   addRestaurant,
@@ -7,7 +12,7 @@ import {
   getRestaurant,
   checkLikedBookmarked,
   getTrending,
-  getBestTrending
+  getBestTrending,
 } from "../controllers/restaurantCon.js";
 
 const router = express.Router();
@@ -18,7 +23,6 @@ router.get(
   "/search/:filter/:search/:priceRange/:type/:resStatus",
   getRestaurant
 );
-
 router.get("/detail/:resID", getRestaurantDetail);
 router.get("/status/:resID", getRestaurantStatus);
 router.get("/checkList/:key/:userID/:resID", checkLikedBookmarked);

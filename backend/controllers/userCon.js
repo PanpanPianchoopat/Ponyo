@@ -1,12 +1,22 @@
-import express from "express";
+/*******************************************************************************
+ * This file includes the functions that add, update, delete and query the data
+ * from the users's collection in the database.
+ *******************************************************************************
+ */
 import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import User from "../models/userModel.js";
 import Restaurant from "../models/restaurantModel.js";
 const ObjectId = mongoose.Types.ObjectId;
-const router = express.Router();
 
+/*******************************************************************************
+ * This function is used to register the user.
+ * Returns
+ *  - true status if registered successfully
+ *  - false status if registered not successfully
+ *******************************************************************************
+ */
 export const register = async (req, res) => {
   const { username, email, password, dateOfBirth, gender, image } = req.body;
   const newPassword = await bcrypt.hash(password, 10);
@@ -33,6 +43,13 @@ export const register = async (req, res) => {
   }
 };
 
+/*******************************************************************************
+ * This function is used to login to the system.
+ * Returns
+ *  - true status and the token if login successfully
+ *  - false status if login not successfully
+ *******************************************************************************
+ */
 export const login = async (req, res) => {
   const user = await User.findOne({
     email: req.body.email,
@@ -53,7 +70,7 @@ export const login = async (req, res) => {
           image: user.image,
         },
         "PonyoSecret",
-        { expiresIn: "60s" }
+        { expiresIn: "1d" }
       );
       res.status(200).json({ status: true, token: token });
     } else {
@@ -64,6 +81,14 @@ export const login = async (req, res) => {
   }
 };
 
+/*******************************************************************************
+ * This function is used to check username in database.
+ * 'username' is the username that want to check
+ * Returns
+ *  - true if not has this username in database
+ *  - false if has this username in database
+ *******************************************************************************
+ */
 export const checkUsername = async (req, res) => {
   const { username } = req.params;
   try {
@@ -80,6 +105,14 @@ export const checkUsername = async (req, res) => {
   }
 };
 
+/*******************************************************************************
+ * This function is used to check email in database.
+ * 'email' is the email that want to check
+ * Returns
+ *  - true if not has this email in database
+ *  - false if has this email in database
+ *******************************************************************************
+ */
 export const checkEmail = async (req, res) => {
   const { email } = req.params;
   try {
@@ -96,6 +129,14 @@ export const checkEmail = async (req, res) => {
   }
 };
 
+/*******************************************************************************
+ * This function is used to edit the user's profile.
+ * 'userID' is user's ID that want to edit profile
+ * Returns
+ *  - true status and the token if edited successfully
+ *  - false status if edited not successfully
+ *******************************************************************************
+ */
 export const editProfile = async (req, res) => {
   const { userID } = req.params;
   const { username, password, image } = req.body;
@@ -125,24 +166,15 @@ export const editProfile = async (req, res) => {
   }
 };
 
-const countRestuarant = async (key, id) => {
-  const keyArray = "$" + key;
-  const count = await User.aggregate([
-    {
-      $match: {
-        _id: ObjectId(id),
-      },
-    },
-    {
-      $project: {
-        numRes: { $size: { $ifNull: [keyArray, []] } },
-      },
-    },
-  ]);
-
-  return count[0].numRes;
-};
-
+/*******************************************************************************
+ * This function is used to get user's restaurant list
+ * 'key' is the the type of the user's restaurant list
+ *  - 'myFavRestaurants' is the user's favorite list
+ *  - 'myInterestRestaurants' is the user's interest list
+ * 'userID' is user's ID
+ * Returns the user's restaurant list
+ *******************************************************************************
+ */
 export const getMyRestaurantList = async (req, res) => {
   const { key, userID } = req.params;
   try {
@@ -153,6 +185,7 @@ export const getMyRestaurantList = async (req, res) => {
       { [key]: 1 }
     );
 
+    // User's favorite list
     if (key == "myFavRestaurants") {
       var i = 0;
       var resList = [];
@@ -164,7 +197,10 @@ export const getMyRestaurantList = async (req, res) => {
         i++;
       }
       res.status(200).json(resList);
-    } else {
+    }
+
+    // User's interest list
+    else {
       var i = listId[0].myInterestRestaurants.length;
       var resList = [];
       while (i > 0) {
@@ -182,6 +218,18 @@ export const getMyRestaurantList = async (req, res) => {
   }
 };
 
+/*******************************************************************************
+ * This function is used to add the restaurant to user's restaurant list
+ * 'key' is the the type of the user's restaurant list
+ *  - 'myFavRestaurants' is the user's favorite list
+ *  - 'myInterestRestaurants' is the user's interest list
+ * 'userID' is user's ID
+ * 'resID' is restaurant's ID that want to add
+ * Returns
+ *  - true status if added successfully
+ *  - false status if the list is full
+ *******************************************************************************
+ */
 export const addRestaurantToList = async (req, res) => {
   const { key, userID, resID } = req.params;
   const FAV_MAX = 5;
@@ -192,23 +240,29 @@ export const addRestaurantToList = async (req, res) => {
 
   const countList = await countRestuarant(key, userID);
 
+  // User's favorite list
   if (key == "myFavRestaurants") {
+    // Check the user's favorite list that is less than the maximum number or not
     if (countList < FAV_MAX) {
       await User.updateOne(
         { _id: userID },
         { $addToSet: { myFavRestaurants: resID } }
       );
-      res.status(200).json({ status: true, Message: "Update Success" });
+      res.status(200).json({ status: true, Message: "Added Successfully" });
     } else {
       res.status(200).json({ status: false, Message: "Full Favorite List" });
     }
-  } else {
+  }
+
+  // User's interest list
+  else {
+    // Check the user's interest list that is less than the maximum number or not
     if (countList < IN_MAX) {
       await User.updateOne(
         { _id: userID },
         { $addToSet: { myInterestRestaurants: resID } }
       );
-      res.status(200).json({ status: true, Message: "Update Success" });
+      res.status(200).json({ status: true, Message: "Added Successfully" });
     } else {
       res
         .status(200)
@@ -217,7 +271,18 @@ export const addRestaurantToList = async (req, res) => {
   }
 };
 
-//Favorite and Interest
+/*******************************************************************************
+ * This function is used to remove the restaurant from user's restaurant list
+ * 'key' is the the type of the user's restaurant list
+ *  - 'myFavRestaurants' is the user's favorite list
+ *  - 'myInterestRestaurants' is the user's interest list
+ * 'userID' is user's ID
+ * 'resID' is restaurant's ID that want to remove
+ * Returns
+ *  - true status if deleted successfully
+ *  - false status if deleted not successfully
+ *******************************************************************************
+ */
 export const removeResFromList = async (req, res) => {
   const { key, userID, resID } = req.params;
 
@@ -229,14 +294,21 @@ export const removeResFromList = async (req, res) => {
       { _id: ObjectId(userID) },
       { $pull: { [key]: resID } }
     );
-    res
-      .status(200)
-      .json({ status: true, Message: "List deleted successfully" });
+    res.status(200).json({ status: true, Message: "Deleted successfully" });
   } catch (error) {
     res.status(404).json({ status: false, Message: "Error" });
   }
 };
 
+/*******************************************************************************
+ * This function is used to edit the user's favorite list
+ * 'userID' is user's ID
+ * 'myFavRestaurants' is the array of user's favorite list
+ * Returns
+ *  - true status if edited successfully
+ *  - false status if edited not successfully
+ *******************************************************************************
+ */
 export const editMyFavList = async (req, res) => {
   const { userID } = req.params;
   const myFavRestaurants = req.body;
@@ -253,4 +325,31 @@ export const editMyFavList = async (req, res) => {
   }
 };
 
-export default router;
+/************************      PRIVATE FUNCTION        ************************/
+
+/*******************************************************************************
+ * This function is used to count the number of restaurants in the list.
+ * 'key' is the the type of the user's restaurant list
+ *  - 'myFavRestaurants' is the user's favorite list
+ *  - 'myInterestRestaurants' is the user's interest list
+ * 'userID' is user's ID
+ * Returns the number of restaurants in the list
+ *******************************************************************************
+ */
+const countRestuarant = async (key, userID) => {
+  const keyArray = "$" + key;
+  const count = await User.aggregate([
+    {
+      $match: {
+        _id: ObjectId(userID),
+      },
+    },
+    {
+      $project: {
+        numRes: { $size: { $ifNull: [keyArray, []] } },
+      },
+    },
+  ]);
+
+  return count[0].numRes;
+};

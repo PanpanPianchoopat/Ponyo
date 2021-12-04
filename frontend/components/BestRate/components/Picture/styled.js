@@ -80,4 +80,16 @@ export const StarIcon = styled(StarFilled)`
   margin-right: 5px;
 `;
 
+export const EmptyContainer = styled.div`
+  border: 1px solid ${COLORS.LIGHT_GREY};
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const EmptyPic = styled.img`
+  height: 70%;
+`;
+
 export default Description;

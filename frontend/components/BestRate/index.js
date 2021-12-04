@@ -1,3 +1,12 @@
+/*******************************************************************************
+ * BestRate component - display top 3 restaurants.
+ * 'theme'        is the compoenent theme. If this field is set to 'dark',
+ *                background color would become dark and text color would be
+ *                white. Otherwise, background is white and text color is dark.
+ * 'restaurants'  is array of top 3 restaurants.
+ * 'head'         is heading text for the top 3 restaurants.
+ ******************************************************************************/
+
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Picture from "./components/Picture";
@@ -15,19 +24,20 @@ const BestRate = (props) => {
   const isDarkTheme = props.theme === "dark";
   const [restaurantTrend, setRestaurantTrend] = useState(null);
   const [countTrend, setCountTrend] = useState(0);
+  const router = useRouter();
 
   useEffect(() => {
     if (props.restaurants) {
-      if (props.isNotNull && props.restaurants.length > 0) {
+      if (props.restaurants.length > 0) {
         setRestaurantTrend(props.restaurants);
         setCountTrend(props.restaurants.length);
       }
     }
   }, [props]);
 
-  const router = useRouter();
   const goToDetail = (index) => {
-    router.push(`/restaurant/${restaurantTrend[index].data[0]._id}`);
+    const resID = restaurantTrend[index].data[0]._id;
+    router.push(`/restaurant/${resID}`);
   };
 
   return (

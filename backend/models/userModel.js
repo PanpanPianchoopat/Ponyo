@@ -1,3 +1,8 @@
+/*******************************************************************************
+ * This file is the structure of the users's collection
+ *******************************************************************************
+ */
+
 import mongoose from "mongoose";
 
 const userSchema = mongoose.Schema({

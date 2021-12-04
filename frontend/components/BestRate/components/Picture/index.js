@@ -7,8 +7,10 @@ import {
   CoverPic,
   Rating,
   StarIcon,
+  EmptyContainer,
+  EmptyPic,
 } from "./styled";
-
+import { DESCRIPTION_LIMIT } from "./constant";
 
 const Picture = (props) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -36,26 +38,35 @@ const Picture = (props) => {
       });
   };
 
-  return (
+  return props.info ? (
     <>
-      <Description isHovered={isHovered}>
-        <RestaurantName isTop={isTop}>
-          {trendInfo ? trendInfo.name : null}
-        </RestaurantName>
-        <RestaurantDescription isTop={isTop}>
-          {trendInfo ? trendInfo.description : null}
-        </RestaurantDescription>
-      </Description>
       <CoverPic
         src={trendInfo ? trendInfo.image[1] : null}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       />
+
+      <Description isHovered={isHovered}>
+        <RestaurantName isTop={isTop}>
+          {trendInfo ? trendInfo.name : null}
+        </RestaurantName>
+        <RestaurantDescription isTop={isTop}>
+          {trendInfo
+            ? trendInfo.description.length > DESCRIPTION_LIMIT
+              ? `${trendInfo.description.substring(0, DESCRIPTION_LIMIT)}...`
+              : trendInfo.description
+            : null}
+        </RestaurantDescription>
+      </Description>
       <Rating>
         <StarIcon />
         {rate ? rate.avgStar : 0}
       </Rating>
     </>
+  ) : (
+    <EmptyContainer>
+      <EmptyPic src="/assets/redBowl.svg" />
+    </EmptyContainer>
   );
 };
 
