@@ -62,7 +62,7 @@ const Review = (props) => {
     setReviewImage(props.review.image);
     setIsLiked(props.review.likeReview);
     setLikeCount(props.review.countLike);
-  }, [props.review]);
+  }, [props.review, userID]);
 
   /* If the user want to save changes after edit review, call edit function */
   useEffect(() => {

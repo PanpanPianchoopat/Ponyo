@@ -268,7 +268,7 @@ function Restaurant({ resID }) {
         </RestDetailWrapper>
         <WriteReviewWrapper>
           {isUser ? (
-            <WriteReview func={updateInfo} resID={resID} />
+            <WriteReview updateInfo={updateInfo} resID={resID} />
           ) : (
             <Lock type={REVIEW} />
           )}

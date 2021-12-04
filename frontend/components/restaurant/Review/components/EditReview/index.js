@@ -10,7 +10,7 @@
  ******************************************************************************/
 
 import React, { useEffect, useState } from "react";
-import { Form } from "antd";
+import { Form, message } from "antd";
 import { Rating } from "../../styled";
 import { EditContainer, ButtonGroup, StyledButton } from "./styled";
 import {
@@ -54,15 +54,22 @@ const EditReview = (props) => {
     reader.readAsDataURL(info.file.originFileObj);
   }
 
-  /* This function handle changes made by the Upload component
+  /* This function handle changes made by the Upload component.
    * 'info' is the uploaded file information.
    */
   const handleChange = (info) => {
-    const status = info.file.status;
+    const status = info.file.status; // uploading status
+    const fileType = info.file.type; // uploaded file type
+    const isValidFile = fileType === "image/jpeg" || fileType === "image/png";
 
     if (status === "done") {
-      /* If upload completed, convert file to base64 */
-      getBase64(info);
+      /* If upload is completed and the file is .jpeg or .png, get base64 and
+       * add it to the photo array */
+      if (isValidFile) {
+        getBase64(info);
+      } else {
+        message.error("Invalid file type, review image must be jpeg or png");
+      }
     } else if (status === "removed") {
       /* If file is removed, remove the corresponding image from the  array */
       setReviewPics(reviewPics.filter((item) => item.uid !== info.file.uid));

@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * WriteReview component - a section to write review about the restaurant.
+ * 'resID'      is restaurant ID.
+ * 'updateInfo' is a function passed by parent to triggers update restaurant's
+ *              data affected from adding new review.
+ ******************************************************************************/
+
 import React, { useState, useEffect } from "react";
 import jwt from "jsonwebtoken";
 import ReviewAPI from "../../../pages/api/reviewAPI";
@@ -16,13 +23,14 @@ import {
   CameraIcon,
 } from "./styled";
 import { Form, Divider, message, Popconfirm } from "antd";
+import { REVIEW_PHOTO_LIMIT } from "../constant";
 
 const WriteReview = (props) => {
   const [form] = Form.useForm();
   const router = useRouter();
   const [userID, setUserID] = useState(null);
   const [imageList, setImageList] = useState([]);
-  const [uploadCount, setUploadCount] = useState(0);
+  const [uploadCount, setUploadCount] = useState(0); // count of uploaded file
 
   useEffect(() => {
     const token = localStorage.getItem("_token");
@@ -32,6 +40,10 @@ const WriteReview = (props) => {
     }
   }, []);
 
+  /* This function gets image url and forms an array of images url.
+   * 'imageList' is array of uploaded image.
+   * It returns an array of uploaded images' url.
+   */
   const photoArray = (imageList) => {
     const images = [];
     for (let i = 0; i < imageList.length; i++) {
@@ -40,47 +52,15 @@ const WriteReview = (props) => {
     return images;
   };
 
+  /* This function clears values in the form and empties the image list */
   const clearValue = () => {
-    console.log("CLEAR");
     form.resetFields();
     setImageList([]);
   };
 
-  const onFinish = (values) => {
-    const resID = props.resID;
-    var reviewPhotos = [];
-
-    if (imageList) {
-      reviewPhotos = photoArray(imageList);
-    }
-
-    if (values.star == 0) {
-      message.warning("You have to rate this restaurant");
-    } else {
-      const data = {
-        reviewText: values.review,
-        star: values.star,
-        image: reviewPhotos,
-      };
-      ReviewAPI.addReview(userID, resID, data)
-        .then((response) => {
-          if (response.data) {
-            props.func(true);
-            router.reload();
-          } else {
-            message.warning(
-              "You already review this restaurant, try edit/delete instead"
-            );
-          }
-        })
-        .catch((e) => {
-          message.warning(
-            "You already review this restaurant, try edit/delete instead"
-          );
-        });
-    }
-  };
-
+  /* This function converts photo to base64 and adds it to the photo array.
+   * 'info' is the uploaded file information.
+   */
   function getBase64(info) {
     const reader = new FileReader();
     reader.addEventListener("load", () =>
@@ -97,9 +77,12 @@ const WriteReview = (props) => {
     reader.readAsDataURL(info.file.originFileObj);
   }
 
+  /* This function handle changes made by the Upload component.
+   * 'info' is the uploaded file information.
+   */
   const handleChange = (info) => {
-    const isValidFile =
-      info.file.type === "image/jpeg" || info.file.type === "image/png";
+    const fileType = info.file.type; // uploaded file type
+    const isValidFile = fileType === "image/jpeg" || fileType === "image/png";
     const doneUploading = info.file.status === "done";
     if (doneUploading) {
       setUploadCount(uploadCount + 1);
@@ -111,12 +94,56 @@ const WriteReview = (props) => {
     }
   };
 
+  /* This function handle image removal.
+   * 'info' is the target file to be removed information.
+   */
   const removeImage = (info) => {
+    /* If the image has valid file type, it must be in the list.
+     * Therefore, remove the image from the image list */
     if (info.type === "image/jpeg" || info.type === "image/png") {
       const newList = imageList.filter((image) => image.uid !== info.uid);
       setImageList(newList);
     }
     setUploadCount(uploadCount - 1);
+  };
+
+  /* This function add review to the restaurant and triggers update for
+   * restaurant's informtaion by calling a function passed by parent.
+   * 'values' is values filled in the form.
+   */
+  const onFinish = (values) => {
+    const resID = props.resID;
+    var reviewPhotos = [];
+
+    if (imageList) {
+      reviewPhotos = photoArray(imageList); // form url array of uploaded photos
+    }
+
+    if (values.star == 0) {
+      message.warning("You have to rate this restaurant");
+    } else {
+      const data = {
+        reviewText: values.review,
+        star: values.star,
+        image: reviewPhotos,
+      };
+      ReviewAPI.addReview(userID, resID, data)
+        .then((response) => {
+          if (response.data) {
+            props.updateInfo(true);
+            router.reload();
+          } else {
+            message.warning(
+              "You already review this restaurant, try edit/delete instead"
+            );
+          }
+        })
+        .catch((e) => {
+          message.warning(
+            "You already review this restaurant, try edit/delete instead"
+          );
+        });
+    }
   };
 
   return (
@@ -144,17 +171,17 @@ const WriteReview = (props) => {
                 onChange={(info) => handleChange(info)}
                 onRemove={(info) => removeImage(info)}
                 multiple
-                maxCount={5}
+                maxCount={REVIEW_PHOTO_LIMIT}
               >
                 <CameraIcon />
                 <PlusIcon />
               </UploadImage>
               <UploadInfo>
                 Invalid images won't be upload, valid file count (
-                {imageList.length}/5)
+                {imageList.length}/{REVIEW_PHOTO_LIMIT})
               </UploadInfo>
-              <FullList visible={uploadCount == 5}>
-                Reach maximum upload of 5 files
+              <FullList visible={uploadCount == REVIEW_PHOTO_LIMIT}>
+                Reach maximum upload of {REVIEW_PHOTO_LIMIT} files
               </FullList>
             </>
           </Form.Item>
