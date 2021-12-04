@@ -1,3 +1,17 @@
+/*******************************************************************************
+ * Overview component - restaurant's overview.
+ * 'info'         is restaurant's information.
+ * 'status'       is restaurant's service status. It is true if the restaurant
+ *                is openning. And, false if the restaurant is closed.
+ * 'avgRate'      is average rating of the restaurant.
+ * 'ratingAmount' is number/count of rate of the restaurant.
+ * 'commentAmount'is number/count of reviews with text message.
+ * 'isLiked'      is whether the user saved the restaurant to his/her favourite
+ *                list or not.
+ * 'isBookmarked' is whether the user saved the restaurant to his/her interest
+ *                list or not.
+ ******************************************************************************/
+
 import React, { useState, useEffect } from "react";
 import jwt from "jsonwebtoken";
 import { Divider } from "antd";
@@ -33,24 +47,24 @@ const Overview = (props) => {
   const [userID, setUserID] = useState(null);
 
   useEffect(() => {
-    if (props.info) {
-      setResID(props.info.details._id);
-    }
-  }, [props.info]);
-
-  useEffect(() => {
-    if (props.avgRate != null) {
-      setAvgRate(props.avgRate);
-    }
-  }, [props.avgRate]);
-
-  useEffect(() => {
     const token = localStorage.getItem("_token");
     const userData = jwt.decode(token);
     if (userData) {
       setUserID(userData.id);
     }
   }, []);
+
+  useEffect(() => {
+    if (props.info) {
+      setResID(props.info.details._id);
+    }
+  }, [props.info]);
+
+  useEffect(() => {
+    if (props.avgRate) {
+      setAvgRate(props.avgRate);
+    }
+  }, [props.avgRate]);
 
   useEffect(() => {
     changeBookLike();
@@ -73,23 +87,29 @@ const Overview = (props) => {
     setIsLiked(liked);
   };
 
+  /* This function add/remove the restaurant to user's favourite/interest list.
+   * 'key'                is list type to handle with.
+   * 'isDeletedFromList'  is whether the user want to add or delete from list.
+   *                      If false, add restaurant to the corresponding list.
+   *                      Otherwise, remove the restaurant from the list.
+   */
   const manageRestaurantList = (key, isDeleteFromList) => {
     if (!isDeleteFromList) {
       UserAPI.addRestaurantToList(key, userID, resID)
         .then((response) => {
-          if (key == "myFavRestaurants") {
+          if (key === "myFavRestaurants") {
             if (response.data.status) {
-              setIsLiked(!isLiked);
-              message.success("Add restaurant to favorite list successfully");
+              setIsLiked(true);
+              message.success("Successfully add restaurant to favourite list");
             } else {
               message.warning(
-                "Your favorite list is full, Try to delete some restaurant"
+                "Your favourite list is full, Try to delete some restaurant"
               );
             }
           } else {
             if (response.data.status) {
-              setBookmark(!isBookmarked);
-              message.success("Add restaurant to interest list successfully");
+              setBookmark(true);
+              message.success("Successfully add restaurant to interest list");
             } else {
               message.warning(
                 "Your interest list is full, Try to delete some restaurant"
@@ -105,18 +125,18 @@ const Overview = (props) => {
         .then((response) => {
           if (key == "myFavRestaurants") {
             if (response.data.status) {
-              setIsLiked(!isLiked);
+              setIsLiked(false);
               message.success(
-                "Remove restaurant to favorite list successfully"
+                "Successfully remove restaurant to favourite list"
               );
             } else {
-              message.success("Error to remove restaurant from favorite list");
+              message.success("Error to remove restaurant from favourite list");
             }
           } else {
             if (response.data.status) {
-              setBookmark(!isBookmarked);
+              setBookmark(false);
               message.success(
-                "Remove restaurant from interest list successfully"
+                "Successfully remove restaurant from interest list"
               );
             } else {
               message.success("Error to remove restaurant from interest list");
