@@ -47,8 +47,11 @@ export const Menu = styled.div`
   align-items: center;
 `;
 
-export const MenuItem = styled.div`
-  display: flex;
+export const MenuItem = styled.div.attrs((props) => {
+  const menuDisplay = props.visible ? "flex" : "none";
+  return { menuDisplay };
+})`
+  display: ${(props) => props.menuDisplay};
   font-size: 20px;
   @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
     font-size: 16px;

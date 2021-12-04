@@ -70,14 +70,14 @@ const Navbar = () => {
         </BackButton>
       )}
       <Menu>
-        <MenuItem style={{ marginRight: "30px" }}>
+        <MenuItem visible={menuVisible} style={{ marginRight: "30px" }}>
           <Link href="/search" onClick={() => setSelected(SEARCH)}>
             <StyledLink isActive={selected == SEARCH}>
               Search Restaurant
             </StyledLink>
           </Link>
         </MenuItem>
-        <MenuItem>
+        <MenuItem visible={menuVisible}>
           <Link href="/trending" onClick={() => setSelected(TREND)}>
             <StyledLink isActive={selected == TREND}>
               Discover Trending
