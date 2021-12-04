@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * Search restaurant page - Show all restaurant.
+ * This page will show all restaurant and user can search
+ * and sort to find the restaurant.
+ ******************************************************************************/
+
 import React, { useState, useEffect } from "react";
 import COLORS from "../../public/constant/colors";
 import Button from "../../components/Button";
@@ -55,6 +61,7 @@ function SearchRestaurant({ restaurants }) {
 
   const router = useRouter();
 
+  /* This function will get best tranding from database */
   useEffect(() => {
     RestaurantAPI.getBestTrending()
       .then((response) => {
@@ -65,6 +72,9 @@ function SearchRestaurant({ restaurants }) {
       });
   }, []);
 
+  /* This function is called when the user searches
+   * for a restaurant to call the function getRestaurant.
+   */
   const onFinish = () => {
     setRestaurants(null);
     getRestaurant();
@@ -92,6 +102,9 @@ function SearchRestaurant({ restaurants }) {
     setStatus(e.target.value);
   };
 
+  /* This function will get restaurant in database
+   * to store in Restaurants variable
+   */
   const getRestaurant = () => {
     setRestaurants(null);
     setSelectedCat("");
@@ -116,6 +129,9 @@ function SearchRestaurant({ restaurants }) {
       });
   };
 
+  /* This function is called when the user select in
+   * category bar or status radio to query the data from database.
+   */
   const getRestaurantByType = () => {
     setRestaurants(null);
     RestaurantAPI.getRestaurant(

@@ -1,3 +1,8 @@
+/*******************************************************************************
+ * Register page - This page will allow the user to register.
+ * To register, users must fill out information in the form.
+ ******************************************************************************/
+
 import React, { useState, useEffect } from "react";
 import jwt from "jsonwebtoken";
 import { Form, message } from "antd";
@@ -45,6 +50,9 @@ const register = () => {
   const [gender, setGender] = useState(null);
   const [avatar, setAvatar] = useState(null);
 
+  /* This useEffect will check token from local storage.
+   * If it already exist it will go to path search restaurant.
+   */
   useEffect(() => {
     const token = localStorage.getItem("_token");
     const userData = jwt.decode(token);
@@ -53,6 +61,9 @@ const register = () => {
     }
   }, []);
 
+  /* This function will validate the email is already been use or not
+   * if not the function will store user data to the database.
+   */
   const onFinish = (values) => {
     const dateOfBirth = values.birthday.format("YYYY-MM-DD");
     if (gender) {
@@ -78,6 +89,7 @@ const register = () => {
     }
   };
 
+  /* This function validate an email is syntax correct or not. */
   const validateEmail = (rule, value, callback) => {
     UserAPI.checkEmail(value)
       .then((response) => {
@@ -95,6 +107,7 @@ const register = () => {
       });
   };
 
+  /* This function validate username is syntax correct or not. */
   const validateUsername = (rule, value, callback) => {
     UserAPI.checkUsername(value)
       .then((response) => {
@@ -112,6 +125,7 @@ const register = () => {
       });
   };
 
+  /* This function validate DOB is in the range or not. */
   const validateBirthday = (rule, value, callback) => {
     if (!value) {
       callback("Please select your birthday");
@@ -133,6 +147,7 @@ const register = () => {
     }
   };
 
+  /* this function will check that user select gender or not. */
   const validateGender = (rule, value, callback) => {
     if (!gender) {
       callback("Please select your gender");
