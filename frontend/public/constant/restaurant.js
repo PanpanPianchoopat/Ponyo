@@ -1,3 +1,7 @@
+/*******************************************************************************
+ * Constants for restaurant page
+ ******************************************************************************/
+
 export const FILTER = ["All", "With Comment", "With Photo", 5, 4, 3, 2, 1];
 export const REVIEW_FILTER = {
   ALL: 0,

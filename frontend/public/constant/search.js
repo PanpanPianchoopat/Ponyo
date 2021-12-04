@@ -1,3 +1,7 @@
+/*******************************************************************************
+ * Constants for search page
+ ******************************************************************************/
+
 export const STATUS_OPTION = ["ALL", "OPEN", "CLOSE"];
 
 export const FILTER_OPTION = ["Name", "Address"];

@@ -43,6 +43,7 @@ const RestCard = ({ ...props }) => {
   const [resStatus, setResStatus] = useState(null);
   const [resPicture, setResPicture] = useState(null);
   const router = useRouter();
+  const IMAGE_POSITION = 1; // index of image
 
   /* Set new values to restaurant's detail variables if there is any changes on
   the detail prop */
@@ -53,7 +54,8 @@ const RestCard = ({ ...props }) => {
     setMaxPrice(props.detail.priceRange.max);
     setLocation(props.detail.location.address);
     getRestaurantStatus(props.detail._id);
-    setResPicture(props.detail.image[1]);
+    // set restaurant picture to the second image in the array
+    setResPicture(props.detail.image[IMAGE_POSITION]);
     getAvgRate(props.detail._id);
   }, [props.detail]);
 
