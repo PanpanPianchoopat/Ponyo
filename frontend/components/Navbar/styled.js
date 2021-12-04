@@ -47,28 +47,27 @@ export const Menu = styled.div`
   align-items: center;
 `;
 
-export const MenuItem = styled.div.attrs((props) => {
-  const display = props.isVisible ? "flex" : "none";
-  return { display };
-})`
-  display: ${(props) => props.display};
-  align-self: center;
-  font-size: 24px;
-  color: ${(props) =>
-    props.active ? COLOR.PRIMARY_YELLOW : "rgba(246, 190, 15, 0.5)"};
-  margin: 2rem;
-  cursor: pointer;
-  @media (max-width: ${BREAKPOINTS.HiDPI_LAPTOP}) {
-    font-size: 20px;
-  }
+export const MenuItem = styled.div`
+  display: flex;
+  font-size: 20px;
   @media (max-width: ${BREAKPOINTS.IPAD_LANDSCAPE}) {
     font-size: 16px;
   }
-  @media (max-width: ${BREAKPOINTS.IPAD_PORTRAIT}) {
-    font-size: 12px;
-  }
   @media (max-width: ${BREAKPOINTS.IPHONE_11}) {
-    display: none;
+    font-size: 14px;
+  }
+`;
+
+export const StyledLink = styled.a.attrs((props) => {
+  const textColor = props.isActive
+    ? COLOR.PRIMARY_YELLOW
+    : "rgba(246, 190, 15, 0.5)";
+  return { textColor };
+})`
+  color: ${(props) => props.textColor};
+  text-decoration: none;
+  &: hover {
+    color: ${COLOR.PRIMARY_YELLOW};
   }
 `;
 

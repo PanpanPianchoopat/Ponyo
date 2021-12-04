@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Button from "../components/Button";
 import { Spin } from "antd";
+import { SmileIcon } from "./search/styled";
 
 function Home() {
   const router = useRouter();
@@ -21,17 +22,16 @@ function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.h1}>Welcome to Ponyo</h1>
-        <img className={styles.img} src="/assets/ponyoName.svg" />
-        <Button variant="yellow" size="large" onClick={goToSearch}>
-          Go To Website
-        </Button>
-        {loading === true ? (
-          <div className={styles.loading}>
-            <Spin />
-          </div>
+        {loading ? (
+          <Spin indicator={<SmileIcon spin />} />
         ) : (
-          ""
+          <>
+            <h1 className={styles.h1}>Welcome to Ponyo</h1>
+            <img className={styles.img} src="/assets/ponyoName.svg" />
+            <Button variant="yellow" size="large" onClick={goToSearch}>
+              Go To Website
+            </Button>
+          </>
         )}
       </main>
     </div>

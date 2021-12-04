@@ -11,38 +11,34 @@ import {
   StyledImage,
   Menu,
   BackButton,
+  StyledLink,
 } from "./styled";
+import Link from "next/link";
 
 const Navbar = () => {
   const [navVisible, setNavVisible] = useState(true);
   const [menuVisible, setMenuVisible] = useState(true);
-  const [selected, setSelected] = useState(SEARCH);
+  const [selected, setSelected] = useState(null);
   const router = useRouter();
-  const { asPath } = useRouter();
+  const [currentPath, setCurrentPath] = useState(router.pathname);
 
-  const handleClick = (menu) => {
-    if (menu == SEARCH) {
-      setSelected(SEARCH);
-      router.push("/search");
-    } else if (menu == TREND) {
-      setSelected(TREND);
-      router.push("/trending");
-    }
-  };
+  useEffect(() => {
+    setCurrentPath(router.pathname);
+  }, [router.pathname]);
 
   const [isGuest, setIsGuest] = useState(true);
   useEffect(() => {
-    if (asPath === "/trending") {
+    if (currentPath === "/trending") {
       setNavVisible(true);
       setSelected(TREND);
       setMenuVisible(true);
-    } else if (asPath === "/search") {
+    } else if (currentPath === "/search") {
       setNavVisible(true);
       setSelected(SEARCH);
       setMenuVisible(true);
-    } else if (asPath === "/login" || asPath === "/register") {
+    } else if (currentPath === "/login" || currentPath === "/register") {
       setNavVisible(false);
-    } else if (asPath.startsWith("/restaurant")) {
+    } else if (currentPath.startsWith("/restaurant")) {
       setMenuVisible(false);
     } else {
       setNavVisible(true);
@@ -56,13 +52,16 @@ const Navbar = () => {
     } else {
       setIsGuest(true);
     }
-  }, [asPath]);
+  }, [currentPath]);
 
   return (
     <StyledNav isVisible={navVisible}>
       {menuVisible ? (
         <Logo>
-          <StyledImage src="/assets/logo.png" />
+          <StyledImage
+            src="/assets/logo.png"
+            onClick={() => router.push("/search")}
+          />
         </Logo>
       ) : (
         <BackButton onClick={() => router.back()}>
@@ -71,19 +70,19 @@ const Navbar = () => {
         </BackButton>
       )}
       <Menu>
-        <MenuItem
-          isVisible={menuVisible}
-          onClick={() => handleClick(SEARCH)}
-          active={selected === SEARCH}
-        >
-          Search Restaurant
+        <MenuItem style={{ marginRight: "30px" }}>
+          <Link href="/search" onClick={() => setSelected(SEARCH)}>
+            <StyledLink isActive={selected == SEARCH}>
+              Search Restaurant
+            </StyledLink>
+          </Link>
         </MenuItem>
-        <MenuItem
-          isVisible={menuVisible}
-          onClick={() => handleClick(TREND)}
-          active={selected === TREND}
-        >
-          Discover Trending
+        <MenuItem>
+          <Link href="/trending" onClick={() => setSelected(TREND)}>
+            <StyledLink isActive={selected == TREND}>
+              Discover Trending
+            </StyledLink>
+          </Link>
         </MenuItem>
         <MenuButton isGuest={isGuest} setIsGuest={setIsGuest} />
       </Menu>
