@@ -1,3 +1,8 @@
+/*******************************************************************************
+ * Category component - Category bar.
+ * This component will sort with category.
+ ******************************************************************************/
+
 import React, { useState } from "react";
 import {
   CategoryContainer,

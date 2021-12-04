@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * Tranding page - Show treding restaurant.
+ * This page will show restaurants that are in trending.
+ * User need to login to see this page.
+ ******************************************************************************/
+
 import React, { useState, useEffect } from "react";
 import BestRate from "../../components/BestRate";
 import { BackTop, Spin } from "antd";
@@ -18,6 +24,7 @@ const Trending = () => {
 
   const [isGuest, setIsGuest] = useState(true);
 
+  /* This useEffect checks that the user is logged in or not */
   useEffect(() => {
     const token = localStorage.getItem("_token");
     const userData = jwt.decode(token);
@@ -32,6 +39,9 @@ const Trending = () => {
     getTrending();
   }, []);
 
+  /* This function will get the restaurant that 
+   * are in trending from database.
+   */
   const getTrending = () => {
     RestaurantAPI.getBestTrending()
       .then((response) => {

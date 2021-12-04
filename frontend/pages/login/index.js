@@ -1,3 +1,8 @@
+/*******************************************************************************
+ * Login page - This page will allow the user to log in.
+ * The login page requires the user's registered email and password.
+ ******************************************************************************/
+
 import React, { useEffect, useRef, useState } from "react";
 import useAppSelector from "../../hooks/useAppSelector";
 import useAppDispatch from "../../hooks/useAppDispatch";
@@ -34,6 +39,9 @@ const Signin = () => {
   const dispatch = useAppDispatch();
   const { isLogin, isSubmit } = useAppSelector((state) => state.auth);
 
+  /* This useEffect will check token from local storage.
+   * If it already exist it will go to path search restaurant.
+   */
   useEffect(() => {
     const token = localStorage.getItem("_token");
     const userData = jwt.decode(token);
@@ -42,6 +50,7 @@ const Signin = () => {
     }
   }, []);
 
+  /* This useEffect will check Login is successful or not.*/
   useEffect(() => {
     if (isSubmit) {
       if (isLogin) {
@@ -59,6 +68,9 @@ const Signin = () => {
     }
   }, [isSubmit]);
 
+  /* This function checks the e-mail and password 
+   * that user is exists. 
+   */
   const auth = (val) => {
     setValidateState("validating");
     const credential = {
