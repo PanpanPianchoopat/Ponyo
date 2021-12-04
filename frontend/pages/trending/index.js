@@ -35,6 +35,9 @@ const Trending = () => {
     }
   }, []);
 
+  /* This useEffect will call the function getTrending 
+   * in the first time of this page 
+   */
   useEffect(() => {
     getTrending();
   }, []);

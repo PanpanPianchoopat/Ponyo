@@ -70,6 +70,7 @@ const Signin = () => {
 
   /* This function checks the e-mail and password 
    * that user is exists. 
+   * 'val' is the value from the user-filled form.
    */
   const auth = (val) => {
     setValidateState("validating");

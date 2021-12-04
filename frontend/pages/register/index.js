@@ -63,6 +63,7 @@ const register = () => {
 
   /* This function will validate the email is already been use or not
    * if not the function will store user data to the database.
+   * 'value' is the value from the user-filled form.
    */
   const onFinish = (values) => {
     const dateOfBirth = values.birthday.format("YYYY-MM-DD");
@@ -89,7 +90,11 @@ const register = () => {
     }
   };
 
-  /* This function validate an email is syntax correct or not. */
+  /* This function validate an email is syntax correct or not.
+   * 'rule' is function to validate data.
+   * 'value' is value of input from form item.
+   * 'callback' is function to display feedback message.
+   */
   const validateEmail = (rule, value, callback) => {
     UserAPI.checkEmail(value)
       .then((response) => {
@@ -107,7 +112,11 @@ const register = () => {
       });
   };
 
-  /* This function validate username is syntax correct or not. */
+  /* This function validate username is syntax correct or not.
+   * 'rule' is function to validate data.
+   * 'value' is value of input from form item.
+   * 'callback' is function to display feedback message.
+   */
   const validateUsername = (rule, value, callback) => {
     UserAPI.checkUsername(value)
       .then((response) => {
@@ -125,7 +134,11 @@ const register = () => {
       });
   };
 
-  /* This function validate DOB is in the range or not. */
+  /* This function validate DOB is in the range or not.
+   * 'rule' is function to validate data.
+   * 'value' is value of input from form item.
+   * 'callback' is function to display feedback message.
+   */
   const validateBirthday = (rule, value, callback) => {
     if (!value) {
       callback("Please select your birthday");
@@ -147,7 +160,11 @@ const register = () => {
     }
   };
 
-  /* this function will check that user select gender or not. */
+  /* this function will check that user select gender or not.
+   * 'rule' is function to validate data.
+   * 'value' is value of input from form item.
+   * 'callback' is function to display feedback message.
+   */
   const validateGender = (rule, value, callback) => {
     if (!gender) {
       callback("Please select your gender");
@@ -158,12 +175,18 @@ const register = () => {
     }
   };
 
+  /* This function will get base64 from 'info' value.
+   * 'info' is the value about picture that user upload from form item.
+   */
   function getBase64(info) {
     const reader = new FileReader();
     reader.addEventListener("load", () => setAvatar(reader.result));
     reader.readAsDataURL(info.file.originFileObj);
   }
 
+  /* This function will check the format photo that are correct or not.
+   * 'info' is the value about picture that user upload from form item.
+   */
   const handleUpload = (info) => {
     const isValidFile =
       info.file.type === "image/jpeg" || info.file.type === "image/png";

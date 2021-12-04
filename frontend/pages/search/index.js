@@ -81,6 +81,10 @@ function SearchRestaurant({ restaurants }) {
     setCheckSearch("search");
   };
 
+   /* This useEffect will check the 'status' if the 'status' value was change 
+    * it will call the function getRestaurant.
+    * 'status' is the status of restaurant.
+    */
   useEffect(() => {
     if (status != null) {
       if (checkSearch == "search") {
@@ -91,6 +95,10 @@ function SearchRestaurant({ restaurants }) {
     }
   }, [status]);
 
+  /* This useEffect will check the 'selectedCat' if the 'selectedCat' value was change 
+   * it will call the function getRestaurantByType.
+   * 'selectedCat' is the value of cursine type.
+   */
   useEffect(() => {
     if (selectedCat != "") {
       getRestaurantByType();
@@ -98,6 +106,7 @@ function SearchRestaurant({ restaurants }) {
     }
   }, [selectedCat]);
 
+  /* This function will change the status value */
   const changeStatus = (e) => {
     setStatus(e.target.value);
   };
