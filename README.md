@@ -1,5 +1,5 @@
 # Ponyo Restaurant Review Web Application
-![alt text](https://github.com/yingspvd/Ponyo/frontend/master/public/assets/ponyoName.svg?raw=true)
+![ponyoName-05(1)](https://user-images.githubusercontent.com/32532147/144712875-61a8c3ef-fab0-498d-aead-8e94a8dffe9e.png)
 
 
 The project implementation for this project is applied from CPE327 Software Engineering course from problem definition to software validation.
