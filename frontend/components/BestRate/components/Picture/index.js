@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * Picture component - picture display from trending component.
+ * 'info'   is restaurant information.
+ * 'isTop'  is whether the picture is that of top restaurant in trend or not.
+ ******************************************************************************/
+
 import React, { useState, useEffect } from "react";
 import ReviewAPI from "../../../../pages/api/reviewAPI";
 import {
@@ -28,6 +34,7 @@ const Picture = (props) => {
     }
   }, [trendInfo]);
 
+  /* This function query restaurant rating from the database */
   const getRestaurantRate = () => {
     ReviewAPI.calReviewRate(trendInfo._id)
       .then((response) => {
