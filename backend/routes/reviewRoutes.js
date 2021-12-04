@@ -1,3 +1,7 @@
+/*******************************************************************************
+ * This file is the path that will redirect to the functions in reviewCon.js
+ *******************************************************************************
+ */
 import express from "express";
 import {
   addReview,
@@ -14,7 +18,7 @@ const router = express.Router();
 router.post("/add/:resID/:userID", addReview);
 router.patch("/edit/:reviewID", editReview);
 router.delete("/delete/:reviewID", deleteReview);
-router.get("/rate/:resID" , calReviewRate);
+router.get("/rate/:resID", calReviewRate);
 router.get("/filter/:filter/:resID/:userID/:star", getReviewByFilter);
 router.get("/all/:resID/:userID", getAllReview);
 router.get("/amount/:resID/:typeReview/:star", getReviewAmount);

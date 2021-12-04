@@ -1,7 +1,12 @@
+/*******************************************************************************
+ * This file is the structure of the restaurants's collection
+ *******************************************************************************
+ */
+
 import mongoose from "mongoose";
 
 const restaurantSchema = mongoose.Schema({
-  name: { type: String, required: true, unique: true },
+  name: { type: String, required: true, unique: true }, 
   type: { type: String },
   description: { type: String, required: true },
   location: {

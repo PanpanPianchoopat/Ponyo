@@ -1,3 +1,8 @@
+/*******************************************************************************
+ * This file is the structure of the reviews's collection
+ *******************************************************************************
+ */
+
 import mongoose from "mongoose";
 
 const reviewSchema = mongoose.Schema({

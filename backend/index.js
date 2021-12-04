@@ -1,8 +1,7 @@
-import express, { json } from "express";
+import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
-
 import userRoutes from "./routes/userRoutes.js";
 import RestaurantRoutes from "./routes/restaurantRoutes.js";
 import ReviewRoutes from "./routes/reviewRoutes.js";
@@ -32,10 +31,12 @@ app.get("/", (req, res) => {
   res.send("Hello to Ponyo API");
 });
 
+// URL to connect database
 const CONNECTION_URL =
   "mongodb+srv://ponyo:ponyo@ponyo.romjl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 const PORT = process.env.PORT || 8080;
 
+// Connect to the database
 mongoose
   .connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() =>
