@@ -226,7 +226,7 @@ function SearchRestaurant({ restaurants }) {
             {restaurant ? (
               restaurant.length > 0 ? (
                 restaurant.map((detail, key) => (
-                  <Card detail={detail} liked={true} saved={true} key={key} />
+                  <Card detail={detail} key={key} />
                 ))
               ) : (
                 <EmptyDisplayContainer>
