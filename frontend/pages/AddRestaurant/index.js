@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from "react";
+/*******************************************************************************
+ * AddRestaurant page - add restaurant information
+ ******************************************************************************/
+import React from "react";
 import {
   Form,
   Input,
@@ -19,6 +22,11 @@ import RestaurantAPI from "../api/restaurantAPI.js";
 const AddRestaurant = () => {
   const [form] = Form.useForm();
 
+  /* This function separate time from full format into HH
+   * and mm format.
+   * 'openHour' is open hour in full format
+   * It returns array of openTime
+   */
   const convertTime = (openHour) => {
     const openTime = [0, 0, 0, 0];
     openTime[0] = parseInt(openHour[0].format("HH"));
@@ -29,6 +37,10 @@ const AddRestaurant = () => {
     return openTime;
   };
 
+  /* This function is used to add the photo to the array
+   * 'fileList' is list of all photos
+   * It returns array of photo
+   */
   const photoArray = (fileList) => {
     var i = 0;
     const photo = [];
@@ -39,6 +51,9 @@ const AddRestaurant = () => {
     return photo;
   };
 
+  /* This function will add the restaurant to database.
+   * 'values' is values in the form
+   */
   const onFinish = (values) => {
     const openTime = convertTime(values.openHour);
     const photo = photoArray(values.photos.fileList);
@@ -69,10 +84,7 @@ const AddRestaurant = () => {
       });
   };
 
-  const onFinishFailed = (error) => {
-    console.log("Failed:", error);
-  };
-
+  /* This function is used to reset the fields in form */
   const onReset = () => {
     form.resetFields();
   };

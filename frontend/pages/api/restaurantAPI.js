@@ -1,3 +1,7 @@
+/*******************************************************************************
+ * This file is the path that connect to restaurants's collection in the database
+ *******************************************************************************
+ */
 import http from "./http-common";
 
 class RestaurantAPI {
@@ -21,23 +25,23 @@ class RestaurantAPI {
     return http.get(`/restaurant/`);
   };
 
-  getRestaurant = (filter,search,priceRange,type, resStatus) => { 
-    return http.get(`/restaurant/search/${filter}/${search}/${priceRange}/${type}/${resStatus}`);
+  getRestaurant = (filter, search, priceRange, type, resStatus) => {
+    return http.get(
+      `/restaurant/search/${filter}/${search}/${priceRange}/${type}/${resStatus}`
+    );
   };
 
-  getTrending = (type) => { 
+  getTrending = (type) => {
     return http.get(`/restaurant/trending/${type}`);
   };
 
-  getBestTrending = () => { 
+  getBestTrending = () => {
     return http.get(`/restaurant/bestTrending`);
   };
 
-  getRestaurantByType = (type) => { 
+  getRestaurantByType = (type) => {
     return http.get(`/restaurant/type/${type}`);
   };
-
-
 }
 
 export default new RestaurantAPI();

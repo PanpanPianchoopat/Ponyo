@@ -1,3 +1,7 @@
+/*******************************************************************************
+ * This file is the path that connect to users's collection in the database
+ *******************************************************************************
+ */
 import http from "./http-common";
 
 class userAPI {

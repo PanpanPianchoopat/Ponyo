@@ -1,3 +1,7 @@
+/*******************************************************************************
+ * This file is the path that connect to reviews's collection in the database
+ *******************************************************************************
+ */
 import http from "./http-common";
 
 class ReviewAPI {
@@ -30,13 +34,12 @@ class ReviewAPI {
   };
 
   editReview = (reviewID, data) => {
-    return http.patch(`/review/edit/${reviewID}`,data);
+    return http.patch(`/review/edit/${reviewID}`, data);
   };
 
   deleteReview = (reviewID) => {
     return http.delete(`/review/delete/${reviewID}`);
   };
-
 }
 
 export default new ReviewAPI();

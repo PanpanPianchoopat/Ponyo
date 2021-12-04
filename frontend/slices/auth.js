@@ -1,3 +1,7 @@
+/*******************************************************************************
+ * Auth Slices - Check login and set the state of authentication
+ *******************************************************************************
+ */
 import axios from "axios";
 import { apiEndpoints, apiHost } from "../config";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
@@ -13,6 +17,11 @@ const initialState = {
   userData: {},
 };
 
+/* This function will check the email and password of the user
+ * that matches to the database or not.
+ * 'credential' is the data to check login
+ * It returns the token
+ */
 export const Login = createAsyncThunk("User/Login", async (credential) => {
   try {
     const response = await axios.post(
@@ -39,6 +48,7 @@ export const Login = createAsyncThunk("User/Login", async (credential) => {
   }
 });
 
+/* This function set the state of authentication */
 const authSlice = createSlice({
   name: "authSlice",
   initialState,

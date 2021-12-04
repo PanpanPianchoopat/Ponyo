@@ -1,3 +1,7 @@
+/*******************************************************************************
+ * index store - Using redux toolkit
+ *******************************************************************************
+ */
 import { configureStore } from "@reduxjs/toolkit";
 import rootReducer from "./rootReducer";
 
