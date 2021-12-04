@@ -103,7 +103,7 @@ const RestList = (props) => {
             edittedList.map((restuarant, index) => (
               <Card
                 key={index}
-                rank={index}
+                rank={index + 1}
                 detail={restuarant}
                 size={isLarge}
                 showRank={isFav}

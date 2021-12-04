@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Card component - restaurant card
+ * 'detail'     is restaurant's detail to be displayed on the card consisted
+ *              of
+ * 'showRank'   is boolean value to determine whether to show ranking number on
+ *              top of the card or not.
+ * 'rank'       is integer determining ranking number of the restaurant.
+ * 'size'       is size of the card. If this field is set to 'large'. The card
+ *              would be bigger. Otherwise, it uses the default card styles.
+ ******************************************************************************/
+
 import React, { useState, useEffect } from "react";
 import { MAX_NAME_LEN, MAX_DES_LEN, MAX_LOCATION_LEN } from "./constant";
 import RestaurantAPI from "../../pages/api/restaurantAPI";
@@ -31,8 +42,10 @@ const RestCard = ({ ...props }) => {
   const [location, setLocation] = useState(null);
   const [resStatus, setResStatus] = useState(null);
   const [resPicture, setResPicture] = useState(null);
-  const resRank = props ? props.rank + 1 : 0;
+  const router = useRouter();
 
+  /* Set new values to restaurant's detail variables if there is any changes on
+  the detail prop */
   useEffect(() => {
     setResName(props.detail.name);
     setDescription(props.detail.description);
@@ -64,7 +77,6 @@ const RestCard = ({ ...props }) => {
       });
   };
 
-  const router = useRouter();
   const goToDetail = () => {
     router.push(`/restaurant/${props.detail._id}`);
   };
@@ -75,7 +87,9 @@ const RestCard = ({ ...props }) => {
       size={props.size}
       headStyle={{ display: props.showRank ? "flex" : "none" }}
       bordered={false}
-      title={<Ranking showRank={props.showRank}>{resRank}</Ranking>}
+      title={
+        <Ranking showRank={props.showRank}>{props.rank && props.rank}</Ranking>
+      }
       cover={
         <CoverContainer customSize={props.size}>
           <IconWrapper>
