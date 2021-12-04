@@ -18,6 +18,7 @@ import {
 const Ratings = (props) => {
   const [rates, setRates] = useState(null);
   const [total, setTotal] = useState([]);
+  const TOTAL_STAR = 5;
 
   /* This function calculates total sum of ratings count.
    * 'rates' is array of restaurant's rating count for each star.
@@ -47,18 +48,18 @@ const Ratings = (props) => {
         <SectionHeader>Ratings</SectionHeader>
 
         {rates &&
-          rates.map((num, index) => {
+          rates.map((count, index) => {
             return (
               <EachRate key={index}>
-                <RestaurantRate defaultValue={5 - index} disabled />
+                <RestaurantRate defaultValue={TOTAL_STAR - index} disabled />
                 <NumContainer>
                   <Progress
-                    percent={(num / total) * 100}
+                    percent={(count / total) * 100}
                     showInfo={false}
                     strokeWidth={4}
                     strokeColor={COLORS.PRIMARY_BLUE}
                   />
-                  <Count>{num}</Count>
+                  <Count>{count}</Count>
                 </NumContainer>
               </EachRate>
             );

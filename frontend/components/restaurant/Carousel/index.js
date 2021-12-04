@@ -20,6 +20,12 @@ import SwiperCore, {
 SwiperCore.use([Navigation, Pagination, Autoplay, EffectCoverflow]);
 
 const Carousel = (props) => {
+  const TRANSITION_DELAY_MS = 2500;
+  const SLIDE_ROTATE_DEG = 50;
+  const SPACE_BETWEEN_SLIDE = 0;
+  const DEPTH_OFFSET_PX = 100;
+  const EFFECT_MULTIPLIER = 1;
+
   return (
     <>
       <CarouselContainer>
@@ -27,16 +33,16 @@ const Carousel = (props) => {
           navigation={true}
           pagination={{ clickable: true }}
           loop={true}
-          autoplay={{ delay: 2500, disableOnInteraction: false }}
+          autoplay={{ delay: TRANSITION_DELAY_MS, disableOnInteraction: false }}
           effect={"coverflow"}
           grabCursor={true}
           centeredSlides={true}
           slidesPerView={3}
           coverflowEffect={{
-            rotate: 50,
-            stretch: 0,
-            depth: 100,
-            modifier: 1,
+            rotate: SLIDE_ROTATE_DEG,
+            stretch: SPACE_BETWEEN_SLIDE,
+            depth: DEPTH_OFFSET_PX,
+            modifier: EFFECT_MULTIPLIER,
             slideShadows: true,
           }}
         >

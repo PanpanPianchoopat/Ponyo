@@ -24,7 +24,7 @@ const Detail = (props) => {
    * It returns time in nn format.
    */
   function getTimeString(num) {
-    /* If time is a single integer, add zero in front of it. */
+    /* If time is a single digit, add zero in front of it. */
     if (num < 10) {
       return `0${num}`;
     } else {
