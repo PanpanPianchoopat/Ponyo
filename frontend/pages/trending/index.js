@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
 import HideTrend from "./components/HideTrend";
 
 const Trending = () => {
-  const [bestTrend, setBestTrend] = useState([]);
+  const [bestTrend, setBestTrend] = useState(null);
   const [casualTrend, setCasual] = useState([]);
   const [foodTrucksTrend, setFoodTrucks] = useState([]);
   const [fastFoodTrend, setFastFood] = useState([]);
@@ -15,15 +15,6 @@ const Trending = () => {
   const [familyStyleTrend, setFamilyStyle] = useState([]);
   const [pubTrend, setPub] = useState([]);
   const [buffetTrend, setBuffet] = useState([]);
-
-  const [isBest, setIsBest] = useState(false);
-  const [isCasual, setIsCasual] = useState(false);
-  const [isFoodTruck, setIsfoodTruck] = useState(false);
-  const [isFastFood, setIsFastFood] = useState(false);
-  const [isCafe, setIsCafe] = useState(false);
-  const [isFamily, setIsFamily] = useState(false);
-  const [isPub, setisPub] = useState(false);
-  const [isBuffet, setIsBuffet] = useState(false);
 
   const [isGuest, setIsGuest] = useState(true);
 
@@ -40,42 +31,6 @@ const Trending = () => {
   useEffect(() => {
     getTrending();
   }, []);
-
-  useEffect(() => {
-    if (bestTrend != null && bestTrend.length != 0) {
-      setIsBest(true);
-    }
-    if (casualTrend != null && casualTrend.length != 0) {
-      setIsCasual(true);
-    }
-    if (foodTrucksTrend != null && foodTrucksTrend.length != 0) {
-      setIsfoodTruck(true);
-    }
-    if (fastFoodTrend != null && fastFoodTrend.length != 0) {
-      setIsFastFood(true);
-    }
-    if (cafeTrend != null && cafeTrend.length != 0) {
-      setIsCafe(true);
-    }
-    if (familyStyleTrend != null && familyStyleTrend.length != 0) {
-      setIsFamily(true);
-    }
-    if (pubTrend != null && pubTrend.length != 0) {
-      setisPub(true);
-    }
-    if (buffetTrend != null && buffetTrend.length != 0) {
-      setIsBuffet(true);
-    }
-  }, [
-    bestTrend,
-    casualTrend,
-    foodTrucksTrend,
-    fastFoodTrend,
-    cafeTrend,
-    familyStyleTrend,
-    pubTrend,
-    buffetTrend,
-  ]);
 
   const getTrending = () => {
     RestaurantAPI.getBestTrending()
@@ -140,12 +95,11 @@ const Trending = () => {
     <>
       <HideTrend visible={isGuest} />
       <Header>
-        {isBest == true ? (
+        {bestTrend ? (
           <BestRate
             head="Best rated restaurants"
             theme="dark"
-            restaurants={bestTrend.length != 0 ? bestTrend : null}
-            isNotNull={isBest}
+            restaurants={bestTrend}
           />
         ) : (
           <Loading>
@@ -155,53 +109,25 @@ const Trending = () => {
         )}
       </Header>
       <div>
-        <BestRate
-          head="Casual dining"
-          restaurants={casualTrend.length != 0 ? casualTrend : null}
-          isNotNull={isCasual}
-        />
+        <BestRate head="Casual dining" restaurants={casualTrend} />
       </div>
       <div>
-        <BestRate
-          head="Food trucks"
-          restaurants={foodTrucksTrend.length ? foodTrucksTrend : null}
-          isNotNull={isFoodTruck}
-        />
+        <BestRate head="Food trucks" restaurants={foodTrucksTrend} />
       </div>
       <div>
-        <BestRate
-          head="Fast food"
-          restaurants={fastFoodTrend ? fastFoodTrend : null}
-          isNotNull={isFastFood}
-        />
+        <BestRate head="Fast food" restaurants={fastFoodTrend} />
       </div>
       <div>
-        <BestRate
-          head="Café"
-          restaurants={cafeTrend ? cafeTrend : null}
-          isNotNull={isCafe}
-        />
+        <BestRate head="Café" restaurants={cafeTrend} />
       </div>
       <div>
-        <BestRate
-          head="Family style"
-          restaurants={familyStyleTrend ? familyStyleTrend : null}
-          isNotNull={isFamily}
-        />
+        <BestRate head="Family style" restaurants={familyStyleTrend} />
       </div>
       <div>
-        <BestRate
-          head="Pub"
-          restaurants={pubTrend ? pubTrend : null}
-          isNotNull={isPub}
-        />
+        <BestRate head="Pub" restaurants={pubTrend} />
       </div>
       <div>
-        <BestRate
-          head="Buffet"
-          restaurants={buffetTrend ? buffetTrend : null}
-          isNotNull={isBuffet}
-        />
+        <BestRate head="Buffet" restaurants={buffetTrend} />
       </div>
       <BackTop />
     </>

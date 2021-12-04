@@ -1,3 +1,11 @@
+/*******************************************************************************
+ * Lock component - lock some section for non-login users
+ * 'isGuest'      is a boolean that determine whether the user is a guest user
+ *                (non-login user) or not.
+ * 'setIsGuest'   is a function to set the isGuest variable in parent component
+ *                (Navbar component).
+ ******************************************************************************/
+
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import jwt from "jsonwebtoken";
@@ -19,13 +27,7 @@ const MenuButton = (props) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
-  const handleLogout = () => {
-    dispatch(setAuthState());
-    props.setIsGuest(true);
-    localStorage.clear();
-    router.push("/search");
-  };
-
+  /* Dropdown menu for non-login users */
   const DropdownForGuest = (
     <Menu>
       <Menu.Item key="1" onClick={() => router.push("/search")}>
@@ -37,6 +39,7 @@ const MenuButton = (props) => {
     </Menu>
   );
 
+  /* Dropdown menu for logged in users */
   const DropdownForLogin = (
     <Menu>
       {LOGIN_MENU.map((item) => (
@@ -50,6 +53,7 @@ const MenuButton = (props) => {
     </Menu>
   );
 
+  /* If user has already logged in, set avatar to user's profile picture. */
   const [avatar, setAvatar] = useState(<Avatar icon={<BsFillPersonFill />} />);
   useEffect(() => {
     const token = localStorage.getItem("_token");
@@ -60,6 +64,14 @@ const MenuButton = (props) => {
       }
     }
   }, [props.isGuest]);
+
+  /* Remove user's data from local storage and redirect to search page */
+  const handleLogout = () => {
+    dispatch(setAuthState());
+    props.setIsGuest(true);
+    localStorage.clear();
+    router.push("/search");
+  };
 
   return (
     <>

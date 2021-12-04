@@ -1,3 +1,8 @@
+/*******************************************************************************
+ * Carousel component - images slideshow.
+ * 'slides' is an array of images to be displayed in the carousel.
+ ******************************************************************************/
+
 import React from "react";
 import { Slider, SlideContent, SlideImage, CarouselContainer } from "./styled";
 import { SwiperSlide } from "swiper/react";

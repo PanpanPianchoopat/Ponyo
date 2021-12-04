@@ -1,3 +1,7 @@
+/*******************************************************************************
+ * Navbar component - navigation bar to different pages
+ ******************************************************************************/
+
 import React, { useState, useEffect } from "react";
 import jwt from "jsonwebtoken";
 import MenuButton from "./components/MenuButton";
@@ -16,9 +20,10 @@ import {
 import Link from "next/link";
 
 const Navbar = () => {
-  const [navVisible, setNavVisible] = useState(true);
-  const [menuVisible, setMenuVisible] = useState(true);
-  const [selected, setSelected] = useState(null);
+  const [navVisible, setNavVisible] = useState(true); // navbar visability
+  const [menuVisible, setMenuVisible] = useState(true); // menu items visibility
+  const [selected, setSelected] = useState(null); // selected menu
+  const [isGuest, setIsGuest] = useState(true); // true if user did not log in
   const router = useRouter();
   const [currentPath, setCurrentPath] = useState(router.pathname);
 
@@ -26,8 +31,8 @@ const Navbar = () => {
     setCurrentPath(router.pathname);
   }, [router.pathname]);
 
-  const [isGuest, setIsGuest] = useState(true);
   useEffect(() => {
+    /* Set navbar styles according to the path */
     if (currentPath === "/trending") {
       setNavVisible(true);
       setSelected(TREND);
@@ -45,8 +50,12 @@ const Navbar = () => {
       setMenuVisible(true);
       setSelected(null);
     }
+
+    /* Get user information from token  in local store */
     const token = localStorage.getItem("_token");
     const userData = jwt.decode(token);
+
+    /* If there is data in token, user has already logged in */
     if (userData) {
       setIsGuest(false);
     } else {
@@ -77,6 +86,7 @@ const Navbar = () => {
             </StyledLink>
           </Link>
         </MenuItem>
+
         <MenuItem visible={menuVisible}>
           <Link href="/trending" onClick={() => setSelected(TREND)}>
             <StyledLink isActive={selected == TREND}>
@@ -84,6 +94,7 @@ const Navbar = () => {
             </StyledLink>
           </Link>
         </MenuItem>
+
         <MenuButton isGuest={isGuest} setIsGuest={setIsGuest} />
       </Menu>
     </StyledNav>
