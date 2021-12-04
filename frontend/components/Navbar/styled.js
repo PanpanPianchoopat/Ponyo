@@ -31,6 +31,7 @@ export const Logo = styled.div`
   width: 10%;
   position: relative;
   margin-left: 1rem;
+  cursor: pointer;
   @media (max-width: ${BREAKPOINTS.IPAD_PORTRAIT}) {
     margin-left: 10px;
   }
