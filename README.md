@@ -7,10 +7,13 @@ This project is a restaurant review web application called Ponyo. It is a simple
 The web-app is developed with MERN stack which is MongoDB, Express.js, React.js, and Node.js.
 
 ## Frontend Installation ##
-    cd frontend
-    npm install yarn
-    yarn dev
-    
+To run this project, install it locally and open http://localhost:3000 to view it in the browser.
+```
+cd frontend
+npm install yarn
+yarn dev
+```
+
 ## Backend Installation ##
     cd backend
     npm install yarn
@@ -18,7 +21,8 @@ The web-app is developed with MERN stack which is MongoDB, Express.js, React.js,
     
     
 ## Demo Website ##
-https://ponyo-restaurant-review.netlify.app/
+[Ponyo Restaurant Review Web Application](https://ponyo-restaurant-review.netlify.app/)
+
 
 
 ## Created by Ponyo Group Member ##
