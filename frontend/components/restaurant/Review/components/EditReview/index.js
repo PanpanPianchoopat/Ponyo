@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * EditReview component - popup form for editting review.
+ * 'review'     is an object of review rate, review message, and review photos.
+ * 'setVisible' is a function passed from parent to set popup visibility.
+ * 'setRate'    is a function passed from parent to update rating of the review.
+ * 'setText'    is a function passed from parent to update message of the review
+ * 'setPhotos'  is a function passed from parent to update photos of the review.
+ * 'setSave'    is a function passed from parent to trigger saving changes when
+ *              set to true.
+ ******************************************************************************/
+
 import React, { useEffect, useState } from "react";
 import { Form } from "antd";
 import { Rating } from "../../styled";
@@ -9,11 +20,13 @@ import {
   PlusIcon,
 } from "../../../WriteReview/styled";
 import router from "next/router";
+import { REVIEW_PHOTO_LIMIT } from "../../../constant";
 
 const EditReview = (props) => {
-  const [newReview] = Form.useForm();
+  const [newReview] = Form.useForm(); // values filled in the form
+  const [reviewPics, setReviewPics] = useState([]); // array of review images
 
-  const [reviewPics, setReviewPics] = useState([]);
+  /* Initialize photo array to display in the form */
   useEffect(() => {
     for (let i = 0; i < props.review.photos.length; i++) {
       reviewPics.push({
@@ -25,6 +38,9 @@ const EditReview = (props) => {
     }
   }, []);
 
+  /* This function converts photo to base64 and adds it to the photo array.
+   * 'info' is the uploaded file information.
+   */
   function getBase64(info) {
     const reader = new FileReader();
     reader.addEventListener("load", () =>
@@ -38,15 +54,26 @@ const EditReview = (props) => {
     reader.readAsDataURL(info.file.originFileObj);
   }
 
+  /* This function handle changes made by the Upload component
+   * 'info' is the uploaded file information.
+   */
   const handleChange = (info) => {
     const status = info.file.status;
+
     if (status === "done") {
+      /* If upload completed, convert file to base64 */
       getBase64(info);
     } else if (status === "removed") {
+      /* If file is removed, remove the corresponding image from the  array */
       setReviewPics(reviewPics.filter((item) => item.uid !== info.file.uid));
     }
   };
 
+  /* This function handle save button click event by calling functions passed
+   * from the parent to edit the information and trigger changes in database.
+   * Then, it triggers page reload.
+   * 'value'  is values in the form.
+   */
   const handleSave = (value) => {
     props.setRate(value.rate);
     props.setText(value.review);
@@ -83,7 +110,7 @@ const EditReview = (props) => {
               defaultFileList={reviewPics}
               onChange={(info) => handleChange(info)}
               multiple
-              maxCount={5}
+              maxCount={REVIEW_PHOTO_LIMIT}
             >
               <CameraIcon />
               <PlusIcon />

@@ -1,3 +1,8 @@
+/*******************************************************************************
+ * Review component - a restaurant review
+ * 'review' is detail of a review for the restaurant.
+ ******************************************************************************/
+
 import React, { useState, useEffect } from "react";
 import jwt from "jsonwebtoken";
 import ReviewAPI from "../../../pages/api/reviewAPI";
@@ -10,6 +15,7 @@ import {
   DefaultProfileImage,
   ReviewHead,
   HeadLine,
+  ButtonGroup,
   EditButton,
   LikeButton,
   ActiveLikeButton,
@@ -25,36 +31,51 @@ import {
 import router from "next/router";
 
 const Review = (props) => {
-  const [isLiked, setIsLiked] = useState(props.review.likeReview);
-  const [likeCount, setLikeCount] = useState(props.review.countLike);
-  const [addLikeReview, setAddLikeReview] = useState(null);
-  const [popupVisible, setPopupVisible] = useState(false);
-
   const review = props.review;
-  const isEdit = props.review.editDelete;
-  const [reviewRate, setReviewRate] = useState(review ? review.star : 0);
-  const [reviewText, setReviewText] = useState(
-    review ? review.reviewText : null
-  );
-  const [isSave, setSaveReview] = useState(false);
-  const [reviewImage, setReviewImage] = useState(review ? review.image : null);
-  const [userID, setUserID] = useState(null);
-  const [showReview, setShowReview] = useState(true);
+  const [reviewRate, setReviewRate] = useState(0); // rating of that review
+  const [reviewText, setReviewText] = useState(null); // comment of that review
+  const [reviewImage, setReviewImage] = useState(null); // review photos
+  const [isLiked, setIsLiked] = useState(false); // has user liked that review
+  const [likeCount, setLikeCount] = useState(null); // number of review like
+  const [popupVisible, setPopupVisible] = useState(false);
+  const [isSave, setIsSave] = useState(false); // save changes or not
 
+  const [userID, setUserID] = useState(null);
   useEffect(() => {
     const token = localStorage.getItem("_token");
     const userData = jwt.decode(token);
     if (userData) {
       setUserID(userData.id);
     }
+    if (props.review) {
+      setReviewRate(props.review.star);
+      setReviewText(props.review.reviewText);
+      setReviewImage(props.review.image);
+      setIsLiked(props.review.likeReview);
+      setLikeCount(props.review.countLike);
+    }
   }, []);
 
+  useEffect(() => {
+    setReviewRate(props.review.star);
+    setReviewText(props.review.reviewText);
+    setReviewImage(props.review.image);
+    setIsLiked(props.review.likeReview);
+    setLikeCount(props.review.countLike);
+  }, [props.review]);
+
+  /* If the user want to save changes after edit review, call edit function */
   useEffect(() => {
     if (isSave) {
       editReview();
     }
   }, [isSave]);
 
+  /* This function handle heart button click event.
+   * It set number of like, call function to update info in database, and
+   * toggle heart button.
+   * 'reviewID' is ID of the review.
+   */
   const handleClick = (reviewID) => {
     if (isLiked) {
       setLikeCount(likeCount - 1);
@@ -66,16 +87,26 @@ const Review = (props) => {
     setIsLiked(!isLiked);
   };
 
+  /* This function update information of review's like in database.
+   * 'reviewID' is ID of the review.
+   * 'like'     is boolean to specify the action. Set to true is add like. And,
+   *            false is unlike.
+   * It logs like status in boolean and feedback message if success.
+   * Otherwise, it logs error.
+   */
   const likeReview = (reviewID, like) => {
     ReviewAPI.addLikeReview(reviewID, userID, like)
       .then((response) => {
-        setAddLikeReview(response.data);
+        console.log(response.data);
       })
       .catch((e) => {
         console.log(e);
       });
   };
 
+  /* This function edit review information in the database.
+   * It set saving changes back to false after finish updating.
+   */
   const editReview = () => {
     const data = {
       star: reviewRate,
@@ -85,19 +116,20 @@ const Review = (props) => {
     ReviewAPI.editReview(props.review._id, data)
       .then((response) => {
         console.log(response.data);
-        setSaveReview(false);
+        setIsSave(false);
       })
       .catch((e) => {
         console.log(e);
       });
   };
 
+  /* This function deletes review and reduces total number of the restaurant's
+   * review by 1 from the database. It reloads the page if delete success.
+   */
   function handleDelete() {
-    // remove review from database and reduce total number of review by 1
     ReviewAPI.deleteReview(props.review._id)
       .then((response) => {
         if (response.data.status) {
-          setShowReview(false);
           router.reload();
         }
       })
@@ -108,7 +140,7 @@ const Review = (props) => {
 
   return (
     <>
-      <ReviewContainer visible={showReview}>
+      <ReviewContainer>
         <Line>
           {review && review.user.image ? (
             <ProfilePic src={<img src={review.user.image} />} />
@@ -117,9 +149,9 @@ const Review = (props) => {
           )}
           <ReviewHead>
             <HeadLine>
-              <Name>{review ? review.reviewer : null}</Name>
-              {isEdit ? (
-                <div style={{ display: "flex", alignItems: "center" }}>
+              <Name>{review && review.reviewer}</Name>
+              {review && review.editDelete && (
+                <ButtonGroup>
                   <EditButton onClick={() => setPopupVisible(true)}>
                     <BsPencil />
                   </EditButton>
@@ -133,27 +165,24 @@ const Review = (props) => {
                       <BsTrash />
                     </EditButton>
                   </Popconfirm>
-                </div>
-              ) : (
-                ""
+                </ButtonGroup>
               )}
             </HeadLine>
             <div>
               <Rating defaultValue={reviewRate} value={reviewRate} disabled />
-              <Date>{review ? review.date : null}</Date>
+              <Date>{review && review.date}</Date>
             </div>
           </ReviewHead>
         </Line>
         <CommentSection>
           <Comment>{reviewText}</Comment>
           <Line>
-            {reviewImage
-              ? reviewImage.map((pic, index) => {
-                  return <ReviewPic key={index} src={pic} />;
-                })
-              : []}
+            {reviewImage &&
+              reviewImage.map((pic, index) => {
+                return <ReviewPic key={index} src={pic} />;
+              })}
           </Line>
-          {userID ? (
+          {userID && (
             <Line>
               {isLiked ? (
                 <ActiveLikeButton onClick={() => handleClick(review._id)} />
@@ -162,9 +191,10 @@ const Review = (props) => {
               )}
               <LikeNum>{likeCount}</LikeNum>
             </Line>
-          ) : null}
+          )}
         </CommentSection>
       </ReviewContainer>
+
       <Modal
         visible={popupVisible}
         footer={null}
@@ -180,7 +210,7 @@ const Review = (props) => {
           setVisible={setPopupVisible}
           setRate={setReviewRate}
           setText={setReviewText}
-          setSave={setSaveReview}
+          setSave={setIsSave}
           setPhotos={setReviewImage}
         />
       </Modal>

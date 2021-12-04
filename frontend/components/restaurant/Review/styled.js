@@ -5,11 +5,8 @@ import { Avatar, Rate } from "antd";
 import { HeartOutlined, HeartFilled } from "@ant-design/icons";
 import { BsFillPersonFill } from "react-icons/bs";
 
-export const ReviewContainer = styled.div.attrs((props) => {
-  const isVisible = props.visible ? "flex" : "none";
-  return { isVisible };
-})`
-  display: ${(props) => props.isVisible};
+export const ReviewContainer = styled.div`
+  display: flex;
   flex-direction: column;
   width: 100%;
   align-items: flex-start;
@@ -46,6 +43,11 @@ export const HeadLine = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-between;
+  align-items: center;
+`;
+
+export const ButtonGroup = styled.div`
+  display: flex;
   align-items: center;
 `;
 
