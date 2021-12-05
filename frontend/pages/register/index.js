@@ -156,7 +156,7 @@ const register = () => {
         callback("Your age must be less than 120 years old");
         setCheckBirthday("error");
       } else if (currentYear - value.format("YYYY") < 15) {
-        callback("Must be 15 years of age or older");
+        callback("Must be 15 years of age or older test");
         setCheckBirthday("error");
       } else {
         callback();
