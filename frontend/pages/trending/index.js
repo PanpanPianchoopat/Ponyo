@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Tranding page - Show treding restaurant.
+ * Trending page - Show treding restaurant.
  * This page will show restaurants that are in trending.
  * User need to login to see this page.
  ******************************************************************************/
@@ -35,14 +35,14 @@ const Trending = () => {
     }
   }, []);
 
-  /* This useEffect will call the function getTrending 
-   * in the first time of this page 
+  /* This useEffect will call the function getTrending
+   * in the first time of this page
    */
   useEffect(() => {
     getTrending();
   }, []);
 
-  /* This function will get the restaurant that 
+  /* This function will get the restaurant that
    * are in trending from database.
    */
   const getTrending = () => {
