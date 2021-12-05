@@ -1,3 +1,8 @@
+/*******************************************************************************
+ * retaurant page - a restaurant's page consisted of its information and its
+ *                  reviews from users.
+ ******************************************************************************/
+
 import React, { useState, useEffect } from "react";
 import { BASE_URL } from "../api/http-common";
 import jwt from "jsonwebtoken";
@@ -70,13 +75,23 @@ function Restaurant({ resID }) {
     getLikedBookmarked();
   }, [userID]);
 
+  /* This function update restaurant information display whenever there is a
+   * change in review.
+   * 'review' is a boolean value set to true if any changes is made to
+   *          restaurant review.
+   */
   const updateInfo = (review) => {
     if (review) {
+      // If there are changes in review, get new average rate and review amount.
       getAvgRate();
       getReviewAmount();
     }
   };
 
+  /* This function make display for stars in review filter.
+   * 'count'  is number of stars wanted.
+   * It returns 'count' stars icon.
+   */
   const StarNum = (count) => {
     const stars = [];
     for (let i = 0; i < count; i++) {
@@ -85,6 +100,7 @@ function Restaurant({ resID }) {
     return stars;
   };
 
+  /* This function gets restaurant's detail from the database */
   const getRestaurantDetail = () => {
     RestaurantAPI.getRestaurantDetail(resID)
       .then((response) => {
@@ -95,6 +111,7 @@ function Restaurant({ resID }) {
       });
   };
 
+  /* This function gets restaurant's opening status from the database */
   const getRestaurantStatus = () => {
     RestaurantAPI.getRestaurantStatus(resID)
       .then((response) => {
@@ -105,6 +122,7 @@ function Restaurant({ resID }) {
       });
   };
 
+  /* This function gets restaurant's average rating from the database */
   const getAvgRate = () => {
     ReviewAPI.calReviewRate(resID)
       .then((response) => {
@@ -119,6 +137,9 @@ function Restaurant({ resID }) {
       });
   };
 
+  /* This function gets restaurant's review amount in each type (all reviews,
+   * reviews with comments, and reviews with photos) from the database.
+   */
   const getReviewAmount = () => {
     const star = 0;
     ReviewAPI.getReviewAmount(resID, "all", star)
@@ -146,10 +167,12 @@ function Restaurant({ resID }) {
       });
   };
 
+  /* This function gets amount of rating in each level of star from 5 to 1. */
   const getStarAmount = async () => {
-    const allRating = [];
-    var star = 5;
+    const allRating = []; // array for count of each rating
+    var star = 5; // max star for rating
 
+    // Get star count from 5 stars to 1 star and add the count into the list.
     while (star >= 1) {
       await ReviewAPI.getStarAmount(resID, "star", star)
         .then((response) => {
@@ -163,7 +186,11 @@ function Restaurant({ resID }) {
     setStarAmount(allRating);
   };
 
+  /* This function gets like and bookmark status of the restaurant by user ID
+   * from the database.
+   */
   const getLikedBookmarked = () => {
+    // Whether the user has saved the restaurant to his/her favourite list or not
     RestaurantAPI.getLikedBookmarked("myFavRestaurants", userID, resID)
       .then((response) => {
         setLiked(response.data);
@@ -172,6 +199,7 @@ function Restaurant({ resID }) {
         console.log(e);
       });
 
+    // Whether the user has added the restaurant to his/her interest list or not
     RestaurantAPI.getLikedBookmarked("myInterestRestaurants", userID, resID)
       .then((response) => {
         setBookmarked(response.data);
@@ -181,11 +209,16 @@ function Restaurant({ resID }) {
       });
   };
 
-  const getReviewByFilter = (index) => {
-    const type = ["all", "comment", "photo", "star"];
-    setFilter(index);
+  /* This function get restaurant's review according to the selected filter.
+   * 'selectedKey'  is key of the filter button that user has clicked.
+   */
+  const getReviewByFilter = (selectedKey) => {
+    const type = ["all", "comment", "photo", "star"]; // types of filter
+    setFilter(selectedKey); // set review filter to the selected key
     setReview(null);
-    if (index == 0) {
+
+    if (selectedKey == REVIEW_FILTER.ALL) {
+      /* Get all review */
       ReviewAPI.getAllReview(resID, userID)
         .then((response) => {
           setReview(response.data);
@@ -193,9 +226,15 @@ function Restaurant({ resID }) {
         .catch((e) => {
           console.log(e);
         });
-    } else if (index >= 3) {
-      const starFilter = FILTER[index];
-      ReviewAPI.getReviewByFilter(type[3], resID, userID, starFilter)
+    } else if (selectedKey >= REVIEW_FILTER.STAR_FILTER) {
+      /* Get reviews with n stars */
+      const starRate = FILTER[selectedKey]; // set number of star wanted
+      ReviewAPI.getReviewByFilter(
+        type[REVIEW_FILTER.STAR_FILTER],
+        resID,
+        userID,
+        starRate
+      )
         .then((response) => {
           setReview(response.data);
         })
@@ -203,8 +242,9 @@ function Restaurant({ resID }) {
           console.log(e);
         });
     } else {
+      /* Get reviews by another filters */
       const starFilter = 0;
-      ReviewAPI.getReviewByFilter(type[index], resID, userID, starFilter)
+      ReviewAPI.getReviewByFilter(type[selectedKey], resID, userID, starFilter)
         .then((response) => {
           setReview(response.data);
         })
@@ -214,28 +254,26 @@ function Restaurant({ resID }) {
     }
   };
 
+  /* This function tells how many number of reviews for each type of filter.
+   *  'filter'  is review filter.
+   * It returns number of review in that type of filter.
+   */
   const getCountReview = (filter) => {
     switch (filter) {
       case REVIEW_FILTER.COMMENT:
         return commentAmountInfo ? commentAmountInfo : 0;
-
       case REVIEW_FILTER.PHOTO:
         return photoAmountInfo ? photoAmountInfo : 0;
-
       case REVIEW_FILTER.FIVE_STAR:
         return starInfo ? starInfo[REVIEW_FILTER.FIVE_STAR_INFO] : 0;
-
       case REVIEW_FILTER.FOUR_STAR:
         return starInfo ? starInfo[REVIEW_FILTER.FOUR_STAR_INFO] : 0;
-
       case REVIEW_FILTER.THREE_STAR:
         return starInfo ? starInfo[REVIEW_FILTER.THREE_STAR_INFO] : 0;
-
       case REVIEW_FILTER.TWO_STAR:
         return starInfo ? starInfo[REVIEW_FILTER.TWO_STAR_INFO] : 0;
       case REVIEW_FILTER.ONE_STAR:
         return starInfo ? starInfo[REVIEW_FILTER.ONE_STAR_INFO] : 0;
-
       default:
         return reviewAmountInfo ? reviewAmountInfo : 0;
     }
@@ -311,7 +349,9 @@ function Restaurant({ resID }) {
                   <p>No review yet</p>
                 </EmptyDisplayContainer>
               )
-            ) : null}
+            ) : (
+              <small>loading</small>
+            )}
           </ReviewsContainer>
         </ReviewInnerContainer>
       </ReviewContainer>
@@ -319,9 +359,18 @@ function Restaurant({ resID }) {
   );
 }
 
+/* This function queries restaurant's ID and passed it to the Restaurant which
+ * displays the restaurant information.
+ */
 export async function getServerSideProps(context) {
   const res = await fetch(`${BASE_URL}/restaurant/detail/${context.params.id}`);
   const restaurant = await res.json();
+  if (!restaurant.details) {
+    // If cannot find restaurant in the database, return error 404.
+    return {
+      notFound: true,
+    };
+  }
   const resID = restaurant.details._id;
   return { props: { resID } };
 }
