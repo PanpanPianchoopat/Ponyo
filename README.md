@@ -29,16 +29,19 @@ yarn start
 ```
 
 
-## Backend ##
-    cd Ponyo
-    cd backend
-    yarn
-    yarn dev
-    
+## Backend Development ##
+To run in development mode, use these commands.
+```
+cd Ponyo
+cd backend
+yarn
+yarn dev
+``` 
     
 ## Demo Website ##
 [Ponyo Restaurant Review Web Application](https://ponyo-restaurant-review.netlify.app/)
-
+Note:   This site is additional to the proposed design in the class and is on working process according to our interest. 
+        Some features may not behave correctly.
 
 
 ## Created by Ponyo Group Members ##
