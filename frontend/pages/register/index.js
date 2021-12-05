@@ -383,25 +383,26 @@ const register = () => {
                   </label>
                 }
               >
-                <UploadImage
-                  listType="picture-card"
-                  showUploadList={false}
-                  defaultFileList={[]}
-                  onChange={(info) => handleUpload(info)}
-                  maxCount={1}
-                >
-                  {avatar ? (
-                    <>
+                <>
+                  <UploadImage
+                    listType="picture-card"
+                    showUploadList={false}
+                    //fileList={[]}
+                    defaultFileList={[]}
+                    onChange={(info) => handleUpload(info)}
+                    maxCount={1}
+                  >
+                    {avatar ? (
                       <ProfileImage src={avatar} style={{ zIndex: "100" }} />
-                      <p>uploaded</p>
-                    </>
-                  ) : (
-                    <>
-                      <CameraIcon />
-                      <PlusIcon />
-                    </>
-                  )}
-                </UploadImage>
+                    ) : (
+                      <>
+                        <CameraIcon />
+                        <PlusIcon />
+                      </>
+                    )}
+                  </UploadImage>
+                  {avatar && <p>uploaded</p>}
+                </>
               </Form.Item>
               <Form.Item
                 name="birthday"
