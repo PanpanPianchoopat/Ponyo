@@ -391,7 +391,7 @@ const register = () => {
                     //fileList={[]}
                     defaultFileList={imgList}
                     onChange={(info) => handleUpload(info)}
-                    //maxCount={1}
+                    maxCount={1}
                   >
                     {avatar ? (
                       <ProfileImage src={avatar} style={{ zIndex: "100" }} />
