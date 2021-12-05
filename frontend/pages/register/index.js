@@ -386,11 +386,11 @@ const register = () => {
                 <>
                   <UploadImage
                     listType="picture-card"
-                    showUploadList={false}
+                    //showUploadList={false}
                     //fileList={[]}
                     defaultFileList={[]}
                     onChange={(info) => handleUpload(info)}
-                    maxCount={1}
+                    //maxCount={1}
                   >
                     {avatar ? (
                       <ProfileImage src={avatar} style={{ zIndex: "100" }} />
