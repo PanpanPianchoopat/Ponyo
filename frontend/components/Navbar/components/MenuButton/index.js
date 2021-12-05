@@ -53,7 +53,7 @@ const MenuButton = (props) => {
     </Menu>
   );
 
-  /* If user has already logged in, set avatar to user's profile picture. */
+  /* If user has logged in, set avatar to user's profile picture if any. */
   const [avatar, setAvatar] = useState(<Avatar icon={<BsFillPersonFill />} />);
   useEffect(() => {
     const token = localStorage.getItem("_token");
@@ -70,6 +70,7 @@ const MenuButton = (props) => {
     dispatch(setAuthState());
     props.setIsGuest(true);
     localStorage.clear();
+    setAvatar(<Avatar icon={<BsFillPersonFill />} />);
     router.push("/search");
   };
 
