@@ -391,7 +391,10 @@ const register = () => {
                   maxCount={1}
                 >
                   {avatar ? (
-                    <ProfileImage src={avatar} style={{ zIndex: "100" }} />
+                    <>
+                      <ProfileImage src={avatar} style={{ zIndex: "100" }} />
+                      <p>uploaded</p>
+                    </>
                   ) : (
                     <>
                       <CameraIcon />
