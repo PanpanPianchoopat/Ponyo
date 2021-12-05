@@ -49,6 +49,7 @@ const register = () => {
   const [checkGender, setCheckGender] = useState(null);
   const [gender, setGender] = useState(null);
   const [avatar, setAvatar] = useState(null);
+  const [imgList, setImgList] = useState([]);
 
   /* This useEffect will check token from local storage.
    * If it already exist it will go to path search restaurant.
@@ -386,9 +387,9 @@ const register = () => {
                 <>
                   <UploadImage
                     listType="picture-card"
-                    //showUploadList={false}
+                    showUploadList={false}
                     //fileList={[]}
-                    defaultFileList={[]}
+                    defaultFileList={imgList}
                     onChange={(info) => handleUpload(info)}
                     //maxCount={1}
                   >
