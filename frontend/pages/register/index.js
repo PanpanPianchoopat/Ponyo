@@ -389,13 +389,14 @@ const register = () => {
                     listType="picture-card"
                     showUploadList={false}
                     //fileList={[]}
-                    beforeUpload={() => true}
+
                     defaultFileList={imgList}
                     onChange={(info) => handleUpload(info)}
                     maxCount={1}
                   >
                     {avatar ? (
-                      <ProfileImage src={avatar} />
+                      // <ProfileImage src={avatar} />
+                      <img src={avatar} style={{ width: "100%" }} />
                     ) : (
                       <>
                         <CameraIcon />
