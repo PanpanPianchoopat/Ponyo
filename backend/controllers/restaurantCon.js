@@ -1,8 +1,7 @@
 /*******************************************************************************
  * This file includes the functions that add, update, delete and query the data
  * from the restaurants's collection in the database.
- *******************************************************************************
- */
+ ******************************************************************************/
 import mongoose from "mongoose";
 import Restaurant from "../models/restaurantModel.js";
 import User from "../models/userModel.js";
@@ -12,8 +11,7 @@ const ObjectId = mongoose.Types.ObjectId;
 /*******************************************************************************
  * This function is used to add restaurant to database.
  * Returns true when added successfully
- *******************************************************************************
- */
+ ******************************************************************************/
 export const addRestaurant = async (req, res) => {
   const {
     name,
@@ -88,8 +86,7 @@ export const addRestaurant = async (req, res) => {
 /*******************************************************************************
  * This function is used to get all restaurants from database.
  * Returns the array object of restauraants
- *******************************************************************************
- */
+ ******************************************************************************/
 export const getAllRestaurants = async (req, res) => {
   try {
     const Restaurants = await Restaurant.find();
@@ -109,8 +106,7 @@ export const getAllRestaurants = async (req, res) => {
  * - 'closeDay' which is the day that closed
  * - 'openTime' which is opened time of restaurant
  * - 'closeTime' which is closed time of restaurant
- *******************************************************************************
- */
+ ******************************************************************************/
 export const getRestaurantDetail = async (req, res) => {
   const { resID } = req.params;
   try {
@@ -138,8 +134,7 @@ export const getRestaurantDetail = async (req, res) => {
  * 'type' is cuisine that user want to search.
  * 'resStatus' is the status of restaurant that user want to search (All,OPEN,CLOSE).
  * Returns the array object of all restaurant that match the filter.
- *******************************************************************************
- */
+ ******************************************************************************/
 export const getRestaurant = async (req, res) => {
   var { filter, search, priceRange, type, resStatus } = req.params;
   const range = findPriceRange(priceRange);
@@ -189,8 +184,7 @@ export const getRestaurant = async (req, res) => {
  * Returns
  * - true if the restaurant is open
  * - false if the restaurant is close
- *******************************************************************************
- */
+ ******************************************************************************/
 export const getRestaurantStatus = async (req, res) => {
   const { resID } = req.params;
 
@@ -203,12 +197,11 @@ export const getRestaurantStatus = async (req, res) => {
 };
 
 /*******************************************************************************
- * This function is used to get the best 3 restaurants in each type that have 
+ * This function is used to get the best 3 restaurants in each type that have
  * the greatest number of reviews within one week.
  * 'type' is the type of restaurant
  * Returns the array object of the top 3 restaurant in each type
- *******************************************************************************
- */
+ ******************************************************************************/
 export const getTrending = async (req, res) => {
   const { type } = req.params;
 
@@ -276,11 +269,10 @@ export const getTrending = async (req, res) => {
 };
 
 /*******************************************************************************
- * This function is used to get the best 3 restaurants that have the greatest 
+ * This function is used to get the best 3 restaurants that have the greatest
  * number of reviews from all of the restaurants within one week.
  * Returns the array object of the top 3 restaurant.
- *******************************************************************************
- */
+ ******************************************************************************/
 export const getBestTrending = async (req, res) => {
   var today = new Date();
   var getDate = today.getDate();
@@ -347,7 +339,7 @@ export const getBestTrending = async (req, res) => {
 };
 
 /*******************************************************************************
- * This function is used to check whether the user has restaurant in the list 
+ * This function is used to check whether the user has restaurant in the list
  * or not
  * 'key' is the type of list that want to check.
  * 'userID' is the user's id that want to check the list.
@@ -355,8 +347,7 @@ export const getBestTrending = async (req, res) => {
  * Returns
  * - true if resID is in the list.
  * - false if resID is not in the list.
- *******************************************************************************
- */
+ ******************************************************************************/
 export const checkLikedBookmarked = async (req, res) => {
   const { key, userID, resID } = req.params;
   const searchKey = "$" + key;
@@ -398,8 +389,7 @@ export const checkLikedBookmarked = async (req, res) => {
  *        1 : OPEN
  *        0 : CLOSE
  * Returns the close day of the restaurant.
- *******************************************************************************
- */
+ ******************************************************************************/
 const convertDay = (week) => {
   var i = 0;
   var j = 0;
@@ -424,8 +414,7 @@ const convertDay = (week) => {
  * 'hour' is the time in unit of hour
  * 'min' is the time in unit of minutes
  * Returns time in the unit of minutes
- *******************************************************************************
- */
+ ******************************************************************************/
 const convertToMin = (hour, min) => {
   return hour * 60 + min;
 };
@@ -435,8 +424,7 @@ const convertToMin = (hour, min) => {
  * in unit of minutes to the form of hours and minutes.
  * 'minTime' open hours in unit of minutes
  * Returns array time that include hours and minutes
- *******************************************************************************
- */
+ ******************************************************************************/
 const convertOpenHours = (minTime) => {
   const time = [0, 0];
   time[1] = minTime % 60;
@@ -449,8 +437,7 @@ const convertOpenHours = (minTime) => {
  * is closed or opened.
  * 'closingDay' is the array of the day that closed
  * Returns the array of restaurant status
- *******************************************************************************
- */
+ ******************************************************************************/
 const dayStatus = (closingDay) => {
   let i = 0;
   if (closingDay.length != 0) {
@@ -466,8 +453,7 @@ const dayStatus = (closingDay) => {
 /*******************************************************************************
  * This function is used to define the range of each price level.
  * Returns the array of min and max price of that level.
- *******************************************************************************
- */
+ ******************************************************************************/
 const findPriceRange = (priceRange) => {
   const range = [0, 0];
   if (priceRange == 1) {
@@ -491,8 +477,7 @@ const findPriceRange = (priceRange) => {
  * Returns
  * - true if restaurant is open.
  * - false if restaurant is close.
- *******************************************************************************
- */
+ ******************************************************************************/
 const getTag = async (resID) => {
   const now = new Date(),
     weekDay = DAYS[now.getDay()],
@@ -526,8 +511,7 @@ const getTag = async (resID) => {
  * 'range' is array of min and max price that user want to search.
  * 'type' is cuisine that user want to search.
  * Returns the array object of all restaurant that match the filter.
- *******************************************************************************
- */
+ ******************************************************************************/
 const searchRestaurant = async (key, search, range, type) => {
   // NO Search Type & Price
   if (!type && range[0] == 0 && range[1] == 0) {
@@ -589,8 +573,7 @@ const searchRestaurant = async (key, search, range, type) => {
  * 'range' is array of min and max price that user want to search.
  * 'type' is cuisine that user want to search.
  * Returns the array object of all restaurant that match the filter and status.
- *******************************************************************************
- */
+ ******************************************************************************/
 const searchWithStatus = async (resStatus, key, search, range, type) => {
   const now = new Date(),
     weekDay = DAYS[now.getDay()],
@@ -743,8 +726,7 @@ const searchWithStatus = async (resStatus, key, search, range, type) => {
  * 'weekDay' is current day.
  * 'currentMin' is current time in unit of minutes.
  * Returns the array object of all restaurant that match the filter and status.
- *******************************************************************************
- */
+ ******************************************************************************/
 const noSearchPriceAndType = async (
   resStatus,
   key,
@@ -806,8 +788,7 @@ const noSearchPriceAndType = async (
  * 'weekDay' is current day.
  * 'currentMin' is current time in unit of minutes.
  * Returns the array object of all restaurant that match the filter and status.
- *******************************************************************************
- */
+ ******************************************************************************/
 const noSearchType = async (
   resStatus,
   key,
@@ -913,8 +894,7 @@ const noSearchType = async (
  * 'weekDay' is current day.
  * 'currentMin' is current time in unit of minutes.
  * Returns the array object of all restaurant that match the filter and status.
- *******************************************************************************
- */
+ ******************************************************************************/
 const noSearchPrice = async (
   resStatus,
   key,
@@ -976,8 +956,7 @@ const noSearchPrice = async (
  * 'weekDay' is current day.
  * 'currentMin' is current time in unit of minutes.
  * Returns the array object of all restaurant that match the filter and status.
- *******************************************************************************
- */
+ ******************************************************************************/
 const searchAllFilter = async (
   resStatus,
   key,

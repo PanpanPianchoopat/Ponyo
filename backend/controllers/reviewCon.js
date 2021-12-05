@@ -1,8 +1,7 @@
 /*******************************************************************************
  * This file includes the functions that add, update, delete and query the data
  * from the reviews's collection in the database.
- *******************************************************************************
- */
+ ******************************************************************************/
 import mongoose from "mongoose";
 import Review from "../models/reviewModel.js";
 const ObjectId = mongoose.Types.ObjectId;
@@ -14,8 +13,7 @@ const ObjectId = mongoose.Types.ObjectId;
  * Returns
  * - true if added successfully
  * - false if added not successfully
- *******************************************************************************
- */
+ ******************************************************************************/
 export const addReview = async (req, res) => {
   const { resID, userID } = req.params;
   var { reviewText, star, image } = req.body;
@@ -51,8 +49,7 @@ export const addReview = async (req, res) => {
  * Returns
  * - true if edited successfully
  * - false if edited not successfully
- *******************************************************************************
- */
+ ******************************************************************************/
 export const editReview = async (req, res) => {
   const { reviewID } = req.params;
   const { reviewText, star, image } = req.body;
@@ -81,8 +78,7 @@ export const editReview = async (req, res) => {
  * Returns
  * - true if deleted successfully
  * - false if deleted not successfully
- *******************************************************************************
- */
+ ******************************************************************************/
 export const deleteReview = async (req, res) => {
   const { reviewID } = req.params;
 
@@ -103,8 +99,7 @@ export const deleteReview = async (req, res) => {
  * 'resID' is the restaurant's ID that want to see the reviews
  * 'userID' is the user's ID that is used to check which review is user belongs to
  * Returns array object of all reviews
- *******************************************************************************
- */
+ ******************************************************************************/
 export const getAllReview = async (req, res) => {
   const { resID, userID } = req.params;
 
@@ -189,8 +184,7 @@ export const getAllReview = async (req, res) => {
  * 'filter' is the type of filter that want to see reviews
  * 'star' is the amount of star that want to see reviews
  * Returns array object of reviews
- *******************************************************************************
- */
+ ******************************************************************************/
 export const getReviewByFilter = async (req, res) => {
   const { resID, filter, userID, star } = req.params;
 
@@ -216,8 +210,7 @@ export const getReviewByFilter = async (req, res) => {
  * 'typeReview' is the type of review
  * 'star' is the amount of star
  * Returns number of reviews by each type of reviews
- *******************************************************************************
- */
+ ******************************************************************************/
 export const getReviewAmount = async (req, res) => {
   const { resID, typeReview, star } = req.params;
 
@@ -266,8 +259,7 @@ export const getReviewAmount = async (req, res) => {
  * This function is used to calculate the average of review's rate.
  * 'resID' is the restaurant's ID that want to see
  * Returns average of review's rate
- *******************************************************************************
- */
+ ******************************************************************************/
 export const calReviewRate = async (req, res) => {
   const { resID } = req.params;
   try {
@@ -306,8 +298,7 @@ export const calReviewRate = async (req, res) => {
  * Returns
  *  - true status if added like successfully
  *  - false status if added not successfully
- *******************************************************************************
- */
+ ******************************************************************************/
 export const addLikeReview = async (req, res) => {
   const { reviewID, userID, like } = req.params;
 
@@ -350,8 +341,7 @@ export const addLikeReview = async (req, res) => {
  * 'userID' is the user's ID that is used to check which review is user belongs to
  * 'star' is the amount of star that want to see reviews
  * Returns array object of reviews
- *******************************************************************************
- */
+ ******************************************************************************/
 const getReviewByStar = async (resID, userID, star) => {
   const starInt = Number(star);
   const Reviews = await Review.aggregate([
@@ -430,8 +420,7 @@ const getReviewByStar = async (resID, userID, star) => {
  * 'resID' is the restaurant's ID that want to see the reviews
  * 'userID' is the user's ID that is used to check which review is user belongs to
  * Returns array object of reviews
- *******************************************************************************
- */
+ ******************************************************************************/
 const getReviewByComment = async (resID, userID) => {
   const Reviews = await Review.aggregate([
     {
@@ -510,8 +499,7 @@ const getReviewByComment = async (resID, userID) => {
  * 'resID' is the restaurant's ID that want to see the reviews
  * 'userID' is the user's ID that is used to check which review is user belongs to
  * Returns array object of reviews
- *******************************************************************************
- */
+ ******************************************************************************/
 const getReviewByPhoto = async (resID, userID) => {
   const Reviews = await Review.aggregate([
     {

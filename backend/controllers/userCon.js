@@ -1,8 +1,7 @@
 /*******************************************************************************
  * This file includes the functions that add, update, delete and query the data
  * from the users's collection in the database.
- *******************************************************************************
- */
+ ******************************************************************************/
 import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
@@ -15,8 +14,7 @@ const ObjectId = mongoose.Types.ObjectId;
  * Returns
  *  - true status if registered successfully
  *  - false status if registered not successfully
- *******************************************************************************
- */
+ ******************************************************************************/
 export const register = async (req, res) => {
   const { username, email, password, dateOfBirth, gender, image } = req.body;
   const newPassword = await bcrypt.hash(password, 10);
@@ -48,8 +46,7 @@ export const register = async (req, res) => {
  * Returns
  *  - true status and the token if login successfully
  *  - false status if login not successfully
- *******************************************************************************
- */
+ ******************************************************************************/
 export const login = async (req, res) => {
   const user = await User.findOne({
     email: req.body.email,
@@ -87,8 +84,7 @@ export const login = async (req, res) => {
  * Returns
  *  - true if not has this username in database
  *  - false if has this username in database
- *******************************************************************************
- */
+ ******************************************************************************/
 export const checkUsername = async (req, res) => {
   const { username } = req.params;
   try {
@@ -111,8 +107,7 @@ export const checkUsername = async (req, res) => {
  * Returns
  *  - true if not has this email in database
  *  - false if has this email in database
- *******************************************************************************
- */
+ ******************************************************************************/
 export const checkEmail = async (req, res) => {
   const { email } = req.params;
   try {
@@ -135,8 +130,7 @@ export const checkEmail = async (req, res) => {
  * Returns
  *  - true status and the token if edited successfully
  *  - false status if edited not successfully
- *******************************************************************************
- */
+ ******************************************************************************/
 export const editProfile = async (req, res) => {
   const { userID } = req.params;
   const { username, password, image } = req.body;
@@ -173,8 +167,7 @@ export const editProfile = async (req, res) => {
  *  - 'myInterestRestaurants' is the user's interest list
  * 'userID' is user's ID
  * Returns the user's restaurant list
- *******************************************************************************
- */
+ ******************************************************************************/
 export const getMyRestaurantList = async (req, res) => {
   const { key, userID } = req.params;
   try {
@@ -228,8 +221,7 @@ export const getMyRestaurantList = async (req, res) => {
  * Returns
  *  - true status if added successfully
  *  - false status if the list is full
- *******************************************************************************
- */
+ ******************************************************************************/
 export const addRestaurantToList = async (req, res) => {
   const { key, userID, resID } = req.params;
   const FAV_MAX = 5;
@@ -281,8 +273,7 @@ export const addRestaurantToList = async (req, res) => {
  * Returns
  *  - true status if deleted successfully
  *  - false status if deleted not successfully
- *******************************************************************************
- */
+ ******************************************************************************/
 export const removeResFromList = async (req, res) => {
   const { key, userID, resID } = req.params;
 
@@ -307,8 +298,7 @@ export const removeResFromList = async (req, res) => {
  * Returns
  *  - true status if edited successfully
  *  - false status if edited not successfully
- *******************************************************************************
- */
+ ******************************************************************************/
 export const editMyFavList = async (req, res) => {
   const { userID } = req.params;
   const myFavRestaurants = req.body;
@@ -334,8 +324,7 @@ export const editMyFavList = async (req, res) => {
  *  - 'myInterestRestaurants' is the user's interest list
  * 'userID' is user's ID
  * Returns the number of restaurants in the list
- *******************************************************************************
- */
+ ******************************************************************************/
 const countRestuarant = async (key, userID) => {
   const keyArray = "$" + key;
   const count = await User.aggregate([
