@@ -30,7 +30,7 @@ yarn start
 
 
 ## Backend Development ##
-To run in development mode, use these commands.
+The current version of the project is using database deployed in Heroku. Run the following commands and edit backend API in frontend directory to http://localhost:8080 instead of the current Heroku database in order to test backend code.
 ```
 cd Ponyo
 cd backend
@@ -39,7 +39,7 @@ yarn dev
 ``` 
     
 ## Demo Website ##
-[Ponyo Restaurant Review Web Application](https://ponyo-restaurant-review.netlify.app/)
+[Ponyo Restaurant Review Web Application](https://ponyo-restaurant-review.netlify.app/)\
 Note:   This site is additional to the proposed design in the class and is on working process according to our interest. 
         Some features may not behave correctly.
 
