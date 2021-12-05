@@ -57,6 +57,12 @@ const Review = (props) => {
   }, []);
 
   useEffect(() => {
+    const token = localStorage.getItem("_token");
+    const userData = jwt.decode(token);
+    if (userData) {
+      setUserID(userData.id);
+    }
+
     setReviewRate(props.review.star);
     setReviewText(props.review.reviewText);
     setReviewImage(props.review.image);
