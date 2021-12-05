@@ -198,8 +198,9 @@ const register = () => {
     const isValidFile =
       info.file.type === "image/jpeg" || info.file.type === "image/png";
     const doneUploading = info.file.status === "done";
-    if (isValidFile) {
-      if (doneUploading) {
+
+    if (doneUploading) {
+      if (isValidFile) {
         getBase64(info);
       }
     } else {
@@ -387,7 +388,7 @@ const register = () => {
                 <>
                   <UploadImage
                     listType="picture-card"
-                    //showUploadList={false}
+                    showUploadList={false}
                     //fileList={[]}
 
                     //defaultFileList={imgList}
