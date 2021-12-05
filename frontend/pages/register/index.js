@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect } from "react";
 import jwt from "jsonwebtoken";
-import { Form, message } from "antd";
+import { Form, message, Upload } from "antd";
 import Button from "../../components/Button";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -386,7 +386,7 @@ const register = () => {
                 }
               >
                 <>
-                  <UploadImage
+                  {/* <UploadImage
                     listType="picture-card"
                     showUploadList={{ showPreviewIcon: false }}
                     //fileList={[]}
@@ -404,7 +404,10 @@ const register = () => {
                       </>
                     )}
                   </UploadImage>
-                  {avatar ? <p>uploaded</p> : <p>no</p>}
+                  {avatar ? <p>uploaded</p> : <p>no</p>} */}
+                  <Upload onChange={(info) => handleUpload(info)}>
+                    <button>upload</button>
+                  </Upload>
                 </>
               </Form.Item>
               <Form.Item
