@@ -14,6 +14,7 @@ git clone https://github.com/PanpanPianchoopat/Ponyo.git
 ## Frontend ##
 To run this project, install it locally and open http://localhost:3000 to view it in the browser.
 ```
+cd Ponyo
 cd frontend
 yarn
 ```
@@ -29,6 +30,7 @@ yarn start
 
 
 ## Backend ##
+    cd Ponyo
     cd backend
     yarn
     yarn dev
