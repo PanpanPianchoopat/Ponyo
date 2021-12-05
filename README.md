@@ -2,21 +2,35 @@
 ![ponyoName-05(1)](https://user-images.githubusercontent.com/32532147/144712875-61a8c3ef-fab0-498d-aead-8e94a8dffe9e.png)
 
 
-The project implementation for this project is applied from CPE327 Software Engineering course from problem definition to software validation.
-This project is a restaurant review web application called Ponyo. It is a simple web application where users can explore restaurants and write reviews about those restaurants.
-The web-app is developed with MERN stack which is MongoDB, Express.js, React.js, and Node.js.
+This project is a part CPE327 Software Engineering course project to practice software development process.
+It is a restaurant review web application called Ponyo. It is a simple web application where users can explore restaurants and write reviews about them.
+The web-app is developed with MERN stack which is MongoDB, Express.js, React.js (Next.js), and Node.js.
 
-## Frontend Installation ##
+## Project installation ##
+```
+git clone https://github.com/PanpanPianchoopat/Ponyo.git
+```
+
+## Frontend ##
 To run this project, install it locally and open http://localhost:3000 to view it in the browser.
 ```
 cd frontend
-npm install yarn
+yarn
+```
+Then, choose a mode to run.
+```
 yarn dev
 ```
+or 
+```
+yarn build
+yarn start
+```
 
-## Backend Installation ##
+
+## Backend ##
     cd backend
-    npm install yarn
+    yarn
     yarn dev
     
     
@@ -25,7 +39,7 @@ yarn dev
 
 
 
-## Created by Ponyo Group Member ##
+## Created by Ponyo Group Members ##
 
 * 62070503419	Natsarun Rooncharoen 	(Beam)
 
