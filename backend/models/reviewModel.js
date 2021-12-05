@@ -1,12 +1,11 @@
 /*******************************************************************************
  * This file is the structure of the reviews's collection
- *******************************************************************************
- */
+ ******************************************************************************/
 
 import mongoose from "mongoose";
 
 const reviewSchema = mongoose.Schema({
-  userID: { type: String, required: true},
+  userID: { type: String, required: true },
   resID: { type: String, required: true },
   date: { type: Date, required: true },
   reviewText: { type: String },

@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Card component - restaurant card
+ * 'detail'     is restaurant's detail to be displayed on the card consisted
+ *              of
+ * 'showRank'   is boolean value to determine whether to show ranking number on
+ *              top of the card or not.
+ * 'rank'       is integer determining ranking number of the restaurant.
+ * 'size'       is size of the card. If this field is set to 'large'. The card
+ *              would be bigger. Otherwise, it uses the default card styles.
+ ******************************************************************************/
+
 import React, { useState, useEffect } from "react";
 import bcrypt from "bcryptjs";
 import { Form } from "antd";
