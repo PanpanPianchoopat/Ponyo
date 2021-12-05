@@ -1,5 +1,10 @@
+/*******************************************************************************
+ * myAccount page - user's personal page consisted of his/her profile and
+ *                  lists of favourite restaurants and interesing restaurant
+ *                  that he/she has liked/saved.
+ ******************************************************************************/
+
 import React, { useState, useEffect } from "react";
-import { BASE_URL } from "../api/http-common";
 import jwt from "jsonwebtoken";
 import { Avatar } from "antd";
 import Button from "../../components/Button";
@@ -37,20 +42,25 @@ const myAccount = () => {
     }
   }, []);
 
+  // Set avatar image to default picture if the user has no profile picture.
   const [avatar, setAvatar] = useState(
     <Avatar size={AVATAR_SIZE} src={<DefaultProfile />} />
   );
 
   useEffect(() => {
     if (userData) {
+      // If user has profile image, set the avatar to his/her profile image.
       if (userData.image) {
         setAvatar(<Avatar size={AVATAR_SIZE} src={userData.image} />);
       }
     }
   }, [userData]);
 
+  // Set default list to display as favourite restaurant list.
   const [restList, setRestList] = useState(<RestList type={FAVOURITE} />);
+
   useEffect(() => {
+    // Change the list according to the list type that user selected.
     if (selectedTab == INTEREST) {
       setRestList(<RestList type={INTEREST} />);
     } else if (selectedTab == FAVOURITE) {

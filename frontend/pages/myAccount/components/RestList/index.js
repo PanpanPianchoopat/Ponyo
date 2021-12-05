@@ -1,3 +1,8 @@
+/*******************************************************************************
+ * RestList component - restaurant list created by user both favourite/interest.
+ * 'type' is type of the list. It can be FAVOURITE or INTEREST constant.
+ ******************************************************************************/
+
 import React, { useState, useEffect } from "react";
 import jwt from "jsonwebtoken";
 import Button from "../../../../components/Button";
@@ -32,21 +37,12 @@ const RestList = (props) => {
     ? "My Interest"
     : null;
   const [userID, setUserID] = useState(null);
-  const emptyDisplay = isFav ? "liked" : "saved";
+  const emptyDisplay = isFav ? "liked" : "saved"; // empty list text
   const isLarge = isFav ? "large" : "";
   const [popupVisible, setPopupVisible] = useState(false);
   const [edittedList, setEdittedList] = useState(null);
   const [edittable, setEdittable] = useState(false);
-  const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    const isEdittable =
-      props.type == FAVOURITE && edittedList && edittedList.length > 0;
-    if (isEdittable) {
-      setEdittable(true);
-    } else {
-      setEdittable(false);
-    }
-  }, [props.type, edittedList]);
+  const [loading, setLoading] = useState(false); // loading spin visibility
 
   useEffect(() => {
     const token = localStorage.getItem("_token");
@@ -57,12 +53,30 @@ const RestList = (props) => {
   }, []);
 
   useEffect(() => {
+    // If there is user formation, get his/her list from the database.
     if (userID != null) {
       setEdittedList(null);
       getMyRestaurantList();
     }
   }, [props.type, userID]);
 
+  /* When there are changes in type or editted list, always check their values
+   * in order to set edit button visiblity.
+   */
+  useEffect(() => {
+    // If it is favourite list and the list is not empty, the list is edittable.
+    const isEdittable =
+      props.type == FAVOURITE && edittedList && edittedList.length > 0;
+    if (isEdittable) {
+      setEdittable(true);
+    } else {
+      setEdittable(false);
+    }
+  }, [props.type, edittedList]);
+
+  /* This function retrieve restaurant list from the database according to the
+   * type passed in props.
+   */
   const getMyRestaurantList = () => {
     if (props.type == FAVOURITE) {
       UserAPI.getMyRestaurantList("myFavRestaurants", userID)
@@ -83,6 +97,7 @@ const RestList = (props) => {
     }
   };
 
+  /* Set loading status to true and redirect to search page */
   const goToSearch = () => {
     setLoading(true);
     router.push("/search");
