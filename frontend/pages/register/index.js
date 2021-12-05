@@ -388,7 +388,7 @@ const register = () => {
                 <>
                   <UploadImage
                     listType="picture-card"
-                    //showUploadList={}
+                    showUploadList={{ showPreviewIcon: false }}
                     //fileList={[]}
 
                     //defaultFileList={imgList}
