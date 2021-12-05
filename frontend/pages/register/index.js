@@ -401,7 +401,7 @@ const register = () => {
                       </>
                     )}
                   </UploadImage>
-                  {avatar && <p>uploaded</p>}
+                  {avatar ? <p>uploaded</p> : <p>no</p>}
                 </>
               </Form.Item>
               <Form.Item
