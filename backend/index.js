@@ -1,3 +1,6 @@
+/*******************************************************************************
+ * Main page of backend
+ ******************************************************************************/
 import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
@@ -7,14 +10,18 @@ import RestaurantRoutes from "./routes/restaurantRoutes.js";
 import ReviewRoutes from "./routes/reviewRoutes.js";
 
 const app = express();
+
+// Connect/Express middleware
 app.use(cors());
 
+// looks at requests where the Content-Type: application/json
 app.use(
   bodyParser.json({
     limit: "50mb",
   })
 );
 
+// object will contain values of any type instead of just strings
 app.use(
   bodyParser.urlencoded({
     limit: "50mb",
@@ -23,8 +30,13 @@ app.use(
   })
 );
 
+// a middleware mounted on /user; will be executed for any type of HTTP request to /user
 app.use("/user", userRoutes);
+
+// a middleware mounted on /restaurant; will be executed for any type of HTTP request to /restaurant
 app.use("/restaurant", RestaurantRoutes);
+
+// a middleware mounted on /review; will be executed for any type of HTTP request to /review
 app.use("/review", ReviewRoutes);
 
 app.get("/", (req, res) => {

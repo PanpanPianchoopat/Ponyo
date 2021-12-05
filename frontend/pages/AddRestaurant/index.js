@@ -84,6 +84,13 @@ const AddRestaurant = () => {
       });
   };
 
+  /* This function will print the error when fail
+   * 'error' is an error that occur
+   */
+  const onFinishFailed = (error) => {
+    console.log("Failed:", error);
+  };
+
   /* This function is used to reset the fields in form */
   const onReset = () => {
     form.resetFields();
