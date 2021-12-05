@@ -61,6 +61,12 @@ const register = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (avatar) {
+      console.log("PIC", avatar.substring(0, 100));
+    }
+  }, [avatar]);
+
   /* This function will validate the email is already been use or not
    * if not the function will store user data to the database.
    * 'value' is the value from the user-filled form.
@@ -380,6 +386,7 @@ const register = () => {
                 <UploadImage
                   listType="picture-card"
                   showUploadList={false}
+                  defaultFileList={[]}
                   onChange={(info) => handleUpload(info)}
                   maxCount={1}
                 >
