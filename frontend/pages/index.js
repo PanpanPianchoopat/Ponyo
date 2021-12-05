@@ -1,3 +1,7 @@
+/*******************************************************************************
+ * home page - first page that the user will see.
+ ******************************************************************************/
+
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import React, { useState } from "react";
@@ -9,6 +13,7 @@ import { SmileIcon } from "./search/styled";
 function Home() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+
   const goToSearch = () => {
     setLoading(true);
     router.push("/search");

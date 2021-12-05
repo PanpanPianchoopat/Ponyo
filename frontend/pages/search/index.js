@@ -81,10 +81,10 @@ function SearchRestaurant({ restaurants }) {
     setCheckSearch("search");
   };
 
-   /* This useEffect will check the 'status' if the 'status' value was change 
-    * it will call the function getRestaurant.
-    * 'status' is the status of restaurant.
-    */
+  /* This useEffect will check the 'status' if the 'status' value was change
+   * it will call the function getRestaurant.
+   * 'status' is the status of restaurant.
+   */
   useEffect(() => {
     if (status != null) {
       if (checkSearch == "search") {
@@ -95,7 +95,7 @@ function SearchRestaurant({ restaurants }) {
     }
   }, [status]);
 
-  /* This useEffect will check the 'selectedCat' if the 'selectedCat' value was change 
+  /* This useEffect will check the 'selectedCat' if the 'selectedCat' value was change
    * it will call the function getRestaurantByType.
    * 'selectedCat' is the value of cursine type.
    */
@@ -285,6 +285,9 @@ function SearchRestaurant({ restaurants }) {
   );
 }
 
+/* This function queries all restaurants from the database and pass the result
+ * to the SearchRestaurant function for display.
+ */
 export async function getStaticProps() {
   const res = await fetch(
     "https://ponyo-restaurant-review.herokuapp.com/restaurant/"

@@ -7,6 +7,7 @@ export const REVIEW_FILTER = {
   ALL: 0,
   COMMENT: 1,
   PHOTO: 2,
+  STAR_FILTER: 3,
   FIVE_STAR: 3,
   FOUR_STAR: 4,
   THREE_STAR: 5,
