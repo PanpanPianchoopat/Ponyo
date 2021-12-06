@@ -21,6 +21,7 @@ export const ContainerLeft = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-end;
+  overflow: hidden;
   @media (max-width: ${BREAKPOINTS.IPAD_PORTRAIT}) {
     width: 0%;
   }
@@ -82,6 +83,7 @@ export const Path = styled.a`
 `;
 
 export const Logo = styled.div`
+  position: relative;
   display: flex;
   justify-content: center;
   width: 100%;
@@ -95,6 +97,7 @@ export const Wave = styled.div`
 `;
 export const LogoImage = styled.img`
   width: 40%;
+  object-fit: contain;
 `;
 
 export const WaveImage = styled.img`

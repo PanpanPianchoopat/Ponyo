@@ -96,6 +96,7 @@ export const Wave = styled.div`
 
 export const LogoImage = styled.img`
   width: 40%;
+  object-fit: contain;
 `;
 
 export const WaveImage = styled.img`

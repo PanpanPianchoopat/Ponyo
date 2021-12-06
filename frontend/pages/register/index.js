@@ -212,7 +212,7 @@ const register = () => {
     <Container>
       <ContainerLeft>
         <Logo>
-          <LogoImage src="/assets/logo.svg" />
+          <LogoImage src="/assets/logo.png" />
         </Logo>
         <Content>
           <p>I love you as much as</p>

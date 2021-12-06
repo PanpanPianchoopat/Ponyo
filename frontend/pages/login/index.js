@@ -68,8 +68,8 @@ const Signin = () => {
     }
   }, [isSubmit]);
 
-  /* This function checks the e-mail and password 
-   * that user is exists. 
+  /* This function checks the e-mail and password
+   * that user is exists.
    * 'val' is the value from the user-filled form.
    */
   const auth = (val) => {
@@ -85,7 +85,7 @@ const Signin = () => {
     <Container>
       <ContainerLeft>
         <Logo>
-          <LogoImage src="/assets/logo.svg" />
+          <LogoImage src="/assets/logo.png" />
         </Logo>
         <Content>
           <p>I love you as much as</p>
