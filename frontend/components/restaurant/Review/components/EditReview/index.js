@@ -91,7 +91,6 @@ const EditReview = (props) => {
     }
     props.setPhotos(newPicList);
     props.setSave(true);
-    router.reload();
   };
 
   return (
