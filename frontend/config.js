@@ -13,11 +13,11 @@ export const apiEndpoints = {
 const AR_API = () => {
   switch (environment) {
     case "development":
-      return "https://ponyo-restaurant-review.herokuapp.com";
+      return "https://ponyo-review.herokuapp.com";
     case "production":
-      return "https://ponyo-restaurant-review.herokuapp.com";
+      return "https://ponyo-review.herokuapp.com";
     default:
-      return "https://ponyo-restaurant-review.herokuapp.com";
+      return "https://ponyo-review.herokuapp.com";
   }
 };
 
