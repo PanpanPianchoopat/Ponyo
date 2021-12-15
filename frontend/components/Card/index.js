@@ -40,7 +40,7 @@ const RestCard = ({ ...props }) => {
   const [maxPrice, setMaxPrice] = useState(null);
   const [rating, setRating] = useState(0);
   const [location, setLocation] = useState(null);
-  const [resStatus, setResStatus] = useState(null);
+  const [resStatus, setResStatus] = useState(true);
   const [resPicture, setResPicture] = useState(null);
   const router = useRouter();
   const IMAGE_POSITION = 1; // index of image
