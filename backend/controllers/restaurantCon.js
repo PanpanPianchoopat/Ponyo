@@ -288,8 +288,7 @@ export const getBestTrending = async (req, res) => {
   var getDate = today.getDate();
   // var firstDayWeek = new Date(today.setDate(getDate - 7));
   // var lastDayWeek = new Date();
-
-  console.log("123456");
+  
   try {
     const bestTrendingRes = await Restaurant.aggregate([
       {
