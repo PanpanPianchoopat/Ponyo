@@ -217,8 +217,8 @@ export const getTrending = async (req, res) => {
 
   var today = new Date();
   var getDate = today.getDate();
-  var firstDayWeek = new Date(today.setDate(getDate - 7));
-  var lastDayWeek = new Date();
+  // var firstDayWeek = new Date(today.setDate(getDate - 7));
+  // var lastDayWeek = new Date();
 
   try {
     const trendingRes = await Restaurant.aggregate([
@@ -250,17 +250,17 @@ export const getTrending = async (req, res) => {
           as: "review",
         },
       },
-      {
-        $unwind: "$review",
-      },
-      {
-        $match: {
-          "review.date": {
-            $lt: lastDayWeek,
-            $gt: firstDayWeek,
-          },
-        },
-      },
+      // {
+      //   $unwind: "$review",
+      // },
+      // {
+      //   $match: {
+      //     "review.date": {
+      //       $lt: lastDayWeek,
+      //       $gt: firstDayWeek,
+      //     },
+      //   },
+      // },
       {
         $group: {
           _id: { resID: "$_id", type: type },
@@ -286,9 +286,10 @@ export const getTrending = async (req, res) => {
 export const getBestTrending = async (req, res) => {
   var today = new Date();
   var getDate = today.getDate();
-  var firstDayWeek = new Date(today.setDate(getDate - 7));
-  var lastDayWeek = new Date();
+  // var firstDayWeek = new Date(today.setDate(getDate - 7));
+  // var lastDayWeek = new Date();
 
+  console.log("123456");
   try {
     const bestTrendingRes = await Restaurant.aggregate([
       {
@@ -317,19 +318,19 @@ export const getBestTrending = async (req, res) => {
       {
         $unwind: "$review",
       },
-      {
-        $match: {
-          "review.date": {
-            $lt: lastDayWeek,
-            $gt: firstDayWeek,
-          },
-        },
-      },
-      {
-        $addFields: {
-          reviewDate: "$review.date",
-        },
-      },
+      // {
+      //   $match: {
+      //     "review.date": {
+      //       $lt: lastDayWeek,
+      //       $gt: firstDayWeek,
+      //     },
+      //   },
+      // },
+      // {
+      //   $addFields: {
+      //     reviewDate: "$review.date",
+      //   },
+      // },
       {
         $group: {
           _id: { resID: "$_id" },
